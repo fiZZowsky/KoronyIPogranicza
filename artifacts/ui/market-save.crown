@@ -1,5 +1,5 @@
 {
-  "Version": 11,
+  "Version": 12,
   "Seed": 17421,
   "RandomState": 2922163613,
   "Width": 42,
@@ -16483,6 +16483,9 @@
       "Food": 2.5999999999999943,
       "Production": 43.15696668800001,
       "Project": "warehouse",
+      "ProductionQueue": [],
+      "RepeatProject": false,
+      "ProductionPaused": false,
       "Buildings": [
         "market"
       ],
@@ -16574,6 +16577,9 @@
       "Food": 47.30000000000001,
       "Production": 13.944518784000003,
       "Project": "spearmen",
+      "ProductionQueue": [],
+      "RepeatProject": false,
+      "ProductionPaused": false,
       "Buildings": [
         "market"
       ],
@@ -16665,6 +16671,9 @@
       "Food": 47.30000000000001,
       "Production": 13.821047568000004,
       "Project": "spearmen",
+      "ProductionQueue": [],
+      "RepeatProject": false,
+      "ProductionPaused": false,
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
@@ -16754,6 +16763,9 @@
       "Food": 47.30000000000001,
       "Production": 13.821047568000004,
       "Project": "spearmen",
+      "ProductionQueue": [],
+      "RepeatProject": false,
+      "ProductionPaused": false,
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
@@ -16843,6 +16855,9 @@
       "Food": 51.90000000000002,
       "Production": 2.9219268400000047,
       "Project": "bank",
+      "ProductionQueue": [],
+      "RepeatProject": false,
+      "ProductionPaused": false,
       "Buildings": [
         "market",
         "granary"

@@ -343,6 +343,43 @@ public sealed partial class MainWindow
             var auditReturn=Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Wróć do mapy");var auditBounds=auditReturn.TransformToAncestor(root).TransformBounds(new Rect(auditReturn.RenderSize));
             Check(auditBounds.Top>=0&&auditBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact audit history keeps its return control visible or reachable by scrolling");
             Width=1600;Height=980;CloseModal();Click("Rachunki i kontrole prowincji");await Capture("audit-final");
+            var planningWorld=World.Create();Narrative.Resolve(planningWorld,0);planningWorld.Player.Gold=3000;planningWorld.Player.Technologies.UnionWith(["pottery","writing","agriculture","mining","bronze"]);
+            var planningCity=planningWorld.Cities.First(c=>c.Owner==0);planningCity.Project="treasury";planningCity.Production=90;
+            Start(planningWorld);map.Center(planningCity.Tile);Select(planningCity.Tile);Click("Wybierz projekt");Click("Zaplanuj kolejkę produkcji");
+            void AddProductionChoice(string id,bool repeating=false)
+            {
+                root.UpdateLayout();var chooser=Descendants<ComboBox>(overlay!).Single();chooser.SelectedIndex=Array.FindIndex(Crown.Core.Content.Projects,p=>p.Id==id);
+                Descendants<CheckBox>(overlay!).Single().IsChecked=repeating;Click("Dodaj wybrany projekt do kolejki");
+            }
+            AddProductionChoice("granary");AddProductionChoice("library");AddProductionChoice("scout",true);
+            Check(planningCity.Project=="treasury"&&planningCity.Production==90&&planningCity.ProductionQueue.Count==3&&planningCity.ProductionQueue[2].Repeat,"Production planner appends buildings and a repeated unit without replacing the current project");await Capture("production-plan");
+            root.UpdateLayout();var planningScroll=Descendants<ScrollViewer>(overlay!).First();planningScroll.ScrollToVerticalOffset(Math.Min(100,planningScroll.ScrollableHeight));root.UpdateLayout();double planningOffset=planningScroll.VerticalOffset;
+            Click("Wyżej #3");root.UpdateLayout();var editedScroll=Descendants<ScrollViewer>(overlay!).First();
+            Check(Math.Abs(editedScroll.VerticalOffset-planningOffset)<1&&Descendants<ComboBox>(overlay!).Single().SelectedIndex==Array.FindIndex(Crown.Core.Content.Projects,p=>p.Id=="scout")&&Descendants<CheckBox>(overlay!).Single().IsChecked==true,"Editing an order retains scroll position and the selected repeated project");
+            Click("Usuń zlecenie #3");Check(planningCity.ProductionQueue.Select(o=>o.Project).SequenceEqual(new[]{"granary","scout"})&&planningCity.Production==90,"Priority and removal controls edit only pending work");
+            Click("Zakończ powtarzanie #2");Click("Powtarzaj #2");Check(planningCity.ProductionQueue[1].Repeat,"Pending order controls can disable and restore repetition");
+            Click("Wstrzymaj produkcję");Check(planningCity.ProductionPaused&&planningCity.ProductionQueue.Count==2,"Pause button preserves the planned orders");await Capture("production-paused");
+            string pausedPlanPath=Path.Combine(folder,"production-paused-save.crown");SaveGame.Write(state,pausedPlanPath);string pausedPlanBefore=SaveGame.Serialize(state);LoadPath(pausedPlanPath);CloseModal();planningCity=state.Cities.First(c=>c.Owner==0);
+            Check(SaveGame.Serialize(state)==pausedPlanBefore&&planningCity.ProductionPaused&&planningCity.ProductionQueue[1].Repeat,"Desktop reload preserves pause and the repeated queued order");
+            PromiseTurn();Check(planningCity.Production==90&&planningCity.Project=="treasury"&&planningCity.ProductionQueue.Count==2,"Turn handler does not complete or accumulate production while paused");
+            Select(planningCity.Tile);Click("Plan produkcji: "+planningCity.Name);Click("Wznów produkcję");Click("Wróć do mapy");PromiseTurn();
+            Check(planningCity.Project=="granary"&&planningCity.ProductionQueue.Single().Project=="scout"&&!planningCity.ProductionPaused,"Resuming completes current work and advances to the first queued building");
+            planningCity.Production=100;PromiseTurn();Check(planningCity.Buildings.Contains("granary")&&planningCity.Project=="scout"&&planningCity.RepeatProject&&planningCity.ProductionQueue.Count==0,"Completed queued building hands off to the requested repeating scout");
+            int plannedScouts=state.Units.Count(u=>u.Owner==0&&u.Kind==UnitKind.Scout);PromiseTurn();
+            Check(state.Units.Count(u=>u.Owner==0&&u.Kind==UnitKind.Scout)==plannedScouts+1&&planningCity.Project=="scout"&&planningCity.RepeatProject,"Repeating unit order recruits once and returns to the plan");
+            Select(planningCity.Tile);Click("Plan produkcji: "+planningCity.Name);await Capture("production-repeating");
+            string repeatingPlanPath=Path.Combine(folder,"production-repeating-save.crown");SaveGame.Write(state,repeatingPlanPath);string repeatingBefore=SaveGame.Serialize(state);LoadPath(repeatingPlanPath);CloseModal();planningCity=state.Cities.First(c=>c.Owner==0);
+            Check(SaveGame.Serialize(state)==repeatingBefore&&planningCity.RepeatProject,"Desktop reload retains the active repeating project and accumulated overflow");
+            Select(planningCity.Tile);Click("Plan produkcji: "+planningCity.Name);Click("Nie powtarzaj obecnego projektu");AddProductionChoice("university");double immediateWork=planningCity.Production;Click("Rozpocznij pierwsze zlecenie teraz");
+            Check(planningCity.Project=="university"&&!planningCity.RepeatProject&&Math.Abs(planningCity.Production-immediateWork*.8)<1e-8,"Immediate queued start charges the normal switch loss and replaces the previous repeat setting");await Capture("production-blocked");
+            double blockedWork=planningCity.Production;Click("Wróć do mapy");PromiseTurn();Check(planningCity.Project=="university"&&planningCity.Production==blockedWork&&!planningCity.Buildings.Contains("university"),"Missing education blocks the project without silently skipping it or banking free work");
+            state.Player.Technologies.Add("education");planningCity.Production=210;PromiseTurn();Check(planningCity.Buildings.Contains("university"),"A later technology discovery unlocks the waiting planned building");
+            Select(planningCity.Tile);Click("Plan produkcji: "+planningCity.Name);string activeBeforeClear=planningCity.Project;AddProductionChoice("archer");AddProductionChoice("scout");Click("Usuń wszystkie oczekujące zlecenia");
+            Check(planningCity.ProductionQueue.Count==0&&planningCity.Project==activeBeforeClear,"Clearing pending work leaves the active city project intact");
+            Width=1200;Height=800;LoadPath(pausedPlanPath);CloseModal();planningCity=state.Cities.First(c=>c.Owner==0);Select(planningCity.Tile);Click("Plan produkcji: "+planningCity.Name);root.UpdateLayout();await Capture("production-compact");
+            var productionReturn=Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Wróć do mapy");var productionBounds=productionReturn.TransformToAncestor(root).TransformBounds(new Rect(productionReturn.RenderSize));
+            Check(productionBounds.Top>=0&&productionBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact production plan keeps controls reachable through scrolling");
+            Width=1600;Height=980;root.UpdateLayout();await Capture("production-final");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }
         catch(Exception e){checks.Add(e.ToString());File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Application.Current.Shutdown(3);}

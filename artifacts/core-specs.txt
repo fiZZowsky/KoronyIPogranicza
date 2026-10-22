@@ -17,9 +17,9 @@ PASS Settling validates distance and creates territory
 PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
-  seed 17421: 217 turns, 14 cities, 42 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 113 turns, 16 cities, 36 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 8: 187 turns, 19 cities, 71 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 17421: 191 turns, 17 cities, 53 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 135 turns, 16 cities, 51 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 246 turns, 16 cities, 56 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
   seed 99: 161 turns, 19 cities, 71 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
@@ -210,4 +210,28 @@ PASS AI finances local integrity measures but never takes a player's administrat
 PASS Audit investigation and unresolved findings resume identically after save and reload
 PASS V10 migration preserves accepted transit and merchant promises without invented shortages
 PASS Save validation rejects corrupt ledgers, forged recovery, unknown cities and stale council context
-208 specifications passed in 13,8s.
+PASS Future orders leave the current project, treasury and accumulated work intact
+PASS Automatic transitions preserve all overflow and finish only one project per city and turn
+PASS A planned unknown technology waits without producing and resumes when discovered
+PASS Settlers wait for inhabitants rather than skipping later orders or borrowing population
+PASS A planned cavalry order remains blocked until the faction controls horses
+PASS Repeating recruitment rotates behind other orders and retains barracks training
+PASS A repeating current order respects eight waiting slots through save and completion
+PASS Repeating public works pay exactly once and disarming repetition restores normal fallback
+PASS Repeating settlers stop after reducing the city below the recruitment threshold
+PASS Pausing preserves work and plans while food, inhabitants and treasury continue normally
+PASS Resuming production cannot bypass an unmet technology requirement
+PASS Manual project replacement retains the historical loss but preserves the future plan and pause
+PASS Starting the queue applies loss only when replacing a different current project
+PASS Reordering and removing pending work do not alter production, cash or the active project
+PASS Clearing pending orders leaves current production and its repetition intact
+PASS Permanent projects cannot repeat or be enqueued twice or after completion
+PASS Completed buildings left in a plan are skipped once rather than rebuilt or softlocking it
+PASS An already completed first queued building cannot be started manually for a second reward
+PASS Invalid indexes, foreign cities, unknown projects and finished campaigns reject changes atomically
+PASS Changing sovereignty clears inherited queue, repetition and pause during capture and peaceful return
+PASS Planning forecasts and repeated presentation never change accumulated work or order state
+PASS Paused, repeated and blocked queues continue deterministically after reload
+PASS V11 migration preserves an unanswered audit and active project without inventing queue orders
+PASS Save validation rejects oversized, unknown, null and impossible repeating production plans
+232 specifications passed in 13,3s.

@@ -61,6 +61,12 @@ Wysłanie kontrolerów wiąże środki i trzy tury oczekiwania. Raport zamyka fa
 
 Nie symulujemy indywidualnych urzędników, faktycznych kont bankowych, sieci patronatu ani procesów sądowych. To agregat braków administracyjnych. Stare, ogólne wydarzenia fabularne nadal mają własne nagrody; nie są formalnymi kontrolami tego rejestru. AI stosuje prostą natychmiastową reformę za 60 złota zamiast odgrywać dialog komisji. Nowe rachunki w starszych kampaniach startują od zera, bez wymyślania historycznych malwersacji. Format v11 zachowuje ich dalszy przebieg i nierozpatrzone protokoły.
 
+Wersja 0.12 oddaje graczowi trwały plan produkcji każdego miasta. Osiem oczekujących pozycji jest oddzielone od projektu bieżącego; ich edycja nie odbiera już wykonanej pracy. Ręczne zerwanie aktualnego zobowiązania nadal zachowuje historyczne 80%, podczas gdy zaplanowane automatyczne przejście przenosi pełną nadwyżkę. Jedno ukończenie na turę zapobiega masowej rekrutacji z zapasu przy nagłym odblokowaniu technologii.
+
+Wymagania nie są obietnicą spełnienia z chwili dodania zlecenia. Sprawdzamy technologię, konie i ludność przy wykonaniu; projekt może oczekiwać bez gromadzenia dodatkowej pracy. Powtarzane zamówienie wraca na koniec planu, co pozwala przeplatać rekrutację z innymi zadaniami, nadal ponosząc ich rzeczywiste koszty i utrzymanie. Wstrzymanie dotyczy pracy warsztatów, bez zatrzymywania społeczeństwa i gospodarki. Zmiana właściciela usuwa rozkazy poprzedniej administracji.
+
+To plan jednego miasta, bez globalnych szablonów, wielu równoległych linii, automatycznego omijania niedostępnych zleceń, rezerwacji przyszłych zasobów i strategicznego planowania kolejek przez AI. Formularz pokazuje bieżące ograniczenia, a nie gwarantowane terminy przyszłych budów. Format v12 zachowuje kolejki i tryby pracy; starsze kampanie zachowują swoje bieżące projekty i nadwyżki bez dopisywania zamiarów gracza.
+
 ## Kolejne etapy
 
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.

@@ -42,6 +42,9 @@ public sealed class City
     public double Food { get; set; } = 12;
     public double Production { get; set; }
     public string Project { get; set; } = "granary";
+    public List<ProductionOrder> ProductionQueue { get; set; } = [];
+    public bool RepeatProject { get; set; }
+    public bool ProductionPaused { get; set; }
     public HashSet<string> Buildings { get; set; } = [];
     public double Health { get; set; } = 100;
     public int Unrest { get; set; }
@@ -195,7 +198,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 11;
+    public int Version { get; set; } = 12;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -331,6 +334,11 @@ public sealed class AuditCase
     public AuditStatus Status { get; set; }
     public double AssessedGold { get; set; }
     public int RecoveredGold { get; set; }
+}
+public sealed class ProductionOrder
+{
+    public string Project { get; set; } = "treasury";
+    public bool Repeat { get; set; }
 }
 public sealed record CombatPreview(bool Valid, string Reason, string Attacker, string Target,
     double AttackStrength = 0, double DefenseStrength = 0, double TargetHealth = 0,

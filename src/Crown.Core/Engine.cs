@@ -83,7 +83,7 @@ public static partial class Engine
         var c=s.Cities.FirstOrDefault(c=>c.Id==cityId&&c.Owner==0);
         if(s.Ending!=null||c==null||!AvailableProjects(s,c).Any(p=>p.Id==project)) return Result.Fail("Ten projekt jest niedostępny.");
         if(c.Project==project) return Result.Ok("Projekt już jest realizowany.");
-        c.Project=project; c.Production*=.8; return Result.Ok("Zmieniono projekt. Zachowano 80% zgromadzonej produkcji.");
+        c.Project=project;c.RepeatProject=false; c.Production*=.8; return Result.Ok("Zmieniono projekt. Zachowano 80% zgromadzonej produkcji; oczekujące zlecenia pozostają w planie.");
     }
     public static Result SetResearch(GameState s,string id)
     {
@@ -186,8 +186,9 @@ public static partial class Engine
                 if(c.Food>=needed){c.Population++;c.Food-=needed;}
                 if(c.Food<0){c.HungerTurns++;if(c.HungerTurns%2==0&&c.Population>1){c.Population--;if(f.Id==0)s.Log($"{c.Name}: przedłużający się głód zmniejsza liczbę mieszkańców.","gospodarka");}c.Food=0;f.Commons-=3;c.Unrest=Math.Min(100,c.Unrest+5);}
                 else c.HungerTurns=0;
-                c.Production+=y.Production*modifier;c.Health=Math.Min(100,c.Health+7);
-                var p=AvailableProjects(s,c).FirstOrDefault(p=>p.Id==c.Project);
+                c.Health=Math.Min(100,c.Health+7);
+                var p=ProductionPlanning.CurrentBlock(s,c)==null?AvailableProjects(s,c).FirstOrDefault(p=>p.Id==c.Project):null;
+                if(p!=null)c.Production+=y.Production*modifier;
                 if(p!=null&&c.Production>=p.Cost)
                 {
                     c.Production-=p.Cost;
@@ -196,7 +197,7 @@ public static partial class Engine
                     else if(p.Id=="festival"){f.Culture+=30;f.Prestige+=4;}
                     else c.Buildings.Add(p.Id);
                     if(f.Id==0)s.Log($"{c.Name}: ukończono {p.Name}.","miasto");
-                    c.Project=AvailableProjects(s,c).FirstOrDefault(p=>p.Unit==null)?.Id??"spearmen";
+                    ProductionPlanning.Next(s,c);
                 }
             }
             Regions.Tick(s,f.Id);

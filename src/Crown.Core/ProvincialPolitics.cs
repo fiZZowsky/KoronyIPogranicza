@@ -66,6 +66,7 @@ public static class ProvincialPolitics
         int old = city.Owner;
         city.LastMarketLines=[];city.LastMarketTurn=0;city.LastMarketTax=0;
         city.Owner = owner; if(!peaceful)city.Health = 50; city.Unrest = owner == city.OriginalOwner ? 20 : 55;
+        city.ProductionQueue.Clear();city.RepeatProject=city.ProductionPaused=false;
         city.Loyalty = owner == city.OriginalOwner ? 65 : 30;
         city.OccupiedUntil = owner == city.OriginalOwner ? 0 : s.Turn + 12;
         city.Governance = Governance.Integrated; city.RevoltTurns = 0; city.LastGovernanceTurn = -10;

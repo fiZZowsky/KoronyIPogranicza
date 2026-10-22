@@ -1,5 +1,18 @@
 # Zmiany
 
+## 0.12 — Miasta z planem · 22 października 2026
+
+- Trwałe kolejki produkcji: do ośmiu oczekujących zleceń na miasto, dodawanie, usuwanie, przesuwanie i rozpoczęcie pierwszego od razu. Edycja przyszłych pozycji nie zmienia obecnego projektu, postępu ani skarbca.
+- Automatyczne przejście zachowuje całą nadwyżkę pracy. Nadal najwyżej jedno ukończenie na miasto i turę. Już ukończone budynki są pomijane; pusty plan korzysta z dotychczasowego wyboru następnej budowy.
+- Planowanie przyszłych technologii i rekrutacji. Wymagania są ponownie sprawdzane po badaniach i zmianach ludności. Brak technologii, koni lub mieszkańców zatrzymuje bieżący projekt i dalszą kolejkę bez dopisywania nowej pracy. Dotyczy również starszych projektów, które utraciły wymagania.
+- Powtarzane oddziały, roboty publiczne i święta wracają na koniec kolejki. Wymagania, zużycie mieszkańców i utrzymanie pozostają aktywne. Trwałych budynków nie można powtarzać ani dodawać wielokrotnie do oczekującego planu.
+- Wstrzymanie i wznowienie produkcji zachowuje pracę, plan i tryb powtarzania. Pozostała gospodarka działa dalej. Wyczyszczenie przyszłych pozycji nie odwołuje obecnego projektu ani jego powtarzania.
+- Ręczne rozpoczęcie innego projektu zachowuje dotychczasowe 80% pracy; wybór tego samego zachowuje całość. Wybór nowego projektu zastępuje poprzedni tryb powtarzania, bez usuwania pozostałego planu i bez automatycznego wznowienia.
+- Formularz z opisami wymagań, stanem postoju, licznikami i kontrolą kolejności. Zachowuje wybór projektu, powtarzanie i przewinięcie przy edycji. Dostęp z panelu miasta, wyboru budowy i zarządzania prowincją.
+- Zmiana suwerenności usuwa przyszłe zlecenia, powtarzanie i wstrzymanie starego właściciela, również przy pokojowym zwrocie.
+- Format v12 przechowuje plan i tryby. Migracja v11 zachowuje bieżący projekt, pracę, rachunki i otwartą radę bez dopisywania zleceń. Nadpisanie zachowuje oryginał w `.v11.bak`; wcześniejsze migracje nadal działają.
+- Osobne wydanie `wydanie-0.12/`. Wcześniejsze wydania, archiwa i zapisy pozostają zachowane. Oprawa nadal jest mapą 2D. Brak globalnych szablonów, równoległych linii i długich kolejek planowanych przez AI.
+
 ## 0.11 — Księgi i wpływy · 22 października 2026
 
 - Korupcja prowincji odbiera rzeczywisty procent miejskiego złota, z lokalnym rejestrem minionych ubytków. Dochód w bilansie skarbu jest już po tym potrąceniu. Prognozy nie naliczają strat i nie zmieniają stanu.

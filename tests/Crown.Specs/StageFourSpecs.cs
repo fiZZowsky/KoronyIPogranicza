@@ -123,9 +123,9 @@ internal static class StageFourSpecs
             var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=3;node.AsObject().Remove("Demands");node.AsObject().Remove("NextDemandId");
             foreach(var city in node["Cities"]!.AsArray())foreach(string key in new[]{"OriginalOwner","Governance","Loyalty","OccupiedUntil","RevoltTurns","LastGovernanceTurn"})city!.AsObject().Remove(key);
             string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version==11&&loaded.Cities.All(c=>c.OriginalOwner==c.Owner&&c.Loyalty==75)&&loaded.Cities[0].Prosperity==63&&loaded.Cities[0].Charters.Contains("integration"),"Migration damaged provincial data.");
+            Assert(loaded.Version==12&&loaded.Cities.All(c=>c.OriginalOwner==c.Owner&&c.Loyalty==75)&&loaded.Cities[0].Prosperity==63&&loaded.Cities[0].Charters.Contains("integration"),"Migration damaged provincial data.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v3-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v3.bak")==legacy&&SaveGame.Read(path).Version==11,"V3 backup failed.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v3.bak")==legacy&&SaveGame.Read(path).Version==12,"V3 backup failed.");}
             finally{File.Delete(path);File.Delete(path+".v3.bak");}
         });
         test("Corrupt political state and forged diplomatic missions are rejected",()=>

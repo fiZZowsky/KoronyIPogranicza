@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.11
+# Korony i Pogranicza · 0.12
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.11/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.11` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.12/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.12` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Księgi i wpływy.** Wersja 0.11 wiąże korupcję prowincji z rzeczywistym ubytkiem dochodów. Zleć kontrolę urzędu, odczytaj raport oparty na minionych rozliczeniach i zdecyduj o procesie, reformie albo ugodzie. Dochody, lojalność miasta i poparcie stronnictw reagują na wybraną drogę. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Miasta z planem.** Wersja 0.12 dodaje kolejki miejskiej produkcji: zaplanuj osiem kolejnych zleceń, zmieniaj priorytety, powtarzaj rekrutację i wstrzymuj pracę. Wymagania są sprawdzane na bieżąco, a automatyczne przejście do następnego projektu zachowuje całą nadwyżkę produkcji. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -65,6 +65,20 @@ Kontrola wymaga **Pisma**, korupcji co najmniej 10% albo 10 złota nieujętych d
 Odzysk zaokrąglamy w dół do pełnego złota, pozostała część ustalonych braków przepada lub jest umarzana. Decyzja nie obejmuje nowych strat i nie może być powtórzona. Pusty skarbiec nadal pozwala na proces albo ugodę. Nadzór ustanowiony w T4 obowiązuje do początku T16. Przejęcie miasta zeruje nieobjęte raportem braki i nadzór, zamyka otwarte kontrole poprzedniego właściciela i nie wypłaca środków zdobywcy. Odbicie miasta nie przywraca zamkniętego raportu. Utracona opłata za kontrolerów nie jest zwracana.
 
 AI ponosi te same procentowe straty miejskie, z uwzględnieniem mnożnika dochodu poziomu trudności. Korzysta z uproszczonego porządkowania urzędu: przy korupcji co najmniej 30 po zmianie celu, skarbcu co najmniej 180 i odstępie 12 tur wydaje 60 złota, obniża korupcję o 25 i ustanawia nadzór na osiem tur. Odpisuje wcześniejsze braki, nie otrzymuje odzysku. Nie przeprowadza własnych trwających trzy tury komisji ani decyzji rady.
+
+## Plany produkcji miast
+
+Wybierz własne miasto i otwórz **Plan produkcji**. Ten sam formularz znajdziesz w zarządzaniu prowincją i przez **Wybierz projekt → Zaplanuj kolejkę produkcji**. Bieżący projekt jest osobno; kolejka mieści do **ośmiu następnych zleceń**. Dodanie, usuwanie i przesuwanie przyszłych pozycji nie kosztuje złota ani zgromadzonej pracy. Formularz zachowuje wybrany projekt, tryb powtarzania i miejsce przewinięcia po edycji.
+
+W planie mogą znaleźć się budowle wymagające przyszłych odkryć oraz oddziały, dla których nie masz jeszcze zasobów lub mieszkańców. Warunki są sprawdzane przy każdej fazie produkcji, po badaniach i zmianach ludności. Uniwersytet poczeka na swoją technologię, kawaleria na konie, a osadnicy na co najmniej trzech mieszkańców. Zablokowany bieżący projekt nie znika ani nie przepuszcza dalszych zleceń. Zachowuje zgromadzoną pracę i **nie odkłada nowej**; dotyczy to również dawnych projektów, które straciły wymagania. Po ich odzyskaniu produkcja rusza automatycznie. Możesz ręcznie wybrać inne zlecenie wcześniej.
+
+Po ukończeniu bieżącego projektu miasto wybiera pierwszą pozycję i zachowuje **100% nadwyżki pracy**. Kończymy najwyżej jeden projekt na miasto i turę, nawet przy dużej nadwyżce. Już ukończone budynki pomijamy w przyszłej kolejce. Przy pustym planie pozostaje dotychczasowy automatyczny wybór dostępnej budowy. Jednego trwałego budynku nie można dodać wielokrotnie do kolejki ani oznaczyć jako powtarzanego.
+
+**Powtarzanie** działa dla oddziałów, robót publicznych i święta wspólnoty. Ukończone zamówienie wraca na koniec planu, za pozostałe zlecenia. Samotne powtarzane zamówienie realizuje się ponownie. Utrzymanie i wymagania oddziałów nadal obowiązują; każda rekrutacja osadników zużywa mieszkańca, a po spadku populacji do dwóch następna czeka. Wyłączenie powtarzania nie usuwa obecnego projektu. Usunięcie wszystkich oczekujących pozycji też nie odwołuje powtarzania bieżącego zlecenia — służy do tego osobny przycisk.
+
+**Wstrzymanie produkcji** zachowuje obecny postęp i plan; nie powstają nowe punkty pracy ani ukończenia. Żywność, wzrost, dochody, korupcja i inne procesy miejskie działają dalej. Wznowienie nie omija wymagań. Punkty niewykorzystanej produkcji nie są automatycznie zamieniane na złoto lub naukę.
+
+**Rozpocznij pierwsze zlecenie teraz** pozwala przerwać aktualny projekt, również na rzecz projektu oczekującego na warunki. Podobnie jak zwykła ręczna zmiana zachowuje 80% pracy. Wybranie tego samego projektu zachowuje całość. Tryb powtarzania zostaje zastąpiony ustawieniem nowego zlecenia, pozostały plan pozostaje w mocy, a wstrzymanie nie jest znoszone automatycznie. Po zmianie suwerenności miasta kolejka, powtarzanie i wstrzymanie poprzedniej administracji są usuwane; dotyczy to również pokojowego zwrotu. AI nadal wybiera swoje budowy za pomocą dotychczasowych heurystyk, bez układania własnych długich kolejek.
 
 ## Pierwsze dziesięć tur
 
@@ -246,7 +260,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.11/saves/`. Format v11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu; odczytuje v1–v10. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v10.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.12/saves/`. Format v12 zachowuje kolejki produkcji, powtarzanie i wstrzymanie pracy; odczytuje v1–v11. Migracja v11 zachowuje bieżący projekt, zgromadzoną pracę, rachunki i otwarte kontrole bez dopisywania zamówień. V11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v11.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -255,7 +269,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.11 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.12 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -273,6 +287,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 - `EscortOrders.cs`, `EscortSaveRules.cs`: przydziały eskorty, wspólna prognoza ruchu, rezerwacja wojska, odłączanie i walidacja rozkazów.
 - `TransitCouncil.cs`, `TransitPanels.cs`: czasowe prawa przejazdu wynikające z przyjętych poselstw, diagnoza granic, ostrzeżenia i rozmowy z gospodarzem szlaku.
 - `Administration.cs`, `AuditCouncil.cs`, `AuditSaveRules.cs`, `AuditPanels.cs`: ubytki dochodów, kontrola rachunków, dynamiczne rozstrzygnięcia, nadzór, historia i walidacja.
+- `ProductionPlanning.cs`, `ProductionPanels.cs`: kolejki, wymagania i blokady, powtarzanie, wstrzymanie, przejścia między projektami oraz walidacja planów.
 - `src/Crown.Desktop`: natywny interfejs WPF, rysowanie mapy, proceduralne materiały terenu i sterowanie.
 - `tests/Crown.Specs`: wykonywalne specyfikacje bez bibliotek testowych; symulacje kampanii i test odtwarzalności zapisu.
 - `DESIGN.md`: założenia projektu, ograniczenia i kierunek dalszych etapów.

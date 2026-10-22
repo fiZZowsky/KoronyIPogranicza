@@ -29,7 +29,11 @@ public sealed partial class MainWindow
             int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(1, y.Production));
             var work = Ui.Stack(Ui.Eyebrow("W REALIZACJI"), Ui.Label(project.Name, 22, Ui.Text, true), Ui.Label(project.Description, 12, Ui.Muted));
             Ui.Gap(work, 10);
-            Ui.Bar(work, $"{city.Production:0} / {project.Cost} produkcji · ok. {turns} tur", city.Production, project.Cost);
+            string? productionBlock=ProductionPlanning.CurrentBlock(state,city);
+            Ui.Bar(work, $"{city.Production:0} / {project.Cost} produkcji · "+(productionBlock==null?$"ok. {turns} tur":"POSTÓJ"), city.Production, project.Cost);
+            if(productionBlock!=null)work.Children.Add(Ui.Label(productionBlock,12,Ui.Red));
+            work.Children.Add(Ui.Label($"Oczekujące zlecenia: {city.ProductionQueue.Count}/8"+(city.RepeatProject?" · obecny projekt powtarzany":""),12,Ui.Muted));
+            work.Children.Add(Ui.Button("Plan produkcji: "+city.Name,()=>ShowProductionQueue(city)));
             work.Children.Add(Ui.Button("Wybierz projekt   →", () => ShowProjects(city)));
             side.Children.Add(Ui.Card(work));
             if (city.Buildings.Count > 0)

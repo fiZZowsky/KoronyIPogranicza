@@ -115,4 +115,20 @@ PASS Reform button pays for twelve-turn local supervision without recovering the
 PASS Empty treasury disables costly reform while both free rulings remain reachable
 PASS Losing the investigated province closes its council without paying recovery
 PASS Compact audit history keeps its return control visible or reachable by scrolling
-117 desktop integration checks passed.
+PASS Production planner appends buildings and a repeated unit without replacing the current project
+PASS Editing an order retains scroll position and the selected repeated project
+PASS Priority and removal controls edit only pending work
+PASS Pending order controls can disable and restore repetition
+PASS Pause button preserves the planned orders
+PASS Desktop reload preserves pause and the repeated queued order
+PASS Turn handler does not complete or accumulate production while paused
+PASS Resuming completes current work and advances to the first queued building
+PASS Completed queued building hands off to the requested repeating scout
+PASS Repeating unit order recruits once and returns to the plan
+PASS Desktop reload retains the active repeating project and accumulated overflow
+PASS Immediate queued start charges the normal switch loss and replaces the previous repeat setting
+PASS Missing education blocks the project without silently skipping it or banking free work
+PASS A later technology discovery unlocks the waiting planned building
+PASS Clearing pending work leaves the active city project intact
+PASS Compact production plan keeps controls reachable through scrolling
+133 desktop integration checks passed.
