@@ -1,0 +1,18 @@
+PASS New game opens the council
+PASS Council button applies the founding charter
+PASS Map order moves a selected unit
+PASS Research button changes the technology
+PASS Policy form changes taxation
+PASS Production dialog changes the project
+PASS Diplomacy button signs a trade treaty
+PASS Turn button advances twelve turns with council decisions
+PASS Desktop reload restores the complete game
+PASS Infrastructure button builds a complete capital connection
+PASS Distant map order queues a multi-turn march
+PASS Cancel march button preserves the current tile
+PASS Turn handler continues and completes the saved march
+PASS Enemy map order opens a pure combat preview
+PASS Cancelling combat preview spends no movement
+PASS Combat confirmation matches the preview
+PASS Compact desktop layout keeps the turn button visible
+17 desktop integration checks passed.

@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "KoronyIPogranicza/0.2.0": {
+        "dependencies": {
+          "Crown.Core": "1.0.0"
+        },
+        "runtime": {
+          "KoronyIPogranicza.dll": {}
+        }
+      },
+      "Crown.Core/1.0.0": {
+        "runtime": {
+          "Crown.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "KoronyIPogranicza/0.2.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Crown.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

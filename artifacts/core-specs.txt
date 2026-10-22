@@ -1,0 +1,38 @@
+PASS Seed determinism and distinct worlds
+PASS Hex topology, symmetry, distance
+PASS Capital land connections across seeds
+PASS All events retain an affordable option and known effects
+PASS Council blocks turn and choices are irreversible
+PASS Promises mature once and survive save/load
+PASS Unaffordable choices make no mutation
+PASS Technology prerequisites and retained science
+PASS Production, population cost, improvements
+PASS Winter, taxation and institutions affect the economy
+PASS Policy cooldown and social cost
+PASS Movement spends terrain cost and respects water
+PASS Combat requires war; ranged units cannot capture
+PASS Supply limits and healing
+PASS Diplomacy, trade income, cooldown and truce
+PASS Settling validates distance and creates territory
+PASS Save round trip and deterministic continuation
+PASS Malformed save is rejected
+PASS Scientific, cultural and turn-limit endings
+  seed 17421: 139 turns, 16 cities, 62 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 179 turns, 17 cities, 65 units; Arweńska Unia: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
+  seed 8: 146 turns, 17 cities, 52 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 99: 173 turns, 20 cities, 78 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
+PASS Road movement, full reach and compatible improvements
+PASS Road quotes, atomic funding and economy reconciliation
+PASS Supplies follow passable routes and roads extend reach
+PASS Winter increases off-road logistics cost
+PASS Enemy interdiction cuts trade connections and moving removes blockade
+PASS Road pillaging spends movement and breaks the segment
+PASS Multi-turn orders survive saving and arrive without free healing
+PASS Blocked march stops without attacking and cancellation preserves movement
+PASS Movement discovers ruins on intermediate tiles
+PASS Combat preview is pure and exactly matches damage
+PASS Ranged preview respects mountains and movement requirements
+PASS Infrastructure dialogue changes permanent logistics policy
+PASS Legacy v1 migration, backup and v2 order validation
+33 specifications passed in 7,1s.
