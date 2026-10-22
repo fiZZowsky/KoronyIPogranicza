@@ -17,10 +17,10 @@ PASS Settling validates distance and creates territory
 PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
-  seed 17421: 139 turns, 16 cities, 62 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 179 turns, 17 cities, 65 units; Arweńska Unia: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
-  seed 8: 146 turns, 17 cities, 52 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 99: 173 turns, 20 cities, 78 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 17421: 141 turns, 17 cities, 53 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 270 turns, 14 cities, 48 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
+  seed 8: 255 turns, 15 cities, 48 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
+  seed 99: 152 turns, 17 cities, 46 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
 PASS Road quotes, atomic funding and economy reconciliation
@@ -35,4 +35,21 @@ PASS Combat preview is pure and exactly matches damage
 PASS Ranged preview respects mountains and movement requirements
 PASS Infrastructure dialogue changes permanent logistics policy
 PASS Legacy v1 migration, backup and v2 order validation
-33 specifications passed in 7,1s.
+PASS Food exchange conserves output and respects road components
+PASS Provincial exchange works without capital access
+PASS Blockade interrupts provincial food and luxury access
+PASS Food allocation prioritizes urgent shortages deterministically
+PASS Turn processing uses food transfers before starvation
+PASS Housing and healthcare relieve pressure and prosperity affects yields
+PASS City focus has costs, tradeoffs and a per-turn cooldown
+PASS Emergency aid charges once and cannot bypass its cooldown
+PASS Migration needs safe roads and conserves inhabitants
+PASS Migration refuses overcrowded and unhealthy destinations
+PASS Provincial dialogue targets the affected city and prevents replay
+PASS Local charters persist and integration changes later arrivals
+PASS Local guild charters and bonded labor retain economic tradeoffs
+PASS AI prioritizes food relief and missing housing
+PASS V2 migration preserves roads and orders and backs up the original
+PASS V3 validation rejects corrupt needs, context and migration records
+PASS V3 continuation deterministically preserves provincial decisions and trade
+50 specifications passed in 8,2s.

@@ -1,0 +1,1 @@
+PASS intentional WPF diagnostic failure exits with code 3

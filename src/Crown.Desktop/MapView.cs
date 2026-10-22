@@ -14,6 +14,7 @@ public sealed class MapView : FrameworkElement
     public bool ShowResources {get;set;}=true;
     public bool ShowGrid {get;set;}
     public bool ShowSupply {get;set;}
+    public bool ShowPopulation {get;set;}
     public IReadOnlyList<int> PlannedRoad {get;set;} = [];
     private int hoverTile=-1;
     public Action<int>? SelectTile;
@@ -92,6 +93,11 @@ public sealed class MapView : FrameworkElement
                 bool blocked=supply.Interdicted.Contains(t.Id),inRange=supply.Costs.GetValueOrDefault(t.Id,double.PositiveInfinity)<=Logistics.Range(State,0);
                 dc.DrawGeometry(B(blocked?"#809C652F":inRange?"#4A369B77":"#4AAA5552"),null,Hex(t));
             }
+            if(ShowPopulation&&t.Owner==0)
+            {
+                var city=State.Cities.Where(c=>c.Owner==0&&World.Distance(t,State.Tiles[c.Tile])<=2).OrderBy(c=>World.Distance(t,State.Tiles[c.Tile])).FirstOrDefault();
+                if(city!=null)dc.DrawGeometry(B(city.Prosperity<40?"#65AF5947":city.Prosperity<65?"#55BEA164":"#5537AB8B"),null,Hex(t));
+            }
             if(t.Ruin){dc.DrawRectangle(B("#8A8064"),null,new Rect(p.X-7,p.Y-4,4,12));dc.DrawRectangle(B("#B0A384"),null,new Rect(p.X+3,p.Y-8,4,16));dc.DrawLine(new Pen(B("#BFB08A"),3),new(p.X-9,p.Y-9),new(p.X+9,p.Y-12));}
             if(ShowResources&&t.Resource!=Resource.None)
             {
@@ -116,6 +122,7 @@ public sealed class MapView : FrameworkElement
             }
         }
         DrawRoute(dc,PlannedRoad,double.PositiveInfinity,false);
+        if(ShowPopulation)DrawPopulationFlows(dc);
         foreach(var c in State.Cities.Where(c=>State.Tiles[c.Tile].Explored&&bounds.Contains(CenterOf(State.Tiles[c.Tile]))))DrawCity(dc,c);
         foreach(var group in State.Units.Where(u=>bounds.Contains(CenterOf(State.Tiles[u.Tile]))&&(u.Owner==0||visible.Contains(u.Tile))).GroupBy(u=>u.Tile))
         {
@@ -124,7 +131,27 @@ public sealed class MapView : FrameworkElement
         if(SelectedTile>=0&&State.Tiles[SelectedTile].Explored)dc.DrawGeometry(null,new Pen(B("#F4DEA4"),2.5),Hex(State.Tiles[SelectedTile]));
         dc.Pop();dc.Pop();
         if(ShowSupply)Text(dc,"DOSTAWY  ·  zielony: docierają   /   czerwony: brak   /   pomarańczowy: blokada",new(ActualWidth*.5,ActualHeight-32),11,B("#E4E2C8"));
+        if(ShowPopulation)Text(dc,"DOBROBYT  ·  czerwony: niski / zielony: wysoki  ·  złoto: żywność / błękit: migracje",new(ActualWidth*.5,ActualHeight-32),10,B("#E4E2C8"));
         var fade=new LinearGradientBrush(Color.FromArgb(90,6,17,23),Colors.Transparent,90);dc.DrawRectangle(fade,null,new Rect(0,0,ActualWidth,90));
+    }
+    private void DrawPopulationFlows(DrawingContext dc)
+    {
+        void Flow(int source,int destination,string text,string color,double offset)
+        {
+            var from=State.Cities.First(c=>c.Id==source);var to=State.Cities.First(c=>c.Id==destination);
+            var a=CenterOf(State.Tiles[from.Tile]);var b=CenterOf(State.Tiles[to.Tile]);
+            Vector direction=b-a;if(direction.Length<1)return;direction.Normalize();var end=b-direction*32;
+            var normal=new Vector(-direction.Y,direction.X);if(source>destination)normal=-normal;
+            var shift=normal*offset;a+=shift;b+=shift;end+=shift;
+            dc.DrawLine(new Pen(B(color),2.2){DashStyle=DashStyles.Dash},a,end);
+            var tangent=new Vector(-direction.Y,direction.X)*4;
+            dc.DrawGeometry(B(color),null,Poly(end,end-direction*11+tangent,end-direction*11-tangent));
+            var mid=new Point((a.X+b.X)/2,(a.Y+b.Y)/2);dc.DrawRoundedRectangle(B("#E015282D"),null,new Rect(mid.X-25,mid.Y-9,50,20),3,3);
+            Text(dc,text,new(mid.X,mid.Y-7),9,B(color));
+        }
+        foreach(var shipment in Regions.PlanFood(State,0).Shipments)Flow(shipment.Source,shipment.Destination,$"{shipment.Amount:0.#} żyw.","#E1C188",-16);
+        foreach(var movement in State.Migrations.Where(m=>m.Owner==0&&State.Turn-m.Turn<=20).TakeLast(3))
+            Flow(movement.Source,movement.Destination,"+1 os.","#91CBDD",16);
     }
     private void DrawRoad(DrawingContext dc,Tile tile)
     {

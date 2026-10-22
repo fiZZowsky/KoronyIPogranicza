@@ -15,4 +15,14 @@ PASS Enemy map order opens a pure combat preview
 PASS Cancelling combat preview spends no movement
 PASS Combat confirmation matches the preview
 PASS Compact desktop layout keeps the turn button visible
-17 desktop integration checks passed.
+PASS Provincial scenario has a funded road network
+PASS Society scenario records a population-conserving migration
+PASS Province panel exposes road-based food imports
+PASS Provincial form changes the local development focus
+PASS Provincial aid button funds food reserves and sets a cooldown
+PASS Council selects a concrete overcrowded province
+PASS Local council choice grants housing rights only to the affected city
+PASS Migration generates a settlement dialogue in the receiving city
+PASS Settlement dialogue installs the integration charter
+PASS Desktop reload preserves provincial rights and migration history
+27 desktop integration checks passed.

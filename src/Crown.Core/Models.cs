@@ -4,6 +4,7 @@ public enum Terrain { Ocean, Coast, Grassland, Forest, Hills, Mountain, Desert, 
 public enum Resource { None, Grain, Iron, Horses, Stone, Salt, Dyes }
 public enum Improvement { None, Farm, Mine, TradingPost }
 public enum UnitKind { Scout, Spearmen, Archer, Cavalry, Settler, Catapult }
+public enum CityFocus { Balanced, Agriculture, Industry, Scholarship }
 public sealed class Tile
 {
     public int Id { get; set; }
@@ -33,6 +34,19 @@ public sealed class City
     public HashSet<string> Buildings { get; set; } = [];
     public double Health { get; set; } = 100;
     public int Unrest { get; set; }
+    public CityFocus Focus { get; set; }
+    public int Prosperity { get; set; } = 50;
+    public int HungerTurns { get; set; }
+    public int LastFocusTurn { get; set; } = -1;
+    public int LastAidTurn { get; set; } = -10;
+    public int LastMigrationTurn { get; set; } = -20;
+    public int LastCouncilTurn { get; set; } = -20;
+    public int MigrantsReceived { get; set; }
+    public int MigrantsDeparted { get; set; }
+    public double LastFoodImported { get; set; }
+    public double LastFoodExported { get; set; }
+    public HashSet<string> Charters { get; set; } = [];
+    public HashSet<string> ResolvedIssues { get; set; } = [];
 }
 public sealed class Unit
 {
@@ -101,7 +115,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 2;
+    public int Version { get; set; } = 3;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -118,6 +132,8 @@ public sealed class GameState
     public List<DeferredEffect> Deferred { get; set; } = [];
     public HashSet<string> SeenEvents { get; set; } = [];
     public string? PendingEvent { get; set; } = "founding";
+    public int? PendingCityId { get; set; }
+    public List<MigrationRecord> Migrations { get; set; } = [];
     public string? Ending { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
@@ -153,3 +169,12 @@ public sealed record CombatPreview(bool Valid, string Reason, string Attacker, s
     double AttackStrength = 0, double DefenseStrength = 0, double TargetHealth = 0,
     double DamageToTarget = 0, double DamageToAttacker = 0, bool CanCapture = false,
     bool Ranged = false, IReadOnlyList<string>? Modifiers = null);
+public sealed record MigrationRecord(int Turn, int Owner, int Source, int Destination, int People);
+public sealed record FoodShipment(int Source, int Destination, double Amount);
+public sealed record FoodPlan(Dictionary<int, double> Raw, Dictionary<int, double> Imports,
+    Dictionary<int, double> Exports, IReadOnlyList<FoodShipment> Shipments)
+{
+    public double Balance(int cityId) => Raw[cityId] + Imports[cityId] - Exports[cityId];
+}
+public sealed record ProvinceStatus(int Housing, int Sanitation, IReadOnlyList<string> Goods,
+    double FoodBalance, double Imports, double Exports, int ProsperityTarget, int Pressure);

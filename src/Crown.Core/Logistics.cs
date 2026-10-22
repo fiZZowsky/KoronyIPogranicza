@@ -1,7 +1,7 @@
 namespace Crown.Core;
 
 public sealed record SupplyMap(int Revision, int Turn, int TechCount, Dictionary<int, double> Costs,
-    Dictionary<int, int> SourceCities, HashSet<int> Interdicted, HashSet<int> ConnectedCities);
+    Dictionary<int, int> SourceCities, HashSet<int> Interdicted, HashSet<int> ConnectedCities, Dictionary<int, int> MarketGroups);
 
 public static class Logistics
 {
@@ -65,19 +65,23 @@ public static class Logistics
                 frontier.Enqueue(tile.Id, next);
             }
         }
-        var network = new HashSet<int>();
-        if (cities.Length > 0)
+        var tileGroups = new Dictionary<int, int>();
+        var marketGroups = new Dictionary<int, int>();
+        foreach (var city in cities)
         {
+            if (tileGroups.TryGetValue(city.Tile, out int existing)) { marketGroups[city.Id] = existing; continue; }
             var queue = new Queue<int>();
-            queue.Enqueue(cities[0].Tile);
-            network.Add(cities[0].Tile);
+            queue.Enqueue(city.Tile);
+            tileGroups[city.Tile] = city.Id;
+            marketGroups[city.Id] = city.Id;
             while (queue.TryDequeue(out int at))
                 foreach (var next in World.Neighbors(s, at))
                     if (Transit(next) && (cityTiles.Contains(next.Id) || next.Road && next.RoadOwner == owner) &&
-                        (next.Owner < 0 || next.Owner == owner) && network.Add(next.Id)) queue.Enqueue(next.Id);
+                        (next.Owner < 0 || next.Owner == owner) && !tileGroups.ContainsKey(next.Id))
+                    { tileGroups[next.Id] = city.Id; queue.Enqueue(next.Id); }
         }
         return new(s.LogisticsRevision, s.Turn, s.Factions[owner].Technologies.Count, costs, sources, blocked,
-            cities.Where(c => network.Contains(c.Tile)).Select(c => c.Id).ToHashSet());
+            cities.Where(c => marketGroups[c.Id] == cities[0].Id).Select(c => c.Id).ToHashSet(), marketGroups);
     }
 
     public static bool Supplied(GameState s, Unit unit) =>

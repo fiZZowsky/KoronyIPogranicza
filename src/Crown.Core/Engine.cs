@@ -51,8 +51,15 @@ public static partial class Engine
         if(f.Focus==1) {science*=1.3;prod*=.85;} else if(f.Focus==2) {prod*=1.25;science*=.85;}
         if(c.Id!=s.Cities.Where(city=>city.Owner==c.Owner).Min(city=>city.Id)&&Logistics.For(s,c.Owner).ConnectedCities.Contains(c.Id))
         {gold+=3+(f.Flags.Contains("road_tolls")?2:0);science+=1+(f.Flags.Contains("open_roads")?1:0);}
+        if(c.Focus==CityFocus.Agriculture){food*=1.2;prod*=.9;}
+        else if(c.Focus==CityFocus.Industry){prod*=1.2;food*=.9;}
+        else if(c.Focus==CityFocus.Scholarship){science*=1.25;gold*=.9;}
+        if(c.Charters.Contains("bonded_labor"))prod*=1.1;
+        if(c.Charters.Contains("integration"))culture+=1;
+        if(c.Charters.Contains("guild_housing"))gold*=.95;
+        if(c.Charters.Contains("local_assembly"))gold*=.95;
         food*=s.Turn%4==0?.8:s.Turn%4==3?1.1:1;
-        double efficiency=Math.Clamp(.65+f.Stability*.005-c.Unrest*.003,.35,1.15);
+        double efficiency=Math.Clamp(.65+f.Stability*.005-c.Unrest*.003,.35,1.15)*(.9+c.Prosperity*.002);
         gold*=f.Tax==0?.65:f.Tax==2?1.5:1;
         return new(food-c.Population*2,prod*efficiency,gold*efficiency,science*efficiency,culture*efficiency);
     }
@@ -163,12 +170,14 @@ public static partial class Engine
                 if(f.Id==0)s.Log($"Odkrycie: {tech.Name}. {tech.Description}","nauka");
                 f.Research=Content.Technologies.FirstOrDefault(t=>!f.Technologies.Contains(t.Id)&&t.Requires.All(f.Technologies.Contains))?.Id??"";
             }
+            var foodPlan=Regions.PlanFood(s,f.Id);
             foreach(var c in s.Cities.Where(c=>c.Owner==f.Id).ToArray())
             {
-                var y=CityYields(s,c);c.Food+=y.Food;int needed=22+c.Population*12;
+                var y=CityYields(s,c);c.Food+=foodPlan.Balance(c.Id);c.LastFoodImported=foodPlan.Imports[c.Id];c.LastFoodExported=foodPlan.Exports[c.Id];int needed=22+c.Population*12;
                 if(c.Food>=needed){c.Population++;c.Food-=needed;}
-                if(c.Food<0){if(c.Population>1)c.Population--;c.Food=0;f.Commons-=3;c.Unrest+=5;if(f.Id==0)s.Log($"{c.Name}: głód zmniejsza liczbę mieszkańców.","gospodarka");}
-                c.Production+=y.Production*modifier;c.Health=Math.Min(100,c.Health+7);c.Unrest=Math.Max(0,c.Unrest-(c.Buildings.Contains("court")?5:2));
+                if(c.Food<0){c.HungerTurns++;if(c.HungerTurns%2==0&&c.Population>1){c.Population--;if(f.Id==0)s.Log($"{c.Name}: przedłużający się głód zmniejsza liczbę mieszkańców.","gospodarka");}c.Food=0;f.Commons-=3;c.Unrest=Math.Min(100,c.Unrest+5);}
+                else c.HungerTurns=0;
+                c.Production+=y.Production*modifier;c.Health=Math.Min(100,c.Health+7);
                 var p=AvailableProjects(s,c).FirstOrDefault(p=>p.Id==c.Project);
                 if(p!=null&&c.Production>=p.Cost)
                 {
@@ -181,6 +190,7 @@ public static partial class Engine
                     c.Project=AvailableProjects(s,c).FirstOrDefault(p=>p.Unit==null)?.Id??"spearmen";
                 }
             }
+            Regions.Tick(s,f.Id);
             f.WarWeariness=Math.Clamp(f.WarWeariness+(s.Relations.Any(r=>(r.A==f.Id||r.B==f.Id)&&r.War)?1.8:-3),0,100);
             f.Stability+=Math.Sign(StabilityTarget(s,f)-f.Stability);
             // Society slowly reacts to taxation; low support has an ongoing economic consequence through stability.
@@ -227,6 +237,7 @@ public static partial class Engine
                     var tile=WorkedTiles(s,city).FirstOrDefault(t=>t.Improvement==Improvement.None);
                     if(tile!=null&&f.Technologies.Contains("agriculture")){tile.Improvement=tile.Terrain==Terrain.Hills&&f.Technologies.Contains("mining")?Improvement.Mine:Improvement.Farm;f.Gold-=35;}
                 }
+                Regions.ManageAi(s,city);
             }
             foreach(var r in s.Relations.Where(r=>r.A==f.Id||r.B==f.Id))
             {

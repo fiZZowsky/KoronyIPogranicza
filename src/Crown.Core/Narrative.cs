@@ -57,7 +57,7 @@ public static class Narrative
         [new("Wolny przejazd i wymiana wiedzy.", "Połączone miasta otrzymają dodatkowy punkt nauki.", -70, 1, 8, -6, 3, 5, "open_roads"),
          new("Rody utrzymają straż w zamian za myto.", "Połączone miasta otrzymają dodatkowe dwa punkty bazowego złota.", 45, 2, -6, 12, 0, 3, "road_tolls"),
          new("Niech szlaki zabezpieczą patrole państwa.", "Zasięg dostaw zwiększy się o jeden punkt.", -100, 5, 6, -2, 0, 5, "road_patrols")]);
-    public static IEnumerable<NarrativeEvent> All => Events.Concat(Recurring).Append(InfrastructureEvent);
+    public static IEnumerable<NarrativeEvent> All => Events.Concat(Recurring).Append(InfrastructureEvent).Concat(ProvincialEvents.Events);
     public static NarrativeEvent Get(string id) => All.First(e=>e.Id==id);
     public static string Effects(Choice c,string eventId,int choice)
     {
@@ -70,11 +70,14 @@ public static class Narrative
         if(eventId=="oath")result+=$" · Relacje z Kharem {(choice==0?20:choice==1?-25:8):+0;-0}";
         if(c.Delay>0)result+=$"\nZa {c.Delay} tur: "+Deltas(c.FutureGold,c.FutureStability,c.FutureCommons,c.FutureNobles,c.FutureScholars,c.FuturePrestige);
         if(eventId=="caravan_compact")result+="\nTrwale: "+(choice==0?"połączone miasta +1 nauki":choice==1?"połączone miasta +2 bazowego złota":"zasięg dostaw +1");
+        if(ProvincialEvents.IsLocal(eventId))result+="\n"+ProvincialEvents.Describe(eventId,choice);
         return result;
     }
     public static void Schedule(GameState s)
     {
         if(s.PendingEvent!=null || s.Turn%5!=0) return;
+        s.PendingCityId=null;
+        if(s.Turn>=5&&ProvincialEvents.Schedule(s))return;
         string? id = s.Player.Commons<33 ? "strike" : s.Relations.Any(r=>(r.A==0||r.B==0)&&r.War) ? "war" :
             s.Player.Flags.Contains("land_charter") && s.Turn>=35 ? "land_echo" :
             s.Player.Flags.Contains("noble_charter") && s.Turn>=35 ? "noble_echo" : null;
@@ -89,14 +92,21 @@ public static class Narrative
     public static Result Resolve(GameState s,int choice)
     {
         if(s.PendingEvent==null) return Result.Fail("Rada nie ma nowej sprawy.");
-        var e=Get(s.PendingEvent); if(choice<0||choice>=e.Choices.Length) return Result.Fail("Nieznana odpowiedź.");
+        var e=ProvincialEvents.Current(s); if(choice<0||choice>=e.Choices.Length) return Result.Fail("Nieznana odpowiedź.");
+        City? context=null;
+        if(ProvincialEvents.IsLocal(e.Id))
+        {
+            context=s.Cities.FirstOrDefault(city=>city.Id==s.PendingCityId&&city.Owner==0);
+            if(context==null||context.ResolvedIssues.Contains(e.Id))return Result.Fail("Ta sprawa nie ma już prawidłowego kontekstu prowincji.");
+        }
         var c=e.Choices[choice]; var f=s.Player;
         if(f.Gold+c.Gold<0) return Result.Fail("Skarb nie wystarczy na tę obietnicę.");
         f.Gold+=c.Gold; f.Stability+=c.Stability; f.Commons+=c.Commons; f.Nobles+=c.Nobles; f.Scholars+=c.Scholars; f.Prestige+=c.Prestige;
         if(c.Flag!=null) f.Flags.Add(c.Flag);
+        if(context!=null)ProvincialEvents.Apply(s,context,e.Id,choice);
         if(e.Id=="oath") s.Relation(0,3).Trust+=choice==0?20:choice==1?-25:8;
         if(c.Delay>0) s.Deferred.Add(new(){Due=s.Turn+c.Delay,Faction=0,Text=c.FutureText??"Obietnica przynosi skutki.",Gold=c.FutureGold,Stability=c.FutureStability,Commons=c.FutureCommons,Nobles=c.FutureNobles,Scholars=c.FutureScholars,Prestige=c.FuturePrestige});
-        Engine.Clamp(f); s.SeenEvents.Add(e.Id); s.PendingEvent=null;
+        Engine.Clamp(f); s.SeenEvents.Add(e.Id); s.PendingEvent=null;s.PendingCityId=null;
         s.Log($"{e.Title} — „{c.Text}” {Effects(c,e.Id,choice)}","decyzja"); return Result.Ok("Decyzja została zapisana w kronice.");
     }
 }

@@ -20,14 +20,18 @@ Skutki liczbowe odpowiedzi w interfejsie są generowane z tych samych danych co 
 
 Poparcie trzech grup i globalna stabilność upraszczają prawdziwe społeczeństwo. Nie ma jednostkowych mieszkańców ani pełnego rynku cen. Technologie zmieniają statystyki dawnych rodzajów oddziałów; nie ma jeszcze historycznych modeli wojsk dla każdej epoki. Jednostki na jednym heksie są wybierane osobno w panelu. Stan granic i miast na odkrytej mapie nie przechowuje jeszcze osobnych migawek wywiadu.
 
-Wersja 0.2 realizuje drogi, zasięg dostaw liczony po terenie, odcinanie połączeń, marsze wieloturowe i podgląd starcia. Każde miasto jest źródłem dostaw; nie ma jeszcze limitów tonarzu, magazynów frontowych, konwojów ani morskiego transportu. Droga na neutralnej ziemi ma opiekuna finansującego utrzymanie; zajęcie miasta może przejąć okoliczne drogi. Prawo wspólnego traktu jest nowym przykładem dialogu zmieniającego trwale reguły gospodarki lub logistyki.
+Wersja 0.2 realizuje drogi, zasięg dostaw liczony po terenie, odcinanie połączeń, marsze wieloturowe i podgląd starcia. Każde miasto jest źródłem dostaw wojskowych; nie ma jeszcze limitów tonażu, magazynów frontowych, konwojów ani morskiego transportu. Droga na neutralnej ziemi ma opiekuna finansującego utrzymanie; zajęcie miasta może przejąć okoliczne drogi.
+
+Wersja 0.3 dodaje potrzeby mieszkaniowe i opiekę, dobrobyt, kierunki rozwoju prowincji oraz ograniczoną wymianę nadwyżek żywności. Rynki powstają w każdej bezpiecznej sieci drogowej, także odłączonej od stolicy. Wymiana żywności zachowuje całkowitą nadwyżkę i jest ograniczona do 6 na miasto. Migracje przenoszą mieszkańców między własnymi miastami, nie tworzą populacji i nie przekraczają granic państwa. Nie ma jeszcze cen rynkowych, migracji międzynarodowej ani ruchomych karawan.
+
+Sprawy głodu, mieszkań i przyjęcia przybyszów trafiają do rady z identyfikatorem konkretnego miasta. Ich lokalne prawa są dziedziczone razem z miastem. Ten sam typ problemu można rozstrzygnąć osobno w innych prowincjach; nie można wielokrotnie pobrać nagrody za tę samą sprawę w jednym miejscu. Przykładowo karta mieszkaniowa dodaje miejsca, domy cechowe wiążą je ze stałą opłatą, a integracja usuwa niepokoje kolejnych przybyszów.
 
 Dyplomatyczne wypowiedzi są autorskimi, ustalonymi tekstami, a nie generowaniem przez LLM podczas gry. AI nie jest uczonym modelem: korzysta z wyszukiwania ścieżek i heurystyk. Poziom trudny podnosi jej przychód i produkcję do 130%, spokojny obniża je do 85%. Testy kampanii wykrywają błędy stanu; nie zastępują testów balansu i przyjemności rozgrywki.
 
 ## Kolejne etapy
 
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.
-2. **Głębsza symulacja:** regionalne rynki, przepustowość dróg i ilościowe dostawy, migracje ludności, wyczerpanie złóż, klasy społeczne prowincji, traktaty z warunkami i mechanika uzasadnienia wojny.
+2. **Głębsza symulacja:** ceny i regionalny popyt na towary, rzeczywiste konwoje i wojskowe zapasy, migracje międzynarodowe, wyczerpanie złóż, klasy społeczne prowincji, traktaty z warunkami i mechanika uzasadnienia wojny. Podstawową wymianę żywności i wewnętrzne migracje wykonano w 0.3.
 3. **Dramaturgia:** długie wątki postaci, konflikty między prowincjami, sukcesja, dziedziczone instytucje, reakcje zagraniczne na konkretne obietnice, większa liczba zdarzeń zależnych od kontekstu.
 4. **Oprawa 3D:** niezależny renderer korzystający z istniejącego silnika C#, modele miast rozwijające się wraz z populacją, realistyczne materiały PBR, oświetlenie, woda, pogoda, animacje armii i pełna obsługa kamery. Przed wyborem docelowego silnika potrzebny jest osobny prototyp wydajności i potwierdzenie zgodności z .NET 10.
 5. **Pełna produkcja:** redakcja treści, dźwięk, dostępność, lokalizacja, migracje wersji zapisów, rozbudowa AI, testy sprzętowe, kampanie dla pozostałych państw i dystrybucja.

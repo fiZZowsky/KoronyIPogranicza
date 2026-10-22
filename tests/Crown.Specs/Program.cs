@@ -34,7 +34,7 @@ Test("All events retain an affordable option and known effects",()=>
     foreach(var e in Narrative.All)
     {
         Assert(e.Choices.Any(c=>c.Gold>=0),e.Id+" can softlock an empty treasury.");
-        for(int i=0;i<e.Choices.Length;i++){var s=Fresh();s.PendingEvent=e.Id;s.Player.Gold=10000;Assert(!string.IsNullOrEmpty(Narrative.Effects(e.Choices[i],e.Id,i)),"Invisible consequence.");Assert(Narrative.Resolve(s,i).Success,"Invalid narrative branch.");SaveGame.Deserialize(SaveGame.Serialize(s));}
+        for(int i=0;i<e.Choices.Length;i++){var s=Fresh();s.PendingEvent=e.Id;if(ProvincialEvents.IsLocal(e.Id))s.PendingCityId=s.Cities.First(c=>c.Owner==0).Id;s.Player.Gold=10000;Assert(!string.IsNullOrEmpty(Narrative.Effects(e.Choices[i],e.Id,i)),"Invisible consequence.");Assert(Narrative.Resolve(s,i).Success,"Invalid narrative branch.");SaveGame.Deserialize(SaveGame.Serialize(s));}
     }
 });
 Test("Council blocks turn and choices are irreversible",()=>
@@ -118,4 +118,5 @@ Test("Campaign soak: multiple seeds, complete campaigns and AI expansion",()=>
     }
 });
 StageTwoSpecs.Run(Test);
+StageThreeSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

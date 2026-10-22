@@ -16,12 +16,14 @@ public sealed partial class MainWindow
             TitlePanel("MIASTO MARCHII", city.Name,
                 $"{city.Population} mieszkańców · {city.Health:0}% obrony · niepokoje {city.Unrest}%");
             var y = Engine.CityYields(state, city);
-            side.Children.Add(Ui.Label($"Żywność {Ui.Signed(y.Food)}   Produkcja +{y.Production:0.0}", 13, Ui.Green));
+            var province = Regions.Status(state, city);
+            side.Children.Add(Ui.Label($"Żywność {Ui.Signed(province.FoodBalance)}   Produkcja +{y.Production:0.0}", 13, Ui.Green));
             side.Children.Add(Ui.Label($"Złoto +{y.Gold:0.0}   Nauka +{y.Science:0.0}   Kultura +{y.Culture:0.0}", 11, Ui.Muted));
             bool connected = Logistics.For(state, 0).ConnectedCities.Contains(city.Id);
             Ui.Gap(side, 10);
             side.Children.Add(Ui.Label(connected ? "W sieci drogowej stolicy" : "Brak bezpiecznego połączenia ze stolicą", 11, connected ? Ui.Green : Ui.Gold));
             side.Children.Add(Ui.Button("Szlaki i bilans skarbu   →", () => { tab = "logistics"; RefreshSide(); }));
+            side.Children.Add(Ui.Button($"Mieszkańcy · dobrobyt {city.Prosperity}%", () => ShowProvince(city)));
             Ui.Bar(side, $"Wzrost miasta: {city.Food:0} / {22 + city.Population * 12}", city.Food, 22 + city.Population * 12, Ui.Green);
             var project = Catalog.Project(city.Project);
             int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(1, y.Production));
@@ -122,7 +124,7 @@ public sealed partial class MainWindow
         budget.Children.Add(Ui.Label($"Saldo skarbu  {Ui.Signed(economy.Net)}", 20, Ui.Gold, true));
         side.Children.Add(Ui.Card(budget));
         side.Children.Add(Ui.Button(map.ShowSupply ? "Ukryj nakładkę dostaw" : "Pokaż nakładkę dostaw", () =>
-        { map.ShowSupply = !map.ShowSupply; map.InvalidateVisual(); RefreshSide(); }));
+        { map.ShowSupply = !map.ShowSupply; if(map.ShowSupply)map.ShowPopulation=false; map.InvalidateVisual(); RefreshSide(); }));
         side.Children.Add(Ui.Label($"Zielony: dostawy w zasięgu {Logistics.Range(state, 0):0}. Czerwony: poza zasięgiem. Pomarańczowy: blokada wojskowa. Zima podnosi koszt transportu poza drogami o 25%.", 11, Ui.Muted));
         side.Children.Add(Ui.Rule());
         side.Children.Add(Ui.Eyebrow("SIEĆ STOLICY"));
