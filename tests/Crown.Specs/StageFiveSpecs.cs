@@ -133,9 +133,9 @@ internal static class StageFiveSpecs
             var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=4;
             foreach(string key in new[]{"Wars","PeaceOffers","NextWarId","NextPeaceId"})node.AsObject().Remove(key);
             string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version==10&&loaded.Wars.Count==1&&!loaded.Wars[0].GoalDeclared&&loaded.Demands.Count==1&&loaded.Cities[0].Loyalty==61&&loaded.Cities[0].Governance==Governance.Autonomous&&DiplomaticCouncil.Grievances(loaded,0,1)==42,"V4 migration lost existing diplomacy or invented a goal.");
+            Assert(loaded.Version==11&&loaded.Wars.Count==1&&!loaded.Wars[0].GoalDeclared&&loaded.Demands.Count==1&&loaded.Cities[0].Loyalty==61&&loaded.Cities[0].Governance==Governance.Autonomous&&DiplomaticCouncil.Grievances(loaded,0,1)==42,"V4 migration lost existing diplomacy or invented a goal.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v4-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v4.bak")==legacy&&SaveGame.Read(path).Version==10,"V4 backup failed.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v4.bak")==legacy&&SaveGame.Read(path).Version==11,"V4 backup failed.");}
             finally{File.Delete(path);File.Delete(path+".v4.bak");}
         });
         test("V5 rejects corrupt war ledgers, deadlines, parties and duplicate treaties",()=>

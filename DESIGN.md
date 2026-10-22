@@ -55,6 +55,12 @@ Geografia i terminy tworzą konsekwencje decyzji. Odpowiedź może nadejść prz
 
 Format v10 wylicza ważność zgód z przyjętych odpowiedzi, bez drugiego rejestru traktatów. Powiadomienia przypominają dwa ruchy przed terminem i po wygaśnięciu. To ograniczony model dwustronnego bezpiecznego przejazdu dla gracza; AI nie negocjuje jeszcze analogicznych zgód, nie ma dowolnej wyceny myta, wielostronnych konferencji ani ubezpieczeń.
 
+Wersja 0.11 wprowadza lokalną korupcję i kontrole rachunków. Ubytek jest częścią już obniżonego dochodu miasta; nie jest drugim kosztem administracji. Rejestr nieujętych kwot powstaje dopiero podczas rzeczywistego poboru danin. Odległość od stolicy, ustrój, niepokoje i stabilność kształtują cel korupcji, podczas gdy sądy i instytucje mogą go obniżać. Stan zbliża się do celu stopniowo, więc reforma nie znosi geografii i polityki prowincji.
+
+Wysłanie kontrolerów wiąże środki i trzy tury oczekiwania. Raport zamyka faktycznie ustaloną kwotę, oddzielając ją od nowych strat. Jawny proces zapewnia największy odzysk, lecz uderza w lokalne rody i lojalność; kosztowna reforma daje silniejszą redukcję i czasowy nadzór bez odzysku; ugoda zachowuje część dochodów i poparcie możnych kosztem ludu. Skutki są generowane z tego samego kontekstu co decyzja. Historia zapobiega ponownemu pobraniu odzyskanej kwoty, a utrata miasta zamyka niezakończone sprawy.
+
+Nie symulujemy indywidualnych urzędników, faktycznych kont bankowych, sieci patronatu ani procesów sądowych. To agregat braków administracyjnych. Stare, ogólne wydarzenia fabularne nadal mają własne nagrody; nie są formalnymi kontrolami tego rejestru. AI stosuje prostą natychmiastową reformę za 60 złota zamiast odgrywać dialog komisji. Nowe rachunki w starszych kampaniach startują od zera, bez wymyślania historycznych malwersacji. Format v11 zachowuje ich dalszy przebieg i nierozpatrzone protokoły.
+
 ## Kolejne etapy
 
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.

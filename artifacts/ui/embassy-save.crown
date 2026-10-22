@@ -1,5 +1,5 @@
 {
-  "Version": 10,
+  "Version": 11,
   "Seed": 17421,
   "RandomState": 2925202044,
   "Width": 42,
@@ -16512,7 +16512,13 @@
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
-      "LastMarketTax": 0
+      "LastMarketTax": 0,
+      "Corruption": 0,
+      "HiddenGold": 0,
+      "LastRevenueLoss": 0,
+      "LastAdministrationTurn": 0,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     },
     {
       "Id": 4,
@@ -16552,7 +16558,13 @@
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
-      "LastMarketTax": 0
+      "LastMarketTax": 0,
+      "Corruption": 0,
+      "HiddenGold": 0,
+      "LastRevenueLoss": 0,
+      "LastAdministrationTurn": 0,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     },
     {
       "Id": 7,
@@ -16592,7 +16604,13 @@
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
-      "LastMarketTax": 0
+      "LastMarketTax": 0,
+      "Corruption": 0,
+      "HiddenGold": 0,
+      "LastRevenueLoss": 0,
+      "LastAdministrationTurn": 0,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     },
     {
       "Id": 10,
@@ -16632,7 +16650,13 @@
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
-      "LastMarketTax": 0
+      "LastMarketTax": 0,
+      "Corruption": 0,
+      "HiddenGold": 0,
+      "LastRevenueLoss": 0,
+      "LastAdministrationTurn": 0,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     }
   ],
   "Units": [
@@ -16971,5 +16995,8 @@
   "NextCaravanId": 1,
   "TradeCases": [],
   "PendingTradeCaseId": null,
+  "Audits": [],
+  "NextAuditId": 1,
+  "PendingAuditId": null,
   "NextId": 13
 }

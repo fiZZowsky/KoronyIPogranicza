@@ -132,6 +132,7 @@ public sealed partial class MainWindow
             budget.Children.Add(Ui.Label($"{row.Label}  {Ui.Signed(row.Amount)}", 13, row.Amount < 0 ? Ui.Muted : Ui.Green));
         budget.Children.Add(Ui.Rule());
         budget.Children.Add(Ui.Label($"Saldo skarbu  {Ui.Signed(economy.Net+tradeForecast)}", 20, Ui.Gold, true));
+        budget.Children.Add(Ui.Label($"W dochodach miast uwzględniono już ubytek przez korupcję: {state.Cities.Where(c=>c.Owner==0).Sum(c=>Administration.Loss(state,c)):0.00} złota/turę.",11,Ui.Gold));
         budget.Children.Add(Ui.Label("Dochody miast są bieżące. Podatki rynku według ostatniego rozliczenia, kontrakty według aktualnej prognozy.",11,Ui.Muted));
         side.Children.Add(Ui.Card(budget));
         side.Children.Add(Ui.Button(map.ShowSupply ? "Ukryj nakładkę dostaw" : "Pokaż nakładkę dostaw", () =>

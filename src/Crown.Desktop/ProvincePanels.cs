@@ -14,6 +14,8 @@ public sealed partial class MainWindow
         side.Children.Add(Ui.Button(map.ShowPopulation ? "Ukryj dobrobyt i przepływy" : "Pokaż dobrobyt i przepływy", () =>
         { map.ShowPopulation = !map.ShowPopulation; if (map.ShowPopulation) map.ShowSupply = false; map.InvalidateVisual(); RefreshSide(); }));
         side.Children.Add(Ui.Label($"Mieszkańcy: {cities.Sum(c => c.Population)} · miasta: {cities.Length}\nŻywność przesyłana drogami: {food.Shipments.Sum(x => x.Amount):0.#} / turę", 12, Ui.Gold));
+        side.Children.Add(Ui.Label($"Ubytek dochodów przez korupcję: {cities.Sum(c=>Administration.Loss(state,c)):0.00} złota/turę",12,Ui.Gold));
+        side.Children.Add(Ui.Button("Rachunki i kontrole prowincji",ShowAudits));
         side.Children.Add(Ui.Rule());
         foreach (var c in cities.OrderBy(c => c.Prosperity).ThenBy(c => c.Id))
         {
@@ -23,6 +25,7 @@ public sealed partial class MainWindow
             Ui.Bar(p, $"Dobrobyt {c.Prosperity}% → cel {status.ProsperityTarget}%", c.Prosperity, 100, c.Prosperity < 40 ? Ui.Red : Ui.Green);
             Ui.Bar(p, $"Lojalność {c.Loyalty}% → cel {ProvincialPolitics.Report(state,c).Target}%", c.Loyalty, 100, c.Loyalty<30?Ui.Red:Ui.Gold);
             p.Children.Add(Ui.Label(ProvincialPolitics.Name(c.Governance)+(c.RevoltTurns>0?$" · BUNT {c.RevoltTurns}/3":""),12,c.RevoltTurns>0?Ui.Red:Ui.Muted));
+            p.Children.Add(Ui.Label($"Korupcja {c.Corruption}% · ubytek {Administration.Loss(state,c):0.00} złota/turę",12,c.Corruption>=30?Ui.Red:Ui.Muted));
             p.Children.Add(Ui.Label($"Mieszkania {c.Population}/{status.Housing} · opieka {c.Population}/{status.Sanitation}\nBilans żywności {Ui.Signed(status.FoodBalance)} · niepokoje {c.Unrest}%", 12,
                 status.Pressure > 0 ? Ui.Gold : Ui.Muted));
             if (status.Imports > 0 || status.Exports > 0) p.Children.Add(Ui.Label($"Import {status.Imports:0.#} · eksport {status.Exports:0.#}", 11, Ui.Green));
@@ -101,6 +104,7 @@ public sealed partial class MainWindow
         Ui.Gap(p, 12);
         p.Children.Add(Ui.Button("Wybierz budowę miejską", () => ShowProjects(city)));
         p.Children.Add(Ui.Button("Rynek i bilans towarów",()=>ShowCityMarket(city)));
+        p.Children.Add(Ui.Button("Rachunki urzędu: "+city.Name,()=>ShowAdministration(city)));
         if (city.Charters.Count > 0)
         {
             p.Children.Add(Ui.Rule()); p.Children.Add(Ui.Eyebrow("PRAWA TEJ PROWINCJI"));

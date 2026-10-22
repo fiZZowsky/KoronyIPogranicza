@@ -1,0 +1,118 @@
+PASS New game opens the council
+PASS Council button applies the founding charter
+PASS Map order moves a selected unit
+PASS Research button changes the technology
+PASS Policy form changes taxation
+PASS Production dialog changes the project
+PASS Diplomacy button signs a trade treaty
+PASS Turn button advances twelve turns with council decisions
+PASS Desktop reload restores the complete game
+PASS Infrastructure button builds a complete capital connection
+PASS Distant map order queues a multi-turn march
+PASS Cancel march button preserves the current tile
+PASS Turn handler continues and completes the saved march
+PASS Enemy map order opens a pure combat preview
+PASS Cancelling combat preview spends no movement
+PASS Combat confirmation matches the preview
+PASS Compact desktop layout keeps the turn button visible
+PASS Provincial scenario has a funded road network
+PASS Society scenario records a population-conserving migration
+PASS Province panel exposes road-based food imports
+PASS Provincial form changes the local development focus
+PASS Provincial aid button funds food reserves and sets a cooldown
+PASS Council selects a concrete overcrowded province
+PASS Local council choice grants housing rights only to the affected city
+PASS Migration generates a settlement dialogue in the receiving city
+PASS Settlement dialogue installs the integration charter
+PASS Desktop reload preserves provincial rights and migration history
+PASS Starting another campaign centers the map after layout
+PASS Negotiation button sends a delayed compensation mission
+PASS Loading a campaign keeps the capital inside the map viewport
+PASS Desktop reload preserves an embassy in transit
+PASS Two turn handlers deliver and apply the diplomatic reply
+PASS Governance button establishes local autonomy and locks its cooldown
+PASS Cancelling war council leaves the simulation unchanged
+PASS War council button declares war using an available justification
+PASS Occupation generates a council request for provincial rights
+PASS Autonomy dialogue applies governance and loyalty to the occupied city
+PASS Desktop reload preserves diplomatic replies, occupation and local governance
+PASS War report opens with the declared liberation target
+PASS Peace form sends selected reparations and city return while war continues
+PASS Desktop reload preserves travelling peace terms and the war goal
+PASS Turn handlers ratify the treaty and return the occupied city
+PASS Diplomatic city recovery fulfills the declared liberation goal
+PASS Peace aftermath dialogue funds reconstruction and stores its delayed consequence
+PASS An excessive peace demand receives an AI counteroffer
+PASS AI counteroffer waits for player consent
+PASS Rejecting the incoming counteroffer keeps the war active
+PASS Accepting the saved counteroffer ratifies peace through the WPF handler
+PASS Desktop reload restores ratified treaties and completed war history
+PASS Market panel projects a real domestic iron shipment
+PASS Trade form signs the selected foreign salt contract
+PASS Turn handler dispatches paid cargo and records local market taxation
+PASS Dispatch creates a travelling caravan without instant import
+PASS Caravan report tracks a selected manifest on the map
+PASS Map route tracking can be cleared without changing transport orders
+PASS Turn handler moves the caravan along the road without teleporting
+PASS Desktop reload preserves a prepaid caravan during travel
+PASS Turn handler completes the road journey
+PASS Commodity ledger preserves the actual international cargo
+PASS Warehouse project can be selected from the market report
+PASS Trade policy form applies and locks an embargo
+PASS Embargo pauses the contract without deleting it
+PASS Embargo stops already dispatched cargo at its current position
+PASS Trade council installs the domestic reserve policy
+PASS Restoring trade policy resumes a paused caravan
+PASS Desktop reload preserves stocks, prices, trade history and policy
+PASS Contract expiry preserves its prepaid cargo in transit
+PASS Trade form can open a new agreement after the old one expires
+PASS Contract cancellation button closes the new agreement without deleting earlier cargo
+PASS Compact layout keeps the market and turn controls usable
+PASS Market petition report exposes a real import loss
+PASS Petition button opens the council for the affected city and manifest
+PASS Desktop reload preserves an unanswered contextual petition
+PASS Compensation button spends the actual loss without replacing goods
+PASS Refusal button resolves the local petition without creating a promise
+PASS Promise choice creates a dated replacement obligation
+PASS Buying replacement cargo does not fulfill the promise before arrival
+PASS Desktop reload preserves a promise and its replacement caravan in transit
+PASS Turn handlers fulfill the obligation only when replacement goods arrive
+PASS Fulfilled promise records the actual manifests and political consequence
+PASS Passing the deadline without replacement goods breaks the promise
+PASS Compact promise report keeps its return control visible or reachable by scrolling
+PASS Escort assignment form binds an own colocated unit without spending movement
+PASS A map march cannot interrupt a designated escort implicitly
+PASS Turn handler moves slow escort and caravan together without passive healing
+PASS Desktop reload preserves the joint position and persistent escort order
+PASS Caravan report cancels an escort without refunding movement
+PASS Unit panel can reassign a colocated caravan escort
+PASS Arrival releases the escort on the near side of the peaceful foreign city
+PASS Compact caravan report keeps escort controls reachable
+PASS Closed caravan report identifies the specific third-party gate
+PASS Gate dialogue offers distinct free and paid proposals with the actual acceptance forecast
+PASS Paid proposal spends only embassy costs before consent
+PASS Desktop reload preserves a travelling transit proposal without early access
+PASS The first blocked phase does not pause while envoys travel
+PASS Reply arrives after two turns and reopens the corridor before the third stop
+PASS Active permission prevents duplicate negotiation through the dialogue
+PASS Desktop reload retains the accepted right and exclusive expiry date
+PASS Market resumes prepaid cargo through the permitted gate while the escort remains outside
+PASS Transit completes a prepaid manifest without reviving its cancelled contract
+PASS Unpaid proposal can be refused and leaves the caravan waiting
+PASS Permit expiry closes the route before that turn's market phase
+PASS An expired right does not protect a manifest at its third consecutive stop
+PASS Compact transit dialogue keeps its return control visible or reachable by scrolling
+PASS Administration report exposes current revenue loss without inventing past shortages
+PASS Audit form charges its investigation fee once without granting recovery
+PASS Desktop reload retains the paid investigation and its due turn
+PASS Missing revenue accumulates during the first two investigation turns
+PASS Third turn freezes a real shortage and queues the contextual council
+PASS Report button opens the named city's ruling with the actual recovery amount
+PASS Desktop reload preserves an unanswered audit council and its frozen evidence
+PASS Prosecution button recovers the quoted fraction and spends political support
+PASS Settlement button recovers a quarter and records the alternative outcome
+PASS Reform button pays for twelve-turn local supervision without recovering the frozen money
+PASS Empty treasury disables costly reform while both free rulings remain reachable
+PASS Losing the investigated province closes its council without paying recovery
+PASS Compact audit history keeps its return control visible or reachable by scrolling
+117 desktop integration checks passed.

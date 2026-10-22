@@ -102,4 +102,17 @@ PASS Unpaid proposal can be refused and leaves the caravan waiting
 PASS Permit expiry closes the route before that turn's market phase
 PASS An expired right does not protect a manifest at its third consecutive stop
 PASS Compact transit dialogue keeps its return control visible or reachable by scrolling
-104 desktop integration checks passed.
+PASS Administration report exposes current revenue loss without inventing past shortages
+PASS Audit form charges its investigation fee once without granting recovery
+PASS Desktop reload retains the paid investigation and its due turn
+PASS Missing revenue accumulates during the first two investigation turns
+PASS Third turn freezes a real shortage and queues the contextual council
+PASS Report button opens the named city's ruling with the actual recovery amount
+PASS Desktop reload preserves an unanswered audit council and its frozen evidence
+PASS Prosecution button recovers the quoted fraction and spends political support
+PASS Settlement button recovers a quarter and records the alternative outcome
+PASS Reform button pays for twelve-turn local supervision without recovering the frozen money
+PASS Empty treasury disables costly reform while both free rulings remain reachable
+PASS Losing the investigated province closes its council without paying recovery
+PASS Compact audit history keeps its return control visible or reachable by scrolling
+117 desktop integration checks passed.

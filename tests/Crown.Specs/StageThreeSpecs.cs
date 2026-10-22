@@ -168,9 +168,9 @@ internal static class StageThreeSpecs
             foreach (var city in json["Cities"]!.AsArray()) foreach (string field in fields) city!.AsObject().Remove(field);
             json["Cities"]![0]!["Unrest"]=145; // V2 did not cap this field; migrate it to the bounded V3 scale.
             string legacy = json.ToJsonString(); var loaded = SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 10 && loaded.Cities.All(city => city.Prosperity == 50 && city.Focus == CityFocus.Balanced) && loaded.Cities[0].Unrest==100 && loaded.Tiles.Any(t => t.Road) && loaded.Units.Any(u => u.Destination != null), "V2 migration lost existing logistics or rejected its old unrest scale.");
+            Assert(loaded.Version == 11 && loaded.Cities.All(city => city.Prosperity == 50 && city.Focus == CityFocus.Balanced) && loaded.Cities[0].Unrest==100 && loaded.Tiles.Any(t => t.Road) && loaded.Units.Any(u => u.Destination != null), "V2 migration lost existing logistics or rejected its old unrest scale.");
             string folder = Path.Combine(AppContext.BaseDirectory, "V3Specs-" + Guid.NewGuid().ToString("N")); Directory.CreateDirectory(folder); string path = Path.Combine(folder, "old.crown");
-            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v2.bak") == legacy && SaveGame.Read(path).Version == 10, "V2 backup failed."); }
+            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v2.bak") == legacy && SaveGame.Read(path).Version == 11, "V2 backup failed."); }
             finally { foreach (string file in new[] { path, path + ".v2.bak", path + ".tmp" }) if (File.Exists(file)) File.Delete(file); Directory.Delete(folder); }
         });
         test("V3 validation rejects corrupt needs, context and migration records", () =>

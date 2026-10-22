@@ -1,5 +1,17 @@
 # Zmiany
 
+## 0.11 — Księgi i wpływy · 22 października 2026
+
+- Korupcja prowincji odbiera rzeczywisty procent miejskiego złota, z lokalnym rejestrem minionych ubytków. Dochód w bilansie skarbu jest już po tym potrąceniu. Prognozy nie naliczają strat i nie zmieniają stanu.
+- Cel korupcji zależy od odległości od najstarszego własnego miasta, niepokojów, stabilności i ustroju. Sąd, Służba publiczna, Konstytucja i nadzór obniżają go. Zmiana o jeden punkt na turę; cel 0–65. Żywność, nauka i produkcja nie podlegają temu potrąceniu.
+- Kontrola urzędu za 35 złota, wymagająca Pisma i podstaw w rachunkach. Raport po trzech turach obejmuje rzeczywiście utracone środki, a późniejsze braki są liczone osobno. Jedna otwarta sprawa na prowincję, odstęp 12 tur od wysłania poprzedniej.
+- Kontekstowy dialog rady: jawny proces odzyskuje 75% z karą polityczną dla rodów i miasta, ugoda 25% z mniejszą redukcją korupcji i kosztem poparcia ludu. Niezależny urząd kosztuje dodatkowe 60 złota bez odzysku; mocniej ogranicza korupcję i ustanawia 12 tur nadzoru. Pełne skutki są widoczne przy wyborze.
+- Historia kontroli, rachunki każdego miasta, stan dochodzenia i przycisk otwarcia właściwej sprawy. Gotowy protokół czeka za aktualnym dialogiem. Pusty skarbiec pozostawia dwa rozstrzygnięcia dostępne; odzysku nie można wypłacić drugi raz.
+- Utrata prowincji przerywa jej otwartą kontrolę, zeruje dalsze nieujęte środki i kończy nadzór. Nie wypłaca złota nowemu właścicielowi. Zamknięte wyniki pozostają w historii także po odbiciu miasta.
+- AI podlega ubytkom i może sfinansować uproszczone lokalne porządki za 60 złota, bez odzysku i bez odgrywania własnej komisji. Nie wybiera rozstrzygnięć za gracza.
+- Format v11 przechowuje rachunki, protokoły, odpowiedzi i nadzór. Migracja v10 zachowuje tranzyt, eskorty i obietnice bez tworzenia wcześniejszych braków; nadpisanie zachowuje `.v10.bak`. Starsze migracje nadal działają.
+- Osobne wydanie `wydanie-0.11/`, wcześniejsze katalogi, paczki i zapisy zachowane. Oprawa pozostaje teksturowaną mapą 2D. Korupcja jest agregatem prowincji; nie ma jeszcze osobnych urzędników ani sieci patronatu.
+
 ## 0.10 — Otwarte bramy · 22 października 2026
 
 - Dwa warianty negocjowania przejazdu kupców: prośba oparta na zaufaniu lub oferta 60 złota za zgodę na 12 tur. Posłowie kosztują 20 złota i wracają po dwóch turach. Oferta płatna podnosi jawną ocenę o 35; 60 złota przechodzi do gospodarza dopiero po przyjęciu. Brak środków przy odpowiedzi oznacza odmowę.

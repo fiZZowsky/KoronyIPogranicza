@@ -17,10 +17,10 @@ PASS Settling validates distance and creates territory
 PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
-  seed 17421: 135 turns, 20 cities, 61 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 140 turns, 16 cities, 51 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 8: 128 turns, 18 cities, 62 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 99: 110 turns, 16 cities, 49 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 17421: 217 turns, 14 cities, 42 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 113 turns, 16 cities, 36 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 187 turns, 19 cities, 71 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 99: 161 turns, 19 cities, 71 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
 PASS Road quotes, atomic funding and economy reconciliation
@@ -188,4 +188,26 @@ PASS Pending offers and accepted rights continue identically through save and re
 PASS V9 migration preserves escorts and promises without inventing transit consent
 PASS Forged transit replies, future grants and unknown embassy variants are rejected
 PASS Expiry notices are pure, warn two turns ahead and reach the turn chronicle
-186 specifications passed in 10,6s.
+PASS Corruption removes only the exact share of city gold and forecasts remain pure
+PASS A completely corrupt office remains finite and economy totals do not subtract losses twice
+PASS Actual revenue loss enters the local ledger once per collected turn
+PASS Distance, unrest and governance increase corruption while courts and institutions reduce it
+PASS Independent supervision lowers the target only before its exclusive end turn
+PASS Audit takes three turns, charges once and freezes only actual accumulated shortages
+PASS Invalid, poor, duplicate and unsupported audits are rejected atomically
+PASS Twelve-turn audit interval survives resolution and cannot be bypassed with low corruption
+PASS Delaying a ruling never adds subsequent losses to the frozen report
+PASS Public prosecution restores three quarters and carries the authored political costs
+PASS Office reform costs additional money, forgoes recovery and grants local twelve-turn supervision
+PASS Settlement restores a quarter with smaller corruption relief and favors the nobles
+PASS An empty treasury can still choose prosecution or settlement but cannot finance reform
+PASS Closed audit rulings cannot be replayed or re-presented for another payment
+PASS Audit reports queue behind an existing council instead of replacing it
+PASS Different provinces keep separate reports in deterministic completion order
+PASS Capturing an investigated city cancels its audit without transferring money or applying a ruling
+PASS Capture closes a ready council and ends supervision, while recapture cannot revive its report
+PASS AI finances local integrity measures but never takes a player's administrative decision
+PASS Audit investigation and unresolved findings resume identically after save and reload
+PASS V10 migration preserves accepted transit and merchant promises without invented shortages
+PASS Save validation rejects corrupt ledgers, forged recovery, unknown cities and stale council context
+208 specifications passed in 13,8s.

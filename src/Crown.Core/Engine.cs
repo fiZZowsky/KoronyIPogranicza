@@ -29,6 +29,10 @@ public static partial class Engine
         .OrderByDescending(t=> {var y=TileYields(t,s.Factions[c.Owner]); return y.Food*1.1+y.Production+y.Gold*.7;}).Take(c.Population+1);
     public static Yields CityYields(GameState s,City c)
     {
+        var y=BeforeCorruption(s,c);return y with {Gold=y.Gold*(1-c.Corruption/100d)};
+    }
+    internal static Yields BeforeCorruption(GameState s,City c)
+    {
         var f=s.Factions[c.Owner]; double food=5,prod=4+(f.Id==0?1:0),gold=3+(f.Id==1?3:0),science=2+c.Population*.7+(f.Id==2?2:0),culture=1+c.Population*.3;
         foreach(var t in WorkedTiles(s,c)) {var y=TileYields(t,f);food+=y.Food;prod+=y.Production;gold+=y.Gold;}
         foreach(var b in c.Buildings) switch(b)
@@ -166,6 +170,7 @@ public static partial class Engine
             if(!s.Cities.Any(c=>c.Owner==f.Id))continue;
             var income=Income(s,f.Id);double modifier=f.Id==0?1:s.Difficulty=="Wymagający"?1.3:s.Difficulty=="Spokojny"?.85:1;
             f.Gold+=income.Gold*modifier;f.Science+=income.Science*modifier;f.Culture+=income.Culture;f.Prestige+=income.Culture*.045;
+            Administration.Collect(s,f.Id,modifier);
             if(f.Gold<0){f.Stability-=3;f.Commons-=2;f.Gold=0;if(s.Turn%3==0){var u=s.Units.LastOrDefault(u=>u.Owner==f.Id);if(u!=null)s.Units.Remove(u);}if(f.Id==0)s.Log("Niewypłacalność: niepokoje i dezercje. Zwiększ dochody lub zmniejsz armię.","gospodarka");}
             var tech=Content.Technologies.FirstOrDefault(t=>t.Id==f.Research);
             if(tech!=null&&!f.Technologies.Contains(tech.Id)&&tech.Requires.All(f.Technologies.Contains)&&f.Science>=tech.Cost)
@@ -209,6 +214,7 @@ public static partial class Engine
             u.Actions=u.MaxActions;
         }
         ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
+        AuditCouncil.Tick(s);
         foreach(string notice in TransitCouncil.Notices(s))s.Log(notice,"tranzyt");
         foreach(var unit in s.Units.Where(u=>u.Owner==0&&u.Destination!=null).OrderBy(u=>u.Id).ToArray())FollowOrder(s,unit);
         EscortOrders.Normalize(s);

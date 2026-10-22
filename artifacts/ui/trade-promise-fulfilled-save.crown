@@ -1,5 +1,5 @@
 {
-  "Version": 10,
+  "Version": 11,
   "Seed": 17421,
   "RandomState": 1216158226,
   "Width": 42,
@@ -16558,7 +16558,13 @@
         }
       ],
       "LastMarketTurn": 11,
-      "LastMarketTax": 1.59
+      "LastMarketTax": 1.59,
+      "Corruption": 8,
+      "HiddenGold": 4.5869557175,
+      "LastRevenueLoss": 1.1747025290000002,
+      "LastAdministrationTurn": 11,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     },
     {
       "Id": 4,
@@ -16643,7 +16649,13 @@
         }
       ],
       "LastMarketTurn": 11,
-      "LastMarketTax": 0.8
+      "LastMarketTax": 0.8,
+      "Corruption": 8,
+      "HiddenGold": 4.4455168810000005,
+      "LastRevenueLoss": 1.1079825120000002,
+      "LastAdministrationTurn": 11,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     },
     {
       "Id": 7,
@@ -16726,7 +16738,13 @@
         }
       ],
       "LastMarketTurn": 11,
-      "LastMarketTax": 0
+      "LastMarketTax": 0,
+      "Corruption": 8,
+      "HiddenGold": 1.703504315,
+      "LastRevenueLoss": 0.42199185,
+      "LastAdministrationTurn": 11,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     },
     {
       "Id": 10,
@@ -16809,7 +16827,13 @@
         }
       ],
       "LastMarketTurn": 11,
-      "LastMarketTax": 0
+      "LastMarketTax": 0,
+      "Corruption": 8,
+      "HiddenGold": 1.703504315,
+      "LastRevenueLoss": 0.42199185,
+      "LastAdministrationTurn": 11,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     },
     {
       "Id": 13,
@@ -16895,7 +16919,13 @@
         }
       ],
       "LastMarketTurn": 11,
-      "LastMarketTax": 1.59
+      "LastMarketTax": 1.59,
+      "Corruption": 8,
+      "HiddenGold": 5.2826473931,
+      "LastRevenueLoss": 1.35383325,
+      "LastAdministrationTurn": 11,
+      "LastAuditTurn": -12,
+      "AuditProtectionUntil": 0
     }
   ],
   "Units": [
@@ -17050,7 +17080,7 @@
       "Leader": "Ty \u2014 Stra\u017Cnik Marchii",
       "Color": "#D1B273",
       "Trait": "Pogranicznicy \u00B7 \u002B1 produkcji w miastach",
-      "Gold": 4051.05142756,
+      "Gold": 4041.1818244494,
       "Science": 2.8384283560000014,
       "Culture": 48.594059044,
       "Prestige": 21.18673265698,
@@ -17083,7 +17113,7 @@
       "Leader": "Irena z Talassu",
       "Color": "#65B4C2",
       "Trait": "Kupcy m\u00F3rz \u00B7 \u002B3 z\u0142ota w miastach",
-      "Gold": 3196.2166805,
+      "Gold": 3191.771163619,
       "Science": 34.114658632,
       "Culture": 23.558532328,
       "Prestige": 1.06013395476,
@@ -17112,7 +17142,7 @@
       "Leader": "Konsul Seran",
       "Color": "#B49DD4",
       "Trait": "Uczeni \u00B7 \u002B2 nauki w miastach",
-      "Gold": 138.98422149999996,
+      "Gold": 137.280717185,
       "Science": 5.652441383999999,
       "Culture": 15.704278136,
       "Prestige": 5.70669251612,
@@ -17142,7 +17172,7 @@
       "Leader": "W\u00F3dz Dagan",
       "Color": "#D17862",
       "Trait": "Ludzie \u017Celaza \u00B7 \u002B3 si\u0142y wojsk",
-      "Gold": 193.98422149999996,
+      "Gold": 192.280717185,
       "Science": 46.041490504,
       "Culture": 15.704278136,
       "Prestige": 4.7066925161199995,
@@ -17483,5 +17513,8 @@
     }
   ],
   "PendingTradeCaseId": null,
+  "Audits": [],
+  "NextAuditId": 1,
+  "PendingAuditId": null,
   "NextId": 19
 }

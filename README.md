@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.10
+# Korony i Pogranicza · 0.11
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.10/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.10` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.11/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.11` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Otwarte bramy.** Wersja 0.10 dodaje negocjowane zgody na tranzyt i raport państw zamykających potencjalny szlak. Możesz oprzeć prośbę na zaufaniu albo zaoferować opłatę. Dwuturowa podróż posłów i termin wygaśnięcia zgody wpływają na los już opłaconych transportów. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Księgi i wpływy.** Wersja 0.11 wiąże korupcję prowincji z rzeczywistym ubytkiem dochodów. Zleć kontrolę urzędu, odczytaj raport oparty na minionych rozliczeniach i zdecyduj o procesie, reformie albo ugodzie. Dochody, lojalność miasta i poparcie stronnictw reagują na wybraną drogę. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -19,7 +19,7 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Miasta, ludność, wzrost i głód, sezonowe plony, eksploatacja pól, farmy, kopalnie, placówki handlowe, produkcja i utrzymanie.
 - 24 technologie z wymaganiami; 18 trwałych projektów miejskich, dwa projekty powtarzalne i sześć rodzajów oddziałów.
 - Lud, rody i uczeni: ich poparcie wpływa na docelową stabilność, a ta na gospodarkę. Ustawy zmieniają podatki, ustrój i priorytety.
-- 25 rodzajów wyjątkowych i kontekstowych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta; delegacje kupców odnoszą się do konkretnych utraconych karawan. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
+- 26 rodzajów wyjątkowych i kontekstowych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta; delegacje kupców odnoszą się do konkretnych utraconych karawan. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
 - Dyplomacja: dary, handel, krzywdy, trzy powody wypowiedzenia wojny, odszkodowania, pakty o nieagresji i rozejmy. Posłowie wracają z odpowiedzią po dwóch turach. AI zakłada miasta, bada, buduje, ulepsza ziemię i prowadzi działania wojenne.
 - Negocjowany pokój z reparacjami i zwrotem miast, propozycjami AI, kontrofertami i terminem odpowiedzi. Historia wojny przechowuje ogłoszony cel, straty, bilans i końcowe rozliczenie obietnicy.
 - Walka wręcz i dystansowa, doświadczenie, obrona terenu, oblężenia i przejmowanie miast. Woda i góry blokują ruch. Armie poza zasięgiem dostaw słabną; odpoczynek leczy.
@@ -45,6 +45,26 @@ W **Dyplomacja → Przejazd kupców** wybierz prośbę o bezpłatny tranzyt albo
 Zgoda działa przez 12 faz rynku od tury przyjęcia, także dla już wysłanych ładunków oraz rozwiązanych lub wygasłych kontraktów. Zastępuje wyłącznie wymóg traktatów gospodarza z obiema stronami transportu. Traktat między kupującym i sprzedawcą nadal jest konieczny. Zgoda nie obejmuje transportów między samymi państwami AI ani przemarszu wojska. Wojna z którąkolwiek stroną i embargo zawieszają przejazd; po ich ustaniu pozostały czas zgody może zostać wykorzystany.
 
 Zgoda przyjęta w T5 pozwala przejeżdżać w fazach T5–T16 i wygasa przed rynkiem T17. Na dwie tury przed końcem oraz w dniu wygaśnięcia pojawia się wpis kroniki i komunikat przy zmianie tury, o ile pierwszeństwa nie mają pilniejsze wieści. Aktywnej zgody nie można przedłużyć z góry; po wygaśnięciu można wysłać nowe poselstwo. Eskorta zatrzyma się przed wojskowo niedostępną granicą. Zablokowana karawana nadal przepada przy trzecim kolejnym postoju, również wewnątrz obcego kraju. Poselstwo nie zatrzymuje tego licznika i może wrócić za późno; utraconego manifestu nie przywraca.
+
+## Rachunki prowincji i korupcja
+
+W **Ludność → Rachunki i kontrole prowincji** sprawdzisz korupcję, jej cel, bieżący i ostatni ubytek dochodów oraz nieujęte kwoty z poprzednich rozliczeń. Rachunki są dostępne również z zarządzania miastem. Bilans skarbu podaje dochód miast już po potrąceniu korupcji: nie odejmuje jej drugi raz.
+
+Korupcja odbiera swój procent złota wytwarzanego przez miasto, po dotychczasowych premiach podatkowych i wydajności. Nie zabiera osobno podatków rynkowych, płatności za towary, traktatów ani jednorazowych nagród. Przy pobraniu dochodu utracona kwota trafia do lokalnego rejestru, a korupcja przesuwa się o jeden punkt w stronę celu. Prognozy nie tworzą braków.
+
+Cel korupcji wynosi `6 + 2 × odległość od stolicy + niepokoje / 5 + (100 - stabilność) / 10`, z dzieleniem całkowitym. Autonomia i zarząd wojskowy dodają po 8 względem wspólnej administracji; sąd odejmuje 12, Służba publiczna 8, Konstytucja 6, a czynny nadzór 20. Wynik mieści się w przedziale 0–65. Stolica to najstarsze obecnie własne miasto. Drogi nie zmieniają bezpośrednio tego celu.
+
+Kontrola wymaga **Pisma**, korupcji co najmniej 10% albo 10 złota nieujętych dochodów. Wysłanie kosztuje **35 złota**, wynik wraca po **trzech turach**. W chwili powstania raportu ustalona kwota zostaje zamknięta, a nowe straty liczymy osobno. To nie jest wypłata. Gotowe raporty czekają w historii i sali rady, nie zastępując już otwartej sprawy. Kolejna kontrola tej samej prowincji jest możliwa po 12 turach od wysłania poprzedniej i po jej rozpatrzeniu.
+
+| Rozstrzygnięcie | Skutek finansowy i miejscowy | Skutek dla stronnictw |
+|---|---|---|
+| Jawny proces | Odzyskanie 75% ustalonych braków; korupcja -25 punktów, niepokoje +6, lojalność -4 | Stabilność -2, lud +6, rody -10 |
+| Niezależny urząd | Dodatkowo -60 złota, bez odzyskania starych braków; korupcja -35, niepokoje -5, lojalność +4; cel korupcji -20 przez 12 tur | Lud +3, rody -6, uczeni +8 |
+| Ugoda z rodami | Odzyskanie 25% ustalonych braków; korupcja -8, niepokoje -3, lojalność +3 | Lud -5, rody +6 |
+
+Odzysk zaokrąglamy w dół do pełnego złota, pozostała część ustalonych braków przepada lub jest umarzana. Decyzja nie obejmuje nowych strat i nie może być powtórzona. Pusty skarbiec nadal pozwala na proces albo ugodę. Nadzór ustanowiony w T4 obowiązuje do początku T16. Przejęcie miasta zeruje nieobjęte raportem braki i nadzór, zamyka otwarte kontrole poprzedniego właściciela i nie wypłaca środków zdobywcy. Odbicie miasta nie przywraca zamkniętego raportu. Utracona opłata za kontrolerów nie jest zwracana.
+
+AI ponosi te same procentowe straty miejskie, z uwzględnieniem mnożnika dochodu poziomu trudności. Korzysta z uproszczonego porządkowania urzędu: przy korupcji co najmniej 30 po zmianie celu, skarbcu co najmniej 180 i odstępie 12 tur wydaje 60 złota, obniża korupcję o 25 i ustanawia nadzór na osiem tur. Odpisuje wcześniejsze braki, nie otrzymuje odzysku. Nie przeprowadza własnych trwających trzy tury komisji ani decyzji rady.
 
 ## Pierwsze dziesięć tur
 
@@ -226,7 +246,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.10/saves/`. Format v10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu; odczytuje v1–v9. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v9.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.11/saves/`. Format v11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu; odczytuje v1–v10. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v10.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -235,7 +255,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.10 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.11 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -252,6 +272,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 - `TradeCouncil.cs`, `TradeCaseSaveRules.cs`: delegacje po stratach, dynamiczne dialogi, obietnice zależne od przyjazdów i walidacja ich historii.
 - `EscortOrders.cs`, `EscortSaveRules.cs`: przydziały eskorty, wspólna prognoza ruchu, rezerwacja wojska, odłączanie i walidacja rozkazów.
 - `TransitCouncil.cs`, `TransitPanels.cs`: czasowe prawa przejazdu wynikające z przyjętych poselstw, diagnoza granic, ostrzeżenia i rozmowy z gospodarzem szlaku.
+- `Administration.cs`, `AuditCouncil.cs`, `AuditSaveRules.cs`, `AuditPanels.cs`: ubytki dochodów, kontrola rachunków, dynamiczne rozstrzygnięcia, nadzór, historia i walidacja.
 - `src/Crown.Desktop`: natywny interfejs WPF, rysowanie mapy, proceduralne materiały terenu i sterowanie.
 - `tests/Crown.Specs`: wykonywalne specyfikacje bez bibliotek testowych; symulacje kampanii i test odtwarzalności zapisu.
 - `DESIGN.md`: założenia projektu, ograniczenia i kierunek dalszych etapów.

@@ -36,7 +36,7 @@ Test("All events retain an affordable option and known effects",()=>
         Assert(e.Choices.Any(c=>c.Gold>=0),e.Id+" can softlock an empty treasury.");
         for(int i=0;i<e.Choices.Length;i++)
         {
-            var s=e.Id==TradeCouncil.Event.Id?StageEightSpecs.Loss().S:Fresh();s.PendingEvent=e.Id;
+            var s=e.Id==TradeCouncil.Event.Id?StageEightSpecs.Loss().S:e.Id==AuditCouncil.Event.Id?StageElevenSpecs.Ready():Fresh();s.PendingEvent=e.Id;
             if(e.Id==TradeCouncil.Event.Id)s.PendingTradeCaseId=1;
             if(ProvincialEvents.IsLocal(e.Id))s.PendingCityId=s.Cities.First(c=>c.Owner==0).Id;
             s.Player.Gold=10000;var current=ProvincialEvents.Current(s);
@@ -134,4 +134,5 @@ StageSevenSpecs.Run(Test);
 StageEightSpecs.Run(Test);
 StageNineSpecs.Run(Test);
 StageTenSpecs.Run(Test);
+StageElevenSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

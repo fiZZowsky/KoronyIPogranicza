@@ -15,6 +15,7 @@ public enum TradePolicy { DomesticFirst, OpenExports, Embargo }
 public enum ContractStatus { Active, Cancelled, Expired }
 public enum CaravanStatus { Travelling, Waiting, Delivered, Lost }
 public enum TradeCaseStatus { Pending, Compensated, Promised, Fulfilled, Broken, Declined, Voided }
+public enum AuditStatus { Investigating, AwaitingCouncil, Prosecuted, Reformed, Settled, Cancelled }
 public sealed class Tile
 {
     public int Id { get; set; }
@@ -67,6 +68,12 @@ public sealed class City
     public List<CommodityBalance> LastMarketLines { get; set; } = [];
     public int LastMarketTurn { get; set; }
     public double LastMarketTax { get; set; }
+    public int Corruption { get; set; }
+    public double HiddenGold { get; set; }
+    public double LastRevenueLoss { get; set; }
+    public int LastAdministrationTurn { get; set; }
+    public int LastAuditTurn { get; set; } = -12;
+    public int AuditProtectionUntil { get; set; }
 }
 public sealed class Unit
 {
@@ -188,7 +195,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 10;
+    public int Version { get; set; } = 11;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -221,6 +228,9 @@ public sealed class GameState
     public int NextCaravanId { get; set; } = 1;
     public List<TradeCase> TradeCases { get; set; } = [];
     public int? PendingTradeCaseId { get; set; }
+    public List<AuditCase> Audits { get; set; } = [];
+    public int NextAuditId { get; set; } = 1;
+    public int? PendingAuditId { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
     internal Dictionary<int, SupplyMap> LogisticsCache = [];
@@ -309,6 +319,18 @@ public sealed class TradeCase
     public int? AfterMarketTurn { get; set; }
     public int? ResolvedTurn { get; set; }
     public List<int> CreditedCaravans { get; set; } = [];
+}
+public sealed class AuditCase
+{
+    public int Id { get; set; }
+    public int CityId { get; set; }
+    public int StartedTurn { get; set; }
+    public int DueTurn { get; set; }
+    public int? CompletedTurn { get; set; }
+    public int? ResolvedTurn { get; set; }
+    public AuditStatus Status { get; set; }
+    public double AssessedGold { get; set; }
+    public int RecoveredGold { get; set; }
 }
 public sealed record CombatPreview(bool Valid, string Reason, string Attacker, string Target,
     double AttackStrength = 0, double DefenseStrength = 0, double TargetHealth = 0,
