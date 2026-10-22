@@ -10,7 +10,7 @@ public static class Markets
     public static string PolicyDescription(TradePolicy policy)=>policy switch
     {
         TradePolicy.OpenExports=>"Eksport może wykorzystać całe zapasy przed zaspokojeniem potrzeb mieszkańców.",
-        TradePolicy.Embargo=>"Wstrzymuje import i eksport; wymiana krajowa działa dalej. Kontrakty nadal wygasają.",
+        TradePolicy.Embargo=>"Wstrzymuje import, eksport i karawany. Trzy kolejne tury postoju oznaczają utratę ładunku bez zwrotu. Wymiana krajowa działa dalej; kontrakty nadal wygasają.",
         _=>"Eksport pozostawia w regionie zapas odpowiadający jednej turze miejscowego popytu."
     };
     public static double Capacity(City city)=>50+(city.Buildings.Contains("market")?25:0)+(city.Buildings.Contains("warehouse")?100:0);
@@ -66,6 +66,7 @@ public static class Markets
             if(!city.Buildings.Contains("market")||!s.Factions[city.Owner].Technologies.Contains("trade"))return "Potrzebne targowiska i Szlaki handlowe po obu stronach.";
             if(!network.ConnectedCities.Contains(city.Id)||network.Interdicted.Contains(city.Tile))return "Miasto utraciło bezpieczne połączenie ze stolicą.";
         }
+        if(Caravans.Route(s,contract).Count==0)return "Brak bezpiecznej trasy lądowej. Tranzyt przez trzecie państwo wymaga jego traktatów handlowych z obiema stronami.";
         return null;
     }
 
@@ -73,6 +74,12 @@ public static class Markets
     {
         var production=Production(s);
         var lines=s.Cities.ToDictionary(c=>c.Id,c=>Goods.ToDictionary(g=>g,g=>new Line(g,c.MarketStocks[g],production[c.Id][g],Demand(c,g))));
+        var caravans=Caravans.Project(s);
+        foreach(var cargo in caravans.Where(c=>c.Status==CaravanStatus.Delivered&&c.ResolvedTurn==s.Turn&&s.Caravans.Any(old=>old.Id==c.Id&&Caravans.Active(old))))
+        {
+            var contract=s.TradeContracts.First(c=>c.Id==cargo.ContractId);var arrival=lines[contract.BuyerCity][contract.Good];
+            arrival.Stock+=cargo.Quantity;arrival.ForeignIn+=cargo.Quantity;
+        }
         var groups=s.Cities.ToDictionary(c=>c.Id,c=>(c.Owner,Group:Logistics.For(s,c.Owner).MarketGroups[c.Id]));
         var regions=s.Cities.OrderBy(c=>c.Id).GroupBy(c=>groups[c.Id]).ToDictionary(g=>g.Key,g=>g.ToArray());
         foreach(var region in regions.Values)foreach(var good in Goods)
@@ -88,6 +95,8 @@ public static class Markets
         {
             string? error=s.Turn>=contract.ExpiresTurn?"Umowa wygasła.":RouteError(s,contract);
             if(error!=null){trades.Add(new(contract.Id,0,0,0,error));continue;}
+            if(caravans.Any(c=>c.ContractId==contract.Id&&Caravans.Active(c)))
+            {trades.Add(new(contract.Id,0,0,0,"Poprzednia karawana jest w drodze; kolejny załadunek po jej rozliczeniu."));continue;}
             var sellers=regions[groups[contract.SellerCity]];
             var good=contract.Good;
             double stock=sellers.Sum(c=>lines[c.Id][good].Stock);
@@ -104,9 +113,10 @@ public static class Markets
                 var line=lines[city.Id][good];double take=Math.Min(left,line.Stock);
                 line.Stock-=take;line.ForeignOut+=take;left-=take;if(left<.000001)break;
             }
-            var recipient=lines[contract.BuyerCity][good];recipient.Stock+=quantity;recipient.ForeignIn+=quantity;
+            caravans.Add(new(){Id=s.NextCaravanId+caravans.Count-s.Caravans.Count,ContractId=contract.Id,
+                Tile=s.Cities.First(c=>c.Id==contract.SellerCity).Tile,DepartedTurn=s.Turn,LastMovedTurn=s.Turn,Quantity=quantity,Price=price,Payment=payment});
             budget[contract.Buyer]-=payment;budget[contract.Seller]+=payment;cash[contract.Buyer]-=payment;cash[contract.Seller]+=payment;
-            trades.Add(new(contract.Id,quantity,price,payment,quantity+.00001<contract.Quantity?"Dostawa częściowa.":"Dostawa zrealizowana."));
+            trades.Add(new(contract.Id,quantity,price,payment,quantity+.00001<contract.Quantity?"Opłacono częściowy ładunek i wysłano karawanę.":"Opłacono ładunek i wysłano karawanę."));
         }
         foreach(var region in regions.Values)foreach(var good in Goods)
         {
@@ -125,13 +135,19 @@ public static class Markets
         }
         foreach(var c in s.Cities)foreach(var good in Goods)
         {var line=lines[c.Id][good];line.Lost=Math.Max(0,line.Stock-Capacity(c));line.Stock=Math.Clamp(line.Stock,0,Capacity(c));}
-        return new(lines.ToDictionary(p=>p.Key,p=>Goods.Select(g=>p.Value[g].Freeze()).ToList()),shipments,trades,cash);
+        return new(lines.ToDictionary(p=>p.Key,p=>Goods.Select(g=>p.Value[g].Freeze()).ToList()),shipments,trades,cash,caravans);
     }
 
     public static void Tick(GameState s)
     {
         if(s.LastMarketTurn==s.Turn)return;
         var plan=Plan(s);
+        foreach(var caravan in plan.Caravans.Where(c=>!Caravans.Active(c)&&s.Caravans.Any(old=>old.Id==c.Id&&Caravans.Active(old))))
+        {
+            var contract=s.TradeContracts.First(c=>c.Id==caravan.ContractId);
+            if(contract.Buyer==0||contract.Seller==0)s.Log($"Karawana #{caravan.Id}: {caravan.Message} {Name(contract.Good)}, {caravan.Quantity:0.##}.","handel");
+        }
+        s.Caravans=plan.Caravans.ToList();s.NextCaravanId=Math.Max(s.NextCaravanId,s.Caravans.Select(c=>c.Id).DefaultIfEmpty(0).Max()+1);
         foreach(var c in s.Cities)
         {
             c.LastMarketLines=plan.Cities[c.Id];c.LastMarketTurn=s.Turn;

@@ -161,24 +161,45 @@ public sealed partial class MainWindow
             var marketCursor=commerce.Tiles[marketHome.Tile];
             while(marketCursor.Id!=marketDestination){marketCursor=World.Neighbors(commerce,marketCursor.Id).OrderBy(t=>World.Distance(t,commerce.Tiles[marketDestination])).First();if(!marketCursor.Passable)marketCursor.Terrain=Terrain.Grassland;marketCursor.Explored=true;}
             var marketTown=Engine.AddCity(commerce,0,marketDestination,"Brzegowo");marketTown.Buildings.Add("market");Engine.Explore(commerce);Engine.ConnectCity(commerce,marketTown.Id);
-            marketHome.MarketStocks[TradeGood.Iron]=20;marketForeign.MarketStocks[TradeGood.Salt]=25;commerce.Relation(0,1).Trade=true;Start(commerce);tab="markets";RefreshSide();map.Center(marketHome.Tile);
+            marketHome.MarketStocks[TradeGood.Iron]=20;marketForeign.MarketStocks[TradeGood.Salt]=25;commerce.Relation(0,1).Trade=true;
+            var commerceRoute=Caravans.Route(commerce,new(){Buyer=0,Seller=1,BuyerCity=marketHome.Id,SellerCity=marketForeign.Id});
+            foreach(int id in commerceRoute){commerce.Tiles[id].Road=true;commerce.Tiles[id].RoadOwner=0;commerce.Tiles[id].Explored=true;}
+            commerce.InvalidateLogistics();Start(commerce);tab="markets";RefreshSide();map.Center(marketHome.Tile);
             Check(Markets.Plan(state).Shipments.Any(p=>p.Good==TradeGood.Iron&&p.To==marketTown.Id),"Market panel projects a real domestic iron shipment");await Capture("markets");
             Click("Podpisz kontrakt handlowy");root.UpdateLayout();var marketInputs=Descendants<ComboBox>(overlay!).ToArray();marketInputs[3].SelectedIndex=1;marketInputs[4].SelectedIndex=3;
             await Capture("trade-contract");Click("Podpisz umowę");
             Check(state.TradeContracts.Single().Good==TradeGood.Salt&&state.TradeContracts.Single().Quantity==4&&state.TradeContracts.Single().Buyer==0,"Trade form signs the selected foreign salt contract");
-            Advance();CloseModal();Check(state.TradeContracts.Single().LastDelivered>0&&marketHome.LastMarketTax>0,"Turn handler delivers goods and records market taxation");
+            Advance();CloseModal();Check(state.TradeContracts.Single().LastDelivered>0&&marketHome.LastMarketTax>0,"Turn handler dispatches paid cargo and records local market taxation");
+            Check(state.Caravans.Count==1&&marketHome.LastMarketLines.First(l=>l.Good==TradeGood.Salt).ForeignIn==0,"Dispatch creates a travelling caravan without instant import");
+            tab="markets";RefreshSide();Click("Karawany i trasy");await Capture("caravans");Click("Pokaż na mapie #1");
+            Check(map.TrackedCaravanId==1&&overlay==null,"Caravan report tracks a selected manifest on the map");await Capture("caravan-route");
+            Click("Zakończ śledzenie trasy");Check(map.TrackedCaravanId==-1,"Map route tracking can be cleared without changing transport orders");
+            int departedTile=state.Caravans[0].Tile;Advance();CloseModal();Check(state.Caravans[0].Tile!=departedTile&&Caravans.Active(state.Caravans[0]),"Turn handler moves the caravan along the road without teleporting");
+            string transitPath=Path.Combine(folder,"caravan-save.crown");SaveGame.Write(state,transitPath);string transitBefore=SaveGame.Serialize(state);LoadPath(transitPath);CloseModal();
+            Check(SaveGame.Serialize(state)==transitBefore,"Desktop reload preserves a prepaid caravan during travel");marketHome=state.Cities.First(c=>c.Owner==0);marketForeign=state.Cities.First(c=>c.Owner==1);
+            for(int i=0;i<9&&Caravans.Active(state.Caravans[0]);i++)
+            {
+                if(state.PendingEvent!=null){ShowCouncil();var e=Narrative.Get(state.PendingEvent);int option=Array.FindIndex(e.Choices,c=>state.Player.Gold+c.Gold>=0);Click($"{option+1:00}   ");}
+                Advance();CloseModal();
+            }
+            Check(state.Caravans[0].Status==CaravanStatus.Delivered,"Turn handler completes the road journey");
             tab="markets";RefreshSide();Click("Bilans towarów: "+marketHome.Name);await Capture("commodity-ledger");
             Check(marketHome.LastMarketLines.First(l=>l.Good==TradeGood.Salt).ForeignIn>0,"Commodity ledger preserves the actual international cargo");
             Click("Wybierz budowę");Click("Skład towarowy");Check(marketHome.Project=="warehouse","Warehouse project can be selected from the market report");
             tab="markets";RefreshSide();Click("Zmień politykę handlową");await Capture("trade-policy");Click("Przyjmij: Embargo");
             Check(state.Player.TradePolicy==TradePolicy.Embargo&&state.Player.LastTradePolicyTurn==state.Turn,"Trade policy form applies and locks an embargo");
             Advance();CloseModal();Check(state.TradeContracts.Single().LastDelivered==0&&state.TradeContracts.Single().Status==ContractStatus.Active,"Embargo pauses the contract without deleting it");
-            state.Turn=10;Narrative.Schedule(state);Refresh();ShowCouncil();await Capture("market-council");Click("01   Najpierw");
+            Check(state.Caravans.Any(c=>c.Status==CaravanStatus.Waiting&&c.BlockedTurns==1),"Embargo stops already dispatched cargo at its current position");Click("Karawany i trasy");await Capture("caravan-blockade");CloseModal();
+            if(state.PendingEvent!=null){ShowCouncil();Click("01   ");}
+            state.Turn=Math.Max(10,state.Player.LastTradePolicyTurn+8);Narrative.Schedule(state);Refresh();ShowCouncil();await Capture("market-council");Click("01   Najpierw");
             Check(state.Player.TradePolicy==TradePolicy.DomesticFirst&&state.SeenEvents.Contains("market_charter"),"Trade council installs the domestic reserve policy");
-            Advance();CloseModal();Check(state.TradeContracts.Single().LastDelivered>0,"Restoring trade policy resumes a paused contract");
+            Advance();CloseModal();Check(state.Caravans.Any(c=>Caravans.Active(c)&&c.BlockedTurns==0),"Restoring trade policy resumes a paused caravan");
             string marketPath=Path.Combine(folder,"market-save.crown");SaveGame.Write(state,marketPath);string marketBefore=SaveGame.Serialize(state);LoadPath(marketPath);
             Check(SaveGame.Serialize(state)==marketBefore,"Desktop reload preserves stocks, prices, trade history and policy");
-            tab="markets";RefreshSide();Click("Rozwiąż umowę #1");Check(state.TradeContracts.Single().Status==ContractStatus.Cancelled,"Contract cancellation button closes the agreement");
+            Check(state.TradeContracts.Single().Status==ContractStatus.Expired&&state.Caravans.Any(Caravans.Active),"Contract expiry preserves its prepaid cargo in transit");
+            tab="markets";RefreshSide();Click("Podpisz kontrakt handlowy");Click("Podpisz umowę");
+            Check(state.TradeContracts.Count==2&&state.TradeContracts[1].Status==ContractStatus.Active,"Trade form can open a new agreement after the old one expires");
+            Click("Rozwiąż umowę #2");Check(state.TradeContracts[1].Status==ContractStatus.Cancelled&&state.Caravans.Any(Caravans.Active),"Contract cancellation button closes the new agreement without deleting earlier cargo");
             Width=1200;Height=800;Refresh();await Capture("market-compact");Check(endButton.IsVisible&&root.ActualWidth>=1100,"Compact layout keeps the market and turn controls usable");
             Width=1600;Height=980;Refresh();await Capture("markets-final");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();

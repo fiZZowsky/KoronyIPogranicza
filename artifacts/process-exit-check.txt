@@ -1,1 +1,1 @@
-Published release 0.6: intentional --smoke-force-failure returned expected exit code 3.
+Expected forced failure exit: 3; actual: 3

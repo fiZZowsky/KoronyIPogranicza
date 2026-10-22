@@ -107,4 +107,20 @@ PASS AI imports from another AI market to address a real commodity shortage
 PASS V5 migration preserves war and peace history and starts with empty warehouses
 PASS V6 rejects corrupt warehouses, physical ledgers and contract payments
 PASS Markets and active contracts continue deterministically after reload
-105 specifications passed in 9,0s.
+PASS Caravan dispatch pays once and arrival is delayed by actual terrain distance
+PASS Road speed and terrain-aware ETA match movement phase boundaries
+PASS One caravan per contract prevents repeated purchases while cargo is travelling
+PASS Physical cargo is conserved across warehouses, transit, consumption and overflow
+PASS Transit requires both parties' treaties and avoids embargoed third countries
+PASS Temporary blockades pause movement then resume without buying a second manifest
+PASS Three consecutive blocked phases lose prepaid cargo without refund
+PASS A hostile zone captures an exposed caravan but a nearby military guard protects it
+PASS An enemy occupying the caravan tile overrides adjacent escort protection
+PASS Civilian settlers cannot intercept cargo or substitute for a military escort
+PASS Closed paths reroute through safe terrain without teleporting
+PASS Contract expiry leaves prepaid cargo travelling until arrival
+PASS A captured endpoint terminates cargo while preserving its historical payment
+PASS Reload during travel preserves positions, manifests and deterministic arrival
+PASS V6 migration keeps paid trade history and never invents retroactive caravans
+PASS Save validation rejects duplicate, unbacked and impossible caravan manifests
+121 specifications passed in 9,2s.

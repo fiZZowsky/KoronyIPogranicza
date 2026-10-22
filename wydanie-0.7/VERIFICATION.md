@@ -1,0 +1,24 @@
+# Weryfikacja wydania 0.7
+
+Data: 22 października 2026 r. Windows, .NET SDK 10.0.401, .NET Desktop Runtime 10.0.12.
+
+- Kompilacja Release: sukces, 0 ostrzeżeń i 0 błędów. Opublikowany plik wykonywalny ma wersję 0.7.0.0.
+- **121 specyfikacji silnika**: sukces (`core-specs.txt`), w tym 16 nowych scenariuszy karawan. Dotychczasowe scenariusze rynku dostosowano do płatności przy wysyłce i opóźnionego przyjazdu.
+- **70 kontroli WPF**: sukces (`ui/ui-smoke.txt`). Opublikowane wydanie przeszło te same kontrole (`published-ui-0.7/ui-smoke.txt`). Względem 0.6 dodano 9 kontroli i zaktualizowano wcześniejsze oczekiwania dotyczące natychmiastowej dostawy.
+- Załadunek pobiera rzeczywisty towar i jedną płatność. Przed przybyciem towar nie pojawia się u odbiorcy. Przyjazd księguje import dokładnie raz, bez drugiej opłaty. Kolejne rozliczenie tej samej tury nie powtarza ruchu ani konsumpcji.
+- Rzeczywisty czas podróży po zwykłym terenie i drogach zgadza się z prognozą. Test trudnego terenu potwierdza, że niewykorzystane punkty nie przechodzą do następnej fazy. Brak teleportowania po przeliczeniu trasy.
+- Jedna karawana w drodze na umowę ogranicza powtarzane zakupy. Dostarczenie zwalnia miejsce na następny załadunek. Wygaśnięcie i dobrowolne rozwiązanie kontraktu zachowują opłacone ładunki w drodze.
+- Bilans globalny zachowuje towary między magazynami, tranzytem, konsumpcją i przepełnieniem. Straty karawan są rejestrowane oddzielnie w manifestach. Prognoza nie zmienia pozycji, magazynów, płatności ani historii.
+- Tranzyt wymaga pokojowych traktatów państwa trzeciego z obiema stronami. Jednostronna zgoda nie wystarcza; embargo blokuje przejazd. Próba podpisu bez trasy nie wydaje złota. Zmiana dostępnej drogi powoduje wyznaczenie objazdu.
+- Tymczasowy postój po embargu kończy się wznowieniem ruchu bez ponownej zapłaty. Trzy kolejne fazy blokady powodują utratę bez zwrotu. Przejęcie miasta kończy umowę i transport, zachowując historię płatności.
+- Sąsiednie wrogie wojsko przechwytuje nieosłoniętą karawanę. Pobliski oddział strony umowy chroni przed strefą sąsiedniego wroga. Bezpośrednie zajęcie pola wozu przechwytuje mimo sąsiedniej osłony. Osadnicy nie przechwytują ani nie stanowią eskorty.
+- Zapis podczas podróży daje identyczne dalsze pozycje, płatności i przyjazdy po wczytaniu. Walidacja odrzuca nieznany kontrakt, błędne ilości, kwoty, terminy, pozycje, niepełny stan końcowy i powielone manifesty.
+- Migracja v6 zachowuje wykonane płatności i magazyny bez tworzenia wstecz ładunków. Nadpisanie zachowuje oryginał w `.v6.bak`. Scenariusze migracji i kopii formatów v1–v5 nadal przechodzą.
+- WPF: formularz kontraktu z czasem podróży i ryzykiem, załadunek bez natychmiastowego importu, raport karawany, śledzenie oraz zakończenie śledzenia, ruch po drodze, zapis w tranzycie, przyjazd, bilans miasta, embargo zatrzymujące wysłany wóz, wznowienie przez decyzję rady, wygaśnięcie bez usuwania transportu, nowa umowa i jej rozwiązanie, mniejsze okno.
+- Wizualnie obejrzano rzeczywiste rendery raportu i trasy karawany oraz formularz kontraktu i układ przy mniejszym oknie opublikowanego programu. Rendery pochodzą z WPF RenderTargetBitmap, bez przechwytywania pulpitu.
+- Scenariusze WPF są przygotowane: dodatkowe złoto, targowiska, technologie, magazyn dostawcy i droga międzynarodowa. Numer tury przesunięto po postoju, aby sprawdzić dialog po ośmiu turach blokady zmiany polityki; nie symulowano w tym skrócie dodatkowych faz podróży. To kontrola integracji, nie standardowy start ani test tempa gospodarki.
+- Cztery pasywne kampanie zakończyły się po 135, 140, 128 i 110 turach dla ziaren 17421, 2026, 8 i 99. Maksymalne liczby miast: 20, 16, 18, 16. Wszystkie zakończyły się utratą ostatniego miasta gracza. Są to kontrole integralności, nie dowód dobrego balansu dla człowieka.
+- Opublikowana diagnostyka zwróciła oczekiwany kod 3 po celowym błędzie (`process-exit-check.txt`). Katalog `diagnostics-0.7/` opisuje tę oczekiwaną awarię testową.
+- Wydanie `wydanie-0.7/` i paczka `Korony-i-Pogranicza-0.7-Windows.zip` zawierają program oraz dokumentację. ZIP nie zawiera zapisów. Jeden istniejący zapis skopiowano lokalnie z poprzednich wydań bez nadpisywania; wcześniejsze katalogi, zapisy i paczki pozostają zachowane. Diagnostyka nie wykonuje autozapisu do katalogu gry.
+
+Dalsze prace: rozgrywki z ludźmi, balans, testy sprzętowe i DPI. Transport dotyczy trzech towarów zagranicznych; wymiana krajowa, żywność i dostawy wojskowe nadal korzystają z własnych systemów. Nie ma automatycznego podążania eskorty, adaptacyjnej ochrony tras przez AI, losowych rozbójników, ubezpieczeń ani frachtu morskiego. Oprawa pozostaje mapą 2D.

@@ -1,5 +1,18 @@
 # Zmiany
 
+## 0.7 — Droga ma swoją cenę · 22 października 2026
+
+- Zagraniczne kontrakty wysyłają fizyczne karawany zamiast dostarczać towary natychmiast. Nabywca płaci przy załadunku; ładunek pozostaje poza magazynami do przybycia. Zużycie, podatki i ceny odbiorcy reagują dopiero na realny przyjazd.
+- Jedna karawana w drodze na umowę; limit 1–6 jednostek oznacza ładunek pojedynczej karawany. Długość podróży ogranicza częstotliwość dostaw. Wygaśnięcie i rozwiązanie umowy nie zawracają wcześniej opłaconych transportów.
+- Ruch po heksach: 3 punkty na fazę rynku, drogi 0,5, trudny teren 2, zwykły 1. Podgląd czasu uwzględnia niewykorzystane punkty, które nie przechodzą między turami. Szlak przeliczany jest przy zmianach mapy i dyplomacji.
+- Tranzyt przez trzecie państwo wymaga jego pokojowych traktatów handlowych z obiema stronami i braku jego embarga. Niedostępna trasa blokuje podpis umowy oraz nowe załadunki.
+- Wojska państwa trzeciego walczącego z którąkolwiek ze stron mogą przechwycić nieosłonięty transport na swojej lub sąsiedniej pozycji. Oddział nabywcy lub sprzedawcy w promieniu jednego pola osłania przed sąsiednim zagrożeniem; bezpośrednia okupacja pola przechwytuje zawsze. Karawany omijają niebezpieczne heksy.
+- Embargo, zerwany traktat, wojna stron i brak drogi zatrzymują karawanę. Po trzech kolejnych fazach postoju kupcy porzucają ładunek; zmiana właściciela miasta umowy także oznacza utratę. Nabywca ponosi stratę bez zwrotu płatności. Przechwycenie nie tworzy złota dla napastnika.
+- Raport „Karawany i trasy”: manifesty, kwoty, pozycje, osłona, ostrzeżenia, postoje i prognoza przybycia. Mapa pokazuje wozy oraz śledzoną trasę na odkrytym terenie. Przycisk pozwala zakończyć śledzenie. Zatrzymanie i utrata wywołują komunikat; dostarczenie i utrata trafiają do kroniki.
+- Zaktualizowano formularz kontraktu, bilans towarów, opis embarga i skutki dialogu rady. Model nie dodaje losowych rozbójników, automatycznego podążania eskorty ani flot.
+- Zapis v7 przechowuje ładunki w drodze i ich historię. Migracja v6 zachowuje wykonane płatności i magazyny bez fikcyjnych karawan; nadpisanie tworzy `.v6.bak`. Odczyt v1–v5 nadal działa.
+- Osobne wydanie `wydanie-0.7/`; wcześniejsze wydania i zapisy pozostają zachowane. Grafika nadal jest mapą 2D.
+
 ## 0.6 — Cena dobrobytu · 22 października 2026
 
 - Zapasy żelaza, soli i barwników w każdym mieście. Pracujące pola wytwarzają towary; współdzielone pole przypada tylko jednemu miastu. Blokada wojskowa wstrzymuje wydobycie.

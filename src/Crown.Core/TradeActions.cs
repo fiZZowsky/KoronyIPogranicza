@@ -26,8 +26,8 @@ public static partial class Engine
         if(new[]{buyer.Owner,seller.Owner}.Any(id=>s.TradeContracts.Count(c=>c.Status==ContractStatus.Active&&(c.Buyer==id||c.Seller==id))>=3))return Result.Fail("Jedna ze stron osiągnęła limit trzech aktywnych umów.");
         if(s.Factions[owner].Gold<Markets.ContractPrice)return Result.Fail("Przygotowanie umowy kosztuje 15 złota.");
         s.Factions[owner].Gold-=Markets.ContractPrice;draft.Id=s.NextContractId++;draft.StartedTurn=s.Turn;draft.ExpiresTurn=s.Turn+12;s.TradeContracts.Add(draft);
-        s.Log($"Umowa #{draft.Id}: {seller.Name} → {buyer.Name}, {Markets.Name(good)} do {quantity}/turę, do tury {draft.ExpiresTurn}. Cena zależy od rynku sprzedawcy; dostawa nie jest gwarantowana.","handel");
-        return Result.Ok("Podpisano umowę na 12 tur. Pierwsza dostawa przy kolejnym rozliczeniu rynku.");
+        s.Log($"Umowa #{draft.Id}: {seller.Name} → {buyer.Name}, {Markets.Name(good)} do {quantity}/karawanę, do tury {draft.ExpiresTurn}. Zakup opłacany przy wysyłce; nabywca ponosi ryzyko utraty ładunku.","handel");
+        return Result.Ok("Podpisano umowę na 12 tur. Załadunek przy kolejnym rozliczeniu, jedna karawana w drodze na umowę.");
     }
 
     public static Result CancelTradeContract(GameState s,int id)
@@ -35,6 +35,6 @@ public static partial class Engine
         var contract=s.TradeContracts.FirstOrDefault(c=>c.Id==id&&(c.Buyer==0||c.Seller==0)&&c.Status==ContractStatus.Active);
         if(s.Ending!=null||contract==null)return Result.Fail("Nie ma takiej aktywnej umowy Marchii.");
         contract.Status=ContractStatus.Cancelled;contract.Message="Umowę rozwiązano decyzją Marchii.";
-        s.Log($"Rozwiązano umowę handlową #{id}.","decyzja");return Result.Ok("Rozwiązano umowę. Dawne płatności pozostają w historii.");
+        s.Log($"Rozwiązano umowę handlową #{id}. Wysłane karawany kontynuują podróż.","decyzja");return Result.Ok("Rozwiązano umowę. Wysłane ładunki kontynuują podróż bez zwrotu wcześniejszych płatności.");
     }
 }

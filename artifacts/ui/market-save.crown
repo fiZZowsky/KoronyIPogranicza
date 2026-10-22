@@ -1,10 +1,10 @@
 {
-  "Version": 6,
+  "Version": 7,
   "Seed": 17421,
-  "RandomState": 3271865653,
+  "RandomState": 2922163613,
   "Width": 42,
   "Height": 28,
-  "Turn": 11,
+  "Turn": 16,
   "MaxTurns": 320,
   "Difficulty": "Standard",
   "Tiles": [
@@ -1905,7 +1905,7 @@
       "Terrain": "Grassland",
       "Resource": "None",
       "Owner": 3,
-      "Improvement": "None",
+      "Improvement": "Farm",
       "River": false,
       "Explored": false,
       "Ruin": false,
@@ -3853,10 +3853,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 275,
@@ -3867,10 +3867,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 276,
@@ -3881,10 +3881,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 277,
@@ -3895,10 +3895,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 278,
@@ -3909,10 +3909,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 279,
@@ -3923,10 +3923,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 280,
@@ -3937,10 +3937,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 281,
@@ -3951,10 +3951,10 @@
       "Owner": 1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 282,
@@ -4413,10 +4413,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 315,
@@ -4427,10 +4427,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 316,
@@ -4539,10 +4539,10 @@
       "Owner": 1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 324,
@@ -5001,10 +5001,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": true,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 357,
@@ -5141,10 +5141,10 @@
       "Owner": 1,
       "Improvement": "None",
       "River": true,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 367,
@@ -5561,10 +5561,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 397,
@@ -5575,10 +5575,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 398,
@@ -6079,10 +6079,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": true,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 434,
@@ -6093,10 +6093,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 435,
@@ -6107,10 +6107,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 436,
@@ -6121,10 +6121,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 437,
@@ -6135,10 +6135,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 438,
@@ -6149,10 +6149,10 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 439,
@@ -6583,7 +6583,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -6655,8 +6655,8 @@
       "River": true,
       "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 475,
@@ -7171,7 +7171,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -7243,8 +7243,8 @@
       "River": false,
       "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 517,
@@ -7745,7 +7745,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -7817,8 +7817,8 @@
       "River": true,
       "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 558,
@@ -8333,7 +8333,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -8405,8 +8405,8 @@
       "River": false,
       "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 600,
@@ -8907,7 +8907,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -8965,8 +8965,8 @@
       "River": true,
       "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 640,
@@ -8979,8 +8979,8 @@
       "River": false,
       "Explored": true,
       "Ruin": false,
-      "Road": false,
-      "RoadOwner": -1
+      "Road": true,
+      "RoadOwner": 0
     },
     {
       "Id": 641,
@@ -9509,7 +9509,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -9635,7 +9635,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -10097,7 +10097,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -10223,7 +10223,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -10699,7 +10699,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": true,
       "Road": false,
       "RoadOwner": -1
@@ -10825,7 +10825,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -11287,7 +11287,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -11413,7 +11413,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -11903,7 +11903,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -12015,7 +12015,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -12491,7 +12491,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -12589,7 +12589,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -13093,7 +13093,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -13177,7 +13177,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -13681,7 +13681,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -13751,7 +13751,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -14283,7 +14283,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -14297,7 +14297,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -14311,7 +14311,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": true,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -14325,7 +14325,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": true,
       "Road": false,
       "RoadOwner": -1
@@ -14339,7 +14339,7 @@
       "Owner": -1,
       "Improvement": "None",
       "River": false,
-      "Explored": false,
+      "Explored": true,
       "Ruin": false,
       "Road": false,
       "RoadOwner": -1
@@ -16479,9 +16479,9 @@
       "Name": "Wysogr\u00F3d",
       "Owner": 0,
       "Tile": 639,
-      "Population": 3,
-      "Food": 54,
-      "Production": 25.152955560000002,
+      "Population": 5,
+      "Food": 2.5999999999999943,
+      "Production": 43.15696668800001,
       "Project": "warehouse",
       "Buildings": [
         "market"
@@ -16490,12 +16490,12 @@
       "Unrest": 0,
       "OriginalOwner": 0,
       "Governance": "Integrated",
-      "Loyalty": 80,
+      "Loyalty": 82,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 56,
+      "Prosperity": 62,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16508,38 +16508,38 @@
       "Charters": [],
       "ResolvedIssues": [],
       "MarketStocks": {
-        "Iron": 17.300000000000004,
-        "Salt": 1.9000000000000004,
+        "Iron": 11.600000000000009,
+        "Salt": 0,
         "Dyes": 0
       },
       "LastMarketLines": [
         {
           "Good": "Iron",
-          "Opening": 18.200000000000003,
+          "Opening": 12.800000000000008,
           "Produced": 0,
           "DomesticIn": 0,
-          "DomesticOut": 0.44999999999999996,
+          "DomesticOut": 0.6,
           "ForeignIn": 0,
           "ForeignOut": 0,
-          "Consumed": 0.44999999999999996,
-          "Demand": 0.44999999999999996,
+          "Consumed": 0.6,
+          "Demand": 0.6,
           "Lost": 0,
-          "Closing": 17.300000000000004,
-          "Price": 6.38
+          "Closing": 11.600000000000009,
+          "Price": 6.7
         },
         {
           "Good": "Salt",
           "Opening": 0,
           "Produced": 0,
           "DomesticIn": 0,
-          "DomesticOut": 1.0499999999999998,
-          "ForeignIn": 4,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
           "ForeignOut": 0,
-          "Consumed": 1.0499999999999998,
-          "Demand": 1.0499999999999998,
+          "Consumed": 0,
+          "Demand": 1.4,
           "Lost": 0,
-          "Closing": 1.9000000000000004,
-          "Price": 14.25
+          "Closing": 0,
+          "Price": 15
         },
         {
           "Good": "Dyes",
@@ -16550,23 +16550,23 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 0.6000000000000001,
+          "Demand": 0.8,
           "Lost": 0,
           "Closing": 0,
-          "Price": 17.55
+          "Price": 21.15
         }
       ],
-      "LastMarketTurn": 10,
-      "LastMarketTax": 2.14
+      "LastMarketTurn": 15,
+      "LastMarketTax": 0.48
     },
     {
       "Id": 4,
       "Name": "Talassar",
       "Owner": 1,
       "Tile": 366,
-      "Population": 3,
-      "Food": 45,
-      "Production": 21.133620288,
+      "Population": 4,
+      "Food": 47.30000000000001,
+      "Production": 13.944518784000003,
       "Project": "spearmen",
       "Buildings": [
         "market"
@@ -16575,12 +16575,12 @@
       "Unrest": 0,
       "OriginalOwner": 1,
       "Governance": "Integrated",
-      "Loyalty": 79,
+      "Loyalty": 80,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 56,
+      "Prosperity": 66,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16594,7 +16594,7 @@
       "ResolvedIssues": [],
       "MarketStocks": {
         "Iron": 0,
-        "Salt": 13.849999999999998,
+        "Salt": 7.549999999999995,
         "Dyes": 0
       },
       "LastMarketLines": [
@@ -16607,24 +16607,24 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 0.44999999999999996,
+          "Demand": 0.6,
           "Lost": 0,
           "Closing": 0,
-          "Price": 9.6
+          "Price": 10.8
         },
         {
           "Good": "Salt",
-          "Opening": 18.9,
+          "Opening": 8.949999999999996,
           "Produced": 0,
           "DomesticIn": 0,
           "DomesticOut": 0,
           "ForeignIn": 0,
-          "ForeignOut": 4,
-          "Consumed": 1.0499999999999998,
-          "Demand": 1.0499999999999998,
+          "ForeignOut": 0,
+          "Consumed": 1.4,
+          "Demand": 1.4,
           "Lost": 0,
-          "Closing": 13.849999999999998,
-          "Price": 4.01
+          "Closing": 7.549999999999995,
+          "Price": 4.45
         },
         {
           "Good": "Dyes",
@@ -16635,35 +16635,35 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 0.6000000000000001,
+          "Demand": 0.8,
           "Lost": 0,
           "Closing": 0,
-          "Price": 12.15
+          "Price": 13.95
         }
       ],
-      "LastMarketTurn": 10,
-      "LastMarketTax": 0.51
+      "LastMarketTurn": 15,
+      "LastMarketTax": 0.75
     },
     {
       "Id": 7,
       "Name": "Arven",
       "Owner": 2,
       "Tile": 913,
-      "Population": 3,
-      "Food": 45,
-      "Production": 21.133620288,
+      "Population": 4,
+      "Food": 47.30000000000001,
+      "Production": 13.821047568000004,
       "Project": "spearmen",
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
       "OriginalOwner": 2,
       "Governance": "Integrated",
-      "Loyalty": 79,
+      "Loyalty": 78,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 56,
+      "Prosperity": 60,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16690,10 +16690,10 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 0.44999999999999996,
+          "Demand": 0.6,
           "Lost": 0,
           "Closing": 0,
-          "Price": 9.6
+          "Price": 10.8
         },
         {
           "Good": "Salt",
@@ -16704,10 +16704,10 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 1.0499999999999998,
+          "Demand": 1.4,
           "Lost": 0,
           "Closing": 0,
-          "Price": 9
+          "Price": 10.75
         },
         {
           "Good": "Dyes",
@@ -16718,13 +16718,13 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 0.6000000000000001,
+          "Demand": 0.8,
           "Lost": 0,
           "Closing": 0,
-          "Price": 12.15
+          "Price": 13.95
         }
       ],
-      "LastMarketTurn": 10,
+      "LastMarketTurn": 15,
       "LastMarketTax": 0
     },
     {
@@ -16732,21 +16732,21 @@
       "Name": "Kar-Dun",
       "Owner": 3,
       "Tile": 220,
-      "Population": 3,
-      "Food": 45,
-      "Production": 21.133620288,
+      "Population": 4,
+      "Food": 47.30000000000001,
+      "Production": 13.821047568000004,
       "Project": "spearmen",
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
       "OriginalOwner": 3,
       "Governance": "Integrated",
-      "Loyalty": 79,
+      "Loyalty": 78,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 56,
+      "Prosperity": 60,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16773,10 +16773,10 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 0.44999999999999996,
+          "Demand": 0.6,
           "Lost": 0,
           "Closing": 0,
-          "Price": 9.6
+          "Price": 10.8
         },
         {
           "Good": "Salt",
@@ -16787,10 +16787,10 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 1.0499999999999998,
+          "Demand": 1.4,
           "Lost": 0,
           "Closing": 0,
-          "Price": 9
+          "Price": 10.75
         },
         {
           "Good": "Dyes",
@@ -16801,13 +16801,13 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 0.6000000000000001,
+          "Demand": 0.8,
           "Lost": 0,
           "Closing": 0,
-          "Price": 12.15
+          "Price": 13.95
         }
       ],
-      "LastMarketTurn": 10,
+      "LastMarketTurn": 15,
       "LastMarketTax": 0
     },
     {
@@ -16815,23 +16815,24 @@
       "Name": "Brzegowo",
       "Owner": 0,
       "Tile": 853,
-      "Population": 3,
-      "Food": 51,
-      "Production": 26.7381756,
-      "Project": "scout",
+      "Population": 4,
+      "Food": 51.90000000000002,
+      "Production": 2.9219268400000047,
+      "Project": "bank",
       "Buildings": [
-        "market"
+        "market",
+        "granary"
       ],
       "Health": 100,
       "Unrest": 0,
       "OriginalOwner": 0,
       "Governance": "Integrated",
-      "Loyalty": 74,
+      "Loyalty": 75,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 56,
+      "Prosperity": 60,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16853,29 +16854,29 @@
           "Good": "Iron",
           "Opening": 0,
           "Produced": 0,
-          "DomesticIn": 0.44999999999999996,
+          "DomesticIn": 0.6,
           "DomesticOut": 0,
           "ForeignIn": 0,
           "ForeignOut": 0,
-          "Consumed": 0.44999999999999996,
-          "Demand": 0.44999999999999996,
+          "Consumed": 0.6,
+          "Demand": 0.6,
           "Lost": 0,
           "Closing": 0,
-          "Price": 6.38
+          "Price": 6.7
         },
         {
           "Good": "Salt",
           "Opening": 0,
           "Produced": 0,
-          "DomesticIn": 1.0499999999999998,
+          "DomesticIn": 0,
           "DomesticOut": 0,
           "ForeignIn": 0,
           "ForeignOut": 0,
-          "Consumed": 1.0499999999999998,
-          "Demand": 1.0499999999999998,
+          "Consumed": 0,
+          "Demand": 1.4,
           "Lost": 0,
           "Closing": 0,
-          "Price": 14.25
+          "Price": 15
         },
         {
           "Good": "Dyes",
@@ -16886,14 +16887,14 @@
           "ForeignIn": 0,
           "ForeignOut": 0,
           "Consumed": 0,
-          "Demand": 0.6000000000000001,
+          "Demand": 0.8,
           "Lost": 0,
           "Closing": 0,
-          "Price": 17.55
+          "Price": 21.15
         }
       ],
-      "LastMarketTurn": 10,
-      "LastMarketTax": 2.14
+      "LastMarketTurn": 15,
+      "LastMarketTax": 0.48
     }
   ],
   "Units": [
@@ -16930,10 +16931,10 @@
     {
       "Id": 6,
       "Owner": 1,
-      "Tile": 369,
+      "Tile": 283,
       "Kind": "Scout",
       "Health": 100,
-      "Actions": 2,
+      "Actions": 1,
       "Destination": null,
       "Experience": 0
     },
@@ -16950,7 +16951,7 @@
     {
       "Id": 9,
       "Owner": 2,
-      "Tile": 874,
+      "Tile": 833,
       "Kind": "Scout",
       "Health": 100,
       "Actions": 2,
@@ -16970,8 +16971,58 @@
     {
       "Id": 12,
       "Owner": 3,
-      "Tile": 180,
+      "Tile": 266,
       "Kind": "Scout",
+      "Health": 100,
+      "Actions": 1,
+      "Destination": null,
+      "Experience": 0
+    },
+    {
+      "Id": 14,
+      "Owner": 0,
+      "Tile": 639,
+      "Kind": "Scout",
+      "Health": 100,
+      "Actions": 3,
+      "Destination": null,
+      "Experience": 0
+    },
+    {
+      "Id": 15,
+      "Owner": 0,
+      "Tile": 853,
+      "Kind": "Scout",
+      "Health": 100,
+      "Actions": 3,
+      "Destination": null,
+      "Experience": 0
+    },
+    {
+      "Id": 16,
+      "Owner": 1,
+      "Tile": 366,
+      "Kind": "Spearmen",
+      "Health": 100,
+      "Actions": 2,
+      "Destination": null,
+      "Experience": 0
+    },
+    {
+      "Id": 17,
+      "Owner": 2,
+      "Tile": 913,
+      "Kind": "Spearmen",
+      "Health": 100,
+      "Actions": 2,
+      "Destination": null,
+      "Experience": 0
+    },
+    {
+      "Id": 18,
+      "Owner": 3,
+      "Tile": 220,
+      "Kind": "Spearmen",
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16985,30 +17036,32 @@
       "Leader": "Ty \u2014 Stra\u017Cnik Marchii",
       "Color": "#D1B273",
       "Trait": "Pogranicznicy \u00B7 \u002B1 produkcji w miastach",
-      "Gold": 3939.68890985,
-      "Science": 27.422001484,
-      "Culture": 17.294675595999998,
-      "Prestige": 4.77826040182,
+      "Gold": 4006.3243577000003,
+      "Science": 3.5543387239999973,
+      "Culture": 49.032514715999994,
+      "Prestige": 16.20646316222,
       "Stability": 69,
-      "Commons": 87,
-      "Nobles": 43,
+      "Commons": 100,
+      "Nobles": 41,
       "Scholars": 58,
       "Tax": 1,
       "Government": 0,
       "Focus": 0,
       "LastPolicyTurn": -1,
       "WarWeariness": 0,
-      "Research": "agriculture",
+      "Research": "writing",
       "Technologies": [
         "pottery",
         "trade",
-        "currency"
+        "currency",
+        "agriculture",
+        "mining"
       ],
       "Flags": [
         "land_charter"
       ],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": 10
+      "LastTradePolicyTurn": 15
     },
     {
       "Id": 1,
@@ -17016,12 +17069,12 @@
       "Leader": "Irena z Talassu",
       "Color": "#65B4C2",
       "Trait": "Kupcy m\u00F3rz \u00B7 \u002B3 z\u0142ota w miastach",
-      "Gold": 3088.3574069,
-      "Science": 12.034422664000001,
-      "Culture": 8.512152616,
-      "Prestige": 0.38304686771999996,
-      "Stability": 62,
-      "Commons": 59,
+      "Gold": 3174.5566804999994,
+      "Science": 34.114658632,
+      "Culture": 23.558532328,
+      "Prestige": 1.06013395476,
+      "Stability": 57,
+      "Commons": 60,
       "Nobles": 58,
       "Scholars": 58,
       "Tax": 1,
@@ -17029,7 +17082,7 @@
       "Focus": 0,
       "LastPolicyTurn": -1,
       "WarWeariness": 0,
-      "Research": "agriculture",
+      "Research": "writing",
       "Technologies": [
         "pottery",
         "trade",
@@ -17045,12 +17098,12 @@
       "Leader": "Konsul Seran",
       "Color": "#B49DD4",
       "Trait": "Uczeni \u00B7 \u002B2 nauki w miastach",
-      "Gold": 133.9451565,
-      "Science": 17.904872744,
-      "Culture": 5.576927576,
-      "Prestige": 0.25096174092,
-      "Stability": 62,
-      "Commons": 59,
+      "Gold": 138.98422149999996,
+      "Science": 49.652441384,
+      "Culture": 15.704278136,
+      "Prestige": 0.70669251612,
+      "Stability": 57,
+      "Commons": 60,
       "Nobles": 58,
       "Scholars": 58,
       "Tax": 1,
@@ -17058,7 +17111,7 @@
       "Focus": 0,
       "LastPolicyTurn": -1,
       "WarWeariness": 0,
-      "Research": "agriculture",
+      "Research": "writing",
       "Technologies": [
         "pottery",
         "trade",
@@ -17074,12 +17127,12 @@
       "Leader": "W\u00F3dz Dagan",
       "Color": "#D17862",
       "Trait": "Ludzie \u017Celaza \u00B7 \u002B3 si\u0142y wojsk",
-      "Gold": 133.9451565,
-      "Science": 12.034422664000001,
-      "Culture": 5.576927576,
-      "Prestige": 0.25096174092,
-      "Stability": 62,
-      "Commons": 59,
+      "Gold": 103.98422149999996,
+      "Science": 2.041490504000002,
+      "Culture": 15.704278136,
+      "Prestige": 5.70669251612,
+      "Stability": 57,
+      "Commons": 60,
       "Nobles": 58,
       "Scholars": 58,
       "Tax": 1,
@@ -17087,11 +17140,12 @@
       "Focus": 0,
       "LastPolicyTurn": -1,
       "WarWeariness": 0,
-      "Research": "agriculture",
+      "Research": "mining",
       "Technologies": [
         "pottery",
         "trade",
-        "currency"
+        "currency",
+        "agriculture"
       ],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
@@ -17141,9 +17195,9 @@
     {
       "A": 1,
       "B": 2,
-      "Trust": 12,
+      "Trust": 15,
       "War": false,
-      "Trade": false,
+      "Trade": true,
       "TruceUntil": 0,
       "LastActionTurn": -1,
       "GrievanceA": 0,
@@ -17196,36 +17250,81 @@
     },
     {
       "Turn": 1,
-      "Text": "Umowa #1: Talassar \u2192 Wysogr\u00F3d, S\u00F3l do 4/tur\u0119, do tury 13. Cena zale\u017Cy od rynku sprzedawcy; dostawa nie jest gwarantowana.",
+      "Text": "Umowa #1: Talassar \u2192 Wysogr\u00F3d, S\u00F3l do 4/karawan\u0119, do tury 13. Zakup op\u0142acany przy wysy\u0142ce; nabywca ponosi ryzyko utraty \u0142adunku.",
       "Category": "handel"
     },
     {
       "Turn": 1,
-      "Text": "Umowa #1, S\u00F3l: Dostawa zrealizowana. Ilo\u015B\u0107 4, p\u0142atno\u015B\u0107 18,16.",
+      "Text": "Umowa #1, S\u00F3l: Op\u0142acono \u0142adunek i wys\u0142ano karawan\u0119. Ilo\u015B\u0107 4, p\u0142atno\u015B\u0107 18,16.",
       "Category": "handel"
     },
     {
       "Turn": 2,
-      "Text": "Polityka handlowa: Embargo. Wstrzymuje import i eksport; wymiana krajowa dzia\u0142a dalej. Kontrakty nadal wygasaj\u0105.",
+      "Text": "Umowa #1, S\u00F3l: Poprzednia karawana jest w drodze; kolejny za\u0142adunek po jej rozliczeniu. Ilo\u015B\u0107 0, p\u0142atno\u015B\u0107 0.",
+      "Category": "handel"
+    },
+    {
+      "Turn": 4,
+      "Text": "Odkrycie: Rolnictwo. Farmy, spichlerze i stabilne plony. \u002B1 \u017Cywno\u015Bci z ka\u017Cdej farmy.",
+      "Category": "nauka"
+    },
+    {
+      "Turn": 4,
+      "Text": "Wysogr\u00F3d: uko\u0144czono Zwiadowca.",
+      "Category": "miasto"
+    },
+    {
+      "Turn": 4,
+      "Text": "Brzegowo: uko\u0144czono Zwiadowca.",
+      "Category": "miasto"
+    },
+    {
+      "Turn": 5,
+      "Text": "Ziarno na jutro \u2014 \u201EOtw\u00F3rzcie magazyny. Sprowadzimy nowe ziarno.\u201D Z\u0142oto -55 \u00B7 Stabilno\u015B\u0107 \u002B5 \u00B7 Lud \u002B12 \u00B7 Rody -2",
       "Category": "decyzja"
     },
     {
-      "Turn": 2,
+      "Turn": 6,
+      "Text": "Karawana #1: \u0141adunek przekazano do magazynu odbiorcy. S\u00F3l, 4.",
+      "Category": "handel"
+    },
+    {
+      "Turn": 6,
+      "Text": "Umowa #1, S\u00F3l: Op\u0142acono \u0142adunek i wys\u0142ano karawan\u0119. Ilo\u015B\u0107 4, p\u0142atno\u015B\u0107 19,2.",
+      "Category": "handel"
+    },
+    {
+      "Turn": 7,
+      "Text": "Polityka handlowa: Embargo. Wstrzymuje import, eksport i karawany. Trzy kolejne tury postoju oznaczaj\u0105 utrat\u0119 \u0142adunku bez zwrotu. Wymiana krajowa dzia\u0142a dalej; kontrakty nadal wygasaj\u0105.",
+      "Category": "decyzja"
+    },
+    {
+      "Turn": 7,
       "Text": "Umowa #1, S\u00F3l: Embargo wstrzymuje dostaw\u0119. Ilo\u015B\u0107 0, p\u0142atno\u015B\u0107 0.",
       "Category": "handel"
     },
     {
-      "Turn": 10,
+      "Turn": 15,
       "Text": "Komu s\u0142u\u017Cy otwarty targ? \u2014 \u201ENajpierw zaspokoimy potrzeby naszych mieszka\u0144c\u00F3w.\u201D Z\u0142oto -30 \u00B7 Stabilno\u015B\u0107 \u002B2 \u00B7 Lud \u002B7 \u00B7 Rody -5\nPolityka handlowa: Eksport pozostawia w regionie zapas odpowiadaj\u0105cy jednej turze miejscowego popytu. Zmiana zablokowana przez osiem tur.",
       "Category": "decyzja"
     },
     {
-      "Turn": 10,
-      "Text": "Umowa #1, S\u00F3l: Dostawa zrealizowana. Ilo\u015B\u0107 4, p\u0142atno\u015B\u0107 18,44.",
+      "Turn": 15,
+      "Text": "Umowa #1, S\u00F3l: Umowa wygas\u0142a. Ilo\u015B\u0107 0, p\u0142atno\u015B\u0107 0.",
       "Category": "handel"
     },
     {
-      "Turn": 11,
+      "Turn": 15,
+      "Text": "Odkrycie: G\u00F3rnictwo. Kopalnie, kamienio\u0142omy i dost\u0119p do rudy.",
+      "Category": "nauka"
+    },
+    {
+      "Turn": 15,
+      "Text": "Brzegowo: uko\u0144czono Spichlerz.",
+      "Category": "miasto"
+    },
+    {
+      "Turn": 16,
       "Text": "Pierwsi wolni gospodarze sp\u0142acaj\u0105 d\u0142ug wdzi\u0119czno\u015Bci. Karta ziemska sta\u0142a si\u0119 fundamentem wsp\u00F3lnoty.",
       "Category": "konsekwencja"
     }
@@ -17233,6 +17332,7 @@
   "Deferred": [],
   "SeenEvents": [
     "founding",
+    "grain",
     "market_charter"
   ],
   "PendingEvent": null,
@@ -17255,16 +17355,47 @@
       "Quantity": 4,
       "StartedTurn": 1,
       "ExpiresTurn": 13,
-      "Status": "Active",
-      "LastExecutedTurn": 10,
-      "LastDelivered": 4,
-      "LastPrice": 4.61,
-      "LastPayment": 18.44,
-      "Message": "Dostawa zrealizowana."
+      "Status": "Expired",
+      "LastExecutedTurn": 15,
+      "LastDelivered": 0,
+      "LastPrice": 0,
+      "LastPayment": 0,
+      "Message": "Umowa wygas\u0142a."
     }
   ],
   "NextContractId": 2,
-  "LastMarketTurn": 10,
+  "LastMarketTurn": 15,
   "Ending": null,
-  "NextId": 14
+  "Caravans": [
+    {
+      "Id": 1,
+      "ContractId": 1,
+      "Tile": 639,
+      "DepartedTurn": 1,
+      "LastMovedTurn": 6,
+      "BlockedTurns": 0,
+      "ResolvedTurn": 6,
+      "Quantity": 4,
+      "Price": 4.54,
+      "Payment": 18.16,
+      "Status": "Delivered",
+      "Message": "\u0141adunek przekazano do magazynu odbiorcy."
+    },
+    {
+      "Id": 2,
+      "ContractId": 1,
+      "Tile": 277,
+      "DepartedTurn": 6,
+      "LastMovedTurn": 15,
+      "BlockedTurns": 0,
+      "ResolvedTurn": null,
+      "Quantity": 4,
+      "Price": 4.8,
+      "Payment": 19.2,
+      "Status": "Travelling",
+      "Message": "Karawana posuwa si\u0119 ku odbiorcy."
+    }
+  ],
+  "NextCaravanId": 3,
+  "NextId": 19
 }

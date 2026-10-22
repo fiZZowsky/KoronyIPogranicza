@@ -13,6 +13,7 @@ public enum PeaceStatus { Travelling, AwaitingPlayer, Accepted, Rejected, Cancel
 public enum TradeGood { Iron, Salt, Dyes }
 public enum TradePolicy { DomesticFirst, OpenExports, Embargo }
 public enum ContractStatus { Active, Cancelled, Expired }
+public enum CaravanStatus { Travelling, Waiting, Delivered, Lost }
 public sealed class Tile
 {
     public int Id { get; set; }
@@ -185,7 +186,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 6;
+    public int Version { get; set; } = 7;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -214,6 +215,8 @@ public sealed class GameState
     public int NextContractId { get; set; } = 1;
     public int LastMarketTurn { get; set; }
     public string? Ending { get; set; }
+    public List<Caravan> Caravans { get; set; } = [];
+    public int NextCaravanId { get; set; } = 1;
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
     internal Dictionary<int, SupplyMap> LogisticsCache = [];
@@ -258,6 +261,7 @@ public sealed class TradeContract
     public int ExpiresTurn { get; set; }
     public ContractStatus Status { get; set; }
     public int LastExecutedTurn { get; set; }
+    // Legacy save field: purchased quantity dispatched in the last market phase, not arrivals.
     public double LastDelivered { get; set; }
     public double LastPrice { get; set; }
     public double LastPayment { get; set; }
@@ -271,7 +275,22 @@ public sealed record CommodityBalance(TradeGood Good,double Opening,double Produ
 public sealed record CommodityShipment(int From,int To,TradeGood Good,double Quantity);
 public sealed record TradeExecution(int ContractId,double Quantity,double Price,double Payment,string Message);
 public sealed record MarketPlan(Dictionary<int,List<CommodityBalance>> Cities,IReadOnlyList<CommodityShipment> Shipments,
-    IReadOnlyList<TradeExecution> Trades,Dictionary<int,double> Cash);
+    IReadOnlyList<TradeExecution> Trades,Dictionary<int,double> Cash,IReadOnlyList<Caravan> Caravans);
+public sealed class Caravan
+{
+    public int Id { get; set; }
+    public int ContractId { get; set; }
+    public int Tile { get; set; }
+    public int DepartedTurn { get; set; }
+    public int LastMovedTurn { get; set; }
+    public int BlockedTurns { get; set; }
+    public int? ResolvedTurn { get; set; }
+    public double Quantity { get; set; }
+    public double Price { get; set; }
+    public double Payment { get; set; }
+    public CaravanStatus Status { get; set; }
+    public string Message { get; set; } = "Załadowano towar. Wyruszy w następnej turze.";
+}
 public sealed record CombatPreview(bool Valid, string Reason, string Attacker, string Target,
     double AttackStrength = 0, double DefenseStrength = 0, double TargetHealth = 0,
     double DamageToTarget = 0, double DamageToAttacker = 0, bool CanCapture = false,

@@ -15,6 +15,7 @@ public sealed class MapView : FrameworkElement
     public bool ShowGrid {get;set;}
     public bool ShowSupply {get;set;}
     public bool ShowPopulation {get;set;}
+    public int TrackedCaravanId {get;set;}=-1;
     public IReadOnlyList<int> PlannedRoad {get;set;} = [];
     private int hoverTile=-1;
     public Action<int>? SelectTile;
@@ -39,7 +40,7 @@ public sealed class MapView : FrameworkElement
         MouseRightButtonUp+=(o,e)=>{int id=Hit(e.GetPosition(this));if(id>=0)OrderUnit?.Invoke(id);};
         SizeChanged+=(o,e)=>InvalidateVisual();
     }
-    public void Reset(GameState state){State=state;cache.Clear();hexes.Clear();SelectedTile=state.Cities.FirstOrDefault(c=>c.Owner==0)?.Tile??state.Cities.FirstOrDefault()?.Tile??0;SelectedUnit=-1;scale=1.05;}
+    public void Reset(GameState state){State=state;cache.Clear();hexes.Clear();TrackedCaravanId=-1;SelectedTile=state.Cities.FirstOrDefault(c=>c.Owner==0)?.Tile??state.Cities.FirstOrDefault()?.Tile??0;SelectedUnit=-1;scale=1.05;}
     public void Center(int id) {var p=CenterOf(State.Tiles[id]);panX=ActualWidth*.46-p.X*scale;panY=ActualHeight*.52-p.Y*scale;InvalidateVisual();CameraChanged?.Invoke();}
     public Rect Viewport => new(-panX/scale,-panY/scale,ActualWidth/scale,ActualHeight/scale);
     public static Point CenterOf(Tile t)=>new(R*Math.Sqrt(3)*(t.X+(t.Y&1)*.5)+R,R*1.5*t.Y+R);
@@ -128,11 +129,35 @@ public sealed class MapView : FrameworkElement
         {
             var u=group.FirstOrDefault(u=>u.Id==SelectedUnit)??group.First();DrawUnit(dc,u,group.Count());
         }
+        DrawCaravans(dc,bounds);
         if(SelectedTile>=0&&State.Tiles[SelectedTile].Explored)dc.DrawGeometry(null,new Pen(B("#F4DEA4"),2.5),Hex(State.Tiles[SelectedTile]));
         dc.Pop();dc.Pop();
         if(ShowSupply)Text(dc,"DOSTAWY  ·  zielony: docierają   /   czerwony: brak   /   pomarańczowy: blokada",new(ActualWidth*.5,ActualHeight-32),11,B("#E4E2C8"));
         if(ShowPopulation)Text(dc,"DOBROBYT  ·  czerwony: niski / zielony: wysoki  ·  złoto: żywność / błękit: migracje",new(ActualWidth*.5,ActualHeight-32),10,B("#E4E2C8"));
         var fade=new LinearGradientBrush(Color.FromArgb(90,6,17,23),Colors.Transparent,90);dc.DrawRectangle(fade,null,new Rect(0,0,ActualWidth,90));
+    }
+    private void DrawCaravans(DrawingContext dc,Rect bounds)
+    {
+        foreach(var cargo in State.Caravans.Where(Caravans.Active))
+        {
+            var contract=State.TradeContracts.First(t=>t.Id==cargo.ContractId);
+            if(contract.Buyer!=0&&contract.Seller!=0)continue;
+            if(cargo.Id==TrackedCaravanId)
+            {
+                var route=Caravans.Route(State,contract,cargo.Tile);
+                for(int i=1;i<route.Count;i++)
+                    if(State.Tiles[route[i-1]].Explored&&State.Tiles[route[i]].Explored)
+                        dc.DrawLine(new Pen(B("#E2C887"),2.8){DashStyle=DashStyles.Dash},CenterOf(State.Tiles[route[i-1]]),CenterOf(State.Tiles[route[i]]));
+            }
+            var p=CenterOf(State.Tiles[cargo.Tile]);if(!bounds.Contains(p))continue;p.Offset(15,-16);
+            var color=B(cargo.Status==CaravanStatus.Waiting?"#E19372":"#E8CE91");
+            dc.DrawRoundedRectangle(B("#EF192F32"),new Pen(color,cargo.Id==TrackedCaravanId?2.5:1.2),new Rect(p.X-14,p.Y-12,28,24),4,4);
+            dc.DrawRectangle(null,new Pen(color,1.5),new Rect(p.X-8,p.Y-5,16,9));
+            dc.DrawLine(new Pen(color,1.5),new(p.X-8,p.Y-5),new(p.X-4,p.Y-9));
+            dc.DrawLine(new Pen(color,1.5),new(p.X-4,p.Y-9),new(p.X+6,p.Y-9));
+            dc.DrawEllipse(color,null,new(p.X-5,p.Y+6),2.2,2.2);dc.DrawEllipse(color,null,new(p.X+5,p.Y+6),2.2,2.2);
+            Text(dc,"#"+cargo.Id,new(p.X,p.Y+13),9,color);
+        }
     }
     private void DrawPopulationFlows(DrawingContext dc)
     {

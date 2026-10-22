@@ -12,6 +12,11 @@ internal static class StageSixSpecs
         foreach(var city in s.Cities){s.Tiles[city.Tile].Terrain=Terrain.Grassland;s.Tiles[city.Tile].Owner=city.Owner;}
         foreach(var u in s.Units)s.Tiles[u.Tile].Terrain=Terrain.Grassland;
         for(int x=9;x<=18;x++)s.Tiles[At(s,x)].Terrain=Terrain.Grassland;
+        foreach(var from in s.Cities)foreach(var to in s.Cities)
+        {
+            var cursor=s.Tiles[from.Tile];
+            while(cursor.Id!=to.Tile){cursor=World.Neighbors(s,cursor.Id).OrderBy(t=>World.Distance(t,s.Tiles[to.Tile])).ThenBy(t=>t.Id).First();cursor.Terrain=Terrain.Grassland;}
+        }
         var a=s.Cities.First(c=>c.Owner==0);var b=Engine.AddCity(s,0,At(s,15),"Kamieniec");var foreign=s.Cities.First(c=>c.Owner==1);
         foreach(var city in new[]{a,b,foreign})city.Buildings.Add("market");
         foreach(var f in s.Factions){f.Gold=2000;f.Technologies.UnionWith(["pottery","trade","currency"]);}
@@ -77,7 +82,7 @@ internal static class StageSixSpecs
             double buyerGold=s.Player.Gold,sellerGold=s.Factions[1].Gold,total=s.Factions.Sum(f=>f.Gold);var plan=Markets.Plan(s);var trade=plan.Trades.Single();
             Assert(trade.Quantity==2&&Math.Abs(plan.Cash.Values.Sum())<.00001,"Unbalanced contract quote.");Markets.Tick(s);
             Assert(Math.Abs(s.Player.Gold-(buyerGold-trade.Payment))<.00001&&Math.Abs(s.Factions[1].Gold-(sellerGold+trade.Payment))<.00001&&Math.Abs(s.Factions.Sum(f=>f.Gold)-total)<.00001,"Gold was minted or charged twice.");
-            Assert(Line(plan,a,TradeGood.Salt).ForeignIn==2&&Markets.LastTradeBalance(s,0)== -trade.Payment,"Cargo or trade history lost.");SaveGame.Deserialize(SaveGame.Serialize(s));
+            Assert(Line(plan,a,TradeGood.Salt).ForeignIn==0&&s.Caravans.Single().Quantity==2&&Markets.LastTradeBalance(s,0)== -trade.Payment,"Dispatch was delivered instantly or trade history lost.");SaveGame.Deserialize(SaveGame.Serialize(s));
         });
         test("Domestic reserve protects inhabitants while free exports can cause shortages",()=>
         {
@@ -154,9 +159,9 @@ internal static class StageSixSpecs
             var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=5;foreach(string key in new[]{"TradeContracts","NextContractId","LastMarketTurn"})node.AsObject().Remove(key);
             foreach(var city in node["Cities"]!.AsArray())foreach(string key in new[]{"MarketStocks","LastMarketLines","LastMarketTurn","LastMarketTax"})city!.AsObject().Remove(key);
             string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version==6&&loaded.Wars.Count==1&&loaded.PeaceOffers.Count==1&&loaded.Cities.All(c=>c.MarketStocks.Values.All(v=>v==0)&&c.LastMarketTurn==0),"Migration lost diplomacy or invented stock.");
+            Assert(loaded.Version==7&&loaded.Wars.Count==1&&loaded.PeaceOffers.Count==1&&loaded.Cities.All(c=>c.MarketStocks.Values.All(v=>v==0)&&c.LastMarketTurn==0),"Migration lost diplomacy or invented stock.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v5-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v5.bak")==legacy&&SaveGame.Read(path).Version==6,"V5 backup failed.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v5.bak")==legacy&&SaveGame.Read(path).Version==7,"V5 backup failed.");}
             finally{File.Delete(path);File.Delete(path+".v5.bak");}
         });
         test("V6 rejects corrupt warehouses, physical ledgers and contract payments",()=>

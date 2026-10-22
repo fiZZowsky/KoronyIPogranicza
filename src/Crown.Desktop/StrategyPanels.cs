@@ -67,6 +67,8 @@ public sealed partial class MainWindow
         }
         else TitlePanel("MARCHIE VEYRU", "Nieznane ziemie", "Wyślij zwiadowców, aby odkryć zasoby, ruiny i przyszłe miejsca osadnictwa.");
 
+        if(state.Caravans.Any(c=>c.Tile==selectedTile&&Caravans.Active(c)&&state.TradeContracts.Any(t=>t.Id==c.ContractId&&(t.Buyer==0||t.Seller==0))))
+            side.Children.Add(Ui.Button("Karawany na tym polu",ShowCaravans));
         var units = state.Units.Where(u => u.Owner == 0 && u.Tile == selectedTile).ToArray();
         if (units.Length > 0)
         {

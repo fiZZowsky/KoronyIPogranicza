@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.6
+# Korony i Pogranicza · 0.7
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.6/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.6` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.7/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.7` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Cena dobrobytu.** Wersja 0.6 dodaje zapasy i zużycie towarów, regionalne ceny, zagraniczne kontrakty importowe i eksportowe, podatki rynku, składy towarowe oraz politykę handlową. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Droga ma swoją cenę.** Wersja 0.7 dodaje karawany z rzeczywistymi ładunkami, pozycją i czasem podróży. Drogi przyspieszają dostawy; zgody na tranzyt, osłona wojskowa i blokady decydują o ich dotarciu. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -28,6 +28,7 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Prowincje z własnymi potrzebami, kierunkiem rozwoju i dobrobytem. Dzielnice mieszkalne oraz lecznice ograniczają presję społeczną. Regionalna wymiana karmi miasta z niedoborem, a bezpieczne drogi umożliwiają przeprowadzki do lepszych warunków.
 - Lojalność i pamięć założycieli miast. Autonomia oddaje część dochodów za większą lojalność i kulturę; zarząd wojskowy wymaga garnizonu. Podbite miasto może wrócić do założycieli po trzech turach lojalności poniżej 20.
 - Fizyczne zapasy żelaza, soli i barwników, wydobycie z pracujących pól, regionalny popyt i ceny. Dostawy krajowe dzielą nadwyżkę w sieci drogowej. Kontrakty zagraniczne przenoszą towary i złoto; embargo, wojna i blokady przerywają dostawy.
+- Karawany poruszające się po heksach, podgląd trasy i czasu przybycia, tranzyt przez państwa trzecie, przechwytywanie przez wroga i osłona przez pobliskie wojska. Nabywca płaci przy wysyłce i ponosi ryzyko utraty.
 - Zwycięstwo naukowe, kulturowe, przez zjednoczenie oraz punktowe po 320 turach. Kampania może zakończyć się wcześniej.
 - Zapis i wczytanie stanu JSON z walidacją, atomowym zastępowaniem pliku i zapisanym stanem generatora losowego. Autozapis po turze i decyzji rady; kronika przechowuje wybory oraz ich skutki.
 
@@ -84,11 +85,25 @@ Pracujące własne pole żelaza, soli lub barwników produkuje 2 jednostki towar
 
 Miasto mieści 50 jednostek każdego towaru; targowisko dodaje 25, **Skład towarowy** kolejne 100. Skład kosztuje 150 produkcji i wymaga technologii **Moneta**. Nadmiar po zużyciu przepada i jest wykazany w bilansie. Zajęcie miasta przejmuje jego zapasy, a stare raporty podatkowe są zerowane.
 
-Miasta jednej bezpiecznej sieci drogowej mają wspólną cenę. Bazy to 8 złota dla żelaza, 5 dla soli i 9 dla barwników. Cena wynika z `baza × (0,75 + popyt / (zapasy + nowa produkcja + 1))`, z limitem trzykrotnej bazy i zaokrągleniem do dwóch miejsc. Obliczana jest przed dostawami danego rozliczenia; import wpływa na cenę kolejnego rozliczenia. Wymiana krajowa najpierw pokrywa potrzeby z własnych zapasów miasta, następnie z nadwyżek połączonych miast.
+Miasta jednej bezpiecznej sieci drogowej mają wspólną cenę. Bazy to 8 złota dla żelaza, 5 dla soli i 9 dla barwników. Cena wynika z `baza × (0,75 + popyt / (zapasy + nowa produkcja + przybyłe ładunki + 1))`, z limitem trzykrotnej bazy i zaokrągleniem do dwóch miejsc. Obliczana jest po przybyciu karawan, przed nowymi załadunkami i zużyciem. Wymiana krajowa najpierw pokrywa potrzeby z własnych zapasów miasta, następnie z nadwyżek połączonych miast.
 
-W **Podpisz kontrakt handlowy** wybierz import lub eksport, miasta, towar i limit 1–6 jednostek na turę. Umowa kosztuje 15 złota i obowiązuje do rozliczenia tury początkowej +12. Limit to trzy aktywne umowy na każde państwo. Wymagane są targowiska i Szlaki handlowe po obu stronach, pokojowy traktat oraz bezpieczne połączenie każdego miasta ze swoją stolicą.
+W **Podpisz kontrakt handlowy** wybierz import lub eksport, miasta, towar i limit 1–6 jednostek na karawanę. Umowa kosztuje 15 złota i obowiązuje do rozliczenia tury początkowej +12. Limit to trzy aktywne umowy na każde państwo i jedna karawana w drodze na umowę. Wymagane są targowiska i Szlaki handlowe po obu stronach, pokojowy traktat, bezpieczne połączenie każdego miasta ze swoją stolicą oraz dostępna trasa lądowa.
 
-Cena kontraktowa wynosi 115% ceny regionalnej sprzedawcy. Przy rozliczeniu zależy od aktualnego rynku; podpis nie blokuje ceny, zapasu ani złota. Dostawa może być częściowa z powodu braku towarów lub funduszy. Płatność przechodzi bezpośrednio od nabywcy do sprzedawcy, bez mnożników trudności. Niedostępne towary nie są tworzone. Umowy rozliczane są w kolejności podpisania.
+Cena kontraktowa wynosi 115% ceny regionalnej sprzedawcy. Przy załadunku zależy od aktualnego rynku; podpis nie blokuje ceny, zapasu ani złota. Ładunek może być częściowy z powodu braku towarów lub funduszy. Nabywca płaci przy wysyłce bezpośrednio sprzedawcy, bez mnożników trudności. Towar opuszcza magazyny sprzedawcy i pozostaje w transporcie aż do przybycia; import w bilansie odbiorcy oznacza dopiero faktyczny przyjazd. Umowy rozliczane są w kolejności podpisania.
+
+### Karawany i ochrona dróg
+
+Panel **Rynek → Karawany i trasy** pokazuje manifesty, zapłacone kwoty, pozycje, pozostały czas podróży i przyczyny postoju. **Pokaż na mapie** centruje kamerę i zaznacza pozostałą trasę na odkrytych heksach. Znacznik wozu oznacza karawanę; pomarańczowy kolor — postój. Można zakończyć śledzenie przyciskiem w panelu rynku. Kliknięcie pola z własnym transportem pozwala otworzyć raport także z panelu terenu.
+
+Karawana otrzymuje 3 punkty ruchu na fazę rynku. Połączone drogi kosztują 0,5, lasy, wzgórza i mokradła 2, pozostały ląd 1. Niewykorzystane punkty nie przechodzą między turami. Załadowany transport zaczyna marsz przy następnym rozliczeniu. Podany czas jest prognozą według obecnej trasy, bez przyszłych blokad; transport nie używa sezonowych modyfikatorów dostaw wojskowych.
+
+Szlak biegnie przez ziemie obu stron i neutralny ląd. Przejazd przez trzecie państwo wymaga jego pokojowych traktatów handlowych z obiema stronami oraz braku jego embarga. Zmiany dróg, granic i wojsk powodują ponowne wyszukiwanie najtańszej bezpiecznej trasy, bez teleportowania ładunku.
+
+Wrogie wobec którejkolwiek ze stron oddziały państwa trzeciego stwarzają zagrożenie na swoim polu i w sąsiedztwie. Oddział nabywcy albo sprzedawcy (również zwiadowca, bez osadników) w promieniu jednego pola osłania przed sąsiednią strefą zagrożenia; miasto stron osłania własne pole. Wrogi oddział bezpośrednio na heksie transportu przechwytuje go zawsze. Karawana omija nieosłonięte zagrożenia; jeśli przeciwnik podejdzie do jej obecnej pozycji, przed końcem tury trzeba zapewnić osłonę lub usunąć przeciwnika. Nie ma automatycznego podążania eskorty ani nowej komendy ataku na wóz.
+
+Embargo, wojna między stronami i zerwany traktat zatrzymują wysłany transport. Brak dostępnej trasy także powoduje postój. **Trzy kolejne fazy postoju oznaczają utratę całego ładunku bez zwrotu zapłaty**; wznowienie marszu zeruje licznik. Zmiana właściciela któregokolwiek miasta umowy oznacza utratę przy następnym rozliczeniu. Zdarzenia są zapisywane w kronice, a interfejs zgłasza kłopoty na szlaku. Nie ma losowych rozbójników ani ubezpieczenia; przechwycenie wynika ze stanu mapy i nie daje napastnikowi nowego złota.
+
+Wygaśnięcie lub dobrowolne rozwiązanie umowy zatrzymuje kolejne załadunki. Już opłacone karawany kontynuują podróż i mogą dotrzeć później. Gdy poprzedni transport dotrze albo zostanie utracony, aktywna umowa może wysłać kolejny w tej samej fazie. Długa trasa ogranicza więc częstotliwość zaopatrzenia.
 
 | Polityka | Skutek |
 |---|---|
@@ -96,11 +111,11 @@ Cena kontraktowa wynosi 115% ceny regionalnej sprzedawcy. Przy rozliczeniu zale�
 | Swobodny eksport | Pozwala wywieźć towar przed zaspokojeniem własnych potrzeb |
 | Embargo | Wstrzymuje import i eksport, pozostawiając wymianę krajową |
 
-Zmiana polityki kosztuje 30 złota i ma odstęp ośmiu tur. Embargo, wojna, zerwanie traktatu i odcięcie stolicy wstrzymują kontrakt, ale czas nadal upływa. Przywrócenie warunków wznawia dostawy. Zmiana właściciela miasta rozwiązuje umowę przy następnym rozliczeniu; wygasłej lub rozwiązanej umowy nie wykonuje się ponownie. Umowę można samodzielnie rozwiązać w panelu. AI zawiera umowy między własnymi państwami; kontrakty Marchii wymagają działania gracza.
+Zmiana polityki kosztuje 30 złota i ma odstęp ośmiu tur. Embargo, wojna, zerwanie traktatu i odcięcie stolicy wstrzymują nowe załadunki, ale czas umowy nadal upływa. Wysłany ładunek stosuje opisane wyżej zasady karawan; nie musi ponownie wracać do sieci stolicy. Zmiana właściciela miasta rozwiązuje umowę przy następnym rozliczeniu. Umowę można samodzielnie rozwiązać w panelu. AI zawiera umowy między własnymi państwami; kontrakty Marchii wymagają działania gracza. Transporty AI podlegają tym samym regułom ruchu i ryzyka.
 
 Zużycie tworzy podatek od obrotu: 8%, 12% lub 18% wartości towarów przy niskich, zwykłych lub wysokich podatkach. Trafia on do dochodu państwa; płatności zagraniczne są księgowane odrębnie, aby nie pobierać ich dwukrotnie. W budżecie i nagłówku podatki rynku są oparte na ostatnim rozliczeniu, a przepływ kontraktów na aktualnej prognozie. Dochód prywatnych gospodarstw pozostaje abstrakcyjny, podobnie jak dotychczasowy dochód miejski.
 
-Nowa sprawa rady **Komu służy otwarty targ?** wiąże politykę handlową z poparciem i skarbem. Ceny obejmują trzy towary, bez samodzielnych agentów kupieckich. Zagraniczny transport jest abstrakcyjnym połączeniem bezpiecznych stolic; nie ma jeszcze poruszających się karawan ani wyszukiwania całej międzynarodowej drogi.
+Sprawa rady **Komu służy otwarty targ?** wiąże politykę handlową z poparciem i skarbem. Wybór embarga obejmuje teraz również już opłacone transporty. Ceny obejmują trzy towary; nie ma samodzielnych przedsiębiorstw kupieckich, frachtu morskiego ani kredytu.
 
 ## Poselstwa i uzasadnienia wojny
 
@@ -162,7 +177,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.6/saves/`. Format v6 przechowuje zapasy, bilanse, podatki, ceny, kontrakty i politykę rynku; odczytuje v1–v5. Starsze kampanie zaczynają z pustymi magazynami, bez dopisywania dawnych dostaw. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v5.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.7/saves/`. Format v7 przechowuje manifesty, pozycje, postoje i los karawan; odczytuje v1–v6. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v6.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -171,7 +186,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.6 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.7 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -184,6 +199,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 - `DiplomaticCouncil.cs`, `ProvincialPolitics.cs`: poselstwa, krzywdy, uzasadnienia wojny, lojalność, ustroje i zmiany właściciela miast.
 - `WarCouncil.cs`, `PeaceCouncil.cs`, `WarSaveRules.cs`: ogłoszone cele, bilans, rokowania, kontroferty, ratyfikacja i walidacja historii konfliktu.
 - `Markets.cs`, `TradeActions.cs`, `MarketSaveRules.cs`, `MarketCouncil.cs`: produkcja i zużycie towarów, ceny, kontrakty, polityka handlowa, dialog oraz walidacja bilansów.
+- `Caravans.cs`, `CaravanSaveRules.cs`: ruch ładunków, tranzyt, osłona, postoje, przechwytywanie i walidacja manifestów.
 - `src/Crown.Desktop`: natywny interfejs WPF, rysowanie mapy, proceduralne materiały terenu i sterowanie.
 - `tests/Crown.Specs`: wykonywalne specyfikacje bez bibliotek testowych; symulacje kampanii i test odtwarzalności zapisu.
 - `DESIGN.md`: założenia projektu, ograniczenia i kierunek dalszych etapów.
