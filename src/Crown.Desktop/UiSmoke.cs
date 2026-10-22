@@ -417,6 +417,46 @@ public sealed partial class MainWindow
             var militaryReturn=Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Wróć do mapy");var militaryBounds=militaryReturn.TransformToAncestor(root).TransformBounds(new Rect(militaryReturn.RenderSize));
             Check(militaryBounds.Top>=0&&militaryBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact military panel keeps its orders and return reachable by scrolling");
             Width=1600;Height=980;LoadPath(fortifiedPath);CloseModal();tab="realm";RefreshSide();Click("Wojsko i stałe rozkazy");await Capture("military-final");
+            CloseModal();
+            var creditWorld=World.Create();Narrative.Resolve(creditWorld,0);creditWorld.Units.RemoveAll(u=>u.Owner!=0);
+            foreach(var faction in creditWorld.Factions)faction.Gold=3000;
+            foreach(var relation in creditWorld.Relations){relation.Trade=true;relation.Trust=40;}
+            foreach(var town in creditWorld.Cities){town.ProductionPaused=true;town.Project="treasury";}
+            Start(creditWorld);tab="logistics";RefreshSide();Click("Pożyczki i zobowiązania");root.UpdateLayout();
+            Check(!Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Podpisz umowę pożyczki").IsEnabled&&Descendants<TextBlock>(overlay!).Any(t=>t.Text.Contains("wymagają Monety")),"Loan panel blocks credit before its currency technology");
+            creditWorld.Player.Technologies.Add("currency");ShowLoans();root.UpdateLayout();Descendants<ComboBox>(overlay!).Last().SelectedIndex=1;
+            double borrowingGold=state.Player.Gold,lendingGold=state.Factions[1].Gold;string offerBefore=SaveGame.Serialize(state);root.UpdateLayout();await Capture("loan-offer");
+            Check(SaveGame.Serialize(state)==offerBefore&&Descendants<TextBlock>(overlay!).Any(t=>t.Text.Contains("zwrócisz 240 w T13")),"Offer selection displays exact future terms without charging or changing the campaign");
+            Click("Podpisz umowę pożyczki");Check(state.Loans.Single().Principal==200&&state.Loans[0].DueTurn==13&&state.Player.Gold==borrowingGold+200&&state.Factions[1].Gold==lendingGold-200,"Signing a loan transfers principal once and records its due date");root.UpdateLayout();
+            Check(!Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Podpisz umowę pożyczki").IsEnabled,"Existing creditor obligation disables a duplicate signature");await Capture("loan-active");
+            string activeLoanPath=Path.Combine(folder,"loan-active-save.crown");SaveGame.Write(state,activeLoanPath);string activeLoanBefore=SaveGame.Serialize(state);LoadPath(activeLoanPath);CloseModal();
+            Check(SaveGame.Serialize(state)==activeLoanBefore,"Desktop reload preserves original principal and unsettled loan terms");tab="logistics";RefreshSide();Click("Pożyczki i zobowiązania");double earlyGold=state.Player.Gold,earlyLender=state.Factions[1].Gold;Click("Spłać pożyczkę #1");
+            Check(state.Loans[0].Status==LoanStatus.Repaid&&state.Loans[0].Paid==240&&state.Player.Gold==earlyGold-240&&state.Factions[1].Gold==earlyLender+240,"Early repayment button transfers full agreed principal and interest without a duplicate charge");
+            LoadPath(activeLoanPath);CloseModal();for(int i=0;i<10;i++)PromiseTurn();
+            Check(state.Turn==11&&state.Loans[0].Status==LoanStatus.Active&&state.Chronicle.Count(e=>e.Text.StartsWith("Za dwie tury zapada pożyczka"))==1,"Real turns produce a single two-turn maturity warning");PromiseTurn();PromiseTurn();
+            Check(state.Turn==13&&state.PendingEvent==DebtCouncil.Event.Id&&state.PendingLoanId==1&&state.Loans[0].Status==LoanStatus.AwaitingCouncil,"Maturity is reached through turn processing and creates a contextual debt hearing");
+            string dueLoanPath=Path.Combine(folder,"loan-due-save.crown");SaveGame.Write(state,dueLoanPath);string dueLoanBefore=SaveGame.Serialize(state);LoadPath(dueLoanPath);
+            Check(SaveGame.Serialize(state)==dueLoanBefore&&overlay!=null,"Desktop reload reopens the unanswered creditors' council with its original sum");root.UpdateLayout();
+            Check(Descendants<TextBlock>(overlay!).Any(t=>t.Text.Contains(state.Factions[1].Name)&&t.Text.Contains("240")),"Debt dialogue names the real creditor and agreed repayment amount");await Capture("loan-council");
+            double dueGold=state.Player.Gold,dueLender=state.Factions[1].Gold;int dueTrust=state.Relation(0,1).Trust;Click("01   Spłacimy");
+            Check(state.Player.Gold==dueGold-240&&state.Factions[1].Gold==dueLender+240&&state.Relation(0,1).Trust==dueTrust+5&&state.Loans[0].Status==LoanStatus.Repaid&&state.PendingLoanId==null,"Council repayment settles quoted debt once and restores creditor trust");
+            LoadPath(dueLoanPath);double extensionGold=state.Player.Gold,extensionLender=state.Factions[1].Gold;Click("02   Zapłacimy");
+            Check(state.Loans[0].ExtendedTurn==13&&state.Loans[0].DueTurn==19&&state.Loans[0].Paid==20&&TreasuryLoans.Outstanding(state)==260&&state.Player.Gold==extensionGold-20&&state.Factions[1].Gold==extensionLender+20,"Extension ruling transfers its fee and adds six turns with the higher fixed repayment");
+            string extendedLoanPath=Path.Combine(folder,"loan-extended-save.crown");SaveGame.Write(state,extendedLoanPath);string extendedLoanBefore=SaveGame.Serialize(state);LoadPath(extendedLoanPath);CloseModal();
+            Check(SaveGame.Serialize(state)==extendedLoanBefore,"Desktop reload retains the extension fee, new debt and final deadline");tab="logistics";RefreshSide();Click("Pożyczki i zobowiązania");await Capture("loan-extended");CloseModal();
+            for(int i=0;i<6;i++)PromiseTurn();ShowCouncil();root.UpdateLayout();var finalDebtChoices=Descendants<Button>(overlay!).Where(b=>b.Content is StackPanel).ToArray();
+            Check(state.Turn==19&&finalDebtChoices.Length==3&&finalDebtChoices[0].IsEnabled&&!finalDebtChoices[1].IsEnabled&&finalDebtChoices[2].IsEnabled,"Final maturity disables a second extension while keeping repayment and default available");
+            LoadPath(dueLoanPath);state.Player.Gold=0;ShowCouncil();root.UpdateLayout();var emptyDebtChoices=Descendants<Button>(overlay!).Where(b=>b.Content is StackPanel).ToArray();
+            Check(!emptyDebtChoices[0].IsEnabled&&!emptyDebtChoices[1].IsEnabled&&emptyDebtChoices[2].IsEnabled,"Empty treasury still has a reachable free default ruling");await Capture("loan-empty-treasury");
+            int defaultStability=state.Player.Stability,defaultTrust=state.Relation(0,1).Trust,defaultGrievance=DiplomaticCouncil.Grievances(state,1,0);Click("03   Nie uznamy");
+            Check(state.Loans[0].Status==LoanStatus.Defaulted&&state.Player.Gold==0&&state.Player.Stability==Math.Max(0,defaultStability-12)&&state.Relation(0,1).Trust==Math.Max(-100,defaultTrust-30)&&!state.Relation(0,1).Trade&&DiplomaticCouncil.Grievances(state,1,0)==Math.Min(100,defaultGrievance+35)&&TreasuryLoans.FrozenUntil(state)==37,"Default ruling applies political losses, creditor grievances, treaty termination and credit freeze");
+            tab="logistics";RefreshSide();Click("Pożyczki i zobowiązania");root.UpdateLayout();Descendants<ComboBox>(overlay!).First().SelectedIndex=1;root.UpdateLayout();
+            Check(!Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Podpisz umowę pożyczki").IsEnabled&&Descendants<TextBlock>(overlay!).Any(t=>t.Text.Contains("zamknięty do T37")),"Credit freeze also blocks a different peaceful lender with sufficient capital");
+            string defaultedLoanPath=Path.Combine(folder,"loan-defaulted-save.crown");SaveGame.Write(state,defaultedLoanPath);string defaultedLoanBefore=SaveGame.Serialize(state);LoadPath(defaultedLoanPath);CloseModal();
+            Check(SaveGame.Serialize(state)==defaultedLoanBefore,"Desktop reload preserves the default outcome and common credit ban");tab="diplomacy";RefreshSide();Click("Pożyczki i zobowiązania");Width=1200;Height=800;root.UpdateLayout();await Capture("loan-compact");
+            var loanReturn=Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Wróć do mapy");var loanBounds=loanReturn.TransformToAncestor(root).TransformBounds(new Rect(loanReturn.RenderSize));
+            Check(loanBounds.Top>=0&&loanBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact loan history keeps decisions and return accessible through scrolling");
+            Width=1600;Height=980;LoadPath(extendedLoanPath);CloseModal();tab="logistics";RefreshSide();Click("Pożyczki i zobowiązania");await Capture("loan-final");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }
         catch(Exception e){checks.Add(e.ToString());File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Application.Current.Shutdown(3);}

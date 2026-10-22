@@ -211,6 +211,7 @@ public static partial class Engine
         foreach(var u in s.Units.ToArray())MilitaryOrders.FinishTurn(s,u);
         ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         AuditCouncil.Tick(s);
+        TreasuryLoans.Tick(s);
         foreach(string notice in TransitCouncil.Notices(s))s.Log(notice,"tranzyt");
         foreach(var unit in s.Units.Where(u=>u.Owner==0&&u.Destination!=null).OrderBy(u=>u.Id).ToArray())FollowOrder(s,unit);
         EscortOrders.Normalize(s);
@@ -304,7 +305,7 @@ public static partial class Engine
             EnterTile(s,u,next);
         }
     }
-    public static double Score(GameState s,int owner) => s.Cities.Where(c=>c.Owner==owner).Sum(c=>c.Population*8+c.Buildings.Count*5)+s.Factions[owner].Technologies.Count*18+s.Factions[owner].Culture*.08+s.Factions[owner].Prestige*2+s.Factions[owner].Gold*.03;
+    public static double Score(GameState s,int owner) => s.Cities.Where(c=>c.Owner==owner).Sum(c=>c.Population*8+c.Buildings.Count*5)+s.Factions[owner].Technologies.Count*18+s.Factions[owner].Culture*.08+s.Factions[owner].Prestige*2+TreasuryLoans.NetWealth(s,owner)*.03;
     public static void CheckEnding(GameState s)
     {
         WarCouncil.FinishEliminated(s);

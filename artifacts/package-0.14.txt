@@ -1,0 +1,8 @@
+Package: Korony-i-Pogranicza-0.14-Windows.zip
+Bytes: 3572087
+Entries: 13
+SHA256: D2F36D1E0E98BB52F97B4A43D3A4DE01C1B80C0CE1239519FCAC862BDCE18CE7
+All entry hashes match published files. No saves or temporary files.
+Previous 0.13 archive and copied save hashes unchanged.
+Core specifications: 287 passed. Desktop integration: 170 passed for source and published executable.
+Published UI duration: 50.0 seconds, run on its own. Diagnostic failure exit code: 3.

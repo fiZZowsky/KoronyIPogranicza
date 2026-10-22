@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.13
+# Korony i Pogranicza · 0.14
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.13/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.13` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.14/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.14` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Utrzymać pozycję.** Wersja 0.13 dodaje okopywanie i rekonwalescencję oddziałów, przegląd armii oraz premie pozycyjne w podglądzie starcia. Czas przygotowania, dostawy i wybór między obroną a ruchem wpływają na wynik walki. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Pieczęć i dług.** Wersja 0.14 dodaje pożyczki państwowe finansowane przez zagraniczne skarbce, terminy spłaty, jednorazowe odroczenie i dialogi z wierzycielami. Zerwanie umowy ma skutki polityczne, kończy traktat handlowy i czasowo zamyka nowy kredyt. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -19,7 +19,7 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Miasta, ludność, wzrost i głód, sezonowe plony, eksploatacja pól, farmy, kopalnie, placówki handlowe, produkcja i utrzymanie.
 - 24 technologie z wymaganiami; 18 trwałych projektów miejskich, dwa projekty powtarzalne i sześć rodzajów oddziałów.
 - Lud, rody i uczeni: ich poparcie wpływa na docelową stabilność, a ta na gospodarkę. Ustawy zmieniają podatki, ustrój i priorytety.
-- 26 rodzajów wyjątkowych i kontekstowych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta; delegacje kupców odnoszą się do konkretnych utraconych karawan. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
+- 27 rodzajów wyjątkowych i kontekstowych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta; delegacje kupców odnoszą się do konkretnych utraconych karawan. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
 - Dyplomacja: dary, handel, krzywdy, trzy powody wypowiedzenia wojny, odszkodowania, pakty o nieagresji i rozejmy. Posłowie wracają z odpowiedzią po dwóch turach. AI zakłada miasta, bada, buduje, ulepsza ziemię i prowadzi działania wojenne.
 - Negocjowany pokój z reparacjami i zwrotem miast, propozycjami AI, kontrofertami i terminem odpowiedzi. Historia wojny przechowuje ogłoszony cel, straty, bilans i końcowe rozliczenie obietnicy.
 - Walka wręcz i dystansowa, doświadczenie, obrona terenu, oblężenia i przejmowanie miast. Woda i góry blokują ruch. Armie poza zasięgiem dostaw słabną; odpoczynek leczy.
@@ -35,6 +35,28 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Zapis i wczytanie stanu JSON z walidacją, atomowym zastępowaniem pliku i zapisanym stanem generatora losowego. Autozapis po turze i decyzji rady; kronika przechowuje wybory oraz ich skutki.
 
 Długość i balans wymagają dalszych rozgrywek z udziałem człowieka. Automatyczne symulacje nie potwierdzają jakości wielogodzinnej rozgrywki.
+
+## Skarb: pieczęć i dług
+
+W **Szlaki → Pożyczki i zobowiązania** lub tym samym panelu w **Dyplomacji** wybierz państwo kupców i kwotę. Potrzebujesz **Monety**, pokoju, traktatu handlowego i zaufania co najmniej +10. Oba państwa muszą jeszcze istnieć, a skarb wspierający kupców musi mieć kapitał. Kwota rzeczywiście przechodzi z jego zasobów do Twoich; AI odczuje mniejszy zapas złota.
+
+| Finansowanie teraz | Spłata po 12 turach | Po jednorazowym odroczeniu |
+|---|---|---|
+| 100 złota | 120 | 130 + osobna opłata 20 |
+| 200 złota | 240 | 260 + osobna opłata 20 |
+| 300 złota | 360 | 390 + osobna opłata 20 |
+
+Najwyżej **dwie otwarte pożyczki**, w tym jedna od kupców danego państwa. Kolejną z tego samego państwa można podpisać dopiero po ośmiu turach od poprzedniej i po jej zamknięciu. Wcześniejsza spłata nadal obejmuje całą umówioną kwotę; nie ma rabatu za niewykorzystane tury. Panel pokazuje łączne zobowiązania, historię, terminy i zapłacone kwoty. Saldo dochodu na turę nie odejmuje tych jednorazowych płatności. Punktacja majątku opiera się na złocie powiększonym o należności i pomniejszonym o otwarte zobowiązania. Sam kapitał pożyczki nie tworzy darmowych punktów zwycięstwa; odsetki są przyszłym kosztem pożyczkobiorcy i należnością wierzyciela.
+
+Na dwie tury przed terminem pojawia się przypomnienie w kronice i komunikacie tury, jeśli pierwszeństwa nie mają inne pilne wiadomości. Umowa z T1 zapada w T13. Pieniądze nie znikają automatycznie: kupcy przychodzą do rady. Istniejący dialog zachowuje pierwszeństwo; wezwanie czeka bez dopisywania karnych odsetek. Każdą pożyczkę trzeba rozstrzygnąć osobno.
+
+- **Spłata:** przelew pełnej umówionej kwoty wierzycielom, zaufanie +5. Możliwa z panelu także wcześniej i także podczas wojny. Wojna oraz upadek państwa wierzycieli nie kasują umowy.
+- **Odroczenie:** tylko raz i dopiero w rozmowie w terminie. Zapłać natychmiast 20 złota, zwiększ dług o 10% pierwotnego kapitału i otrzymaj sześć tur od bieżącej decyzji; zaufanie -5. Kupcy wymagają pokoju i istniejącego państwa, lecz nie ponawiają warunku traktatu i zaufania. Drugiego odroczenia nie będzie.
+- **Zerwanie zobowiązania:** bez wypłaty złota; stabilność -12, lud -4, rody -8, prestiż -10. Zaufanie wierzycieli -30, ich krzywdy +35. Traktat handlowy z nimi kończy się od razu. Opłacone karawany wymagające tego traktatu mogą utknąć i przepaść po trzech kolejnych postojach bez zwrotu ceny. Nowe pożyczki od wszystkich kupców są zamknięte przez 24 tury. Pozostałe otwarte umowy nadal obowiązują.
+
+Zerwanie w T13 blokuje finansowanie do T36 włącznie; od T37 można znów starać się o pożyczkę, spełniając zwykłe warunki. Skutki społeczne i relacje są ograniczane do ich zwykłych przedziałów. Nawet pusty skarbiec ma dostępną odmowę, więc termin nie blokuje kampanii bez możliwej decyzji. Zakończenie kampanii kończy dalsze działania.
+
+To model finansowania państwa w abstrakcyjnych turach, bez dziennego oprocentowania, licytacji obligacji, przejmowania miast przez wierzycieli lub pożyczek zaciąganych samodzielnie przez AI. Kupcy są reprezentowani przez skarb wskazanego państwa; po jego upadku dawny rachunek nadal przyjmuje rozliczenie.
 
 ## Wojsko: utrzymać pozycję
 
@@ -271,7 +293,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.13/saves/`. Format v13 zachowuje stałe rozkazy wojskowe i stopień przygotowania pozycji; odczytuje v1–v12. Migracja v12 zachowuje kolejki produkcji, rachunki, kontrole, eskorty i dotychczasowe marsze, bez dopisywania umocnień lub rekonwalescencji. V12 zachowuje kolejki produkcji, powtarzanie i wstrzymanie pracy. Migracja v11 zachowuje bieżący projekt, zgromadzoną pracę, rachunki i otwarte kontrole bez dopisywania zamówień. V11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v12.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.14/saves/`. Format v14 zachowuje umowy pożyczek, spłaty, odroczenia, odmowy i kontekst rozmowy z wierzycielami; odczytuje v1–v13. Migracja v13 zachowuje rozkazy wojskowe, przygotowanie pozycji, kolejki i rachunki bez dopisywania dawnych długów. V13 zachowuje stałe rozkazy wojskowe i stopień przygotowania pozycji. Migracja v12 zachowuje kolejki produkcji, rachunki, kontrole, eskorty i dotychczasowe marsze, bez dopisywania umocnień lub rekonwalescencji. V12 zachowuje kolejki produkcji, powtarzanie i wstrzymanie pracy. Migracja v11 zachowuje bieżący projekt, zgromadzoną pracę, rachunki i otwarte kontrole bez dopisywania zamówień. V11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v13.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -280,7 +302,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.13 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.14 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -289,6 +311,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 
 - `src/Crown.Core`: model świata, symulacja, AI, treść dialogów i serializacja; niezależne od WPF.
 - `Navigation.cs`, `Movement.cs`, `Logistics.cs`, `Infrastructure.cs`, `Combat.cs`: wspólne wyszukiwanie tras, rozkazy, dostawy, gospodarka infrastruktury i model starcia z podglądem.
+- `TreasuryLoans.cs`, `DebtCouncil.cs`, `LoanSaveRules.cs`, `LoanPanels.cs`: finansowanie, zobowiązania, decyzje wierzycieli, walidacja i panel skarbu.
 - `MilitaryOrders.cs`, `MilitaryPanels.cs`: stałe rozkazy, leczenie, przygotowane pozycje, walidacja i przegląd armii.
 - `Regions.cs`, `ProvincialEvents.cs`: potrzeby i kierunki rozwoju miast, rynki regionalne, migracje oraz dialogi z lokalnymi skutkami.
 - `DiplomaticCouncil.cs`, `ProvincialPolitics.cs`: poselstwa, krzywdy, uzasadnienia wojny, lojalność, ustroje i zmiany właściciela miast.

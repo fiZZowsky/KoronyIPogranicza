@@ -263,4 +263,30 @@ PASS Market projections retain and never mutate standing military orders
 PASS Standing orders and partially completed works continue identically after reload
 PASS V12 migration retains production and audit data without inventing prepared positions
 PASS Military save validation rejects impossible readiness and conflicting orders
-261 specifications passed in 16,4s.
+PASS Loans transfer real principal and preserve combined treasury balances
+PASS Credit requirements reject missing technology, war, treaty, trust and lender funds atomically
+PASS Invalid creditors, unsupported principals, fallen states and completed campaigns cannot borrow
+PASS Only two obligations and one per creditor can remain open
+PASS Early repayment charges full agreed interest exactly once and transfers it to the creditor
+PASS Repayment refuses insufficient gold, unknown ids and an ended campaign atomically
+PASS Early settlement does not bypass the eight-turn funding interval
+PASS Maturity warnings and due transitions are idempotent without seizing treasury
+PASS Real end-turn processing schedules the due debt and the council blocks further time
+PASS An existing council keeps precedence while overdue obligations wait without invented interest
+PASS Due hearing uses the named creditor and actual terms without mutating the state
+PASS Council repayment transfers the quoted amount once and increases trust
+PASS One extension pays a real fee and adds fixed interest with a new six-turn term
+PASS A second extension is refused atomically and the remaining debt still has two outcomes
+PASS War and a fallen creditor stop extensions but never erase principal or block repayment
+PASS Empty treasury has a default option with political, diplomatic and credit consequences
+PASS Credit freeze applies to every lender and expires at its exclusive boundary
+PASS Debt defaults stop treaty-dependent paid cargo without refunding its purchase
+PASS Outstanding debts stay distinct from recurring income and pure economic forecasts
+PASS Two matured loans are presented separately and cannot overwrite each other
+PASS Borrowed gold creates no free victory points and repayment preserves net wealth
+PASS Malformed and finished council requests cannot mutate finance
+PASS Ongoing, extended and due loans continue identically across save and reload
+PASS V13 migration keeps military preparation, production and audits without inventing debt
+PASS Loan validation rejects unknown terms, impossible dates, fake payments and bad contexts
+PASS Loan validation rejects duplicate records, null registries and unsettled terminal amounts
+287 specifications passed in 17,4s.

@@ -18,7 +18,7 @@ public static class Content
         new("philosophy", "Filozofia", 135, ["writing"], "Świątynie i instytucje. +20% kultury."),
         new("iron", "Żelazo", 155, ["bronze","masonry"], "+5 siły; dodatkowe +3 z własnym złożem żelaza."),
         new("engineering", "Inżynieria", 180, ["masonry","writing"], "Katapulty, warsztaty i +2 do zasięgu dostaw."),
-        new("currency", "Moneta", 200, ["trade"], "Banki i wspólny rynek. +2 złota z miasta."),
+        new("currency", "Moneta", 200, ["trade"], "Banki, wspólny rynek i pożyczki państwowe. +2 złota z miasta."),
         new("civilservice", "Służba publiczna", 220, ["philosophy","trade"], "Sądy; -25% kosztów utrzymania miast, +2 miejsca mieszkalne i cel korupcji -8 w każdym mieście."),
         new("education", "Uniwersytety", 260, ["philosophy","engineering"], "Uniwersytety; +20% nauki."),
         new("steel", "Stal", 290, ["iron","engineering"], "+7 siły wszystkim wojskom."),

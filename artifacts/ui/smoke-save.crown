@@ -1,5 +1,5 @@
 {
-  "Version": 13,
+  "Version": 14,
   "Seed": 17421,
   "RandomState": 1412161214,
   "Width": 42,
@@ -17317,5 +17317,8 @@
   "Audits": [],
   "NextAuditId": 1,
   "PendingAuditId": null,
+  "Loans": [],
+  "NextLoanId": 1,
+  "PendingLoanId": null,
   "NextId": 19
 }

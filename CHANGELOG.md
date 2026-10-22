@@ -1,5 +1,18 @@
 # Zmiany
 
+## 0.14 — Pieczęć i dług · 22 października 2026
+
+- Pożyczki 100, 200 i 300 złota finansowane przez zagraniczne skarbce, z rzeczywistym transferem kapitału. Moneta, pokój, traktat, zaufanie +10 i środki wierzyciela są sprawdzane przy podpisaniu. Dwie otwarte umowy, jedna na państwo; osiem tur odstępu między finansowaniami z tego samego źródła.
+- Punktacja majątku uwzględnia otwarte zobowiązania i należności wierzycieli. Pożyczony kapitał nie tworzy darmowych punktów zwycięstwa; spłata nie odejmuje majątku drugi raz.
+- Termin po 12 turach i stała cena 20% kapitału. Wcześniejsza spłata obejmuje całą umowną kwotę, przekazuje ją wierzycielom i daje +5 zaufania. Nie ma automatycznego potrącania lub dopisywania długu do kosztów każdej tury.
+- Przypomnienie dwie tury przed terminem i kontekstowa rozmowa z wierzycielami. Pokazuje nazwę państwa, umowę, wypłacone środki i aktualną spłatę. Istniejąca rada nie jest zastępowana, a osobne długi wymagają osobnych decyzji.
+- Jednorazowe odroczenie: opłata 20 od razu, dodatkowe 10% pierwotnego kapitału do długu, sześć tur od decyzji i zaufanie -5. Wymaga pokoju i czynnego państwa wierzycieli. Drugie odroczenie jest wyłączone.
+- Zerwanie zobowiązania: stabilność -12, lud -4, rody -8, prestiż -10, zaufanie wierzycieli -30 i krzywdy +35. Koniec traktatu może zatrzymać opłacone karawany, bez zwrotu zakupu. Nowe finansowanie u wszystkich kupców zamknięte na 24 tury, lecz pozostałe umowy nadal obowiązują. Odmowa jest dostępna także bez złota.
+- Wojna i upadek państwa wierzycieli nie usuwają długu ani możliwości spłaty. Nie ma darmowego umorzenia przez wypowiedzenie wojny. Po zakończeniu kampanii nie można zmieniać finansów.
+- Panel skarbu z ofertą, wymaganiami, sumą zobowiązań, terminami, spłatą i historią. Dostęp z bilansu w Szlakach oraz Dyplomacji. Wcześniejsze polecenia i małe okno pozostają obsługiwane przez przewijanie.
+- Format v14 zapisuje umowy, płatności, terminy, odroczenia, wynik i bieżące wezwanie. Migracja v13 zachowuje rozkazy armii, umocnienia, produkcję i rachunki bez dopisywania dawnych długów. Nadpisanie zachowuje `.v13.bak`; starsze migracje nadal działają.
+- Osobne wydanie `wydanie-0.14/`, wcześniejsze paczki i zapisy zachowane. To pożyczki gracza od państw reprezentujących kupców, bez autonomicznego zadłużania AI, płynnych stóp, bankructwa firm i rynku obligacji. Oprawa pozostaje teksturowaną mapą 2D.
+
 ## 0.13 — Utrzymać pozycję · 22 października 2026
 
 - Stały rozkaz okopywania: pełny ruch za przygotowanie, +20% siły obronnej po pierwszym rozliczeniu tury, +40% po drugim. Premia dotyczy oddziału, uwzględnia zdrowie i dostawy, a dodatek terenu jest liczony osobno. Nie wzmacnia natarcia ani nie jest przenoszona do miejskich murów.

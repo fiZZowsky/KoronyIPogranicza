@@ -149,4 +149,23 @@ PASS Completed treatment automatically returns the troop to ready selection
 PASS Remote order report warns that treatment cannot replace supply
 PASS Unsupplied treatment applies three healing and five attrition without falsely waking
 PASS Compact military panel keeps its orders and return reachable by scrolling
-151 desktop integration checks passed.
+PASS Loan panel blocks credit before its currency technology
+PASS Offer selection displays exact future terms without charging or changing the campaign
+PASS Signing a loan transfers principal once and records its due date
+PASS Existing creditor obligation disables a duplicate signature
+PASS Desktop reload preserves original principal and unsettled loan terms
+PASS Early repayment button transfers full agreed principal and interest without a duplicate charge
+PASS Real turns produce a single two-turn maturity warning
+PASS Maturity is reached through turn processing and creates a contextual debt hearing
+PASS Desktop reload reopens the unanswered creditors' council with its original sum
+PASS Debt dialogue names the real creditor and agreed repayment amount
+PASS Council repayment settles quoted debt once and restores creditor trust
+PASS Extension ruling transfers its fee and adds six turns with the higher fixed repayment
+PASS Desktop reload retains the extension fee, new debt and final deadline
+PASS Final maturity disables a second extension while keeping repayment and default available
+PASS Empty treasury still has a reachable free default ruling
+PASS Default ruling applies political losses, creditor grievances, treaty termination and credit freeze
+PASS Credit freeze also blocks a different peaceful lender with sufficient capital
+PASS Desktop reload preserves the default outcome and common credit ban
+PASS Compact loan history keeps decisions and return accessible through scrolling
+170 desktop integration checks passed.

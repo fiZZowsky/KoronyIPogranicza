@@ -185,9 +185,9 @@ internal static class StageThirteenSpecs
         {
             var (s, u) = Fixture(); var c = s.Cities[0]; c.ProductionQueue.Add(new() { Project = "scout", Repeat = true }); c.HiddenGold = 18; c.Production = 37; s.Version = 12;
             u.Order = MilitaryOrder.Fortify; u.FortificationTurns = 2; string legacy = SaveGame.Serialize(s); var loaded = SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 13 && loaded.Units.All(v => v.Order == MilitaryOrder.None && v.FortificationTurns == 0) && loaded.Cities[0].HiddenGold == 18 && loaded.Cities[0].Production == 37 && loaded.Cities[0].ProductionPaused && loaded.Cities[0].ProductionQueue.Single().Repeat, "Migration lost economic plans or invented works.");
+            Assert(loaded.Version == 14 && loaded.Units.All(v => v.Order == MilitaryOrder.None && v.FortificationTurns == 0) && loaded.Cities[0].HiddenGold == 18 && loaded.Cities[0].Production == 37 && loaded.Cities[0].ProductionPaused && loaded.Cities[0].ProductionQueue.Single().Repeat, "Migration lost economic plans or invented works.");
             string path = Path.Combine(Environment.CurrentDirectory, "artifacts", "migration-v12-test.crown");
-            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v12.bak") == legacy && SaveGame.Read(path).Version == 13, "V12 backup failed."); }
+            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v12.bak") == legacy && SaveGame.Read(path).Version == 14, "V12 backup failed."); }
             finally { File.Delete(path); File.Delete(path + ".v12.bak"); }
         });
         test("Military save validation rejects impossible readiness and conflicting orders", () =>

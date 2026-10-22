@@ -8,6 +8,7 @@ public sealed partial class MainWindow
     private void DiplomacyPanel()
     {
         TitlePanel("SŁOWO I ODPOWIEDZIALNOŚĆ", "Poselstwa i układy", "Jedna rozmowa z państwem na turę. Poselstwo kosztuje 20 złota; odpowiedź wraca po dwóch turach. Krzywdy wygasają o 1 co osiem tur.");
+        side.Children.Add(Ui.Button("Pożyczki i zobowiązania", () => ShowLoans()));
         foreach (var f in state.Factions.Skip(1))
         {
             var r = state.Relation(0, f.Id);

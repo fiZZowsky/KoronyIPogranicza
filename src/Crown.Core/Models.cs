@@ -5,6 +5,7 @@ public enum Resource { None, Grain, Iron, Horses, Stone, Salt, Dyes }
 public enum Improvement { None, Farm, Mine, TradingPost }
 public enum UnitKind { Scout, Spearmen, Archer, Cavalry, Settler, Catapult }
 public enum MilitaryOrder { None, Fortify, Recover }
+public enum LoanStatus { Active, AwaitingCouncil, Repaid, Defaulted }
 public enum CityFocus { Balanced, Agriculture, Industry, Scholarship }
 public enum Governance { Integrated, Autonomous, Military }
 public enum WarReason { Conquest, Redress, Liberation }
@@ -201,7 +202,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 13;
+    public int Version { get; set; } = 14;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -237,6 +238,9 @@ public sealed class GameState
     public List<AuditCase> Audits { get; set; } = [];
     public int NextAuditId { get; set; } = 1;
     public int? PendingAuditId { get; set; }
+    public List<SovereignLoan> Loans { get; set; } = [];
+    public int NextLoanId { get; set; } = 1;
+    public int? PendingLoanId { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
     internal Dictionary<int, SupplyMap> LogisticsCache = [];
@@ -342,6 +346,18 @@ public sealed class ProductionOrder
 {
     public string Project { get; set; } = "treasury";
     public bool Repeat { get; set; }
+}
+public sealed class SovereignLoan
+{
+    public int Id { get; set; }
+    public int Creditor { get; set; }
+    public int Principal { get; set; }
+    public int StartedTurn { get; set; }
+    public int DueTurn { get; set; }
+    public int? ExtendedTurn { get; set; }
+    public int? ResolvedTurn { get; set; }
+    public LoanStatus Status { get; set; }
+    public int Paid { get; set; }
 }
 public sealed record CombatPreview(bool Valid, string Reason, string Attacker, string Target,
     double AttackStrength = 0, double DefenseStrength = 0, double TargetHealth = 0,

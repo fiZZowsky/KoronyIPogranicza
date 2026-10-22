@@ -159,9 +159,9 @@ internal static class StageSixSpecs
             var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=5;foreach(string key in new[]{"TradeContracts","NextContractId","LastMarketTurn"})node.AsObject().Remove(key);
             foreach(var city in node["Cities"]!.AsArray())foreach(string key in new[]{"MarketStocks","LastMarketLines","LastMarketTurn","LastMarketTax"})city!.AsObject().Remove(key);
             string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version==13&&loaded.Wars.Count==1&&loaded.PeaceOffers.Count==1&&loaded.Cities.All(c=>c.MarketStocks.Values.All(v=>v==0)&&c.LastMarketTurn==0),"Migration lost diplomacy or invented stock.");
+            Assert(loaded.Version==14&&loaded.Wars.Count==1&&loaded.PeaceOffers.Count==1&&loaded.Cities.All(c=>c.MarketStocks.Values.All(v=>v==0)&&c.LastMarketTurn==0),"Migration lost diplomacy or invented stock.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v5-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v5.bak")==legacy&&SaveGame.Read(path).Version==13,"V5 backup failed.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v5.bak")==legacy&&SaveGame.Read(path).Version==14,"V5 backup failed.");}
             finally{File.Delete(path);File.Delete(path+".v5.bak");}
         });
         test("V6 rejects corrupt warehouses, physical ledgers and contract payments",()=>
