@@ -61,14 +61,14 @@ public static class ProvincialPolitics
     }
 
     // All changes of sovereignty share border, occupation and displaced-unit handling.
-    public static void Transfer(GameState s, City city, int owner)
+    public static void Transfer(GameState s, City city, int owner, bool peaceful=false)
     {
         int old = city.Owner;
-        city.Owner = owner; city.Health = 50; city.Unrest = owner == city.OriginalOwner ? 20 : 55;
+        city.Owner = owner; if(!peaceful)city.Health = 50; city.Unrest = owner == city.OriginalOwner ? 20 : 55;
         city.Loyalty = owner == city.OriginalOwner ? 65 : 30;
         city.OccupiedUntil = owner == city.OriginalOwner ? 0 : s.Turn + 12;
         city.Governance = Governance.Integrated; city.RevoltTurns = 0; city.LastGovernanceTurn = -10;
-        city.Production = 0; city.Project = "spearmen"; city.LastFoodImported = city.LastFoodExported = 0;
+        if(!peaceful){city.Production = 0; city.Project = "spearmen";} city.LastFoodImported = city.LastFoodExported = 0;
         foreach (var tile in s.Tiles.Where(t => t.Owner == old && World.Distance(t, s.Tiles[city.Tile]) <= 2 &&
             !s.Cities.Any(c => c.Owner == old && World.Distance(t, s.Tiles[c.Tile]) <= 2)))
         { tile.Owner = owner; if (tile.Road) tile.RoadOwner = owner; }

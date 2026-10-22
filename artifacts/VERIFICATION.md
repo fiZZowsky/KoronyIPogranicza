@@ -1,22 +1,25 @@
-# Weryfikacja wydania 0.4
+# Weryfikacja wydania 0.5
 
-Data: 22 października 2026 r. Środowisko: Windows, .NET SDK 10.0.401, .NET Desktop Runtime 10.0.12.
+Data: 22 października 2026 r. Windows, .NET SDK 10.0.401, .NET Desktop Runtime 10.0.12.
 
-- Kompilacja Release rozwiązania: sukces, 0 ostrzeżeń, 0 błędów.
-- **68 specyfikacji silnika**: sukces (`core-specs.txt`). Obejmują wcześniejsze etapy i 18 nowych scenariuszy polityki oraz dyplomacji.
-- **38 kontroli integracyjnych WPF**: sukces (`ui/ui-smoke.txt`). Opublikowany program przeszedł te same kontrole (`published-ui-0.4/ui-smoke.txt`).
-- Sprawdzone: czystość podglądu wojny, odrzucenie nielegalnych rozkazów bez zmiany stanu, dokładne koszty agresji, reakcje pozostałych państw, kierunek krzywd, wyzwolenie i zużywanie roszczeń.
-- Poselstwa: koszt, odstęp, wspólny limit rozmowy, odpowiedź po dwóch turach, ocena sytuacji w dniu powrotu, niewypłacalność adresata, odmowa bez tworzenia nowych krzywd, anulowanie przez wojnę i brak wielokrotnego wypłacania odszkodowania.
-- Nieagresja: blokada wojny gracza i silniejszej, wrogiej AI podczas trwania paktu; możliwość wojny po wygaśnięciu.
-- Polityka prowincji: gospodarcze koszty ustrojów, odstęp zmian, rzeczywisty garnizon, pochodzenie miasta, okupacja, powrót do założycieli i lokalne skutki dialogu.
-- Bunt: dwa ostrzeżenia przed utratą miasta, odtworzenie licznika po zapisie, odzyskanie kontroli przez poprawę lojalności, transfer granic, wycofanie garnizonu i usunięcie nieaktualnej sprawy rady. Własne miasta nie przechodzą do przypadkowego państwa.
-- Integracja walki: rzeczywiste zdobycie miasta i zniszczenie drogi tworzą krzywdy po stronie pokrzywdzonego.
-- Zapis v4: deterministyczna kontynuacja z oczekującym poselstwem i późniejszymi decyzjami; odrzucanie uszkodzonych misji, lojalności i roszczeń. Migracje v1/v2/v3 zachowują dotychczasowe dane i oryginały w kopiach `.v1.bak`, `.v2.bak`, `.v3.bak`.
-- Cztery pasywne kampanie: ziarno 17421 zakończone po 279 turach, 2026 po 220, 8 po 205, 99 po 191. AI rozszerzyła państwa do 15–19 miast łącznie. Zakończenia obejmują utratę ostatniego miasta i zwycięstwa kulturowe AI. Są to kontrole integralności, nie ocena balansu dla człowieka.
-- Testy WPF obsługują rzeczywiste przyciski negocjacji, deklaracji wojny, anulowania rozkazu, ustroju, dialogu autonomii i wczytania. Sprawdzają też położenie stolicy w widocznym obszarze po zmianie kampanii i wczytaniu.
-- Scenariusze WPF nadają dodatkowe złoto, relacje, krzywdy lub miasta, aby w krótkim teście osiągnąć konkretne sytuacje. Nie są to standardowe warunki nowej kampanii.
-- Wizualnie sprawdzono renderowane widoki negocjacji, rady wojennej, odpowiedzi posłów, rady prowincji i zarządzania. Rendery pochodzą z WPF `RenderTargetBitmap`, bez przechwytywania pulpitu.
-- Celowo wywołana awaria opublikowanej diagnostyki zwróciła kod 3 (`process-exit-check.txt`). Katalog `diagnostics/` opisuje oczekiwaną awarię testową. Test interfejsu w skrypcie weryfikacji ma limit 60 sekund.
-- Wydanie `wydanie-0.4/` i paczka `Korony-i-Pogranicza-0.4-Windows.zip` zawierają program oraz dokumentację. ZIP nie zawiera prywatnych zapisów. Do lokalnego katalogu wydania skopiowano stare zapisy bez nadpisywania. Poprzednie katalogi i paczki pozostają zachowane.
+- Kompilacja Release: sukces, 0 ostrzeżeń i 0 błędów.
+- **85 specyfikacji silnika**: sukces (`core-specs.txt`). Względem 0.4 dodano 17 scenariuszy dotyczących celów wojennych, bilansu, rokowań i zapisów.
+- **49 kontroli integracyjnych WPF**: sukces (`ui/ui-smoke.txt`). Opublikowane wydanie przeszło te same kontrole (`published-ui-0.5/ui-smoke.txt`), w tym 11 nowych ścieżek.
+- Cele: wskazanie konkretnego miasta, odrzucanie celu we własnym państwie bez zmiany stanu, zapis inicjatora i granic początkowych, spełnienie celu przez zwrot miasta oraz konsekwencje nieuzyskania reparacji.
+- Bilans: czystość raportu, odwracanie składnika terytorialnego po odzyskaniu miasta, symetria stron, zgodność zapisanych strat z podglądem rzeczywistej walki i ograniczenie wkładu obrażeń do ±25.
+- Rokowania: opłata poselstwa tylko raz, odrzucanie niedozwolonej płatności i nieopłaconego poselstwa, dwie tury podróży, jednorazowa ratyfikacja, płatność między skarbcami oraz 12 tur rozejmu.
+- Zwrot miast: zachowanie zdrowia, produkcji i projektu, powrót do założycieli, blokada oddania ostatniego miasta lub terytorium trzeciego państwa. Zmiana właściciela podczas podróży anuluje całość traktatu.
+- Ewakuacja: oba państwa wycofują oddziały z terytorium drugiego sygnatariusza; ich wojska nie blokują sobie nawzajem schronienia. Jednostki tracą ruch i marsz do obcego celu.
+- Niewypłacalność przy ratyfikacji: warunki są anulowane bez częściowego wykonania. Koszt podróży pozostaje wydany.
+- Kontroferty: opóźnione przybycie, powiązanie z odrzuconą propozycją, oczekiwanie na zgodę gracza, przyjęcie bez powtórnego wykonania, odrzucenie i wygaśnięcie bez kończenia wojny.
+- AI inicjuje propozycję przy wyczerpaniu; nie narzuca graczowi automatycznego pokoju. Upadek państwa zamyka jego wojnę i oczekujące rokowania.
+- Pierwszy negocjowany pokój uruchamia sprawę rady o odbudowie. Wybór pomocy zachowuje opóźniony skutek ekonomiczny i społeczny.
+- Zapis v5: deterministyczna kontynuacja wojny i negocjacji po wczytaniu; walidacja stron, terminów, identyfikatorów, powiązań kontrofert i historii. Migracja v4 zachowuje krzywdy, lojalność, ustrój i starsze poselstwa; dawne wojny nie otrzymują wymyślonych celów. Nadpisanie tworzy oryginalną kopię `.v4.bak`. Kontrole migracji v1–v3 również przeszły.
+- Cztery pasywne kampanie zakończyły się po 203, 160, 199 i 174 turach dla ziaren 17421, 2026, 8 i 99. Maksymalna liczba miast wyniosła odpowiednio 16, 18, 16 i 21. Zakończenia: utrata ostatniego miasta gracza lub zwycięstwo kulturowe AI. To kontrola integralności, nie ocena balansu dla człowieka.
+- WPF: raport wojny, formularz reparacji i zwrotu miasta, wysłanie warunków, ratyfikacja po dwóch turach, dialog odbudowy, otrzymanie kontroferty, odrzucenie, przyjęcie po wczytaniu i przywrócenie zakończonej historii wojny.
+- Scenariusze WPF są przygotowanymi sytuacjami z dodatkowym złotem, ustawionym wyczerpaniem lub zajętym miastem. Nie reprezentują standardowego początku kampanii.
+- Wizualnie sprawdzono rzeczywiste rendery raportu wojennego, rokowań, kontroferty, powojennej rady i końcowego panelu dyplomacji. Użyto WPF RenderTargetBitmap, bez przechwytywania pulpitu.
+- Celowa awaria diagnostyki opublikowanego programu zwróciła oczekiwany kod 3 (`process-exit-check.txt`). Katalog `diagnostics/` zawiera opis tej oczekiwanej awarii.
+- Wydanie `wydanie-0.5/` zawiera program i dokumentację; starsze katalogi i paczki są zachowane. Stare zapisy skopiowano lokalnie bez nadpisywania. Archiwum `Korony-i-Pogranicza-0.5-Windows.zip` zawiera wyłącznie pliki wydania, bez prywatnych zapisów.
 
-Nadal wymagane są wielogodzinne rozgrywki z ludźmi, balans i testy na różnych komputerach. Dyplomacja obsługuje dwa rodzaje poselstw i uproszczony pokój; AI odpowiada na warunki, lecz nie prowadzi własnych wielostronnych negocjacji. Grafika pozostaje mapą 2D.
+Pozostają testy balansu z ludźmi, użyteczności i działania na różnych komputerach. Negocjacje są dwustronne i obejmują stałe warianty reparacji oraz jeden zwrot miasta. Nie ma jeszcze konferencji koalicyjnych ani pełnego rynku terytoriów. Oprawa pozostaje mapą 2D.

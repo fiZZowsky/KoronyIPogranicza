@@ -15,6 +15,26 @@ public sealed partial class MainWindow
             Ui.Gap(p, 12);
             p.Children.Add(Ui.Label($"{(r.War ? "WOJNA" : r.Trade ? "TRAKTAT HANDLOWY" : "POKÓJ")} · relacje {r.Trust:+0;-0;0}", 12, r.War ? Ui.Red : Ui.Green));
             p.Children.Add(Ui.Label($"Nasze krzywdy: {DiplomaticCouncil.Grievances(state, 0, f.Id)} · ich krzywdy: {DiplomaticCouncil.Grievances(state, f.Id, 0)}", 12, Ui.Gold));
+            var war=WarCouncil.Current(state,0,f.Id);
+            if(war!=null)
+            {
+                var score=WarCouncil.Score(state,war,0);
+                p.Children.Add(Ui.Label($"WOJNA OD TURY {war.StartedTurn} · bilans {score.Score:+0;-0;0}",12,score.Score>=0?Ui.Green:Ui.Red));
+                p.Children.Add(Ui.Label($"Cel {state.Factions[war.Aggressor].Name}: {WarCouncil.Goal(state,war)}",12,Ui.Muted));
+                p.Children.Add(Ui.Button("Przebieg wojny: "+f.Name,()=>ShowWarReport(war)));
+            }
+            else if(state.Wars.LastOrDefault(w=>w.A==0&&w.B==f.Id&&w.EndedTurn!=null) is WarCampaign ended)
+            {
+                p.Children.Add(Ui.Label($"OSTATNIA WOJNA · tury {ended.StartedTurn}–{ended.EndedTurn}",11,Ui.Gold));
+                p.Children.Add(Ui.Label(ended.Outcome,12,Ui.Muted));
+            }
+            var peace=state.PeaceOffers.LastOrDefault(o=>o.From==f.Id||o.To==f.Id);
+            if(peace!=null)
+            {
+                p.Children.Add(Ui.Label(PeaceStatusName(peace),12,WarCouncil.IsOpen(peace)?Ui.Gold:Ui.Muted));
+                if(peace.Status==PeaceStatus.AwaitingPlayer)p.Children.Add(Ui.Button("Przeczytaj warunki: "+f.Name,()=>ShowPeaceReply(peace)));
+                else if(peace.Reply.Length>0)p.Children.Add(Ui.Label(peace.Reply,12,Ui.Muted,true));
+            }
             var pending = state.Demands.LastOrDefault(d => d.To == f.Id && d.Status == DemandStatus.Pending);
             var reply = state.Demands.LastOrDefault(d => d.To == f.Id && d.Status != DemandStatus.Pending);
             Ui.Gap(p, 8);
@@ -30,7 +50,7 @@ public sealed partial class MainWindow
                 p.Children.Add(Ui.Button("Negocjuj warunki: " + f.Name, () => ShowNegotiation(f)));
                 p.Children.Add(Ui.Button("Rozważ wypowiedzenie wojny…", () => ConfirmWar(f)));
             }
-            else p.Children.Add(Ui.Button($"Pokój · {Math.Max(40, 100 - (int)state.Player.WarWeariness)} złota reparacji", () => Do(Engine.Diplomacy(state, f.Id, "peace"))));
+            else p.Children.Add(Ui.Button("Negocjuj pokój: "+f.Name,()=>ShowPeaceConference(f)));
             if (r.TruceUntil > state.Turn) p.Children.Add(Ui.Label($"Pakt / rozejm do tury {r.TruceUntil}.", 11, Ui.Gold));
             side.Children.Add(Ui.Card(p));
         }
@@ -72,10 +92,19 @@ public sealed partial class MainWindow
             p.Children.Add(Ui.Label(DiplomaticCouncil.WarName(reason), 20, Ui.Gold, true));
             p.Children.Add(Ui.Label(preview.Reason, 13, preview.Allowed ? Ui.Muted : Ui.Red));
             if (preview.Allowed) p.Children.Add(Ui.Label($"Lud -{preview.CommonsCost} · stabilność -{preview.StabilityCost} · zaufanie innych państw -{preview.ForeignTrustCost}", 12, Ui.Muted));
+            var targets=state.Cities.Where(c=>c.Owner==f.Id&&(reason!=WarReason.Liberation||c.OriginalOwner==0)).OrderBy(c=>c.Id).ToArray();
+            ComboBox? target=null;
+            if(reason!=WarReason.Redress&&targets.Length>0)
+            {
+                p.Children.Add(Ui.Label("Ogłoszony cel: zdobyć / wyzwolić i utrzymać wybrane miasto do pokoju.",12,Ui.Muted));
+                target=Ui.Combo(targets.Select(c=>c.Name).ToArray(),0);p.Children.Add(target);
+            }
+            else if(reason==WarReason.Redress)p.Children.Add(Ui.Label("Ogłoszony cel: otrzymać co najmniej 80 złota reparacji w traktacie.",12,Ui.Muted));
             var button = Ui.Button("Wypowiedz wojnę: " + DiplomaticCouncil.WarName(reason), () =>
-            { var result = Engine.DeclareWar(state, f.Id, reason); if (result.Success) CloseModal(); Do(result); });
+            { var result = Engine.DeclareWar(state, f.Id, reason,target==null?null:targets[target.SelectedIndex].Id); if (result.Success) CloseModal(); Do(result); });
             button.IsEnabled = preview.Allowed; p.Children.Add(button); Ui.Gap(p, 12);
         }
+        p.Children.Add(Ui.Label("Cel spełniony przy pokoju: prestiż +12, lud +3. Niespełniony: prestiż -5, lud -3. Bilans wojny pomaga negocjować, ale nie wymusza kapitulacji.",12,Ui.Gold));
         p.Children.Add(Ui.Button("Wycofaj posłów", CloseModal)); Modal(p, 780);
     }
 }

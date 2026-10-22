@@ -57,7 +57,12 @@ public static class Narrative
         [new("Wolny przejazd i wymiana wiedzy.", "Połączone miasta otrzymają dodatkowy punkt nauki.", -70, 1, 8, -6, 3, 5, "open_roads"),
          new("Rody utrzymają straż w zamian za myto.", "Połączone miasta otrzymają dodatkowe dwa punkty bazowego złota.", 45, 2, -6, 12, 0, 3, "road_tolls"),
          new("Niech szlaki zabezpieczą patrole państwa.", "Zasięg dostaw zwiększy się o jeden punkt.", -100, 5, 6, -2, 0, 5, "road_patrols")]);
-    public static IEnumerable<NarrativeEvent> All => Events.Concat(Recurring).Append(InfrastructureEvent).Concat(ProvincialEvents.Events);
+    public static readonly NarrativeEvent PeaceEvent=new("peace_legacy","Mira Weles","Kanclerka Marchii","Kiedy milkną miecze",
+        "Posłowie złożyli pieczęcie, ale rodziny wciąż czekają na powrót bliskich. Kupcy pytają o drogi, weterani o opiekę, a rody chcą pomników zwycięstwa. Pokój daje nam czas. Komu go poświęcimy?",
+        [new("Odbudujemy domy i wesprzemy rodziny po obu stronach.","Odbudowa i pojednanie.",Gold:-70,Stability:4,Commons:10,Nobles:-4,Prestige:6,Delay:8,FutureText:"Fundusz odbudowy przywraca warsztaty i zaufanie rodzin do rady.",FutureGold:100,FutureCommons:4),
+         new("Utrwalimy pamięć wszystkich ofiar tej wojny.","Wspólna pamięć kosztem dumy rodów.",Gold:-35,Stability:2,Commons:4,Nobles:-5,Scholars:8,Prestige:12),
+         new("Ogłosimy chwałę armii i zwycięskie czyny rodów.","Prestiż i poparcie dowódców kosztem społecznym.",Commons:-6,Nobles:10,Scholars:-4,Prestige:8)]);
+    public static IEnumerable<NarrativeEvent> All => Events.Concat(Recurring).Append(InfrastructureEvent).Append(PeaceEvent).Concat(ProvincialEvents.Events);
     public static NarrativeEvent Get(string id) => All.First(e=>e.Id==id);
     public static string Effects(Choice c,string eventId,int choice)
     {
@@ -77,6 +82,7 @@ public static class Narrative
     {
         if(s.PendingEvent!=null || s.Turn%5!=0) return;
         s.PendingCityId=null;
+        if(s.Player.Flags.Contains("negotiated_peace")&&!s.SeenEvents.Contains("peace_legacy")){s.PendingEvent="peace_legacy";return;}
         if(s.Turn>=5&&ProvincialEvents.Schedule(s))return;
         string? id = s.Player.Commons<33 ? "strike" : s.Relations.Any(r=>(r.A==0||r.B==0)&&r.War) ? "war" :
             s.Player.Flags.Contains("land_charter") && s.Turn>=35 ? "land_echo" :

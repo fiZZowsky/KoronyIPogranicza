@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.4
+# Korony i Pogranicza · 0.5
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.4/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.4` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.5/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.5` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Słowo i władza.** Wersja 0.4 dodaje krzywdy dyplomatyczne, uzasadnienia wojny, poselstwa z odroczonymi odpowiedziami, lojalność prowincji, autonomię, zarząd wojskowy i bunty po podboju. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Cena pokoju.** Wersja 0.5 dodaje ogłaszane cele wojenne, bilans konfliktu, negocjowane reparacje i zwrot miast, kontroferty, propozycje AI oraz dialog o odbudowie po wojnie. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -19,8 +19,9 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Miasta, ludność, wzrost i głód, sezonowe plony, eksploatacja pól, farmy, kopalnie, placówki handlowe, produkcja i utrzymanie.
 - 24 technologie z wymaganiami; 17 trwałych projektów miejskich, dwa projekty powtarzalne i sześć rodzajów oddziałów.
 - Lud, rody i uczeni: ich poparcie wpływa na docelową stabilność, a ta na gospodarkę. Ustawy zmieniają podatki, ustrój i priorytety.
-- 22 rodzaje wyjątkowych i lokalnych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
+- 23 rodzaje wyjątkowych i lokalnych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
 - Dyplomacja: dary, handel, krzywdy, trzy powody wypowiedzenia wojny, odszkodowania, pakty o nieagresji i rozejmy. Posłowie wracają z odpowiedzią po dwóch turach. AI zakłada miasta, bada, buduje, ulepsza ziemię i prowadzi działania wojenne.
+- Negocjowany pokój z reparacjami i zwrotem miast, propozycjami AI, kontrofertami i terminem odpowiedzi. Historia wojny przechowuje ogłoszony cel, straty, bilans i końcowe rozliczenie obietnicy.
 - Walka wręcz i dystansowa, doświadczenie, obrona terenu, oblężenia i przejmowanie miast. Woda i góry blokują ruch. Armie poza zasięgiem dostaw słabną; odpoczynek leczy.
 - Drogi za 25 złota i 0,15 złota utrzymania/turę, automatyczna wycena połączeń miast, premie handlowe, blokowanie dostaw przez wojska i niszczenie wrogich dróg. Ruch między połączonymi odcinkami kosztuje 0,5 punktu.
 - Rozkazy marszu zapisywane między turami i w plikach kampanii; podświetlenie zasięgu i trasy. Atak wymaga potwierdzenia podglądu zgodnego z modelem walki.
@@ -76,7 +77,23 @@ Odpowiedź przychodzi po dwóch turach, według sytuacji w dniu powrotu: zaufani
 - **Zadośćuczynienie:** wymaga i zużywa 30 własnych krzywd; lud -2, stabilność -1, bez kary zaufania u innych państw.
 - **Wyzwolenie:** dostępne, gdy sąsiad zajmuje miasto założone przez Marchie; lud -2, stabilność -1, bez kary zaufania u innych państw.
 
-Każda wojna zrywa handel i obniża relacje z przeciwnikiem o 35. Uzasadniona wojna daje przeciwnikowi 15 krzywd. Zdobycie miasta dodaje pokonanemu 30, zniszczenie drogi 12; krzywdy maleją o 1 co osiem tur. Rozpoczęcie wojny anuluje oczekujące poselstwo. AI również podlega rozejmom, a jego agresja tworzy krzywdy i reakcję pozostałych państw. Powód wojny nie wymusza jeszcze ograniczonych celów terytorialnych; pokój nadal korzysta z prostej reguły reparacji.
+Każda wojna zrywa handel i obniża relacje z przeciwnikiem o 35. Uzasadniona wojna daje przeciwnikowi 15 krzywd. Zdobycie miasta dodaje pokonanemu 30, zniszczenie drogi 12; krzywdy maleją o 1 co osiem tur. Rozpoczęcie wojny anuluje oczekujące poselstwo. AI również podlega rozejmom, a jego agresja tworzy krzywdy i reakcję pozostałych państw.
+
+## Wojna i cena pokoju
+
+Przy wypowiedzeniu wojny wybierz konkretne miasto jako cel podboju lub wyzwolenia. Zadośćuczynienie zobowiązuje do uzyskania co najmniej 80 złota reparacji. Cel nie ogranicza sterowania armią, lecz jest rozliczany przy pokoju: spełniony daje inicjatorowi +12 prestiżu i +3 poparcia ludu, niespełniony -5 prestiżu (do minimum 0) i -3 poparcia. Miasto musi wtedy należeć do inicjatora; wystarczy także odzyskanie go przez traktat.
+
+W **Przebiegu wojny** zobaczysz bilans -100…100. Miasta przeciwnika utrzymane od początku konfliktu dają po 20, utrata własnych odejmuje po 20; odzyskanie odwraca składnik. Różnica zadanych obrażeń daje maksymalnie ±25, bieżąca siła armii ±20, a względne wyczerpanie ±15. Bilans nie narzuca pokoju, lecz wpływa na ocenę warunków.
+
+Wybierz **Negocjuj pokój**, następnie żądanie lub zapłatę 100/200 złota albo pokój bez reparacji. Opcjonalnie dodaj zwrot jednego zajętego miasta jego założycielom po dowolnej stronie konfliktu. Nie można oddać ostatniego miasta państwa. Reszta granic pozostaje pod obecną kontrolą.
+
+Poselstwo kosztuje 20 złota. Nową propozycję można wysłać po czterech turach i zamknięciu trwających rokowań. Odpowiedź nadejdzie po dwóch turach; wojna trwa w czasie podróży. Ocena przyjęcia ma próg 50: bazowe 35, do +20 za czas wojny, +0,6 za każdy punkt wyczerpania rozmówcy, -0,8 za każdy punkt jego przewagi w bilansie wojny, relacje / 10, płatność na jego rzecz / 5 i ±30 za zwrot miasta. Interfejs pokazuje bieżący wynik; ostateczny uwzględnia sytuację przy odpowiedzi.
+
+Płatności są wykonywane przy ratyfikacji, bez rezerwowania środków. Brak złota lub zmiana sytuacji miasta anuluje całość warunków, bez częściowej zapłaty czy transferu. Opłata podróży nie wraca. Pokojowy zwrot zachowuje zdrowie miasta, zgromadzoną produkcję i realizowany projekt.
+
+Odrzucenie może przynieść kontrofertę. AI wysyła również własne warunki po co najmniej ośmiu turach wojny, gdy jest wyczerpana albo przegrywa. Propozycje AI podróżują dwie tury i czekają cztery kolejne tury na decyzję gracza; nie zatrzymują kończenia tur. Można je przyjąć, odrzucić lub pozostawić do wygaśnięcia. Powrót posłów i wczytanie gry kierują do dyplomacji, gdy potrzebna jest odpowiedź. AI nie narzuca graczowi automatycznego rozejmu; między sobą państwa AI mogą zawierać prosty pokój z wyczerpania.
+
+Traktat daje 12 tur rozejmu, wyczerpanie obu stron -15 oraz krzywdy -20. Handel wymaga nowego traktatu. Wojska z terytorium drugiego sygnatariusza wycofują się do własnych miast, z ruchem 0 i anulowanym marszem; bez schronienia zostają rozwiązane. Pierwszy negocjowany pokój wywołuje dialog **Kiedy milkną miecze** o odbudowie, ofiarach i armii. Wojny i oferty pozostają w kronice oraz zapisie. Nie ma jeszcze wielostronnych konferencji, negocjacji sojuszniczych ani dowolnej wymiany terytoriów.
 
 ## Lojalność i władza lokalna
 
@@ -110,7 +127,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.4/saves/`. Format v4 przechowuje także założycieli miast, okupację, lojalność, ustrój, krzywdy i poselstwa. Odczytuje v1–v3. Ponieważ dawne zapisy nie znały założycieli, obecny właściciel zostaje uznany za założyciela, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starego pliku tworzy kopię `.v1.bak`, `.v2.bak` lub `.v3.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.5/saves/`. Format v5 dodaje historię wojen, cele, bilans strat, warunki pokoju i kontroferty. Odczytuje v1–v4. Wojny rozpoczęte przed v5 otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów; nie ma kary za ich nieznaną dawną obietnicę. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v4.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -119,7 +136,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.4 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.5 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -130,6 +147,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 - `Navigation.cs`, `Movement.cs`, `Logistics.cs`, `Infrastructure.cs`, `Combat.cs`: wspólne wyszukiwanie tras, rozkazy, dostawy, gospodarka infrastruktury i model starcia z podglądem.
 - `Regions.cs`, `ProvincialEvents.cs`: potrzeby i kierunki rozwoju miast, rynki regionalne, migracje oraz dialogi z lokalnymi skutkami.
 - `DiplomaticCouncil.cs`, `ProvincialPolitics.cs`: poselstwa, krzywdy, uzasadnienia wojny, lojalność, ustroje i zmiany właściciela miast.
+- `WarCouncil.cs`, `PeaceCouncil.cs`, `WarSaveRules.cs`: ogłoszone cele, bilans, rokowania, kontroferty, ratyfikacja i walidacja historii konfliktu.
 - `src/Crown.Desktop`: natywny interfejs WPF, rysowanie mapy, proceduralne materiały terenu i sterowanie.
 - `tests/Crown.Specs`: wykonywalne specyfikacje bez bibliotek testowych; symulacje kampanii i test odtwarzalności zapisu.
 - `DESIGN.md`: założenia projektu, ograniczenia i kierunek dalszych etapów.

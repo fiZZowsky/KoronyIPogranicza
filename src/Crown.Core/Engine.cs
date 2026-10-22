@@ -140,6 +140,7 @@ public static partial class Engine
     public static Result Diplomacy(GameState s,int other,string action)
     {
         if(action=="war")return DeclareWar(s,other,WarReason.Conquest);
+        if(action=="peace")return ProposePeace(s,other,100);
         if(s.Ending!=null||other<=0||other>=s.Factions.Count)return Result.Fail("Nieprawidłowy rozmówca.");
         var f=s.Player;var r=s.Relation(0,other);if(!s.Cities.Any(c=>c.Owner==other))return Result.Fail("To państwo utraciło wszystkie miasta.");
         if(r.LastActionTurn==s.Turn)return Result.Fail("Posłowie odbyli już rozmowę w tej turze.");
@@ -147,7 +148,6 @@ public static partial class Engine
         {
             case "gift":if(r.War||f.Gold<40)return Result.Fail("Dar wymaga pokoju i 40 złota.");f.Gold-=40;s.Factions[other].Gold+=40;r.Trust+=12;break;
             case "trade":if(r.War||r.Trade||r.Trust<10||f.Gold<30)return Result.Fail("Traktat wymaga pokoju, relacji +10 i 30 złota.");f.Gold-=30;r.Trade=true;r.Trust+=5;break;
-            case "peace":int cost=Math.Max(40,100-(int)f.WarWeariness);if(!r.War||f.Gold<cost)return Result.Fail($"Pokój wymaga wojny i {cost} złota reparacji.");f.Gold-=cost;s.Factions[other].Gold+=cost;r.War=false;r.TruceUntil=s.Turn+10;r.Trust=Math.Max(-30,r.Trust);break;
             default:return Result.Fail("Nieznana propozycja.");
         }
         r.Trust=Math.Clamp(r.Trust,-100,100);r.LastActionTurn=s.Turn;Clamp(f);s.InvalidateLogistics();
@@ -158,6 +158,7 @@ public static partial class Engine
     {
         if(s.Ending!=null)return Result.Fail("Kampania dobiegła końca. Rozpocznij nową historię.");
         if(s.PendingEvent!=null)return Result.Fail("Najpierw odpowiedz na sprawę przedstawioną radzie.");
+        WarCouncil.EnsureActive(s);
         s.InvalidateLogistics();
         foreach(var f in s.Factions)
         {
@@ -206,7 +207,7 @@ public static partial class Engine
             if(!Supplied(s,u)&&u.Kind!=UnitKind.Scout&&u.Kind!=UnitKind.Settler)u.Health=Math.Max(10,u.Health-5);
             u.Actions=u.MaxActions;
         }
-        ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();DiplomaticCouncil.Tick(s);
+        ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         foreach(var unit in s.Units.Where(u=>u.Owner==0&&u.Destination!=null).OrderBy(u=>u.Id).ToArray())FollowOrder(s,unit);
         foreach(var effect in s.Deferred.Where(e=>e.Due<=s.Turn).ToArray())
         {
@@ -250,10 +251,12 @@ public static partial class Engine
                 if(!r.War&&s.Turn>25&&s.Turn>=r.TruceUntil&&r.Trust< -15&&Military(s,f.Id)>Military(s,other)*1.3+15&&s.Next(30)==0)
                 {
                     r.War=true;r.Trade=false;r.Trust=Math.Max(-100,r.Trust-20);DiplomaticCouncil.AddGrievance(s,other,f.Id,40);
+                    WarCouncil.Start(s,f.Id,other,WarReason.Conquest,WarCouncil.DefaultTarget(s,f.Id,other,WarReason.Conquest)?.Id);
                     foreach(var third in s.Factions.Where(n=>n.Id!=f.Id&&n.Id!=other)){var rr=s.Relation(f.Id,third.Id);rr.Trust=Math.Max(-100,rr.Trust-12);}
                     DiplomaticCouncil.Cancel(s,r,"Wojna przerwała poselstwo.");s.InvalidateLogistics();s.Log($"{f.Name} wypowiada wojnę państwu {s.Factions[other].Name}. Ofiara zyskuje 40 punktów krzywd, pozostałe państwa tracą 12 zaufania do napastnika.","dyplomacja");
                 }
-                if(r.War&&f.WarWeariness>65&&s.Turn%10==0){r.War=false;r.TruceUntil=s.Turn+10;s.InvalidateLogistics();s.Log($"{f.Name} proponuje i przyjmuje wyczerpujący obie strony rozejm z {s.Factions[other].Name}.","dyplomacja");}
+                if(r.War&&other==0&&s.Turn%5==0)PeaceCouncil.MaybeOffer(s,f.Id,other);
+                else if(r.War&&other>0&&f.WarWeariness>65&&s.Turn%10==0)PeaceCouncil.AiArmistice(s,r);
             }
             foreach(var u in s.Units.Where(u=>u.Owner==f.Id).ToArray())
             {
@@ -294,6 +297,7 @@ public static partial class Engine
     public static double Score(GameState s,int owner) => s.Cities.Where(c=>c.Owner==owner).Sum(c=>c.Population*8+c.Buildings.Count*5)+s.Factions[owner].Technologies.Count*18+s.Factions[owner].Culture*.08+s.Factions[owner].Prestige*2+s.Factions[owner].Gold*.03;
     public static void CheckEnding(GameState s)
     {
+        WarCouncil.FinishEliminated(s);
         if(s.Ending!=null)return;
         if(!s.Cities.Any(c=>c.Owner==0)){s.Ending="Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.";return;}
         foreach(var f in s.Factions)

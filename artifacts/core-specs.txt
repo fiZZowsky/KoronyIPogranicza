@@ -17,10 +17,10 @@ PASS Settling validates distance and creates territory
 PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
-  seed 17421: 279 turns, 15 cities, 52 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 220 turns, 17 cities, 51 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 8: 205 turns, 16 cities, 50 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
-  seed 99: 191 turns, 19 cities, 72 units; Arweńska Unia: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
+  seed 17421: 203 turns, 16 cities, 57 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 160 turns, 18 cities, 55 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 199 turns, 16 cities, 52 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
+  seed 99: 174 turns, 21 cities, 79 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
 PASS Road quotes, atomic funding and economy reconciliation
@@ -70,4 +70,21 @@ PASS Corrupt political state and forged diplomatic missions are rejected
 PASS Combat capture and road pillaging create grievances for the actual victim
 PASS AI honors an active pact even with a hostile and stronger army
 PASS Pending embassies and political consequences resume deterministically
-68 specifications passed in 10,9s.
+PASS War declarations record an explicit target and reject illegal targets atomically
+PASS War reports are pure and recapture reverses territorial score
+PASS Real combat records exact losses and bounds its war-score contribution
+PASS Peace proposal checks are atomic and charge a single embassy fee
+PASS Peace is ratified after two turns, pays once and enforces the truce
+PASS Reparation goals reward fulfillment once and record failed promises
+PASS Returning an occupied city preserves work and evacuates foreign troops
+PASS Last cities and unrelated territory cannot be ceded
+PASS Changed ownership and insolvency cancel the whole travelling treaty
+PASS Rejected proposals produce a delayed counteroffer requiring player consent
+PASS Ignoring or rejecting counteroffers preserves the war
+PASS AI initiates a peace proposal when exhausted instead of forcing an armistice
+PASS Defeating a state closes its war and cancels outstanding negotiations
+PASS The first negotiated peace generates a consequential reconstruction council
+PASS V4 migration preserves grievances, occupation and embassies without invented goals
+PASS V5 rejects corrupt war ledgers, deadlines, parties and duplicate treaties
+PASS War history and delayed peace replies continue deterministically after reload
+85 specifications passed in 10,3s.

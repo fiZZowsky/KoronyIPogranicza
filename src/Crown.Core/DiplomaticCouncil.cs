@@ -106,10 +106,13 @@ public static partial class Engine
         return Result.Ok("Wysłano posłów. Odpowiedź nadejdzie za dwie tury.");
     }
 
-    public static Result DeclareWar(GameState s, int other, WarReason reason)
+    public static Result DeclareWar(GameState s, int other, WarReason reason, int? targetCityId=null)
     {
         var preview = DiplomaticCouncil.PreviewWar(s, other, reason);
         if (!preview.Allowed) return Result.Fail(preview.Reason);
+        var target=targetCityId==null?WarCouncil.DefaultTarget(s,0,other,reason):s.Cities.FirstOrDefault(c=>c.Id==targetCityId);
+        if(reason==WarReason.Redress&&targetCityId!=null||reason!=WarReason.Redress&&(target==null||target.Owner!=other||reason==WarReason.Liberation&&target.OriginalOwner!=0))
+            return Result.Fail("Wybrane miasto nie jest prawidłowym celem tej wojny.");
         var r = s.Relation(0, other);
         r.War = true; r.Trade = false; r.Trust = Math.Max(-100, r.Trust - 35); r.LastActionTurn = s.Turn;
         s.Player.Commons -= preview.CommonsCost; s.Player.Stability -= preview.StabilityCost; Clamp(s.Player);
@@ -118,8 +121,10 @@ public static partial class Engine
         if (preview.ForeignTrustCost > 0) foreach (var neighbor in s.Factions.Skip(1).Where(f => f.Id != other))
         { var third = s.Relation(0, neighbor.Id); third.Trust = Math.Max(-100, third.Trust - preview.ForeignTrustCost); }
         DiplomaticCouncil.Cancel(s, r, "Wypowiedzenie wojny zakończyło negocjacje.");
+        var war=WarCouncil.Start(s,0,other,reason,target?.Id);
         s.InvalidateLogistics();
         s.Log($"{DiplomaticCouncil.WarName(reason)} przeciw {s.Factions[other].Name}. Lud -{preview.CommonsCost}, stabilność -{preview.StabilityCost}, zaufanie pozostałych państw -{preview.ForeignTrustCost}.", "dyplomacja");
-        return Result.Ok("Przekazano wypowiedzenie wojny.");
+        s.Log("Ogłoszony cel: "+WarCouncil.Goal(s,war)+".","wojna");
+        return Result.Ok("Przekazano wypowiedzenie wojny i ogłoszono jej cel.");
     }
 }

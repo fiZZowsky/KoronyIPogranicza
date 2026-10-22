@@ -84,7 +84,7 @@ Test("Supply limits and healing",()=>
 });
 Test("Diplomacy, trade income, cooldown and truce",()=>
 {
-    var s=Fresh();double before=Engine.Income(s,0).Gold;Assert(Engine.Diplomacy(s,1,"trade").Success&&Engine.Income(s,0).Gold>before,"Trade ineffective.");Assert(!Engine.Diplomacy(s,1,"war").Success,"Diplomacy cooldown missing.");s.Turn++;Assert(Engine.Diplomacy(s,1,"war").Success&&!s.Relation(0,1).Trade,"War preserves trade.");s.Turn++;s.Player.Gold=500;Assert(Engine.Diplomacy(s,1,"peace").Success,"Cannot make peace.");s.Turn++;Assert(!Engine.Diplomacy(s,1,"war").Success,"Truce ignored.");
+    var s=Fresh();double before=Engine.Income(s,0).Gold;Assert(Engine.Diplomacy(s,1,"trade").Success&&Engine.Income(s,0).Gold>before,"Trade ineffective.");Assert(!Engine.Diplomacy(s,1,"war").Success,"Diplomacy cooldown missing.");s.Turn++;Assert(Engine.Diplomacy(s,1,"war").Success&&!s.Relation(0,1).Trade,"War preserves trade.");s.Turn++;s.Player.Gold=500;s.Factions[1].WarWeariness=100;Assert(Engine.Diplomacy(s,1,"peace").Success&&s.Relation(0,1).War,"Peace proposal must travel.");s.Turn+=2;PeaceCouncil.Tick(s);Assert(!s.Relation(0,1).War&&!Engine.Diplomacy(s,1,"war").Success,"Treaty or truce missing.");
 });
 Test("Settling validates distance and creates territory",()=>
 {
@@ -120,4 +120,5 @@ Test("Campaign soak: multiple seeds, complete campaigns and AI expansion",()=>
 StageTwoSpecs.Run(Test);
 StageThreeSpecs.Run(Test);
 StageFourSpecs.Run(Test);
+StageFiveSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

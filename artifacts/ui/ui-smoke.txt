@@ -36,4 +36,15 @@ PASS War council button declares war using an available justification
 PASS Occupation generates a council request for provincial rights
 PASS Autonomy dialogue applies governance and loyalty to the occupied city
 PASS Desktop reload preserves diplomatic replies, occupation and local governance
-38 desktop integration checks passed.
+PASS War report opens with the declared liberation target
+PASS Peace form sends selected reparations and city return while war continues
+PASS Desktop reload preserves travelling peace terms and the war goal
+PASS Turn handlers ratify the treaty and return the occupied city
+PASS Diplomatic city recovery fulfills the declared liberation goal
+PASS Peace aftermath dialogue funds reconstruction and stores its delayed consequence
+PASS An excessive peace demand receives an AI counteroffer
+PASS AI counteroffer waits for player consent
+PASS Rejecting the incoming counteroffer keeps the war active
+PASS Accepting the saved counteroffer ratifies peace through the WPF handler
+PASS Desktop reload restores ratified treaties and completed war history
+49 desktop integration checks passed.

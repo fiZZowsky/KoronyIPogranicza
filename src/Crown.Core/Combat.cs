@@ -55,6 +55,7 @@ public static partial class Engine
         var preview = PreviewAttack(s, u.Id, target);
         if (!preview.Valid) return Result.Fail(preview.Reason);
         int owner = defender?.Owner ?? city!.Owner;
+        WarCouncil.RecordBattle(s,u.Owner,owner,preview.DamageToAttacker,preview.DamageToTarget);
         u.Actions = 0;
         u.Destination = null;
         u.Health -= preview.DamageToAttacker;

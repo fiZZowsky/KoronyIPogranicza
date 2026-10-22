@@ -9,6 +9,7 @@ public enum Governance { Integrated, Autonomous, Military }
 public enum WarReason { Conquest, Redress, Liberation }
 public enum DemandKind { Compensation, NonAggression }
 public enum DemandStatus { Pending, Accepted, Rejected, Cancelled }
+public enum PeaceStatus { Travelling, AwaitingPlayer, Accepted, Rejected, Cancelled, Expired }
 public sealed class Tile
 {
     public int Id { get; set; }
@@ -107,6 +108,41 @@ public sealed class Relation
     public int GrievanceA { get; set; }
     public int GrievanceB { get; set; }
     public int LastDemandTurn { get; set; } = -10;
+    public int LastPeaceTurn { get; set; } = -10;
+}
+public sealed class WarCampaign
+{
+    public int Id { get; set; }
+    public int A { get; set; }
+    public int B { get; set; }
+    public int Aggressor { get; set; }
+    public WarReason Reason { get; set; }
+    public int? TargetCityId { get; set; }
+    public bool GoalDeclared { get; set; }
+    public int StartedTurn { get; set; }
+    public int? EndedTurn { get; set; }
+    public List<int> StartingCitiesA { get; set; } = [];
+    public List<int> StartingCitiesB { get; set; } = [];
+    public double LossesA { get; set; }
+    public double LossesB { get; set; }
+    public string Outcome { get; set; } = "";
+}
+public sealed class PeaceOffer
+{
+    public int Id { get; set; }
+    public int WarId { get; set; }
+    public int From { get; set; }
+    public int To { get; set; }
+    // Positive gold is paid by From, negative by To. A city returns to its founder.
+    public int Gold { get; set; }
+    public int? ReturnCityId { get; set; }
+    public int? InReplyTo { get; set; }
+    public int SentTurn { get; set; }
+    public int DueTurn { get; set; }
+    public int DeadlineTurn { get; set; }
+    public int? ResolvedTurn { get; set; }
+    public PeaceStatus Status { get; set; }
+    public string Reply { get; set; } = "";
 }
 public sealed class DiplomaticDemand
 {
@@ -140,7 +176,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 4;
+    public int Version { get; set; } = 5;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -161,6 +197,10 @@ public sealed class GameState
     public List<MigrationRecord> Migrations { get; set; } = [];
     public List<DiplomaticDemand> Demands { get; set; } = [];
     public int NextDemandId { get; set; } = 1;
+    public List<WarCampaign> Wars { get; set; } = [];
+    public List<PeaceOffer> PeaceOffers { get; set; } = [];
+    public int NextWarId { get; set; } = 1;
+    public int NextPeaceId { get; set; } = 1;
     public string? Ending { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
@@ -207,3 +247,5 @@ public sealed record ProvinceStatus(int Housing, int Sanitation, IReadOnlyList<s
     double FoodBalance, double Imports, double Exports, int ProsperityTarget, int Pressure);
 public sealed record LoyaltyReport(int Target, int Change, bool Garrison, IReadOnlyList<string> Factors);
 public sealed record WarDeclaration(bool Allowed, string Reason, int CommonsCost, int StabilityCost, int ForeignTrustCost);
+public sealed record WarScoreReport(int Score, IReadOnlyList<string> Factors);
+public sealed record PeacePreview(bool Valid, string Error, int Acceptance, IReadOnlyList<string> Factors);

@@ -1,5 +1,20 @@
 # Zmiany
 
+## 0.5 — Cena pokoju · 22 października 2026
+
+- Wojny otrzymują oddzielną historię: początek, inicjatora, ogłoszony powód i cel, kontrolę miast na początku konfliktu, straty w walkach oraz końcowe rozliczenie. Podbój i wyzwolenie wskazują konkretne miasto, zadośćuczynienie wymaga uzyskania przynajmniej 80 złota reparacji.
+- Jawny bilans wojny uwzględnia zmiany kontroli miast, obrażenia wojsk i umocnień, siłę armii oraz różnicę wyczerpania. Odzyskanie miasta odwraca jego składnik terytorialny. Bilans jest ograniczony do -100…100 i wpływa na negocjacje.
+- Rokowania pozwalają żądać lub zaoferować 100/200 złota, zaproponować pokój bez reparacji oraz zwrócić jedno zajęte miasto jego założycielom. Ostatnie miasto państwa nie podlega zwrotowi. Pozostałe granice pozostają pod obecną kontrolą.
+- Poselstwo kosztuje 20 złota i podróżuje dwie tury. W tym czasie wojna trwa. Zaufanie, sytuacja wojskowa, wyczerpanie, czas trwania wojny oraz cena traktatu wpływają na jawną ocenę odpowiedzi, z progiem 50.
+- Odrzucona propozycja może przynieść kontrofertę. AI również wysyła własne warunki przy wyczerpaniu lub niekorzystnej sytuacji. Nie kończy już wojny z graczem jednostronnie: propozycję należy przyjąć, odrzucić albo pozostawić do wygaśnięcia po czterech turach od przybycia.
+- Traktat jest rozliczany w całości po ponownym sprawdzeniu środków i właściciela miasta. Pieniądze przechodzą między skarbcami dopiero przy ratyfikacji. Zmiana sytuacji może anulować warunki; opłata podróży pozostaje wydana.
+- Pokój daje 12 tur rozejmu, zmniejsza wyczerpanie obu stron o 15 i krzywdy o 20. Handel wymaga odrębnego wznowienia. Oddziały obu państw wycofują się z obcego terytorium; wspólna ewakuacja nie blokuje się nawzajem. Pokojowy zwrot miasta zachowuje zdrowie, produkcję i realizowany projekt.
+- Spełnienie celu wojennego przy zakończeniu daje inicjatorowi prestiż +12 i lud +3; porzucenie celu kosztuje prestiż 5 oraz lud 3. Upadek państwa również zamyka jego wojny i oczekujące rokowania.
+- Nowa sprawa rady „Kiedy milkną miecze” dotyczy odbudowy, pamięci ofiar i roli zwycięskiej armii. Wybór odbudowy zapisuje odroczony skutek ekonomiczny oraz społeczny.
+- Okna przebiegu wojny, rokowań i odpowiedzi posłom pokazują warunki, składniki oceny, terminy i konsekwencje. Dyplomacja zachowuje wynik ostatniej wojny. Wczytanie przypomina o oczekującej odpowiedzi.
+- Zapis v5 zachowuje wojny, ogłoszone cele, straty, historię ofert i kontrofert oraz ratyfikowane traktaty. Odczytuje v1–v4; dawne wojny zaczynają rejestr od chwili migracji, bez dopisywania nieznanych celów lub dawnych strat. Nadpisanie zapisu v4 tworzy `.v4.bak`.
+- Osobne wydanie `wydanie-0.5/`, rozszerzone specyfikacje silnika, kontrole WPF i scenariusze kampanii. Poprzednie wydania i zapisy pozostają zachowane. Dyplomacja jest nadal dwustronna; nie ma wielostronnych konferencji, sojuszniczych frontów ani pełnej wymiany dowolnych terytoriów.
+
 ## 0.4 — Słowo i władza · 22 października 2026
 
 - Kierunkowa pamięć krzywd między państwami. Agresja, zajmowanie miast i niszczenie dróg tworzą roszczenia po stronie pokrzywdzonego. Krzywdy maleją o 1 co osiem tur.

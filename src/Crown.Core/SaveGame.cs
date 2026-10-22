@@ -10,7 +10,7 @@ public static class SaveGame
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
-        if(s.Version is <1 or >4)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version is <1 or >5)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
         if(s.Version<4)
         {
             s.Demands=[];s.NextDemandId=1;
@@ -65,7 +65,14 @@ public static class SaveGame
             s.Demands.Where(d=>d.Status==DemandStatus.Pending).GroupBy(d=>d.To).Any(g=>g.Count()>1))throw new InvalidDataException("Uszkodzone poselstwa.");
         if(s.Migrations==null||s.Migrations.Count>2000||s.Migrations.Any(m=>!ValidOwner(m.Owner)||m.Turn<1||m.Turn>s.Turn||m.People!=1||m.Source==m.Destination||!cityIds.Contains(m.Source)||!cityIds.Contains(m.Destination)))
             throw new InvalidDataException("Uszkodzona historia migracji.");
-        s.Version=4;
+        if(s.Version<5)
+        {
+            s.Wars=[];s.PeaceOffers=[];s.NextWarId=s.NextPeaceId=1;
+            foreach(var r in s.Relations)r.LastPeaceTurn=-10;
+            WarCouncil.EnsureActive(s);
+        }
+        WarSaveRules.Validate(s);
+        s.Version=5;
         return s;
     }
     public static void Write(GameState state,string path)
@@ -74,7 +81,7 @@ public static class SaveGame
         string temp=path+".tmp";File.WriteAllText(temp,Serialize(state));
         if(File.Exists(path))
         {
-            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is 1 or 2 or 3&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
+            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is 1 or 2 or 3 or 4&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
             catch(JsonException){ /* An invalid old file may still be replaced by an explicit save. */ }
         }
         File.Move(temp,path,true);

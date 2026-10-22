@@ -117,6 +117,42 @@ public sealed partial class MainWindow
             tab="provinces";RefreshSide();map.Center(occupied.Tile);ShowProvince(occupied);await Capture("provincial-politics");CloseModal();
             string politicsPath=Path.Combine(folder,"politics-save.crown");SaveGame.Write(state,politicsPath);string politicsBefore=SaveGame.Serialize(state);LoadPath(politicsPath);
             Check(SaveGame.Serialize(state)==politicsBefore,"Desktop reload preserves diplomatic replies, occupation and local governance");
+            CloseModal();
+            var peaceWorld=World.Create();Narrative.Resolve(peaceWorld,0);peaceWorld.Player.Gold=4000;peaceWorld.Factions[1].Gold=2000;
+            var site=peaceWorld.Tiles.First(t=>t.Passable&&t.Owner<0&&peaceWorld.Cities.All(c=>World.Distance(t,peaceWorld.Tiles[c.Tile])>=4));
+            var disputed=Engine.AddCity(peaceWorld,0,site.Id,"Sporny Brzeg");ProvincialPolitics.Transfer(peaceWorld,disputed,1);
+            Engine.DeclareWar(peaceWorld,1,WarReason.Liberation,disputed.Id);peaceWorld.Turn=2;peaceWorld.Factions[1].WarWeariness=80;Engine.Explore(peaceWorld);
+            Start(peaceWorld);tab="diplomacy";RefreshSide();Click("Przebieg wojny: "+state.Factions[1].Name);
+            Check(overlay!=null&&state.Wars.Single().TargetCityId==disputed.Id,"War report opens with the declared liberation target");await Capture("war-report");
+            Click("Przejdź do rokowań");root.UpdateLayout();var treatyInputs=Descendants<ComboBox>(overlay!).ToArray();treatyInputs[0].SelectedIndex=4;treatyInputs[1].SelectedIndex=1;
+            await Capture("peace-conference");Click("Wyślij warunki pokoju");
+            Check(state.PeaceOffers.Single().ReturnCityId==disputed.Id&&state.PeaceOffers.Single().Gold==200&&state.Relation(0,1).War,"Peace form sends selected reparations and city return while war continues");
+            string treatyPath=Path.Combine(folder,"treaty-save.crown");SaveGame.Write(state,treatyPath);LoadPath(treatyPath);
+            Check(state.PeaceOffers.Single().Status==PeaceStatus.Travelling&&state.Wars.Single().GoalDeclared,"Desktop reload preserves travelling peace terms and the war goal");
+            Advance();Advance();CloseModal();
+            Check(!state.Relation(0,1).War&&state.Cities.First(c=>c.Id==disputed.Id).Owner==0&&state.PeaceOffers.Single().Status==PeaceStatus.Accepted,"Turn handlers ratify the treaty and return the occupied city");
+            tab="diplomacy";RefreshSide();await Capture("peace-ratified");
+            Check(state.Wars.Single().Outcome.Contains("Cel wojenny osiągnięty"),"Diplomatic city recovery fulfills the declared liberation goal");
+            state.Turn=5;Narrative.Schedule(state);ShowCouncil();await Capture("peace-aftermath");Click("01   Odbudujemy");
+            Check(state.SeenEvents.Contains("peace_legacy")&&state.Deferred.Any(e=>e.Text.Contains("Fundusz odbudowy")),"Peace aftermath dialogue funds reconstruction and stores its delayed consequence");
+            var bargaining=World.Create();Narrative.Resolve(bargaining,0);bargaining.Player.Gold=3000;bargaining.Factions[1].Gold=1000;Engine.DeclareWar(bargaining,1,WarReason.Conquest);bargaining.Turn=2;
+            Start(bargaining);tab="diplomacy";RefreshSide();Click("Negocjuj pokój: "+state.Factions[1].Name);
+            root.UpdateLayout();Descendants<ComboBox>(overlay!).First().SelectedIndex=0;Click("Wyślij warunki pokoju");Advance();Advance();CloseModal();
+            Check(state.PeaceOffers.Count==2&&state.PeaceOffers[0].Status==PeaceStatus.Rejected&&state.PeaceOffers[1].From==1,"An excessive peace demand receives an AI counteroffer");
+            for(int i=0;i<2;i++)
+            {
+                if(state.PendingEvent!=null){ShowCouncil();var e=Narrative.Get(state.PendingEvent);int option=Array.FindIndex(e.Choices,c=>state.Player.Gold+c.Gold>=0);Click($"{option+1:00}   ");}
+                Advance();
+            }
+            CloseModal();tab="diplomacy";RefreshSide();Click("Przeczytaj warunki: "+state.Factions[1].Name);await Capture("peace-counteroffer");
+            Check(state.PeaceOffers[1].Status==PeaceStatus.AwaitingPlayer&&state.Relation(0,1).War,"AI counteroffer waits for player consent");
+            Click("Odpowiem później");string counterPath=Path.Combine(folder,"counteroffer-save.crown");SaveGame.Write(state,counterPath);LoadPath(counterPath);
+            tab="diplomacy";RefreshSide();Click("Przeczytaj warunki: "+state.Factions[1].Name);Click("Odrzuć warunki");
+            Check(state.Relation(0,1).War&&state.PeaceOffers[1].Status==PeaceStatus.Rejected,"Rejecting the incoming counteroffer keeps the war active");
+            LoadPath(counterPath);tab="diplomacy";RefreshSide();Click("Przeczytaj warunki: "+state.Factions[1].Name);Click("Przyjmij warunki");
+            Check(!state.Relation(0,1).War&&state.PeaceOffers[1].Status==PeaceStatus.Accepted,"Accepting the saved counteroffer ratifies peace through the WPF handler");
+            string finalPath=Path.Combine(folder,"negotiated-peace-save.crown");SaveGame.Write(state,finalPath);string finalBefore=SaveGame.Serialize(state);LoadPath(finalPath);
+            Check(SaveGame.Serialize(state)==finalBefore,"Desktop reload restores ratified treaties and completed war history");tab="diplomacy";RefreshSide();await Capture("peace-final");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }
         catch(Exception e){checks.Add(e.ToString());File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Application.Current.Shutdown(3);}

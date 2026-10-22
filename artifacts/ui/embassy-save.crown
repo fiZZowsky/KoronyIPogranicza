@@ -1,5 +1,5 @@
 {
-  "Version": 4,
+  "Version": 5,
   "Seed": 17421,
   "RandomState": 2925202044,
   "Width": 42,
@@ -16792,7 +16792,8 @@
       "LastActionTurn": 1,
       "GrievanceA": 40,
       "GrievanceB": 0,
-      "LastDemandTurn": 1
+      "LastDemandTurn": 1,
+      "LastPeaceTurn": -10
     },
     {
       "A": 0,
@@ -16804,7 +16805,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     },
     {
       "A": 0,
@@ -16816,7 +16818,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     },
     {
       "A": 1,
@@ -16828,7 +16831,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     },
     {
       "A": 1,
@@ -16840,7 +16844,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     },
     {
       "A": 2,
@@ -16852,7 +16857,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     }
   ],
   "Chronicle": [
@@ -16905,6 +16911,10 @@
     }
   ],
   "NextDemandId": 2,
+  "Wars": [],
+  "PeaceOffers": [],
+  "NextWarId": 1,
+  "NextPeaceId": 1,
   "Ending": null,
   "NextId": 13
 }

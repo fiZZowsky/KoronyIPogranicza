@@ -1,5 +1,5 @@
 {
-  "Version": 4,
+  "Version": 5,
   "Seed": 17421,
   "RandomState": 1725304554,
   "Width": 42,
@@ -16784,7 +16784,8 @@
       "LastActionTurn": 3,
       "GrievanceA": 10,
       "GrievanceB": 15,
-      "LastDemandTurn": 1
+      "LastDemandTurn": 1,
+      "LastPeaceTurn": -10
     },
     {
       "A": 0,
@@ -16796,7 +16797,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     },
     {
       "A": 0,
@@ -16808,7 +16810,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     },
     {
       "A": 1,
@@ -16820,7 +16823,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     },
     {
       "A": 1,
@@ -16832,7 +16836,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     },
     {
       "A": 2,
@@ -16844,7 +16849,8 @@
       "LastActionTurn": -1,
       "GrievanceA": 0,
       "GrievanceB": 0,
-      "LastDemandTurn": -10
+      "LastDemandTurn": -10,
+      "LastPeaceTurn": -10
     }
   ],
   "Chronicle": [
@@ -16877,6 +16883,11 @@
       "Turn": 3,
       "Text": "Zado\u015B\u0107uczynienie przeciw Liga Talassu. Lud -2, stabilno\u015B\u0107 -1, zaufanie pozosta\u0142ych pa\u0144stw -0.",
       "Category": "dyplomacja"
+    },
+    {
+      "Turn": 3,
+      "Text": "Og\u0142oszony cel: Otrzyma\u0107 co najmniej 80 z\u0142ota reparacji w pokoju.",
+      "Category": "wojna"
     },
     {
       "Turn": 5,
@@ -16918,6 +16929,31 @@
     }
   ],
   "NextDemandId": 2,
+  "Wars": [
+    {
+      "Id": 1,
+      "A": 0,
+      "B": 1,
+      "Aggressor": 0,
+      "Reason": "Redress",
+      "TargetCityId": null,
+      "GoalDeclared": true,
+      "StartedTurn": 3,
+      "EndedTurn": null,
+      "StartingCitiesA": [
+        1
+      ],
+      "StartingCitiesB": [
+        4
+      ],
+      "LossesA": 0,
+      "LossesB": 0,
+      "Outcome": ""
+    }
+  ],
+  "PeaceOffers": [],
+  "NextWarId": 2,
+  "NextPeaceId": 1,
   "Ending": null,
   "NextId": 13
 }
