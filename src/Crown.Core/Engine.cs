@@ -4,7 +4,7 @@ public static partial class Engine
 {
     public static City AddCity(GameState s,int owner,int tile,string name)
     {
-        var c=new City {Id=s.NextId++,Owner=owner,Tile=tile,Name=name,Project="scout"}; s.Cities.Add(c);
+        var c=new City {Id=s.NextId++,Owner=owner,OriginalOwner=owner,Tile=tile,Name=name,Project="scout"}; s.Cities.Add(c);
         foreach(var t in s.Tiles.Where(t=>World.Distance(t,s.Tiles[tile])<=2 && t.Owner<0)) t.Owner=owner;
         s.Tiles[tile].Owner=owner; s.Tiles[tile].Ruin=false; s.InvalidateLogistics(); return c;
     }
@@ -58,8 +58,10 @@ public static partial class Engine
         if(c.Charters.Contains("integration"))culture+=1;
         if(c.Charters.Contains("guild_housing"))gold*=.95;
         if(c.Charters.Contains("local_assembly"))gold*=.95;
+        if(c.Governance==Governance.Autonomous){gold*=.7;culture*=1.2;}
+        else if(c.Governance==Governance.Military){prod*=.9;science*=.8;}
         food*=s.Turn%4==0?.8:s.Turn%4==3?1.1:1;
-        double efficiency=Math.Clamp(.65+f.Stability*.005-c.Unrest*.003,.35,1.15)*(.9+c.Prosperity*.002);
+        double efficiency=Math.Clamp(.65+f.Stability*.005-c.Unrest*.003,.35,1.15)*(.9+c.Prosperity*.002)*(.85+c.Loyalty*.002);
         gold*=f.Tax==0?.65:f.Tax==2?1.5:1;
         return new(food-c.Population*2,prod*efficiency,gold*efficiency,science*efficiency,culture*efficiency);
     }
@@ -137,6 +139,7 @@ public static partial class Engine
     }
     public static Result Diplomacy(GameState s,int other,string action)
     {
+        if(action=="war")return DeclareWar(s,other,WarReason.Conquest);
         if(s.Ending!=null||other<=0||other>=s.Factions.Count)return Result.Fail("Nieprawidłowy rozmówca.");
         var f=s.Player;var r=s.Relation(0,other);if(!s.Cities.Any(c=>c.Owner==other))return Result.Fail("To państwo utraciło wszystkie miasta.");
         if(r.LastActionTurn==s.Turn)return Result.Fail("Posłowie odbyli już rozmowę w tej turze.");
@@ -144,7 +147,6 @@ public static partial class Engine
         {
             case "gift":if(r.War||f.Gold<40)return Result.Fail("Dar wymaga pokoju i 40 złota.");f.Gold-=40;s.Factions[other].Gold+=40;r.Trust+=12;break;
             case "trade":if(r.War||r.Trade||r.Trust<10||f.Gold<30)return Result.Fail("Traktat wymaga pokoju, relacji +10 i 30 złota.");f.Gold-=30;r.Trade=true;r.Trust+=5;break;
-            case "war":if(r.War||s.Turn<r.TruceUntil)return Result.Fail("Trwa już wojna lub obowiązuje rozejm.");r.War=true;r.Trade=false;r.Trust-=35;f.Commons-=5;f.Stability-=4;break;
             case "peace":int cost=Math.Max(40,100-(int)f.WarWeariness);if(!r.War||f.Gold<cost)return Result.Fail($"Pokój wymaga wojny i {cost} złota reparacji.");f.Gold-=cost;s.Factions[other].Gold+=cost;r.War=false;r.TruceUntil=s.Turn+10;r.Trust=Math.Max(-30,r.Trust);break;
             default:return Result.Fail("Nieznana propozycja.");
         }
@@ -204,7 +206,7 @@ public static partial class Engine
             if(!Supplied(s,u)&&u.Kind!=UnitKind.Scout&&u.Kind!=UnitKind.Settler)u.Health=Math.Max(10,u.Health-5);
             u.Actions=u.MaxActions;
         }
-        RunAi(s);s.Turn++;s.InvalidateLogistics();
+        ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();DiplomaticCouncil.Tick(s);
         foreach(var unit in s.Units.Where(u=>u.Owner==0&&u.Destination!=null).OrderBy(u=>u.Id).ToArray())FollowOrder(s,unit);
         foreach(var effect in s.Deferred.Where(e=>e.Due<=s.Turn).ToArray())
         {
@@ -244,9 +246,13 @@ public static partial class Engine
                 int other=r.A==f.Id?r.B:r.A;if(!s.Cities.Any(c=>c.Owner==other))continue;
                 if(s.Turn%8==0)r.Trust=Math.Clamp(r.Trust+(r.Trade?2:r.War?-2:0),-100,100);
                 if(s.Turn%16==0&&!r.War&&!r.Trade&&f.Id==3&&s.Turn>=r.TruceUntil)r.Trust=Math.Max(-100,r.Trust-3);
-                if(other>0&&!r.Trade&&!r.War&&r.Trust>=10&&s.Turn%15==0){r.Trade=true;r.Trust+=3;}
+                if(other>0&&!r.Trade&&!r.War&&r.Trust>=10&&s.Turn%15==0){r.Trade=true;r.Trust=Math.Min(100,r.Trust+3);}
                 if(!r.War&&s.Turn>25&&s.Turn>=r.TruceUntil&&r.Trust< -15&&Military(s,f.Id)>Military(s,other)*1.3+15&&s.Next(30)==0)
-                {r.War=true;r.Trade=false;r.Trust-=20;s.InvalidateLogistics();s.Log($"{f.Name} wypowiada wojnę państwu {s.Factions[other].Name}.","dyplomacja");}
+                {
+                    r.War=true;r.Trade=false;r.Trust=Math.Max(-100,r.Trust-20);DiplomaticCouncil.AddGrievance(s,other,f.Id,40);
+                    foreach(var third in s.Factions.Where(n=>n.Id!=f.Id&&n.Id!=other)){var rr=s.Relation(f.Id,third.Id);rr.Trust=Math.Max(-100,rr.Trust-12);}
+                    DiplomaticCouncil.Cancel(s,r,"Wojna przerwała poselstwo.");s.InvalidateLogistics();s.Log($"{f.Name} wypowiada wojnę państwu {s.Factions[other].Name}. Ofiara zyskuje 40 punktów krzywd, pozostałe państwa tracą 12 zaufania do napastnika.","dyplomacja");
+                }
                 if(r.War&&f.WarWeariness>65&&s.Turn%10==0){r.War=false;r.TruceUntil=s.Turn+10;s.InvalidateLogistics();s.Log($"{f.Name} proponuje i przyjmuje wyczerpujący obie strony rozejm z {s.Factions[other].Name}.","dyplomacja");}
             }
             foreach(var u in s.Units.Where(u=>u.Owner==f.Id).ToArray())

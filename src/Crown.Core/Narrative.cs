@@ -104,7 +104,7 @@ public static class Narrative
         f.Gold+=c.Gold; f.Stability+=c.Stability; f.Commons+=c.Commons; f.Nobles+=c.Nobles; f.Scholars+=c.Scholars; f.Prestige+=c.Prestige;
         if(c.Flag!=null) f.Flags.Add(c.Flag);
         if(context!=null)ProvincialEvents.Apply(s,context,e.Id,choice);
-        if(e.Id=="oath") s.Relation(0,3).Trust+=choice==0?20:choice==1?-25:8;
+        if(e.Id=="oath") s.Relation(0,3).Trust=Math.Clamp(s.Relation(0,3).Trust+(choice==0?20:choice==1?-25:8),-100,100);
         if(c.Delay>0) s.Deferred.Add(new(){Due=s.Turn+c.Delay,Faction=0,Text=c.FutureText??"Obietnica przynosi skutki.",Gold=c.FutureGold,Stability=c.FutureStability,Commons=c.FutureCommons,Nobles=c.FutureNobles,Scholars=c.FutureScholars,Prestige=c.FuturePrestige});
         Engine.Clamp(f); s.SeenEvents.Add(e.Id); s.PendingEvent=null;s.PendingCityId=null;
         s.Log($"{e.Title} — „{c.Text}” {Effects(c,e.Id,choice)}","decyzja"); return Result.Ok("Decyzja została zapisana w kronice.");

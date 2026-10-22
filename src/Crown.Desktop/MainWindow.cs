@@ -56,7 +56,7 @@ public sealed partial class MainWindow : Window
         scene.Children.Add(new Border{Background=new LinearGradientBrush(new GradientStopCollection{new(Color.FromArgb(248,9,24,30),0),new(Color.FromArgb(210,9,24,30),.35),new(Color.FromArgb(15,9,24,30),.8)},0)});
         scene.Children.Add(new Border{Background=new LinearGradientBrush(Colors.Transparent,Color.FromArgb(225,7,19,25),90)});
         var p=new StackPanel{Width=500,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center,Margin=new Thickness(84,10,0,0)};scene.Children.Add(p);
-        p.Children.Add(Ui.Eyebrow("AUTORSKA STRATEGIA TUROWA  /  0.3"));Ui.Gap(p,14);
+        p.Children.Add(Ui.Eyebrow("AUTORSKA STRATEGIA TUROWA  /  0.4"));Ui.Gap(p,14);
         p.Children.Add(Ui.Label("Korony\ni Pogranicza",59,Ui.Text,true));Ui.Gap(p,18);
         p.Children.Add(Ui.Label("Każde państwo ma początek.\nKażda decyzja ma swoją przyszłość.",21,Ui.Gold,true));Ui.Gap(p,14);
         p.Children.Add(Ui.Label("Poprowadź Marchie Veyru przez stulecia. Buduj miasta, negocjuj z sąsiadami i słuchaj tych, którzy ponoszą ciężar Twoich wyborów.",14,Ui.Brush("#BFCDC9")));Ui.Gap(p,25);
@@ -81,7 +81,7 @@ public sealed partial class MainWindow : Window
         var toggles=new StackPanel{Orientation=Orientation.Horizontal,VerticalAlignment=VerticalAlignment.Top,HorizontalAlignment=HorizontalAlignment.Right,Margin=new Thickness(0,20,20,0)};
         var grid=Ui.Button("Siatka",()=>{map.ShowGrid=!map.ShowGrid;map.InvalidateVisual();});grid.Margin=new Thickness(0,0,6,0);toggles.Children.Add(grid);toggles.Children.Add(Ui.Button("Zasoby",()=>{map.ShowResources=!map.ShowResources;map.InvalidateVisual();}));toggles.Children.Add(Ui.Button("Dostawy",()=>{map.ShowSupply=!map.ShowSupply;if(map.ShowSupply)map.ShowPopulation=false;map.InvalidateVisual();if(tab=="logistics")RefreshSide();}));toggles.Children.Add(Ui.Button("Ludność",()=>{map.ShowPopulation=!map.ShowPopulation;if(map.ShowPopulation)map.ShowSupply=false;map.InvalidateVisual();if(tab=="provinces")RefreshSide();}));Grid.SetColumn(toggles,1);Grid.SetRow(toggles,1);shell.Children.Add(toggles);
         sideHost=new Border{Background=Ui.Panel,BorderBrush=Ui.Line,BorderThickness=new Thickness(1,0,0,0)};Grid.SetColumn(sideHost,2);Grid.SetRow(sideHost,1);shell.Children.Add(sideHost);
-        BuildFooter();Refresh();Dispatcher.BeginInvoke(()=>map.Center(selectedTile),DispatcherPriority.Loaded);
+        BuildFooter();Refresh();root.UpdateLayout();map.Center(selectedTile);
         if(s.PendingEvent!=null)Toast("Rada oczekuje Twojej odpowiedzi. Otwórz salę rady.");if(s.Ending!=null)ShowEnding();
     }
     private void BuildNav()
@@ -141,20 +141,6 @@ public sealed partial class MainWindow : Window
         }
         side.Children.Add(Ui.Label("Odkryte: "+(f.Technologies.Count==0?"jeszcze żadne":string.Join(", ",f.Technologies.Select(id=>Catalog.Tech(id).Name))),11,Ui.Green));
     }
-    private void DiplomacyPanel()
-    {
-        TitlePanel("POSŁOWIE I UKŁADY","Sąsiedzi doliny","Relacje pamiętają zniewagi i ugody. Jedna rozmowa z państwem na turę.");
-        foreach(var f in state.Factions.Skip(1))
-        {
-            var r=state.Relation(0,f.Id);var p=Ui.Stack(Ui.Eyebrow(f.Leader),Ui.Label(f.Name,23,Ui.Brush(f.Color),true),Ui.Label(f.Trait,11,Ui.Muted));Ui.Gap(p,12);
-            p.Children.Add(Ui.Label($"{(r.War?"WOJNA":r.Trade?"TRAKTAT HANDLOWY":"POKÓJ")} · relacje {r.Trust:+0;-0;0}",12,r.War?Ui.Red:Ui.Green));Ui.Gap(p,10);
-            p.Children.Add(Ui.Label(r.War?"„Kolejne pokolenie oceni, kto pierwszy wyciągnął miecz.”":r.Trust>=20?"„Wasze słowo ma tutaj wartość. Porozmawiajmy o wspólnej przyszłości.”":r.Trust<0?"„Pamiętamy wasze decyzje. Przekonajcie nas, że możemy wam zaufać.”":"„Dolina jest dość wielka dla nas wszystkich. Na razie.”",12,Ui.Muted,true));Ui.Gap(p,12);
-            if(!state.Cities.Any(c=>c.Owner==f.Id))p.Children.Add(Ui.Label("Państwo utraciło swoje miasta.",12,Ui.Red));
-            else if(!r.War){p.Children.Add(Ui.Button("Wyślij dar · 40 złota · relacje +12",()=>Do(Engine.Diplomacy(state,f.Id,"gift"))));if(!r.Trade)p.Children.Add(Ui.Button("Traktat handlowy · 30 złota",()=>Do(Engine.Diplomacy(state,f.Id,"trade"))));p.Children.Add(Ui.Button("Rozważ wypowiedzenie wojny…",()=>ConfirmWar(f)));}
-            else p.Children.Add(Ui.Button($"Pokój · {Math.Max(40,100-(int)state.Player.WarWeariness)} złota reparacji",()=>Do(Engine.Diplomacy(state,f.Id,"peace"))));
-            if(r.TruceUntil>state.Turn)p.Children.Add(Ui.Label($"Rozejm obowiązuje do tury {r.TruceUntil}.",11,Ui.Gold));side.Children.Add(Ui.Card(p));
-        }
-    }
     private void PolicyPanel()
     {
         var f=state.Player;TitlePanel("RADA MARCHII","Kształt państwa","Reforma kosztuje 20 złota. Jedna zmiana na turę; ustawy działają do odwołania.");
@@ -181,7 +167,7 @@ public sealed partial class MainWindow : Window
     private void GuidePanel()
     {
         TitlePanel("PIERWSZE KROKI","Sztuka rządzenia","Twoje państwo zaczyna od jednego miasta i dwóch oddziałów.");
-        (string,string)[] help=[("01 · Odpowiedz radzie","Sala rady prezentuje wydarzenia i koszty każdej odpowiedzi. Niewypełnione obietnice i wcześniejsze ustawy mogą powrócić po wielu turach."),("02 · Zaplanuj rozwój","Odkryj Rolnictwo, Pismo i Górnictwo. Buduj spichlerze oraz biblioteki. Żywność pokazuje nadwyżkę po utrzymaniu mieszkańców. Zima obniża plony."),("03 · Odkrywaj i osiedlaj","Wybierz oddział lewym przyciskiem; prawym wskaż odkryte pole. Dalszy marsz jest kontynuowany w kolejnych turach. Osadników rekrutujesz w miastach liczących co najmniej 3 mieszkańców. Osada kosztuje jednego mieszkańca i powstaje minimum 4 pola od innych miast."),("04 · Słuchaj społeczeństwa","Podatki i dialogi zmieniają poparcie ludu, rodów i uczonych. Poparcie kształtuje stabilność, a ta — wydajność gospodarki. Utrzymuj rezerwę złota."),("05 · Walcz z planem","Wojnę wypowiadasz w dyplomacji. PPM na przeciwniku otwiera podgląd walki; osobny przycisk potwierdza atak. Łucznicy i katapulty strzelają na 2 pola; miasta zdobywa piechota lub kawaleria. Gór nie można przekraczać. Oddziały poza zasięgiem dostaw słabną. Panel Szlaki pokazuje połączenia, budżet i blokady. Drogi obniżają ruch do 0,5 punktu; koszt budowy: 25 złota, utrzymanie: 0,15/turę."),("06 · Dbaj o prowincje","Panel Ludność pokazuje zapasy, mieszkania, opiekę i dobrobyt. Drogi pozwalają wymieniać nadwyżki żywności i przenosić się rodzinom do lepszych warunków. Wybierz Zarządzaj, aby zmienić rozwój miasta lub sfinansować pomoc."),("07 · Dbaj o historię","F5 otwiera zapis, F9 wczytanie, Tab wybiera kolejny gotowy oddział, Spacja kończy turę, Esc zamyka okno dialogu. Autozapis powstaje po każdej turze. W menu można zmienić ziarno świata."),("O tej wersji","To grywalny fundament 0.3: proceduralna mapa 2D, cztery państwa i jedna kampania. Ilustracja doliny powstała z użyciem AI. Oprawa 3D, dźwięk, floty, religie i multiplayer są dalszym zakresem produkcji.")];
+        (string,string)[] help=[("01 · Odpowiedz radzie","Sala rady prezentuje wydarzenia i koszty każdej odpowiedzi. Niewypełnione obietnice i wcześniejsze ustawy mogą powrócić po wielu turach."),("02 · Zaplanuj rozwój","Odkryj Rolnictwo, Pismo i Górnictwo. Buduj spichlerze oraz biblioteki. Żywność pokazuje nadwyżkę po utrzymaniu mieszkańców. Zima obniża plony."),("03 · Odkrywaj i osiedlaj","Wybierz oddział lewym przyciskiem; prawym wskaż odkryte pole. Dalszy marsz jest kontynuowany w kolejnych turach. Osadników rekrutujesz w miastach liczących co najmniej 3 mieszkańców. Osada kosztuje jednego mieszkańca i powstaje minimum 4 pola od innych miast."),("04 · Słuchaj społeczeństwa","Podatki i dialogi zmieniają poparcie ludu, rodów i uczonych. Poparcie kształtuje stabilność, a ta — wydajność gospodarki. Utrzymuj rezerwę złota."),("05 · Walcz z planem","W dyplomacji wybierz powód wojny: podbój obniża zaufanie innych państw; zadośćuczynienie wymaga 30 krzywd, wyzwolenie — zajętego własnego miasta. Poselstwa pozwalają żądać odszkodowania lub zawrzeć pakt; odpowiedź po dwóch turach. PPM na przeciwniku otwiera podgląd walki; osobny przycisk potwierdza atak. Łucznicy i katapulty strzelają na 2 pola; miasta zdobywa piechota lub kawaleria. Gór nie można przekraczać. Oddziały poza zasięgiem dostaw słabną. Panel Szlaki pokazuje połączenia, budżet i blokady. Drogi obniżają ruch do 0,5 punktu; koszt budowy: 25 złota, utrzymanie: 0,15/turę."),("06 · Dbaj o prowincje","Panel Ludność pokazuje zapasy, mieszkania, opiekę i dobrobyt. Drogi pozwalają wymieniać nadwyżki żywności i przenosić się rodzinom do lepszych warunków. Wybierz Zarządzaj, aby zmienić rozwój i ustrój miasta, sfinansować pomoc oraz sprawdzić lojalność. Lojalność obcego miasta poniżej 20 przez trzy tury oznacza jego powrót do założycieli."),("07 · Dbaj o historię","F5 otwiera zapis, F9 wczytanie, Tab wybiera kolejny gotowy oddział, Spacja kończy turę, Esc zamyka okno dialogu. Autozapis powstaje po każdej turze. W menu można zmienić ziarno świata."),("O tej wersji","To grywalny fundament 0.4: proceduralna mapa 2D, cztery państwa i jedna kampania. Ilustracja doliny powstała z użyciem AI. Oprawa 3D, dźwięk, floty, religie i multiplayer są dalszym zakresem produkcji.")];
         foreach(var (a,b) in help)side.Children.Add(Ui.Card(Ui.Stack(Ui.Eyebrow(a),Ui.Label(b,12,Ui.Muted))));
     }
     private void Select(int id)
@@ -205,7 +191,14 @@ public sealed partial class MainWindow : Window
     private void Advance()
     {
         if(busy||overlay!=null)return;if(state.PendingEvent!=null){ShowCouncil();return;}busy=true;endButton.IsEnabled=false;
-        try{var result=Engine.EndTurn(state);Toast(result.Message,result.Success);if(selectedUnit>=0&&!state.Units.Any(u=>u.Id==selectedUnit))selectedUnit=-1;TryAutoSave(true);}
+        try
+        {
+            var result=Engine.EndTurn(state);Toast(result.Message,result.Success);
+            var replies=state.Demands.Where(d=>d.ResolvedTurn==state.Turn).ToArray();
+            if(replies.Length>0){tab="diplomacy";Toast($"Powrót posłów. Otrzymane odpowiedzi: {replies.Length}. Warunki i słowa sąsiadów znajdziesz w dyplomacji.");}
+            else if(state.Cities.Any(c=>c.Owner==0&&c.RevoltTurns>0)){tab="provinces";Toast("Prowincja grozi buntem. Sprawdź lojalność i warunki zarządzania.",false);}
+            if(selectedUnit>=0&&!state.Units.Any(u=>u.Id==selectedUnit))selectedUnit=-1;TryAutoSave(true);
+        }
         finally{busy=false;Refresh();}
         if(state.Ending!=null)ShowEnding();else if(state.PendingEvent!=null)ShowCouncil();
     }
@@ -234,10 +227,6 @@ public sealed partial class MainWindow : Window
             var c=Ui.Stack(Ui.Label(project.Name,20,Ui.Text,true),Ui.Label($"{project.Cost} produkcji · {project.Description}",12,Ui.Muted));var b=Ui.Button("",()=>{CloseModal();Do(Engine.SetProject(state,city.Id,project.Id));});b.Content=c;b.Margin=new Thickness(0,0,10,10);projects.Children.Add(b);
         }
         p.Children.Add(Ui.Button("Zamknij",CloseModal));Modal(p,820);
-    }
-    private void ConfirmWar(Faction f)
-    {
-        var p=Ui.Stack(Ui.Eyebrow("ROZKAZ DLA POSŁÓW"),Ui.Label($"Wojna z {f.Name}",30,Ui.Text,true),Ui.Label("Wojna zrywa handel, obniża relacje o 35, poparcie ludu o 5 i stabilność o 4. Z czasem rośnie wyczerpanie wojną. Sąsiad zacznie atakować Twoje miasta i oddziały.",14,Ui.Muted));Ui.Gap(p,20);p.Children.Add(Ui.Button("Przekaż wypowiedzenie wojny",()=>{CloseModal();Do(Engine.Diplomacy(state,f.Id,"war"));},true));p.Children.Add(Ui.Button("Wycofaj posłów",CloseModal));Modal(p,620);
     }
     private void ShowEnding()
     {

@@ -1,0 +1,39 @@
+PASS New game opens the council
+PASS Council button applies the founding charter
+PASS Map order moves a selected unit
+PASS Research button changes the technology
+PASS Policy form changes taxation
+PASS Production dialog changes the project
+PASS Diplomacy button signs a trade treaty
+PASS Turn button advances twelve turns with council decisions
+PASS Desktop reload restores the complete game
+PASS Infrastructure button builds a complete capital connection
+PASS Distant map order queues a multi-turn march
+PASS Cancel march button preserves the current tile
+PASS Turn handler continues and completes the saved march
+PASS Enemy map order opens a pure combat preview
+PASS Cancelling combat preview spends no movement
+PASS Combat confirmation matches the preview
+PASS Compact desktop layout keeps the turn button visible
+PASS Provincial scenario has a funded road network
+PASS Society scenario records a population-conserving migration
+PASS Province panel exposes road-based food imports
+PASS Provincial form changes the local development focus
+PASS Provincial aid button funds food reserves and sets a cooldown
+PASS Council selects a concrete overcrowded province
+PASS Local council choice grants housing rights only to the affected city
+PASS Migration generates a settlement dialogue in the receiving city
+PASS Settlement dialogue installs the integration charter
+PASS Desktop reload preserves provincial rights and migration history
+PASS Starting another campaign centers the map after layout
+PASS Negotiation button sends a delayed compensation mission
+PASS Loading a campaign keeps the capital inside the map viewport
+PASS Desktop reload preserves an embassy in transit
+PASS Two turn handlers deliver and apply the diplomatic reply
+PASS Governance button establishes local autonomy and locks its cooldown
+PASS Cancelling war council leaves the simulation unchanged
+PASS War council button declares war using an available justification
+PASS Occupation generates a council request for provincial rights
+PASS Autonomy dialogue applies governance and loyalty to the occupied city
+PASS Desktop reload preserves diplomatic replies, occupation and local governance
+38 desktop integration checks passed.

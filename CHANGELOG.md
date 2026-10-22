@@ -1,5 +1,20 @@
 # Zmiany
 
+## 0.4 — Słowo i władza · 22 października 2026
+
+- Kierunkowa pamięć krzywd między państwami. Agresja, zajmowanie miast i niszczenie dróg tworzą roszczenia po stronie pokrzywdzonego. Krzywdy maleją o 1 co osiem tur.
+- Rada wojenna pokazuje trzy powody wojny i dokładne koszty przed rozkazem. Podbój kosztuje więcej poparcia i zaufanie pozostałych państw; zadośćuczynienie zużywa 30 krzywd, a wyzwolenie wymaga zajętego miasta własnych założycieli. Rozejm blokuje wszystkie powody wojny.
+- Poselstwa z żądaniem 80 złota odszkodowania lub propozycją piętnastoturowej nieagresji. Podróż kosztuje 20 złota; odpowiedź przychodzi po dwóch turach. Kolejne warunki do tego samego państwa można wysłać po dziesięciu turach.
+- Jawna ocena odpowiedzi uwzględnia zaufanie, względną siłę armii, krzywdy, wyczerpanie i nastawienie Kharów. Wynik rozstrzyga sytuacja po podróży, bez ukrytego losowania. Brak środków uniemożliwia wypłatę odszkodowania. Dar i rozwój armii mogą zmienić ocenę przed odpowiedzią.
+- Przyjęte warunki, odmowy i anulowane wojną poselstwa trafiają do kroniki. Powrót posłów otwiera dyplomację. Wszczęcie nieuzasadnionej wojny przez AI także wywołuje krzywdy i reakcję pozostałych państw.
+- Miasta pamiętają założycieli, lojalność, ustrój i okres oporu po podboju. Cel lojalności ma jawne składniki, a zmiana nie przekracza 3 punktów na turę. Lojalność wpływa na gospodarkę prowincji.
+- Wspólna administracja, autonomia i zarząd wojskowy. Zmiana kosztuje 40 złota, z odstępem ośmiu tur. Autonomia zwiększa lojalność i kulturę kosztem wpływów. Zarząd wojskowy wymaga prawdziwego garnizonu oraz ogranicza produkcję i naukę.
+- Podbite miasto z lojalnością poniżej 20 przez trzy kolejne rozliczenia wraca do państwa założycieli. Dwie pierwsze tury dają ostrzeżenia, a poprawa lojalności zeruje licznik. Granice i okoliczne drogi zmieniają właściciela, garnizon wycofuje się do własnego miasta; brak schronienia oznacza rozwiązanie oddziału.
+- Nowa lokalna sprawa rady „Czyje prawa, czyja ziemia?” wiąże wybór odpowiedzi z ustrojem, lojalnością i poparciem społecznym. AI może ustanawiać autonomię w niespokojnych prowincjach.
+- Zapis v4 obejmuje oczekujące odpowiedzi, krzywdy, założycieli, okupację i postęp buntu. Odczytuje v1–v3 i przy nadpisaniu zachowuje oryginalny plik. Historycznym miastom nadaje obecnego właściciela jako założyciela, ponieważ dawny format nie znał pochodzenia.
+- Naprawione centrowanie mapy po uruchomieniu kolejnej kampanii i wczytaniu stanu. Kamera jest ustawiana po ułożeniu interfejsu. Rozszerzone testy sprawdzają widoczność stolicy, przyciski negocjacji, rady wojennej i ustroju oraz zgodność kontynuacji.
+- Osobne wydanie `wydanie-0.4/`; poprzednie wydania i paczki pozostają zachowane. Grafika nadal korzysta z mapy 2D; cele wojenne, pokój i negocjacje są uproszczonym etapem rozwoju.
+
 ## 0.3 — Życie prowincji · 22 października 2026
 
 - Każde miasto ma własny kierunek rozwoju, dobrobyt, potrzeby mieszkaniowe i pojemność opieki. Niezaspokojone potrzeby podnoszą niepokoje; dobrobyt zmienia gospodarkę, zbliżając się stopniowo do celu.

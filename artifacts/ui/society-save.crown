@@ -1,5 +1,5 @@
 {
-  "Version": 3,
+  "Version": 4,
   "Seed": 17421,
   "RandomState": 2925202044,
   "Width": 42,
@@ -16486,6 +16486,12 @@
       "Buildings": [],
       "Health": 100,
       "Unrest": 31,
+      "OriginalOwner": 0,
+      "Governance": "Integrated",
+      "Loyalty": 75,
+      "OccupiedUntil": 0,
+      "RevoltTurns": 0,
+      "LastGovernanceTurn": -10,
       "Focus": "Industry",
       "Prosperity": 28,
       "HungerTurns": 0,
@@ -16516,6 +16522,12 @@
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
+      "OriginalOwner": 1,
+      "Governance": "Integrated",
+      "Loyalty": 75,
+      "OccupiedUntil": 0,
+      "RevoltTurns": 0,
+      "LastGovernanceTurn": -10,
       "Focus": "Balanced",
       "Prosperity": 50,
       "HungerTurns": 0,
@@ -16542,6 +16554,12 @@
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
+      "OriginalOwner": 2,
+      "Governance": "Integrated",
+      "Loyalty": 75,
+      "OccupiedUntil": 0,
+      "RevoltTurns": 0,
+      "LastGovernanceTurn": -10,
       "Focus": "Balanced",
       "Prosperity": 50,
       "HungerTurns": 0,
@@ -16568,6 +16586,12 @@
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
+      "OriginalOwner": 3,
+      "Governance": "Integrated",
+      "Loyalty": 75,
+      "OccupiedUntil": 0,
+      "RevoltTurns": 0,
+      "LastGovernanceTurn": -10,
       "Focus": "Balanced",
       "Prosperity": 50,
       "HungerTurns": 0,
@@ -16594,6 +16618,12 @@
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
+      "OriginalOwner": 0,
+      "Governance": "Integrated",
+      "Loyalty": 75,
+      "OccupiedUntil": 0,
+      "RevoltTurns": 0,
+      "LastGovernanceTurn": -10,
       "Focus": "Balanced",
       "Prosperity": 91,
       "HungerTurns": 0,
@@ -16803,7 +16833,10 @@
       "War": false,
       "Trade": false,
       "TruceUntil": 0,
-      "LastActionTurn": -1
+      "LastActionTurn": -1,
+      "GrievanceA": 0,
+      "GrievanceB": 0,
+      "LastDemandTurn": -10
     },
     {
       "A": 0,
@@ -16812,7 +16845,10 @@
       "War": false,
       "Trade": false,
       "TruceUntil": 0,
-      "LastActionTurn": -1
+      "LastActionTurn": -1,
+      "GrievanceA": 0,
+      "GrievanceB": 0,
+      "LastDemandTurn": -10
     },
     {
       "A": 0,
@@ -16821,7 +16857,10 @@
       "War": false,
       "Trade": false,
       "TruceUntil": 0,
-      "LastActionTurn": -1
+      "LastActionTurn": -1,
+      "GrievanceA": 0,
+      "GrievanceB": 0,
+      "LastDemandTurn": -10
     },
     {
       "A": 1,
@@ -16830,7 +16869,10 @@
       "War": false,
       "Trade": false,
       "TruceUntil": 0,
-      "LastActionTurn": -1
+      "LastActionTurn": -1,
+      "GrievanceA": 0,
+      "GrievanceB": 0,
+      "LastDemandTurn": -10
     },
     {
       "A": 1,
@@ -16839,7 +16881,10 @@
       "War": false,
       "Trade": false,
       "TruceUntil": 0,
-      "LastActionTurn": -1
+      "LastActionTurn": -1,
+      "GrievanceA": 0,
+      "GrievanceB": 0,
+      "LastDemandTurn": -10
     },
     {
       "A": 2,
@@ -16848,7 +16893,10 @@
       "War": false,
       "Trade": false,
       "TruceUntil": 0,
-      "LastActionTurn": -1
+      "LastActionTurn": -1,
+      "GrievanceA": 0,
+      "GrievanceB": 0,
+      "LastDemandTurn": -10
     }
   ],
   "Chronicle": [
@@ -16922,6 +16970,8 @@
       "People": 1
     }
   ],
+  "Demands": [],
+  "NextDemandId": 1,
   "Ending": null,
   "NextId": 14
 }

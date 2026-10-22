@@ -93,6 +93,30 @@ public sealed partial class MainWindow
             string societyPath=Path.Combine(folder,"society-save.crown");SaveGame.Write(state,societyPath);string societyBefore=SaveGame.Serialize(state);LoadPath(societyPath);
             Check(SaveGame.Serialize(state)==societyBefore,"Desktop reload preserves provincial rights and migration history");
             CloseModal();tab="provinces";map.ShowPopulation=true;map.ShowSupply=false;RefreshSide();map.Center(oldTown.Tile);await Capture("provinces-final");
+            var politics=World.Create();Narrative.Resolve(politics,0);politics.Player.Gold=3000;politics.Relation(0,1).Trust=85;
+            DiplomaticCouncil.AddGrievance(politics,0,1,40);Start(politics);tab="diplomacy";RefreshSide();
+            Check(map.Viewport.Contains(MapView.CenterOf(state.Tiles[state.Cities[0].Tile])),"Starting another campaign centers the map after layout");
+            Click("Negocjuj warunki: "+state.Factions[1].Name);await Capture("negotiation");
+            Click("Wyślij: Odszkodowanie");Check(state.Demands.Single().Status==DemandStatus.Pending&&overlay==null,"Negotiation button sends a delayed compensation mission");
+            string embassyPath=Path.Combine(folder,"embassy-save.crown");SaveGame.Write(state,embassyPath);LoadPath(embassyPath);
+            Check(map.Viewport.Contains(MapView.CenterOf(state.Tiles[state.Cities[0].Tile])),"Loading a campaign keeps the capital inside the map viewport");
+            Check(state.Demands.Single().Status==DemandStatus.Pending,"Desktop reload preserves an embassy in transit");
+            Advance();Advance();CloseModal();
+            Check(state.Turn==3&&state.Demands.Single().Status==DemandStatus.Accepted,"Two turn handlers deliver and apply the diplomatic reply");
+            tab="diplomacy";RefreshSide();await Capture("diplomatic-reply");
+            var capital=state.Cities.First(c=>c.Owner==0);ShowProvince(capital);Click("Ustanów: Autonomia");
+            Check(capital.Governance==Governance.Autonomous&&capital.LastGovernanceTurn==state.Turn,"Governance button establishes local autonomy and locks its cooldown");CloseModal();
+            DiplomaticCouncil.AddGrievance(state,0,1,30);RefreshSide();var foreign=state.Factions[1];ConfirmWar(foreign);await Capture("war-council");
+            string warBefore=SaveGame.Serialize(state);Click("Wycofaj posłów");
+            Check(!state.Relation(0,1).War&&SaveGame.Serialize(state)==warBefore,"Cancelling war council leaves the simulation unchanged");
+            ConfirmWar(foreign);Click("Wypowiedz wojnę: Zadośćuczynienie");Check(state.Relation(0,1).War&&overlay==null,"War council button declares war using an available justification");
+            var occupied=state.Cities.First(c=>c.Owner==1);ProvincialPolitics.Transfer(state,occupied,0);state.Turn=5;
+            Engine.Explore(state);Narrative.Schedule(state);Refresh();map.Center(occupied.Tile);Check(state.PendingEvent=="local_autonomy"&&state.PendingCityId==occupied.Id,"Occupation generates a council request for provincial rights");
+            ShowCouncil();await Capture("autonomy-council");Click("01   Uznajemy");
+            Check(occupied.Governance==Governance.Autonomous&&occupied.Loyalty==40,"Autonomy dialogue applies governance and loyalty to the occupied city");
+            tab="provinces";RefreshSide();map.Center(occupied.Tile);ShowProvince(occupied);await Capture("provincial-politics");CloseModal();
+            string politicsPath=Path.Combine(folder,"politics-save.crown");SaveGame.Write(state,politicsPath);string politicsBefore=SaveGame.Serialize(state);LoadPath(politicsPath);
+            Check(SaveGame.Serialize(state)==politicsBefore,"Desktop reload preserves diplomatic replies, occupation and local governance");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }
         catch(Exception e){checks.Add(e.ToString());File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Application.Current.Shutdown(3);}

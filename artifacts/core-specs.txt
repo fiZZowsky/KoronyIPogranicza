@@ -17,10 +17,10 @@ PASS Settling validates distance and creates territory
 PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
-  seed 17421: 141 turns, 17 cities, 53 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 270 turns, 14 cities, 48 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
-  seed 8: 255 turns, 15 cities, 48 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
-  seed 99: 152 turns, 17 cities, 46 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 17421: 279 turns, 15 cities, 52 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 220 turns, 17 cities, 51 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 205 turns, 16 cities, 50 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
+  seed 99: 191 turns, 19 cities, 72 units; Arweńska Unia: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
 PASS Road quotes, atomic funding and economy reconciliation
@@ -52,4 +52,22 @@ PASS AI prioritizes food relief and missing housing
 PASS V2 migration preserves roads and orders and backs up the original
 PASS V3 validation rejects corrupt needs, context and migration records
 PASS V3 continuation deterministically preserves provincial decisions and trade
-50 specifications passed in 8,2s.
+PASS War justification previews are pure and illegal declarations spend nothing
+PASS Conquest costs domestic support and third-party trust
+PASS Redress spends a directed grievance and liberation recognizes founders
+PASS Diplomatic missions resolve once after two turns and survive reload
+PASS Mission replies use the situation on arrival and refusals do not invent claims
+PASS Non-aggression pacts enforce the same truce for player and AI
+PASS Demand cooldowns, treasury limits and war cancellation are atomic
+PASS Governance changes trade income for loyalty and honor their cooldown
+PASS Military administration depends on a real military garrison
+PASS Capture establishes occupation and recapture restores original sovereignty
+PASS Revolt gives two warnings then transfers borders and evacuates the garrison
+PASS Recovering loyalty resets rebellion and native cities cannot defect
+PASS Autonomy dialogue affects one province and leaves a political legacy
+PASS V3 migration preserves provincial history and creates an original backup
+PASS Corrupt political state and forged diplomatic missions are rejected
+PASS Combat capture and road pillaging create grievances for the actual victim
+PASS AI honors an active pact even with a hostile and stronger army
+PASS Pending embassies and political consequences resume deterministically
+68 specifications passed in 10,9s.

@@ -10,7 +10,18 @@ public static class SaveGame
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
-        if(s.Version is <1 or >3)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version is <1 or >4)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version<4)
+        {
+            s.Demands=[];s.NextDemandId=1;
+            foreach(var city in s.Cities)
+            {
+                // Old saves did not record founders. Recognize their current sovereignty on migration.
+                city.OriginalOwner=city.Owner;city.Governance=Governance.Integrated;city.Loyalty=75;
+                city.OccupiedUntil=city.RevoltTurns=0;city.LastGovernanceTurn=-10;
+            }
+            foreach(var r in s.Relations){r.GrievanceA=r.GrievanceB=0;r.LastDemandTurn=-10;r.Trust=Math.Clamp(r.Trust,-100,100);}
+        }
         if(s.Version<3)
         {
             s.PendingCityId=null;s.Migrations=[];
@@ -41,9 +52,20 @@ public static class SaveGame
         if(s.PendingEvent!=null&&ProvincialEvents.IsLocal(s.PendingEvent)?!s.Cities.Any(c=>c.Id==s.PendingCityId&&c.Owner==0&&!c.ResolvedIssues.Contains(s.PendingEvent)):s.PendingCityId!=null)
             throw new InvalidDataException("Uszkodzony kontekst sprawy prowincji.");
         var cityIds=s.Cities.Select(c=>c.Id).ToHashSet();
+        if(s.Cities.Any(c=>!ValidOwner(c.OriginalOwner)||!Enum.IsDefined(c.Governance)||c.Loyalty is <0 or >100||c.RevoltTurns is <0 or >2||
+            c.OccupiedUntil<0||c.OccupiedUntil>s.Turn+12||c.LastGovernanceTurn< -10||c.LastGovernanceTurn>s.Turn||
+            c.RevoltTurns>0&&(c.Owner==c.OriginalOwner||c.Loyalty>=20)))throw new InvalidDataException("Uszkodzone dane lojalności.");
+        if(s.Relations.Any(r=>r.Trust is < -100 or >100||r.GrievanceA is <0 or >100||r.GrievanceB is <0 or >100||r.TruceUntil<0||r.TruceUntil>s.Turn+15||
+            r.LastDemandTurn< -10||r.LastDemandTurn>s.Turn))throw new InvalidDataException("Uszkodzone zobowiązania dyplomatyczne.");
+        if(s.Demands==null||s.Demands.Count>2000||s.NextDemandId<1||s.Demands.Select(d=>d.Id).Distinct().Count()!=s.Demands.Count||s.Demands.Any(d=>
+            d.Id<1||d.Id>=s.NextDemandId||d.From!=0||d.To<1||d.To>3||!Enum.IsDefined(d.Kind)||!Enum.IsDefined(d.Status)||d.SentTurn<1||d.SentTurn>s.Turn||
+            d.DueTurn!=d.SentTurn+2||d.Reply==null||d.Reply.Length>2000||
+            (d.Status==DemandStatus.Pending ? d.ResolvedTurn!=null||d.DueTurn<=s.Turn||d.Reply.Length!=0||s.Relation(d.From,d.To).War :
+                d.ResolvedTurn==null||d.ResolvedTurn<d.SentTurn||d.ResolvedTurn>s.Turn||d.Reply.Length==0||d.Status!=DemandStatus.Cancelled&&d.ResolvedTurn<d.DueTurn))||
+            s.Demands.Where(d=>d.Status==DemandStatus.Pending).GroupBy(d=>d.To).Any(g=>g.Count()>1))throw new InvalidDataException("Uszkodzone poselstwa.");
         if(s.Migrations==null||s.Migrations.Count>2000||s.Migrations.Any(m=>!ValidOwner(m.Owner)||m.Turn<1||m.Turn>s.Turn||m.People!=1||m.Source==m.Destination||!cityIds.Contains(m.Source)||!cityIds.Contains(m.Destination)))
             throw new InvalidDataException("Uszkodzona historia migracji.");
-        s.Version=3;
+        s.Version=4;
         return s;
     }
     public static void Write(GameState state,string path)
@@ -52,7 +74,7 @@ public static class SaveGame
         string temp=path+".tmp";File.WriteAllText(temp,Serialize(state));
         if(File.Exists(path))
         {
-            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is 1 or 2&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
+            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is 1 or 2 or 3&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
             catch(JsonException){ /* An invalid old file may still be replaced by an explicit save. */ }
         }
         File.Move(temp,path,true);

@@ -5,6 +5,10 @@ public enum Resource { None, Grain, Iron, Horses, Stone, Salt, Dyes }
 public enum Improvement { None, Farm, Mine, TradingPost }
 public enum UnitKind { Scout, Spearmen, Archer, Cavalry, Settler, Catapult }
 public enum CityFocus { Balanced, Agriculture, Industry, Scholarship }
+public enum Governance { Integrated, Autonomous, Military }
+public enum WarReason { Conquest, Redress, Liberation }
+public enum DemandKind { Compensation, NonAggression }
+public enum DemandStatus { Pending, Accepted, Rejected, Cancelled }
 public sealed class Tile
 {
     public int Id { get; set; }
@@ -34,6 +38,12 @@ public sealed class City
     public HashSet<string> Buildings { get; set; } = [];
     public double Health { get; set; } = 100;
     public int Unrest { get; set; }
+    public int OriginalOwner { get; set; }
+    public Governance Governance { get; set; }
+    public int Loyalty { get; set; } = 75;
+    public int OccupiedUntil { get; set; }
+    public int RevoltTurns { get; set; }
+    public int LastGovernanceTurn { get; set; } = -10;
     public CityFocus Focus { get; set; }
     public int Prosperity { get; set; } = 50;
     public int HungerTurns { get; set; }
@@ -94,6 +104,21 @@ public sealed class Relation
     public bool Trade { get; set; }
     public int TruceUntil { get; set; }
     public int LastActionTurn { get; set; } = -1;
+    public int GrievanceA { get; set; }
+    public int GrievanceB { get; set; }
+    public int LastDemandTurn { get; set; } = -10;
+}
+public sealed class DiplomaticDemand
+{
+    public int Id { get; set; }
+    public int From { get; set; }
+    public int To { get; set; }
+    public DemandKind Kind { get; set; }
+    public DemandStatus Status { get; set; }
+    public int SentTurn { get; set; }
+    public int DueTurn { get; set; }
+    public int? ResolvedTurn { get; set; }
+    public string Reply { get; set; } = "";
 }
 public sealed class ChronicleEntry
 {
@@ -115,7 +140,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 3;
+    public int Version { get; set; } = 4;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -134,6 +159,8 @@ public sealed class GameState
     public string? PendingEvent { get; set; } = "founding";
     public int? PendingCityId { get; set; }
     public List<MigrationRecord> Migrations { get; set; } = [];
+    public List<DiplomaticDemand> Demands { get; set; } = [];
+    public int NextDemandId { get; set; } = 1;
     public string? Ending { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
@@ -178,3 +205,5 @@ public sealed record FoodPlan(Dictionary<int, double> Raw, Dictionary<int, doubl
 }
 public sealed record ProvinceStatus(int Housing, int Sanitation, IReadOnlyList<string> Goods,
     double FoodBalance, double Imports, double Exports, int ProsperityTarget, int Pressure);
+public sealed record LoyaltyReport(int Target, int Change, bool Garrison, IReadOnlyList<string> Factors);
+public sealed record WarDeclaration(bool Allowed, string Reason, int CommonsCost, int StabilityCost, int ForeignTrustCost);

@@ -1,1 +1,1 @@
-PASS intentional WPF diagnostic failure exits with code 3
+Published release 0.4: intentional --smoke-force-failure returned expected exit code 3.

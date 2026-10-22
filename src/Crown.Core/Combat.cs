@@ -69,15 +69,9 @@ public static partial class Engine
             if (preview.CanCapture)
             {
                 int old = city.Owner;
-                city.Owner = u.Owner; city.Health = 50; city.Unrest = 55; city.Production = 0; city.Project = "spearmen";
+                ProvincialPolitics.Transfer(s, city, u.Owner);
+                DiplomaticCouncil.AddGrievance(s, old, u.Owner, 30);
                 u.Tile = city.Tile;
-                foreach (var t in s.Tiles.Where(t => t.Owner == old && World.Distance(t, s.Tiles[city.Tile]) <= 2 &&
-                    !s.Cities.Any(c => c.Owner == old && World.Distance(t, s.Tiles[c.Tile]) <= 2)))
-                {
-                    t.Owner = u.Owner;
-                    if (t.Road) t.RoadOwner = u.Owner;
-                }
-                s.Tiles[city.Tile].Owner = u.Owner;
                 s.Factions[u.Owner].Prestige += 25;
                 s.Log($"{s.Factions[u.Owner].Name} zdobywa {city.Name}. Nowa administracja mierzy się z oporem mieszkańców.", "wojna");
             }

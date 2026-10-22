@@ -28,10 +28,14 @@ Sprawy głodu, mieszkań i przyjęcia przybyszów trafiają do rady z identyfika
 
 Dyplomatyczne wypowiedzi są autorskimi, ustalonymi tekstami, a nie generowaniem przez LLM podczas gry. AI nie jest uczonym modelem: korzysta z wyszukiwania ścieżek i heurystyk. Poziom trudny podnosi jej przychód i produkcję do 130%, spokojny obniża je do 85%. Testy kampanii wykrywają błędy stanu; nie zastępują testów balansu i przyjemności rozgrywki.
 
+Wersja 0.4 łączy uzasadnienia wojny z kierunkową pamięcią krzywd i reakcją pozostałych państw. Poselstwa mają czas podróży i jawny model odpowiedzi; stan armii lub relacji można zmienić przed powrotem posłów. Obsługują odszkodowanie i nieagresję; nie ma jeszcze wielostronnych sojuszy, wymiany terytoriów, kontrofert ani konferencji pokojowej. AI odpowiada na warunki, a nie inicjuje własnych złożonych negocjacji.
+
+Miasta pamiętają założycieli. Lokalna lojalność zależy od potrzeb, polityki państwa, garnizonu i ustroju prowincji. Autonomia oddaje dochód za poparcie, zarząd wojskowy wymaga stałej obecności siły. Bunt obcego miasta jest deterministyczny i wymaga trzech kolejnych tur niskiej lojalności, poprzedzonych ostrzeżeniami. Wraca ono do istniejącego identyfikatora państwa założycieli, które może w ten sposób odzyskać ostatnie miasto. Nie ma jeszcze nowych państw secesyjnych ani wojny domowej we własnym rdzeniu. W zapisie sprzed v4 założycielem staje się dotychczasowy właściciel, ponieważ wcześniejszy format nie zachował tej informacji.
+
 ## Kolejne etapy
 
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.
-2. **Głębsza symulacja:** ceny i regionalny popyt na towary, rzeczywiste konwoje i wojskowe zapasy, migracje międzynarodowe, wyczerpanie złóż, klasy społeczne prowincji, traktaty z warunkami i mechanika uzasadnienia wojny. Podstawową wymianę żywności i wewnętrzne migracje wykonano w 0.3.
+2. **Głębsza symulacja:** ceny i regionalny popyt na towary, rzeczywiste konwoje i wojskowe zapasy, migracje międzynarodowe, wyczerpanie złóż, klasy społeczne prowincji, wielostronne sojusze i negocjowany pokój. Podstawową wymianę żywności i wewnętrzne migracje wykonano w 0.3, uzasadnienia wojny i proste poselstwa w 0.4.
 3. **Dramaturgia:** długie wątki postaci, konflikty między prowincjami, sukcesja, dziedziczone instytucje, reakcje zagraniczne na konkretne obietnice, większa liczba zdarzeń zależnych od kontekstu.
 4. **Oprawa 3D:** niezależny renderer korzystający z istniejącego silnika C#, modele miast rozwijające się wraz z populacją, realistyczne materiały PBR, oświetlenie, woda, pogoda, animacje armii i pełna obsługa kamery. Przed wyborem docelowego silnika potrzebny jest osobny prototyp wydajności i potwierdzenie zgodności z .NET 10.
 5. **Pełna produkcja:** redakcja treści, dźwięk, dostępność, lokalizacja, migracje wersji zapisów, rozbudowa AI, testy sprzętowe, kampanie dla pozostałych państw i dystrybucja.

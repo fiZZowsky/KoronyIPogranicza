@@ -21,6 +21,8 @@ public sealed partial class MainWindow
             var p = Ui.Stack(Ui.Label(c.Name, 23, Ui.Text, true), Ui.Label($"{c.Population} mieszkańców · {Regions.FocusName(c.Focus)}", 12, Ui.Muted));
             Ui.Gap(p, 12);
             Ui.Bar(p, $"Dobrobyt {c.Prosperity}% → cel {status.ProsperityTarget}%", c.Prosperity, 100, c.Prosperity < 40 ? Ui.Red : Ui.Green);
+            Ui.Bar(p, $"Lojalność {c.Loyalty}% → cel {ProvincialPolitics.Report(state,c).Target}%", c.Loyalty, 100, c.Loyalty<30?Ui.Red:Ui.Gold);
+            p.Children.Add(Ui.Label(ProvincialPolitics.Name(c.Governance)+(c.RevoltTurns>0?$" · BUNT {c.RevoltTurns}/3":""),12,c.RevoltTurns>0?Ui.Red:Ui.Muted));
             p.Children.Add(Ui.Label($"Mieszkania {c.Population}/{status.Housing} · opieka {c.Population}/{status.Sanitation}\nBilans żywności {Ui.Signed(status.FoodBalance)} · niepokoje {c.Unrest}%", 12,
                 status.Pressure > 0 ? Ui.Gold : Ui.Muted));
             if (status.Imports > 0 || status.Exports > 0) p.Children.Add(Ui.Label($"Import {status.Imports:0.#} · eksport {status.Exports:0.#}", 11, Ui.Green));
@@ -57,6 +59,22 @@ public sealed partial class MainWindow
         p.Children.Add(Ui.Label($"Żywność miejscowa {Ui.Signed(food.Raw[city.Id])} · import +{status.Imports:0.#} · eksport -{status.Exports:0.#} · bilans {Ui.Signed(status.FoodBalance)}\nZapasy: {city.Food:0.#}; presja potrzeb: {status.Pressure}. Dobrobyt zbliża się do celu o maksymalnie 2 punkty na turę.", 13, Ui.Muted));
         Ui.Gap(p, 8);
         p.Children.Add(Ui.Label("Dostępne towary: " + (status.Goods.Count == 0 ? "brak" : string.Join(", ", status.Goods)), 13, Ui.Gold));
+        p.Children.Add(Ui.Rule());
+        var loyalty=ProvincialPolitics.Report(state,city);
+        Ui.Bar(p,$"Lojalność {city.Loyalty}% → {loyalty.Target}% · zmiana {loyalty.Change:+0;-0;0}/turę",city.Loyalty,100,city.Loyalty<30?Ui.Red:Ui.Gold);
+        p.Children.Add(Ui.Label($"Założyciele: {state.Factions[city.OriginalOwner].Name}"+(city.OccupiedUntil>state.Turn?$" · opór po podboju do tury {city.OccupiedUntil}":""),12,Ui.Muted));
+        p.Children.Add(Ui.Label("Cel bazowy 55 · "+string.Join(" · ",loyalty.Factors),12,Ui.Muted));
+        p.Children.Add(Ui.Label(city.Owner!=city.OriginalOwner?$"Lojalność poniżej 20 przez trzy kolejne tury: powrót do założycieli. Postęp buntu {city.RevoltTurns}/3. Garnizon wycofa się do własnego miasta; bez schronienia zostanie rozwiązany.":"Spadek lojalności zmniejsza wydajność gospodarki. Miasto założone przez własne państwo nie wraca do obcego władcy.",12,city.RevoltTurns>0?Ui.Red:Ui.Muted));
+        p.Children.Add(Ui.Eyebrow("USTRÓJ PROWINCJI · "+ProvincialPolitics.Name(city.Governance)));
+        foreach(var mode in Enum.GetValues<Governance>())
+        {
+            p.Children.Add(Ui.Label(ProvincialPolitics.Name(mode)+" · "+ProvincialPolitics.Description(mode),12,Ui.Muted));
+            var change=Ui.Button("Ustanów: "+ProvincialPolitics.Name(mode)+" · 40 złota",()=>
+            { var result=Engine.SetGovernance(state,city.Id,mode);Do(result);if(result.Success)ShowProvince(city); });
+            change.IsEnabled=city.Governance!=mode&&state.Turn-city.LastGovernanceTurn>=8&&state.Player.Gold>=40;
+            p.Children.Add(change);
+        }
+        if(state.Turn-city.LastGovernanceTurn<8)p.Children.Add(Ui.Label($"Zmiana ustroju za {8-(state.Turn-city.LastGovernanceTurn)} tur.",12,Ui.Gold));
         p.Children.Add(Ui.Rule());
         p.Children.Add(Ui.Eyebrow("KIERUNEK ROZWOJU"));
         var focus = Ui.Combo(["Równowaga", "Rolnictwo · +20% żywności, -10% produkcji", "Rzemiosło · +20% produkcji, -10% żywności, opieka -1", "Nauka · +25% nauki, -10% złota"], (int)city.Focus);

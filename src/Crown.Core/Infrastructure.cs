@@ -66,7 +66,8 @@ public static partial class Engine
             return Result.Fail("Potrzebny oddział z co najmniej 1 punktem ruchu.");
         var tile = s.Tiles[u.Tile];
         if (!tile.Road || !AtWar(s, u.Owner, tile.RoadOwner)) return Result.Fail("Możesz zniszczyć drogę państwa, z którym toczysz wojnę.");
-        tile.Road = false;
+          DiplomaticCouncil.AddGrievance(s, tile.RoadOwner, u.Owner, 12);
+          tile.Road = false;
         tile.RoadOwner = -1;
         u.Actions -= 1;
         u.Destination = null;

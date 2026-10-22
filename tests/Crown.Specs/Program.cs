@@ -119,4 +119,5 @@ Test("Campaign soak: multiple seeds, complete campaigns and AI expansion",()=>
 });
 StageTwoSpecs.Run(Test);
 StageThreeSpecs.Run(Test);
+StageFourSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

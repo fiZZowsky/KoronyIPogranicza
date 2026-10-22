@@ -9,6 +9,10 @@ dotnet run --project tests/Crown.Specs -c Release --no-build | Tee-Object -FileP
 if ($LASTEXITCODE -ne 0) { throw 'Specyfikacje silnika nie przeszły.' }
 $gameExecutable = Join-Path $PSScriptRoot 'src/Crown.Desktop/bin/Release/net10.0-windows/KoronyIPogranicza.exe'
 $smokeDirectory = Join-Path $reportDirectory 'ui'
-$gameProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke', ('"' + $smokeDirectory + '"')) -WindowStyle Hidden -Wait -PassThru
+$gameProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke', ('"' + $smokeDirectory + '"')) -WindowStyle Hidden -PassThru
+if (-not $gameProcess.WaitForExit(60000)) {
+    Stop-Process -Id $gameProcess.Id -Force
+    throw 'Test interfejsu przekroczył limit 60 sekund.'
+}
 if ($gameProcess.ExitCode -ne 0) { throw 'Test integracji WPF nie przeszedł. Sprawdź artifacts/ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $smokeDirectory 'ui-smoke.txt')
