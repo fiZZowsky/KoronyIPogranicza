@@ -47,4 +47,16 @@ PASS AI counteroffer waits for player consent
 PASS Rejecting the incoming counteroffer keeps the war active
 PASS Accepting the saved counteroffer ratifies peace through the WPF handler
 PASS Desktop reload restores ratified treaties and completed war history
-49 desktop integration checks passed.
+PASS Market panel projects a real domestic iron shipment
+PASS Trade form signs the selected foreign salt contract
+PASS Turn handler delivers goods and records market taxation
+PASS Commodity ledger preserves the actual international cargo
+PASS Warehouse project can be selected from the market report
+PASS Trade policy form applies and locks an embargo
+PASS Embargo pauses the contract without deleting it
+PASS Trade council installs the domestic reserve policy
+PASS Restoring trade policy resumes a paused contract
+PASS Desktop reload preserves stocks, prices, trade history and policy
+PASS Contract cancellation button closes the agreement
+PASS Compact layout keeps the market and turn controls usable
+61 desktop integration checks passed.

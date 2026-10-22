@@ -153,6 +153,34 @@ public sealed partial class MainWindow
             Check(!state.Relation(0,1).War&&state.PeaceOffers[1].Status==PeaceStatus.Accepted,"Accepting the saved counteroffer ratifies peace through the WPF handler");
             string finalPath=Path.Combine(folder,"negotiated-peace-save.crown");SaveGame.Write(state,finalPath);string finalBefore=SaveGame.Serialize(state);LoadPath(finalPath);
             Check(SaveGame.Serialize(state)==finalBefore,"Desktop reload restores ratified treaties and completed war history");tab="diplomacy";RefreshSide();await Capture("peace-final");
+            var commerce=World.Create();Narrative.Resolve(commerce,0);commerce.Player.Gold=4000;commerce.Factions[1].Gold=3000;
+            foreach(var tile in commerce.Tiles)tile.Resource=Resource.None;
+            foreach(var f in commerce.Factions)f.Technologies.UnionWith(["pottery","trade","currency"]);
+            var marketHome=commerce.Cities.First(c=>c.Owner==0);var marketForeign=commerce.Cities.First(c=>c.Owner==1);marketHome.Buildings.Add("market");marketForeign.Buildings.Add("market");
+            int marketDestination=20*commerce.Width+13;commerce.Tiles[marketDestination].Terrain=Terrain.Grassland;
+            var marketCursor=commerce.Tiles[marketHome.Tile];
+            while(marketCursor.Id!=marketDestination){marketCursor=World.Neighbors(commerce,marketCursor.Id).OrderBy(t=>World.Distance(t,commerce.Tiles[marketDestination])).First();if(!marketCursor.Passable)marketCursor.Terrain=Terrain.Grassland;marketCursor.Explored=true;}
+            var marketTown=Engine.AddCity(commerce,0,marketDestination,"Brzegowo");marketTown.Buildings.Add("market");Engine.Explore(commerce);Engine.ConnectCity(commerce,marketTown.Id);
+            marketHome.MarketStocks[TradeGood.Iron]=20;marketForeign.MarketStocks[TradeGood.Salt]=25;commerce.Relation(0,1).Trade=true;Start(commerce);tab="markets";RefreshSide();map.Center(marketHome.Tile);
+            Check(Markets.Plan(state).Shipments.Any(p=>p.Good==TradeGood.Iron&&p.To==marketTown.Id),"Market panel projects a real domestic iron shipment");await Capture("markets");
+            Click("Podpisz kontrakt handlowy");root.UpdateLayout();var marketInputs=Descendants<ComboBox>(overlay!).ToArray();marketInputs[3].SelectedIndex=1;marketInputs[4].SelectedIndex=3;
+            await Capture("trade-contract");Click("Podpisz umowę");
+            Check(state.TradeContracts.Single().Good==TradeGood.Salt&&state.TradeContracts.Single().Quantity==4&&state.TradeContracts.Single().Buyer==0,"Trade form signs the selected foreign salt contract");
+            Advance();CloseModal();Check(state.TradeContracts.Single().LastDelivered>0&&marketHome.LastMarketTax>0,"Turn handler delivers goods and records market taxation");
+            tab="markets";RefreshSide();Click("Bilans towarów: "+marketHome.Name);await Capture("commodity-ledger");
+            Check(marketHome.LastMarketLines.First(l=>l.Good==TradeGood.Salt).ForeignIn>0,"Commodity ledger preserves the actual international cargo");
+            Click("Wybierz budowę");Click("Skład towarowy");Check(marketHome.Project=="warehouse","Warehouse project can be selected from the market report");
+            tab="markets";RefreshSide();Click("Zmień politykę handlową");await Capture("trade-policy");Click("Przyjmij: Embargo");
+            Check(state.Player.TradePolicy==TradePolicy.Embargo&&state.Player.LastTradePolicyTurn==state.Turn,"Trade policy form applies and locks an embargo");
+            Advance();CloseModal();Check(state.TradeContracts.Single().LastDelivered==0&&state.TradeContracts.Single().Status==ContractStatus.Active,"Embargo pauses the contract without deleting it");
+            state.Turn=10;Narrative.Schedule(state);Refresh();ShowCouncil();await Capture("market-council");Click("01   Najpierw");
+            Check(state.Player.TradePolicy==TradePolicy.DomesticFirst&&state.SeenEvents.Contains("market_charter"),"Trade council installs the domestic reserve policy");
+            Advance();CloseModal();Check(state.TradeContracts.Single().LastDelivered>0,"Restoring trade policy resumes a paused contract");
+            string marketPath=Path.Combine(folder,"market-save.crown");SaveGame.Write(state,marketPath);string marketBefore=SaveGame.Serialize(state);LoadPath(marketPath);
+            Check(SaveGame.Serialize(state)==marketBefore,"Desktop reload preserves stocks, prices, trade history and policy");
+            tab="markets";RefreshSide();Click("Rozwiąż umowę #1");Check(state.TradeContracts.Single().Status==ContractStatus.Cancelled,"Contract cancellation button closes the agreement");
+            Width=1200;Height=800;Refresh();await Capture("market-compact");Check(endButton.IsVisible&&root.ActualWidth>=1100,"Compact layout keeps the market and turn controls usable");
+            Width=1600;Height=980;Refresh();await Capture("markets-final");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }
         catch(Exception e){checks.Add(e.ToString());File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Application.Current.Shutdown(3);}

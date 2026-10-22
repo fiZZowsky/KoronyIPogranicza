@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.5
+# Korony i Pogranicza · 0.6
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.5/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.5` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.6/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.6` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Cena pokoju.** Wersja 0.5 dodaje ogłaszane cele wojenne, bilans konfliktu, negocjowane reparacje i zwrot miast, kontroferty, propozycje AI oraz dialog o odbudowie po wojnie. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Cena dobrobytu.** Wersja 0.6 dodaje zapasy i zużycie towarów, regionalne ceny, zagraniczne kontrakty importowe i eksportowe, podatki rynku, składy towarowe oraz politykę handlową. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -17,9 +17,9 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Świat 42 × 28 heksów: ziarno proceduralne, biomy, rzeki, zasoby, ruiny, mgła wojny, przybliżanie i minimapa. Stolice mają gwarantowane połączenie lądowe.
 - Cztery fikcyjne państwa z różnymi premiami; gracz prowadzi jedno, trzy obsługuje AI. Trzy poziomy trudności zmieniają wydajność AI.
 - Miasta, ludność, wzrost i głód, sezonowe plony, eksploatacja pól, farmy, kopalnie, placówki handlowe, produkcja i utrzymanie.
-- 24 technologie z wymaganiami; 17 trwałych projektów miejskich, dwa projekty powtarzalne i sześć rodzajów oddziałów.
+- 24 technologie z wymaganiami; 18 trwałych projektów miejskich, dwa projekty powtarzalne i sześć rodzajów oddziałów.
 - Lud, rody i uczeni: ich poparcie wpływa na docelową stabilność, a ta na gospodarkę. Ustawy zmieniają podatki, ustrój i priorytety.
-- 23 rodzaje wyjątkowych i lokalnych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
+- 24 rodzaje wyjątkowych i lokalnych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
 - Dyplomacja: dary, handel, krzywdy, trzy powody wypowiedzenia wojny, odszkodowania, pakty o nieagresji i rozejmy. Posłowie wracają z odpowiedzią po dwóch turach. AI zakłada miasta, bada, buduje, ulepsza ziemię i prowadzi działania wojenne.
 - Negocjowany pokój z reparacjami i zwrotem miast, propozycjami AI, kontrofertami i terminem odpowiedzi. Historia wojny przechowuje ogłoszony cel, straty, bilans i końcowe rozliczenie obietnicy.
 - Walka wręcz i dystansowa, doświadczenie, obrona terenu, oblężenia i przejmowanie miast. Woda i góry blokują ruch. Armie poza zasięgiem dostaw słabną; odpoczynek leczy.
@@ -27,6 +27,7 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Rozkazy marszu zapisywane między turami i w plikach kampanii; podświetlenie zasięgu i trasy. Atak wymaga potwierdzenia podglądu zgodnego z modelem walki.
 - Prowincje z własnymi potrzebami, kierunkiem rozwoju i dobrobytem. Dzielnice mieszkalne oraz lecznice ograniczają presję społeczną. Regionalna wymiana karmi miasta z niedoborem, a bezpieczne drogi umożliwiają przeprowadzki do lepszych warunków.
 - Lojalność i pamięć założycieli miast. Autonomia oddaje część dochodów za większą lojalność i kulturę; zarząd wojskowy wymaga garnizonu. Podbite miasto może wrócić do założycieli po trzech turach lojalności poniżej 20.
+- Fizyczne zapasy żelaza, soli i barwników, wydobycie z pracujących pól, regionalny popyt i ceny. Dostawy krajowe dzielą nadwyżkę w sieci drogowej. Kontrakty zagraniczne przenoszą towary i złoto; embargo, wojna i blokady przerywają dostawy.
 - Zwycięstwo naukowe, kulturowe, przez zjednoczenie oraz punktowe po 320 turach. Kampania może zakończyć się wcześniej.
 - Zapis i wczytanie stanu JSON z walidacją, atomowym zastępowaniem pliku i zapisanym stanem generatora losowego. Autozapis po turze i decyzji rady; kronika przechowuje wybory oraz ich skutki.
 
@@ -59,13 +60,47 @@ Panel **Ludność** pokazuje potrzeby i migracje, a **Zarządzaj** otwiera dzia�
 - Kierunek rozwoju kosztuje 15 złota, zmienia się raz na turę: rolnictwo +20% żywności i -10% produkcji; rzemiosło +20% produkcji i -10% żywności; nauka +25% nauki i -10% złota. Równowaga nie ma tych modyfikatorów.
 - Pomoc kosztuje 50 złota: +25 zapasów żywności, -8 niepokojów i +4 dobrobytu, raz na pięć tur w danym mieście.
 
-Połączone bezpiecznymi drogami miasta tworzą regionalne rynki, także bez połączenia ze stolicą. Nadwyżka po wyżywieniu mieszkańców może być eksportowana do miasta z deficytem: maksymalnie 6 na miasto i turę w każdą stronę. Najpilniejsze niedobory mają pierwszeństwo. Eksport zmniejsza żywność pozostającą na wzrost, import nie tworzy nowej żywności. Blokada przerywa wymianę. Sól i barwniki z pól w zasięgu miast są współdzielone w tej samej sieci; traktat i targowisko mogą zapewnić dodatkowe towary zagraniczne.
+Połączone bezpiecznymi drogami miasta tworzą regionalne rynki, także bez połączenia ze stolicą. Nadwyżka żywności po wyżywieniu mieszkańców może być eksportowana do miasta z deficytem: maksymalnie 6 na miasto i turę w każdą stronę. Najpilniejsze niedobory mają pierwszeństwo. Eksport zmniejsza żywność pozostającą na wzrost, import nie tworzy nowej żywności. Blokada przerywa wymianę. Sól i barwniki z zasobów oraz magazynów są widoczne jako dostęp regionu do towaru; wpływ na dobrobyt wynika teraz z rzeczywistego zużycia. Sam traktat i targowisko nie przyznają już automatycznych towarów zagranicznych.
 
 Przeludnienie, niedostateczna opieka i brak żywności zwiększają niepokoje i obniżają docelowy dobrobyt. Dobrobyt zbliża się do celu o maksymalnie 2 punkty na turę i zmienia wydajność produkcji, nauki, złota i kultury w przedziale 90–110%. Pierwsza tura głodu powoduje niepokoje; co druga kolejna tura z pustymi zapasami i niedoborem odbiera mieszkańca.
 
 Migracje wewnątrz państwa są sprawdzane co cztery tury. Miasto źródłowe musi mieć co najmniej trzech mieszkańców i problemy lokalne. Cel musi leżeć w tej samej bezpiecznej sieci, mieć wolne mieszkania i opiekę, nadwyżkę żywności co najmniej 2 oraz dobrobyt wyższy o przynajmniej 10. Przenosi się jeden mieszkaniec; liczba ludności pozostaje stała. Dane miasto uczestniczy ponownie najwcześniej po ośmiu turach. Napływ zwiększa niepokoje o 4, chyba że przyjęto prawo integracji.
 
-Głód, brak mieszkań i napływ ludności wywołują sprawy rady przypisane do wskazanego miasta. Każda taka sprawa jest rozstrzygana raz na prowincję, z odstępem co najmniej 15 tur między sprawami. Lokalne prawa pozostają przy mieście i są widoczne w jego panelu. Nie jest to pełny rynek cen ani symulacja indywidualnych gospodarstw.
+Głód, brak mieszkań i napływ ludności wywołują sprawy rady przypisane do wskazanego miasta. Każda taka sprawa jest rozstrzygana raz na prowincję, z odstępem co najmniej 15 tur między sprawami. Lokalne prawa pozostają przy mieście i są widoczne w jego panelu. Nie ma symulacji indywidualnych gospodarstw; ceny obejmują trzy towary opisane poniżej.
+
+## Rynki, ceny i kontrakty
+
+Panel **Rynek** pokazuje prognozę zapasów, produkcji, popytu i cen. **Bilans towarów** rozpisuje każdą jednostkę: zapas początkowy + produkcja + import krajowy i zagraniczny - eksport - zużycie - utrata = zapas końcowy. Żywność nadal ma odrębne spichlerze i system przesyłek.
+
+| Towar | Popyt na turę | Skutek zużycia |
+|---|---|---|
+| Żelazo | 0,15 × mieszkańcy, +1 za warsztat, +2 za fabrykę | Mnożnik produkcji od 0,90 przy braku do 1,00 przy pełnym zaspokojeniu |
+| Sól | 0,35 × mieszkańcy | Wraz z barwnikami zmienia cel dobrobytu |
+| Barwniki | 0,20 × mieszkańcy, +1 za dom bankierski | Wraz z solą zmienia cel dobrobytu |
+
+Wpływ obu dóbr na docelowy dobrobyt wynosi `zaokrąglij(6 × (pokrycie soli + pokrycie barwników)) - 4`, czyli od -4 do +8. Nie zmienia dobrobytu natychmiast: ten nadal zbliża się do celu o maksymalnie 2 punkty na turę. Żelazo z magazynów nie zastępuje warunków surowcowych dotychczasowych premii bojowych.
+
+Pracujące własne pole żelaza, soli lub barwników produkuje 2 jednostki towaru na turę. Kopalnia dodaje 2 dla żelaza, placówka handlowa 1 dla towaru. Pole współdzielone przez zasięgi miast przypada tylko jednemu pracującemu miastu, z pierwszeństwem najbliższego, potem starszego. Nie produkuje pod blokadą. Nie ma jeszcze wyczerpywania złóż.
+
+Miasto mieści 50 jednostek każdego towaru; targowisko dodaje 25, **Skład towarowy** kolejne 100. Skład kosztuje 150 produkcji i wymaga technologii **Moneta**. Nadmiar po zużyciu przepada i jest wykazany w bilansie. Zajęcie miasta przejmuje jego zapasy, a stare raporty podatkowe są zerowane.
+
+Miasta jednej bezpiecznej sieci drogowej mają wspólną cenę. Bazy to 8 złota dla żelaza, 5 dla soli i 9 dla barwników. Cena wynika z `baza × (0,75 + popyt / (zapasy + nowa produkcja + 1))`, z limitem trzykrotnej bazy i zaokrągleniem do dwóch miejsc. Obliczana jest przed dostawami danego rozliczenia; import wpływa na cenę kolejnego rozliczenia. Wymiana krajowa najpierw pokrywa potrzeby z własnych zapasów miasta, następnie z nadwyżek połączonych miast.
+
+W **Podpisz kontrakt handlowy** wybierz import lub eksport, miasta, towar i limit 1–6 jednostek na turę. Umowa kosztuje 15 złota i obowiązuje do rozliczenia tury początkowej +12. Limit to trzy aktywne umowy na każde państwo. Wymagane są targowiska i Szlaki handlowe po obu stronach, pokojowy traktat oraz bezpieczne połączenie każdego miasta ze swoją stolicą.
+
+Cena kontraktowa wynosi 115% ceny regionalnej sprzedawcy. Przy rozliczeniu zależy od aktualnego rynku; podpis nie blokuje ceny, zapasu ani złota. Dostawa może być częściowa z powodu braku towarów lub funduszy. Płatność przechodzi bezpośrednio od nabywcy do sprzedawcy, bez mnożników trudności. Niedostępne towary nie są tworzone. Umowy rozliczane są w kolejności podpisania.
+
+| Polityka | Skutek |
+|---|---|
+| Najpierw mieszkańcy | Eksport zostawia w regionie zapas równy jednej turze jego popytu |
+| Swobodny eksport | Pozwala wywieźć towar przed zaspokojeniem własnych potrzeb |
+| Embargo | Wstrzymuje import i eksport, pozostawiając wymianę krajową |
+
+Zmiana polityki kosztuje 30 złota i ma odstęp ośmiu tur. Embargo, wojna, zerwanie traktatu i odcięcie stolicy wstrzymują kontrakt, ale czas nadal upływa. Przywrócenie warunków wznawia dostawy. Zmiana właściciela miasta rozwiązuje umowę przy następnym rozliczeniu; wygasłej lub rozwiązanej umowy nie wykonuje się ponownie. Umowę można samodzielnie rozwiązać w panelu. AI zawiera umowy między własnymi państwami; kontrakty Marchii wymagają działania gracza.
+
+Zużycie tworzy podatek od obrotu: 8%, 12% lub 18% wartości towarów przy niskich, zwykłych lub wysokich podatkach. Trafia on do dochodu państwa; płatności zagraniczne są księgowane odrębnie, aby nie pobierać ich dwukrotnie. W budżecie i nagłówku podatki rynku są oparte na ostatnim rozliczeniu, a przepływ kontraktów na aktualnej prognozie. Dochód prywatnych gospodarstw pozostaje abstrakcyjny, podobnie jak dotychczasowy dochód miejski.
+
+Nowa sprawa rady **Komu służy otwarty targ?** wiąże politykę handlową z poparciem i skarbem. Ceny obejmują trzy towary, bez samodzielnych agentów kupieckich. Zagraniczny transport jest abstrakcyjnym połączeniem bezpiecznych stolic; nie ma jeszcze poruszających się karawan ani wyszukiwania całej międzynarodowej drogi.
 
 ## Poselstwa i uzasadnienia wojny
 
@@ -127,7 +162,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.5/saves/`. Format v5 dodaje historię wojen, cele, bilans strat, warunki pokoju i kontroferty. Odczytuje v1–v4. Wojny rozpoczęte przed v5 otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów; nie ma kary za ich nieznaną dawną obietnicę. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v4.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.6/saves/`. Format v6 przechowuje zapasy, bilanse, podatki, ceny, kontrakty i politykę rynku; odczytuje v1–v5. Starsze kampanie zaczynają z pustymi magazynami, bez dopisywania dawnych dostaw. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v5.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -136,7 +171,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.5 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.6 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -148,6 +183,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 - `Regions.cs`, `ProvincialEvents.cs`: potrzeby i kierunki rozwoju miast, rynki regionalne, migracje oraz dialogi z lokalnymi skutkami.
 - `DiplomaticCouncil.cs`, `ProvincialPolitics.cs`: poselstwa, krzywdy, uzasadnienia wojny, lojalność, ustroje i zmiany właściciela miast.
 - `WarCouncil.cs`, `PeaceCouncil.cs`, `WarSaveRules.cs`: ogłoszone cele, bilans, rokowania, kontroferty, ratyfikacja i walidacja historii konfliktu.
+- `Markets.cs`, `TradeActions.cs`, `MarketSaveRules.cs`, `MarketCouncil.cs`: produkcja i zużycie towarów, ceny, kontrakty, polityka handlowa, dialog oraz walidacja bilansów.
 - `src/Crown.Desktop`: natywny interfejs WPF, rysowanie mapy, proceduralne materiały terenu i sterowanie.
 - `tests/Crown.Specs`: wykonywalne specyfikacje bez bibliotek testowych; symulacje kampanii i test odtwarzalności zapisu.
 - `DESIGN.md`: założenia projektu, ograniczenia i kierunek dalszych etapów.

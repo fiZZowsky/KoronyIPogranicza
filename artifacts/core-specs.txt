@@ -17,10 +17,10 @@ PASS Settling validates distance and creates territory
 PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
-  seed 17421: 203 turns, 16 cities, 57 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 160 turns, 18 cities, 55 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 8: 199 turns, 16 cities, 52 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
-  seed 99: 174 turns, 21 cities, 79 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 17421: 135 turns, 20 cities, 61 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 140 turns, 16 cities, 51 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 128 turns, 18 cities, 62 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 99: 110 turns, 16 cities, 49 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
 PASS Road quotes, atomic funding and economy reconciliation
@@ -87,4 +87,24 @@ PASS The first negotiated peace generates a consequential reconstruction council
 PASS V4 migration preserves grievances, occupation and embassies without invented goals
 PASS V5 rejects corrupt war ledgers, deadlines, parties and duplicate treaties
 PASS War history and delayed peace replies continue deterministically after reload
-85 specifications passed in 10,3s.
+PASS Extraction assigns a worked resource once even when city radii overlap
+PASS Market forecasts are pure and conserve every commodity globally
+PASS Regional prices respond to stocks and demand within explicit limits
+PASS Road markets deliver real domestic surplus without minting foreign payments
+PASS A military blockade separates goods markets and cuts regional consumption
+PASS Market processing consumes stocks once and stores a valid detailed ledger
+PASS Warehouse capacity preserves otherwise lost surplus
+PASS Foreign contracts transfer matching goods and gold without double taxation
+PASS Domestic reserve protects inhabitants while free exports can cause shortages
+PASS Embargo and war pause deliveries and restored treaties resume them
+PASS Poor buyers receive affordable partial shipments and never overdraft
+PASS Contracts reject duplicate, unrelated, oversized and unfunded agreements atomically
+PASS Contracts expire, cancel and terminate after city capture without replaying payments
+PASS Market policy has real costs and a cooldown and the council records its tradeoff
+PASS Commodity consumption affects production, prosperity and the treasury
+PASS Contract limits require player consent and release slots after cancellation
+PASS AI imports from another AI market to address a real commodity shortage
+PASS V5 migration preserves war and peace history and starts with empty warehouses
+PASS V6 rejects corrupt warehouses, physical ledgers and contract payments
+PASS Markets and active contracts continue deterministically after reload
+105 specifications passed in 9,0s.

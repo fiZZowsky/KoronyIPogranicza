@@ -1,25 +1,25 @@
-# Weryfikacja wydania 0.5
+# Weryfikacja wydania 0.6
 
 Data: 22 października 2026 r. Windows, .NET SDK 10.0.401, .NET Desktop Runtime 10.0.12.
 
 - Kompilacja Release: sukces, 0 ostrzeżeń i 0 błędów.
-- **85 specyfikacji silnika**: sukces (`core-specs.txt`). Względem 0.4 dodano 17 scenariuszy dotyczących celów wojennych, bilansu, rokowań i zapisów.
-- **49 kontroli integracyjnych WPF**: sukces (`ui/ui-smoke.txt`). Opublikowane wydanie przeszło te same kontrole (`published-ui-0.5/ui-smoke.txt`), w tym 11 nowych ścieżek.
-- Cele: wskazanie konkretnego miasta, odrzucanie celu we własnym państwie bez zmiany stanu, zapis inicjatora i granic początkowych, spełnienie celu przez zwrot miasta oraz konsekwencje nieuzyskania reparacji.
-- Bilans: czystość raportu, odwracanie składnika terytorialnego po odzyskaniu miasta, symetria stron, zgodność zapisanych strat z podglądem rzeczywistej walki i ograniczenie wkładu obrażeń do ±25.
-- Rokowania: opłata poselstwa tylko raz, odrzucanie niedozwolonej płatności i nieopłaconego poselstwa, dwie tury podróży, jednorazowa ratyfikacja, płatność między skarbcami oraz 12 tur rozejmu.
-- Zwrot miast: zachowanie zdrowia, produkcji i projektu, powrót do założycieli, blokada oddania ostatniego miasta lub terytorium trzeciego państwa. Zmiana właściciela podczas podróży anuluje całość traktatu.
-- Ewakuacja: oba państwa wycofują oddziały z terytorium drugiego sygnatariusza; ich wojska nie blokują sobie nawzajem schronienia. Jednostki tracą ruch i marsz do obcego celu.
-- Niewypłacalność przy ratyfikacji: warunki są anulowane bez częściowego wykonania. Koszt podróży pozostaje wydany.
-- Kontroferty: opóźnione przybycie, powiązanie z odrzuconą propozycją, oczekiwanie na zgodę gracza, przyjęcie bez powtórnego wykonania, odrzucenie i wygaśnięcie bez kończenia wojny.
-- AI inicjuje propozycję przy wyczerpaniu; nie narzuca graczowi automatycznego pokoju. Upadek państwa zamyka jego wojnę i oczekujące rokowania.
-- Pierwszy negocjowany pokój uruchamia sprawę rady o odbudowie. Wybór pomocy zachowuje opóźniony skutek ekonomiczny i społeczny.
-- Zapis v5: deterministyczna kontynuacja wojny i negocjacji po wczytaniu; walidacja stron, terminów, identyfikatorów, powiązań kontrofert i historii. Migracja v4 zachowuje krzywdy, lojalność, ustrój i starsze poselstwa; dawne wojny nie otrzymują wymyślonych celów. Nadpisanie tworzy oryginalną kopię `.v4.bak`. Kontrole migracji v1–v3 również przeszły.
-- Cztery pasywne kampanie zakończyły się po 203, 160, 199 i 174 turach dla ziaren 17421, 2026, 8 i 99. Maksymalna liczba miast wyniosła odpowiednio 16, 18, 16 i 21. Zakończenia: utrata ostatniego miasta gracza lub zwycięstwo kulturowe AI. To kontrola integralności, nie ocena balansu dla człowieka.
-- WPF: raport wojny, formularz reparacji i zwrotu miasta, wysłanie warunków, ratyfikacja po dwóch turach, dialog odbudowy, otrzymanie kontroferty, odrzucenie, przyjęcie po wczytaniu i przywrócenie zakończonej historii wojny.
-- Scenariusze WPF są przygotowanymi sytuacjami z dodatkowym złotem, ustawionym wyczerpaniem lub zajętym miastem. Nie reprezentują standardowego początku kampanii.
-- Wizualnie sprawdzono rzeczywiste rendery raportu wojennego, rokowań, kontroferty, powojennej rady i końcowego panelu dyplomacji. Użyto WPF RenderTargetBitmap, bez przechwytywania pulpitu.
-- Celowa awaria diagnostyki opublikowanego programu zwróciła oczekiwany kod 3 (`process-exit-check.txt`). Katalog `diagnostics/` zawiera opis tej oczekiwanej awarii.
-- Wydanie `wydanie-0.5/` zawiera program i dokumentację; starsze katalogi i paczki są zachowane. Stare zapisy skopiowano lokalnie bez nadpisywania. Archiwum `Korony-i-Pogranicza-0.5-Windows.zip` zawiera wyłącznie pliki wydania, bez prywatnych zapisów.
+- **105 specyfikacji silnika**: sukces (`core-specs.txt`). Względem 0.5 dodano 20 scenariuszy rynku i handlu.
+- **61 kontroli WPF**: sukces (`ui/ui-smoke.txt`). Opublikowane wydanie przeszło te same kontrole (`published-ui-0.6/ui-smoke.txt`), w tym 12 nowych ścieżek rynku.
+- Produkcja: pojedyncze przypisanie pracującego zasobu przy nakładaniu się zasięgów, pierwszeństwo najbliższego miasta, brak wydobycia na neutralnym polu i blokada dostaw przez wojsko.
+- Bilans: czystość prognozy, globalne zachowanie towarów, zgodność przesyłek krajowych, ograniczenie zapasów i wykazywanie utraty ponad pojemność. Magazyn zachowuje nadwyżkę, która bez niego przepada.
+- Ceny: reakcja na popyt i zapasy, górny limit oraz wspólna cena w bezpiecznej sieci drogowej.
+- Rozliczenie: zużycie i opodatkowanie raz na turę, zapisana historia ostatniego bilansu, wpływ zaopatrzenia na produkcję i cel dobrobytu, zgodność raportu gospodarczego z dochodem państwa.
+- Kontrakty: transfer realnych ilości, zgodne płatności między skarbcami bez tworzenia złota, rezerwa dla mieszkańców i możliwość jej wywozu przy swobodnym eksporcie.
+- Ubóstwo nabywcy: dostawy częściowe, brak darmowego towaru przy zerowym budżecie i brak debetu. Nieprawidłowa ilość, brak opłaty oraz duplikat umowy nie zmieniają stanu.
+- Polityka: koszt i odstęp zmian, dialog rady, embargo wstrzymujące dostawy bez usuwania umowy, wznowienie po przywróceniu warunków. Wojna i brak traktatu również wstrzymują handel.
+- Cykl umów: wygaśnięcie, rozwiązanie przez gracza, zatrzymanie po przejęciu miasta, brak powtórnego wykonywania płatności i zwalnianie limitu po rozwiązaniu kontraktu.
+- AI: import z innego państwa AI przy rzeczywistym niedoborze, bez możliwości podpisania umowy za gracza. Limit trzech aktywnych umów obowiązuje każdą stronę.
+- Zapis v6: odrzucanie nieprawidłowych magazynów, bilansów, terminów i płatności; deterministyczna kontynuacja aktywnych kontraktów po wczytaniu. Migracja v5 zachowuje wojny i rokowania oraz zaczyna z pustymi magazynami. Nadpisanie zachowuje oryginał w `.v5.bak`. Kontrole formatów v1–v4 również przeszły.
+- Cztery pasywne kampanie zakończyły się po 135, 140, 128 i 110 turach dla ziaren 17421, 2026, 8 i 99. Maksymalne liczby miast: 20, 16, 18, 16. Wszystkie zakończyły się utratą ostatniego miasta gracza. Są to kontrole integralności, nie dowód dobrego balansu dla człowieka.
+- WPF: prognoza krajowej przesyłki, formularz importu soli, realna dostawa i podatki po turze, szczegółowy bilans, wybór składu towarowego, embargo, wznowienie poprzez dialog rady, zapis i wczytanie, rozwiązanie umowy oraz układ przy mniejszym oknie.
+- Scenariusze WPF są przygotowane: dodatkowe złoto, magazyn dostawcy, targowiska, technologie i sieć dróg. W scenariuszu rady przestawiono numer tury, aby sprawdzić regulację po odstępie. Nie są to standardowe warunki startowe ani test czasu potrzebnego do osiągnięcia tej sytuacji.
+- Wizualnie sprawdzono rzeczywiste rendery rynku, bilansu miasta, kontraktu, polityki i dialogu rady; finalny panel opublikowanego programu także został obejrzany. Rendery pochodzą z WPF RenderTargetBitmap, bez przechwytywania pulpitu.
+- Opublikowana diagnostyka zwróciła oczekiwany kod 3 po celowym błędzie (`process-exit-check.txt`). Katalog `diagnostics/` zawiera opis tej oczekiwanej awarii testowej.
+- Wydanie `wydanie-0.6/` i paczka `Korony-i-Pogranicza-0.6-Windows.zip` zawierają program i dokumentację. ZIP nie zawiera prywatnych zapisów. Stare zapisy skopiowano lokalnie bez nadpisywania; wcześniejsze katalogi i paczki pozostają zachowane.
 
-Pozostają testy balansu z ludźmi, użyteczności i działania na różnych komputerach. Negocjacje są dwustronne i obejmują stałe warianty reparacji oraz jeden zwrot miasta. Nie ma jeszcze konferencji koalicyjnych ani pełnego rynku terytoriów. Oprawa pozostaje mapą 2D.
+Wciąż potrzebne są wielogodzinne rozgrywki z ludźmi, balans i testy sprzętowe. Rynek obejmuje trzy towary, bez wyczerpywania złóż i samodzielnych agentów kupieckich. Transport zagraniczny jest abstrakcyjnym łącznikiem bezpiecznych stolic, bez ruchomych karawan i pełnego wyszukiwania ich tras. Oprawa pozostaje mapą 2D.

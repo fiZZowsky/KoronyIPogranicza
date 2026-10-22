@@ -10,6 +10,9 @@ public enum WarReason { Conquest, Redress, Liberation }
 public enum DemandKind { Compensation, NonAggression }
 public enum DemandStatus { Pending, Accepted, Rejected, Cancelled }
 public enum PeaceStatus { Travelling, AwaitingPlayer, Accepted, Rejected, Cancelled, Expired }
+public enum TradeGood { Iron, Salt, Dyes }
+public enum TradePolicy { DomesticFirst, OpenExports, Embargo }
+public enum ContractStatus { Active, Cancelled, Expired }
 public sealed class Tile
 {
     public int Id { get; set; }
@@ -58,6 +61,10 @@ public sealed class City
     public double LastFoodExported { get; set; }
     public HashSet<string> Charters { get; set; } = [];
     public HashSet<string> ResolvedIssues { get; set; } = [];
+    public Dictionary<TradeGood,double> MarketStocks { get; set; } = new() { [TradeGood.Iron]=0,[TradeGood.Salt]=0,[TradeGood.Dyes]=0 };
+    public List<CommodityBalance> LastMarketLines { get; set; } = [];
+    public int LastMarketTurn { get; set; }
+    public double LastMarketTax { get; set; }
 }
 public sealed class Unit
 {
@@ -94,6 +101,8 @@ public sealed class Faction
     public string Research { get; set; } = "agriculture";
     public HashSet<string> Technologies { get; set; } = [];
     public HashSet<string> Flags { get; set; } = [];
+    public TradePolicy TradePolicy { get; set; }
+    public int LastTradePolicyTurn { get; set; } = -10;
     public int Era => Technologies.Count / 5;
 }
 public sealed class Relation
@@ -176,7 +185,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 5;
+    public int Version { get; set; } = 6;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -201,6 +210,9 @@ public sealed class GameState
     public List<PeaceOffer> PeaceOffers { get; set; } = [];
     public int NextWarId { get; set; } = 1;
     public int NextPeaceId { get; set; } = 1;
+    public List<TradeContract> TradeContracts { get; set; } = [];
+    public int NextContractId { get; set; } = 1;
+    public int LastMarketTurn { get; set; }
     public string? Ending { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
@@ -228,10 +240,38 @@ public sealed record Project(string Id, string Name, int Cost, string? Technolog
 public sealed record Choice(string Text, string Consequence, int Gold = 0, int Stability = 0, int Commons = 0, int Nobles = 0, int Scholars = 0, int Prestige = 0, string? Flag = null, int Delay = 0, string? FutureText = null, int FutureGold = 0, int FutureStability = 0, int FutureCommons = 0, int FutureNobles = 0, int FutureScholars = 0, int FuturePrestige = 0);
 public sealed record NarrativeEvent(string Id, string Speaker, string Role, string Title, string Body, Choice[] Choices);
 public sealed record RoadPlan(IReadOnlyList<int> Path, int NewTiles, int Cost, string? Error = null);
-public sealed record EconomyReport(double CityIncome, double TradeIncome, double ArmyCost, double AdministrationCost, double RoadCost)
+public sealed record EconomyReport(double CityIncome, double TradeIncome, double ArmyCost, double AdministrationCost, double RoadCost,double MarketIncome=0,double CommodityTradeBalance=0)
 {
-    public double Net => CityIncome + TradeIncome - ArmyCost - AdministrationCost - RoadCost;
+    public double Net => CityIncome + TradeIncome + MarketIncome - ArmyCost - AdministrationCost - RoadCost;
+    public double NetWithCommodityTrade => Net+CommodityTradeBalance;
 }
+public sealed class TradeContract
+{
+    public int Id { get; set; }
+    public int Buyer { get; set; }
+    public int Seller { get; set; }
+    public int BuyerCity { get; set; }
+    public int SellerCity { get; set; }
+    public TradeGood Good { get; set; }
+    public int Quantity { get; set; }
+    public int StartedTurn { get; set; }
+    public int ExpiresTurn { get; set; }
+    public ContractStatus Status { get; set; }
+    public int LastExecutedTurn { get; set; }
+    public double LastDelivered { get; set; }
+    public double LastPrice { get; set; }
+    public double LastPayment { get; set; }
+    public string Message { get; set; } = "Oczekuje na pierwszą dostawę.";
+}
+public sealed record CommodityBalance(TradeGood Good,double Opening,double Produced,double DomesticIn,double DomesticOut,
+    double ForeignIn,double ForeignOut,double Consumed,double Demand,double Lost,double Closing,double Price)
+{
+    public double Coverage => Demand<=0?1:Math.Clamp(Consumed/Demand,0,1);
+}
+public sealed record CommodityShipment(int From,int To,TradeGood Good,double Quantity);
+public sealed record TradeExecution(int ContractId,double Quantity,double Price,double Payment,string Message);
+public sealed record MarketPlan(Dictionary<int,List<CommodityBalance>> Cities,IReadOnlyList<CommodityShipment> Shipments,
+    IReadOnlyList<TradeExecution> Trades,Dictionary<int,double> Cash);
 public sealed record CombatPreview(bool Valid, string Reason, string Attacker, string Target,
     double AttackStrength = 0, double DefenseStrength = 0, double TargetHealth = 0,
     double DamageToTarget = 0, double DamageToAttacker = 0, bool CanCapture = false,

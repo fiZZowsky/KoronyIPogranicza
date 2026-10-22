@@ -1,5 +1,5 @@
 {
-  "Version": 5,
+  "Version": 6,
   "Seed": 17421,
   "RandomState": 4063329079,
   "Width": 42,
@@ -16504,7 +16504,58 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 6.199999999999999,
+        "Salt": 0,
+        "Dyes": 5.6
+      },
+      "LastMarketLines": [
+        {
+          "Good": "Iron",
+          "Opening": 4.6499999999999995,
+          "Produced": 2,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0.44999999999999996,
+          "Demand": 0.44999999999999996,
+          "Lost": 0,
+          "Closing": 6.199999999999999,
+          "Price": 6.47
+        },
+        {
+          "Good": "Salt",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1.0499999999999998,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 9
+        },
+        {
+          "Good": "Dyes",
+          "Opening": 4.199999999999999,
+          "Produced": 2,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0.6000000000000001,
+          "Demand": 0.6000000000000001,
+          "Lost": 0,
+          "Closing": 5.6,
+          "Price": 7.5
+        }
+      ],
+      "LastMarketTurn": 5,
+      "LastMarketTax": 0.89
     },
     {
       "Id": 4,
@@ -16513,7 +16564,7 @@
       "Tile": 366,
       "Population": 4,
       "Food": 0.19999999999999574,
-      "Production": 42.8458492,
+      "Production": 38.56126428,
       "Project": "spearmen",
       "Buildings": [],
       "Health": 100,
@@ -16536,7 +16587,58 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 0,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [
+        {
+          "Good": "Iron",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0.44999999999999996,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 9.6
+        },
+        {
+          "Good": "Salt",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1.0499999999999998,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 9
+        },
+        {
+          "Good": "Dyes",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0.6000000000000001,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 12.15
+        }
+      ],
+      "LastMarketTurn": 5,
+      "LastMarketTax": 0
     },
     {
       "Id": 7,
@@ -16568,7 +16670,58 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 6.199999999999999,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [
+        {
+          "Good": "Iron",
+          "Opening": 4.6499999999999995,
+          "Produced": 2,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0.44999999999999996,
+          "Demand": 0.44999999999999996,
+          "Lost": 0,
+          "Closing": 6.199999999999999,
+          "Price": 6.47
+        },
+        {
+          "Good": "Salt",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1.0499999999999998,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 9
+        },
+        {
+          "Good": "Dyes",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0.6000000000000001,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 12.15
+        }
+      ],
+      "LastMarketTurn": 5,
+      "LastMarketTax": 0.35
     },
     {
       "Id": 10,
@@ -16600,7 +16753,58 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 6.199999999999999,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [
+        {
+          "Good": "Iron",
+          "Opening": 4.6499999999999995,
+          "Produced": 2,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0.44999999999999996,
+          "Demand": 0.44999999999999996,
+          "Lost": 0,
+          "Closing": 6.199999999999999,
+          "Price": 6.47
+        },
+        {
+          "Good": "Salt",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1.0499999999999998,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 9
+        },
+        {
+          "Good": "Dyes",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0.6000000000000001,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 12.15
+        }
+      ],
+      "LastMarketTurn": 5,
+      "LastMarketTax": 0.35
     }
   ],
   "Units": [
@@ -16712,7 +16916,7 @@
       "Leader": "Ty \u2014 Stra\u017Cnik Marchii",
       "Color": "#D1B273",
       "Trait": "Pogranicznicy \u00B7 \u002B1 produkcji w miastach",
-      "Gold": 2896.6216126,
+      "Gold": 2900.3616126,
       "Science": 15.94408738,
       "Culture": 7.38872342,
       "Prestige": 3.3324925539000017,
@@ -16731,7 +16935,9 @@
         "land_charter",
         "veterans",
         "negotiated_peace"
-      ]
+      ],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 1,
@@ -16754,7 +16960,9 @@
       "WarWeariness": 0,
       "Research": "pottery",
       "Technologies": [],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 2,
@@ -16762,7 +16970,7 @@
       "Leader": "Konsul Seran",
       "Color": "#B49DD4",
       "Trait": "Uczeni \u00B7 \u002B2 nauki w miastach",
-      "Gold": 122.5435516,
+      "Gold": 124.01355159999999,
       "Science": 23.87855492,
       "Culture": 7.43758268,
       "Prestige": 0.3346912206,
@@ -16777,7 +16985,9 @@
       "WarWeariness": 0,
       "Research": "pottery",
       "Technologies": [],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 3,
@@ -16785,7 +16995,7 @@
       "Leader": "W\u00F3dz Dagan",
       "Color": "#D17862",
       "Trait": "Ludzie \u017Celaza \u00B7 \u002B3 si\u0142y wojsk",
-      "Gold": 122.5435516,
+      "Gold": 124.01355159999999,
       "Science": 16.04952052,
       "Culture": 7.43758268,
       "Prestige": 0.3346912206,
@@ -16800,7 +17010,9 @@
       "WarWeariness": 0,
       "Research": "pottery",
       "Technologies": [],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     }
   ],
   "Relations": [
@@ -17023,6 +17235,9 @@
   ],
   "NextWarId": 2,
   "NextPeaceId": 3,
+  "TradeContracts": [],
+  "NextContractId": 1,
+  "LastMarketTurn": 5,
   "Ending": null,
   "NextId": 15
 }

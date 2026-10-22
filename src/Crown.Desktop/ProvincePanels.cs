@@ -58,7 +58,7 @@ public sealed partial class MainWindow
         p.Children.Add(needs);
         p.Children.Add(Ui.Label($"Żywność miejscowa {Ui.Signed(food.Raw[city.Id])} · import +{status.Imports:0.#} · eksport -{status.Exports:0.#} · bilans {Ui.Signed(status.FoodBalance)}\nZapasy: {city.Food:0.#}; presja potrzeb: {status.Pressure}. Dobrobyt zbliża się do celu o maksymalnie 2 punkty na turę.", 13, Ui.Muted));
         Ui.Gap(p, 8);
-        p.Children.Add(Ui.Label("Dostępne towary: " + (status.Goods.Count == 0 ? "brak" : string.Join(", ", status.Goods)), 13, Ui.Gold));
+        p.Children.Add(Ui.Label("Towary i zasoby regionu: " + (status.Goods.Count == 0 ? "brak" : string.Join(", ", status.Goods)), 13, Ui.Gold));
         p.Children.Add(Ui.Rule());
         var loyalty=ProvincialPolitics.Report(state,city);
         Ui.Bar(p,$"Lojalność {city.Loyalty}% → {loyalty.Target}% · zmiana {loyalty.Change:+0;-0;0}/turę",city.Loyalty,100,city.Loyalty<30?Ui.Red:Ui.Gold);
@@ -100,6 +100,7 @@ public sealed partial class MainWindow
         p.Children.Add(Ui.Label("Pomoc: +25 zapasów, -8 niepokojów, +4 dobrobytu; raz na pięć tur. Dzielnica mieszkalna dodaje 5 miejsc, akwedukt 2 miejsca i 4 opieki, lecznica 6 opieki.", 12, Ui.Muted));
         Ui.Gap(p, 12);
         p.Children.Add(Ui.Button("Wybierz budowę miejską", () => ShowProjects(city)));
+        p.Children.Add(Ui.Button("Rynek i bilans towarów",()=>ShowCityMarket(city)));
         if (city.Charters.Count > 0)
         {
             p.Children.Add(Ui.Rule()); p.Children.Add(Ui.Eyebrow("PRAWA TEJ PROWINCJI"));

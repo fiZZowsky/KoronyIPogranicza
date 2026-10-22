@@ -1,5 +1,22 @@
 # Zmiany
 
+## 0.6 — Cena dobrobytu · 22 października 2026
+
+- Zapasy żelaza, soli i barwników w każdym mieście. Pracujące pola wytwarzają towary; współdzielone pole przypada tylko jednemu miastu. Blokada wojskowa wstrzymuje wydobycie.
+- Regionalny popyt zależny od ludności oraz warsztatów, fabryk i domów bankierskich. Ceny reagują na zapasy, nową produkcję i popyt, z jawną formułą. Połączone drogami miasta mają wspólną cenę i dzielą realną nadwyżkę.
+- Bilans towarów pokazuje zapas początkowy, produkcję, dostawy krajowe i zagraniczne, eksport, zużycie, utratę i zapas końcowy. Nie tworzy towarów podczas przesyłania.
+- Pełne zaopatrzenie w żelazo chroni produkcję przed karą do 10%; zużycie soli i barwników zmienia cel dobrobytu. Dostęp do zasobu w regionie nie przyznaje już samoczynnie premii dobrobytu ani towarów zagranicznych.
+- Skład towarowy za 150 produkcji po odkryciu Monety dodaje 100 miejsc na każdy towar. Podstawowa pojemność to 50, targowisko dodaje 25. Nadwyżka ponad pojemność przepada i jest wykazana w bilansie.
+- Kontrakty importowe i eksportowe na 12 tur, z limitem 1–6 jednostek na turę. Koszt przygotowania 15 złota; maksymalnie trzy aktywne umowy na państwo. Targowiska, technologia, pokojowy traktat i bezpieczne połączenia ze stolicami warunkują dostawy.
+- Cena kontraktu wynosi 115% aktualnej ceny sprzedawcy. Realne towary i złoto zmieniają strony; dostawa jest ograniczana zasobami i budżetem. Umowa nie blokuje ceny ani środków i może dostarczyć tylko część ilości.
+- Polityka „Najpierw mieszkańcy” pozostawia rezerwę krajową równą jednej turze popytu. Swobodny eksport pozwala wywieźć także tę rezerwę. Embargo wstrzymuje obie strony wymiany zagranicznej. Zmiana kosztuje 30 złota i blokuje kolejną na osiem tur.
+- Wojna, zerwanie traktatu, embargo i blokada wstrzymują umowę bez zatrzymania jej czasu. Przywrócenie warunków wznawia dostawy. Przejęcie miasta rozwiązuje jego kontrakt przy rozliczeniu. Możliwe samodzielne rozwiązanie umowy.
+- Podatki rynku zależne od zużycia i stawki podatkowej państwa; płatności zagraniczne są księgowane osobno i nie podlegają mnożnikowi trudności. Budżet oddziela ostatnie podatki od prognozy kontraktów.
+- AI może zaopatrywać własne miasta kontraktami z innymi AI i budować składy przy nadwyżkach, zachowując potrzeby mieszkaniowe i wojskowe. Umowy Marchii wymagają decyzji gracza.
+- Nowy panel „Rynek”, szczegółowy bilans miasta, formularz kontraktu, polityka handlowa i historia dostaw. Nowa sprawa rady „Komu służy otwarty targ?” wiąże regulację handlu z poparciem i skarbem.
+- Zapis v6 zachowuje towary, ceny, podatki, politykę i kontrakty. Wczytuje v1–v5, uruchamiając nowy rynek z pustymi magazynami i zachowując dotychczasową historię. Nadpisanie v5 tworzy `.v5.bak`.
+- Osobne wydanie `wydanie-0.6/`; poprzednie wersje i zapisy są zachowane. Grafika pozostaje 2D; nie ma jeszcze ruchomych karawan, całych tras międzynarodowych ani samodzielnych agentów kupieckich.
+
 ## 0.5 — Cena pokoju · 22 października 2026
 
 - Wojny otrzymują oddzielną historię: początek, inicjatora, ogłoszony powód i cel, kontrolę miast na początku konfliktu, straty w walkach oraz końcowe rozliczenie. Podbój i wyzwolenie wskazują konkretne miasto, zadośćuczynienie wymaga uzyskania przynajmniej 80 złota reparacji.

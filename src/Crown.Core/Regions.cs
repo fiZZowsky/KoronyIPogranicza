@@ -29,8 +29,8 @@ public static class Regions
         var resources = s.Tiles.Where(t => t.Owner == city.Owner && t.Resource is Resource.Salt or Resource.Dyes &&
             members.Any(c => World.Distance(t, s.Tiles[c.Tile]) <= 2)).Select(t => t.Resource).Distinct().OrderBy(r => r);
         var goods = resources.Select(Content.ResourceName).ToList();
-        if (city.Buildings.Contains("market") && network.ConnectedCities.Contains(city.Id) &&
-            s.Relations.Any(r => (r.A == city.Owner || r.B == city.Owner) && r.Trade && !r.War)) goods.Add("Towary zagraniczne");
+        foreach(var good in new[]{TradeGood.Salt,TradeGood.Dyes})
+            if(members.Any(c=>c.MarketStocks[good]>0)&&!goods.Contains(Markets.Name(good)))goods.Add(Markets.Name(good));
         return goods;
     }
 
@@ -69,7 +69,7 @@ public static class Regions
         var goods = Goods(s, c);
         int pressure = Math.Max(0, c.Population - housing) * 3 + Math.Max(0, c.Population - sanitation) * 2;
         if (food.Balance(c.Id) < 0 && c.Food < -food.Balance(c.Id) + 8) pressure += 5;
-        int target = 64 + Math.Min(3, goods.Count) * 6 - pressure * 3 - c.Unrest / 4 +
+        int target = 64 + Markets.ProsperityEffect(c) - pressure * 3 - c.Unrest / 4 +
             (s.Factions[c.Owner].Tax == 0 ? 5 : s.Factions[c.Owner].Tax == 2 ? -7 : 0) -
             (c.Charters.Contains("bonded_labor") ? 8 : 0);
         return new(housing, sanitation, goods, food.Balance(c.Id), food.Imports[c.Id], food.Exports[c.Id],

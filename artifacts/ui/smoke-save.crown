@@ -1,5 +1,5 @@
 {
-  "Version": 5,
+  "Version": 6,
   "Seed": 17421,
   "RandomState": 1412161214,
   "Width": 42,
@@ -16481,19 +16481,19 @@
       "Tile": 639,
       "Population": 5,
       "Food": 51.20000000000002,
-      "Production": 13.353482499999998,
+      "Production": 12.447088519999994,
       "Project": "market",
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
       "OriginalOwner": 0,
       "Governance": "Integrated",
-      "Loyalty": 69,
+      "Loyalty": 68,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 63,
+      "Prosperity": 59,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16504,7 +16504,58 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 16.950000000000003,
+        "Salt": 0,
+        "Dyes": 30.599999999999994
+      },
+      "LastMarketLines": [
+        {
+          "Good": "Iron",
+          "Opening": 15.700000000000003,
+          "Produced": 2,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0.75,
+          "Demand": 0.75,
+          "Lost": 0,
+          "Closing": 16.950000000000003,
+          "Price": 6.32
+        },
+        {
+          "Good": "Salt",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1.75,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 12.5
+        },
+        {
+          "Good": "Dyes",
+          "Opening": 27.599999999999994,
+          "Produced": 4,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 1,
+          "Demand": 1,
+          "Lost": 0,
+          "Closing": 30.599999999999994,
+          "Price": 7.03
+        }
+      ],
+      "LastMarketTurn": 12,
+      "LastMarketTax": 2.12
     },
     {
       "Id": 4,
@@ -16513,19 +16564,19 @@
       "Tile": 366,
       "Population": 5,
       "Food": 31.7,
-      "Production": 48.3775804,
+      "Production": 33.95006827200001,
       "Project": "treasury",
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
       "OriginalOwner": 1,
       "Governance": "Integrated",
-      "Loyalty": 79,
+      "Loyalty": 78,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 64,
+      "Prosperity": 60,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16536,7 +16587,58 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 0,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [
+        {
+          "Good": "Iron",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0.75,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 12
+        },
+        {
+          "Good": "Salt",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1.75,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 12.5
+        },
+        {
+          "Good": "Dyes",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 15.75
+        }
+      ],
+      "LastMarketTurn": 12,
+      "LastMarketTax": 0
     },
     {
       "Id": 7,
@@ -16545,19 +16647,19 @@
       "Tile": 913,
       "Population": 5,
       "Food": 56.10000000000001,
-      "Production": 8.30220168000001,
+      "Production": 7.425342839999999,
       "Project": "treasury",
       "Buildings": [],
       "Health": 100,
       "Unrest": 0,
       "OriginalOwner": 2,
       "Governance": "Integrated",
-      "Loyalty": 79,
+      "Loyalty": 78,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 64,
+      "Prosperity": 60,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16568,7 +16670,58 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 16.950000000000003,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [
+        {
+          "Good": "Iron",
+          "Opening": 15.700000000000003,
+          "Produced": 2,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0.75,
+          "Demand": 0.75,
+          "Lost": 0,
+          "Closing": 16.950000000000003,
+          "Price": 6.32
+        },
+        {
+          "Good": "Salt",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1.75,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 12.5
+        },
+        {
+          "Good": "Dyes",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 15.75
+        }
+      ],
+      "LastMarketTurn": 12,
+      "LastMarketTax": 0.57
     },
     {
       "Id": 10,
@@ -16577,7 +16730,7 @@
       "Tile": 220,
       "Population": 5,
       "Food": 80.9,
-      "Production": 6.294611440000004,
+      "Production": 5.620434640000013,
       "Project": "treasury",
       "Buildings": [
         "granary"
@@ -16586,12 +16739,12 @@
       "Unrest": 0,
       "OriginalOwner": 3,
       "Governance": "Integrated",
-      "Loyalty": 79,
+      "Loyalty": 78,
       "OccupiedUntil": 0,
       "RevoltTurns": 0,
       "LastGovernanceTurn": -10,
       "Focus": "Balanced",
-      "Prosperity": 64,
+      "Prosperity": 60,
       "HungerTurns": 0,
       "LastFocusTurn": -1,
       "LastAidTurn": -10,
@@ -16602,7 +16755,58 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 16.650000000000002,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [
+        {
+          "Good": "Iron",
+          "Opening": 15.400000000000002,
+          "Produced": 2,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0.75,
+          "Demand": 0.75,
+          "Lost": 0,
+          "Closing": 16.650000000000002,
+          "Price": 6.33
+        },
+        {
+          "Good": "Salt",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1.75,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 12.5
+        },
+        {
+          "Good": "Dyes",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 1,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 15.75
+        }
+      ],
+      "LastMarketTurn": 12,
+      "LastMarketTax": 0.57
     }
   ],
   "Units": [
@@ -16754,10 +16958,10 @@
       "Leader": "Ty \u2014 Stra\u017Cnik Marchii",
       "Color": "#D1B273",
       "Trait": "Pogranicznicy \u00B7 \u002B1 produkcji w miastach",
-      "Gold": 369.43331083,
-      "Science": 16.366040333999994,
-      "Culture": 25.854285765999997,
-      "Prestige": 10.163442859469999,
+      "Gold": 389.14236395999995,
+      "Science": 16.064934063999992,
+      "Culture": 25.716885096000002,
+      "Prestige": 10.15725982932,
       "Stability": 63,
       "Commons": 88,
       "Nobles": 40,
@@ -16774,7 +16978,9 @@
       "Flags": [
         "land_charter",
         "shelter"
-      ]
+      ],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 1,
@@ -16782,10 +16988,10 @@
       "Leader": "Irena z Talassu",
       "Color": "#65B4C2",
       "Trait": "Kupcy m\u00F3rz \u00B7 \u002B3 z\u0142ota w miastach",
-      "Gold": 200.57717936000006,
-      "Science": 10.757998663999999,
-      "Culture": 25.138598936000005,
-      "Prestige": 6.13123695212,
+      "Gold": 200.25898544000003,
+      "Science": 10.490217392000002,
+      "Culture": 25.016259488000003,
+      "Prestige": 6.12573167696,
       "Stability": 57,
       "Commons": 60,
       "Nobles": 58,
@@ -16799,7 +17005,9 @@
       "Technologies": [
         "mining"
       ],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 2,
@@ -16807,10 +17015,10 @@
       "Leader": "Konsul Seran",
       "Color": "#B49DD4",
       "Trait": "Uczeni \u00B7 \u002B2 nauki w miastach",
-      "Gold": 149.28858967999997,
-      "Science": 34.828600392000006,
-      "Culture": 25.429259768000005,
-      "Prestige": 6.144316689560001,
+      "Gold": 154.61949272,
+      "Science": 34.448141412,
+      "Culture": 25.304086148000003,
+      "Prestige": 6.138683876660001,
       "Stability": 57,
       "Commons": 60,
       "Nobles": 58,
@@ -16824,7 +17032,9 @@
       "Technologies": [
         "mining"
       ],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 3,
@@ -16832,10 +17042,10 @@
       "Leader": "W\u00F3dz Dagan",
       "Color": "#D17862",
       "Trait": "Ludzie \u017Celaza \u00B7 \u002B3 si\u0142y wojsk",
-      "Gold": 92.08858967999997,
-      "Science": 24.799920391999997,
-      "Culture": 26.013708248000004,
-      "Prestige": 6.170616871160001,
+      "Gold": 97.67949272,
+      "Science": 24.518912983999996,
+      "Culture": 25.885700456000002,
+      "Prestige": 6.164856520520001,
       "Stability": 57,
       "Commons": 60,
       "Nobles": 58,
@@ -16849,7 +17059,9 @@
       "Technologies": [
         "agriculture"
       ],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     }
   ],
   "Relations": [
@@ -16974,14 +17186,14 @@
       "Category": "konsekwencja"
     },
     {
-      "Turn": 9,
-      "Text": "Odkrycie: Garncarstwo. Magazynowanie i wymiana. Odblokowuje targowisko i budow\u0119 dr\u00F3g.",
-      "Category": "nauka"
-    },
-    {
       "Turn": 10,
       "Text": "Ludzie zza rzeki \u2014 \u201EPrzyjmujemy was jako wolnych mieszka\u0144c\u00F3w.\u201D Z\u0142oto -65 \u00B7 Lud \u002B8 \u00B7 Rody -6 \u00B7 Uczeni \u002B4\nZa 7 tur: Z\u0142oto \u002B100 \u00B7 Stabilno\u015B\u0107 \u002B3 \u00B7 Lud \u002B4 \u00B7 Presti\u017C \u002B6",
       "Category": "decyzja"
+    },
+    {
+      "Turn": 10,
+      "Text": "Odkrycie: Garncarstwo. Magazynowanie i wymiana. Odblokowuje targowisko i budow\u0119 dr\u00F3g.",
+      "Category": "nauka"
     },
     {
       "Turn": 12,
@@ -17016,6 +17228,9 @@
   "PeaceOffers": [],
   "NextWarId": 1,
   "NextPeaceId": 1,
+  "TradeContracts": [],
+  "NextContractId": 1,
+  "LastMarketTurn": 12,
   "Ending": null,
   "NextId": 19
 }

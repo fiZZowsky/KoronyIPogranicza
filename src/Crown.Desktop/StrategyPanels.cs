@@ -116,12 +116,14 @@ public sealed partial class MainWindow
     {
         TitlePanel("INFRASTRUKTURA I SKARB", "Szlaki i dostawy", "Bezpieczne drogi łączą miasta i wydłużają zasięg dostaw. Wróg może przeciąć trasę lub ją zniszczyć.");
         var economy = Engine.Economy(state, 0);
-        var budget = Ui.Stack(Ui.Eyebrow("BILANS NA TURĘ"));
-        foreach (var row in new (string Label, double Amount)[] { ("Miasta", economy.CityIncome), ("Traktaty", economy.TradeIncome),
+        double tradeForecast=state.TradeContracts.Any(c=>c.Status==ContractStatus.Active&&(c.Buyer==0||c.Seller==0))?Markets.Plan(state).Cash[0]:0;
+        var budget = Ui.Stack(Ui.Eyebrow("BILANS ORIENTACYJNY"));
+        foreach (var row in new (string Label, double Amount)[] { ("Miasta", economy.CityIncome), ("Traktaty", economy.TradeIncome), ("Podatki rynku · ostatnio",economy.MarketIncome),("Kontrakty · prognoza",tradeForecast),
             ("Armia", -economy.ArmyCost), ("Administracja", -economy.AdministrationCost), ("Drogi", -economy.RoadCost) })
             budget.Children.Add(Ui.Label($"{row.Label}  {Ui.Signed(row.Amount)}", 13, row.Amount < 0 ? Ui.Muted : Ui.Green));
         budget.Children.Add(Ui.Rule());
-        budget.Children.Add(Ui.Label($"Saldo skarbu  {Ui.Signed(economy.Net)}", 20, Ui.Gold, true));
+        budget.Children.Add(Ui.Label($"Saldo skarbu  {Ui.Signed(economy.Net+tradeForecast)}", 20, Ui.Gold, true));
+        budget.Children.Add(Ui.Label("Dochody miast są bieżące. Podatki rynku według ostatniego rozliczenia, kontrakty według aktualnej prognozy.",11,Ui.Muted));
         side.Children.Add(Ui.Card(budget));
         side.Children.Add(Ui.Button(map.ShowSupply ? "Ukryj nakładkę dostaw" : "Pokaż nakładkę dostaw", () =>
         { map.ShowSupply = !map.ShowSupply; if(map.ShowSupply)map.ShowPopulation=false; map.InvalidateVisual(); RefreshSide(); }));

@@ -64,6 +64,7 @@ public static class ProvincialPolitics
     public static void Transfer(GameState s, City city, int owner, bool peaceful=false)
     {
         int old = city.Owner;
+        city.LastMarketLines=[];city.LastMarketTurn=0;city.LastMarketTax=0;
         city.Owner = owner; if(!peaceful)city.Health = 50; city.Unrest = owner == city.OriginalOwner ? 20 : 55;
         city.Loyalty = owner == city.OriginalOwner ? 65 : 30;
         city.OccupiedUntil = owner == city.OriginalOwner ? 0 : s.Turn + 12;

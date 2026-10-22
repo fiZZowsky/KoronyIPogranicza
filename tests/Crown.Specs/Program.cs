@@ -121,4 +121,5 @@ StageTwoSpecs.Run(Test);
 StageThreeSpecs.Run(Test);
 StageFourSpecs.Run(Test);
 StageFiveSpecs.Run(Test);
+StageSixSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

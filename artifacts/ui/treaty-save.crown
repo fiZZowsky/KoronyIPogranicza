@@ -1,5 +1,5 @@
 {
-  "Version": 5,
+  "Version": 6,
   "Seed": 17421,
   "RandomState": 2925202044,
   "Width": 42,
@@ -16504,7 +16504,15 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 0,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [],
+      "LastMarketTurn": 0,
+      "LastMarketTax": 0
     },
     {
       "Id": 4,
@@ -16536,7 +16544,15 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 0,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [],
+      "LastMarketTurn": 0,
+      "LastMarketTax": 0
     },
     {
       "Id": 7,
@@ -16568,7 +16584,15 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 0,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [],
+      "LastMarketTurn": 0,
+      "LastMarketTax": 0
     },
     {
       "Id": 10,
@@ -16600,7 +16624,15 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 0,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [],
+      "LastMarketTurn": 0,
+      "LastMarketTax": 0
     },
     {
       "Id": 13,
@@ -16632,7 +16664,15 @@
       "LastFoodImported": 0,
       "LastFoodExported": 0,
       "Charters": [],
-      "ResolvedIssues": []
+      "ResolvedIssues": [],
+      "MarketStocks": {
+        "Iron": 0,
+        "Salt": 0,
+        "Dyes": 0
+      },
+      "LastMarketLines": [],
+      "LastMarketTurn": 0,
+      "LastMarketTax": 0
     }
   ],
   "Units": [
@@ -16741,7 +16781,9 @@
       "Technologies": [],
       "Flags": [
         "land_charter"
-      ]
+      ],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 1,
@@ -16764,7 +16806,9 @@
       "WarWeariness": 80,
       "Research": "agriculture",
       "Technologies": [],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 2,
@@ -16787,7 +16831,9 @@
       "WarWeariness": 0,
       "Research": "agriculture",
       "Technologies": [],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     },
     {
       "Id": 3,
@@ -16810,7 +16856,9 @@
       "WarWeariness": 0,
       "Research": "agriculture",
       "Technologies": [],
-      "Flags": []
+      "Flags": [],
+      "TradePolicy": "DomesticFirst",
+      "LastTradePolicyTurn": -10
     }
   ],
   "Relations": [
@@ -16983,6 +17031,9 @@
   ],
   "NextWarId": 2,
   "NextPeaceId": 2,
+  "TradeContracts": [],
+  "NextContractId": 1,
+  "LastMarketTurn": 0,
   "Ending": null,
   "NextId": 14
 }

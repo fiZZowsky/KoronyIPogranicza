@@ -63,7 +63,7 @@ public static partial class Engine
         food*=s.Turn%4==0?.8:s.Turn%4==3?1.1:1;
         double efficiency=Math.Clamp(.65+f.Stability*.005-c.Unrest*.003,.35,1.15)*(.9+c.Prosperity*.002)*(.85+c.Loyalty*.002);
         gold*=f.Tax==0?.65:f.Tax==2?1.5:1;
-        return new(food-c.Population*2,prod*efficiency,gold*efficiency,science*efficiency,culture*efficiency);
+        return new(food-c.Population*2,prod*efficiency*Markets.IndustryMultiplier(c),gold*efficiency,science*efficiency,culture*efficiency);
     }
     public static Yields Income(GameState s,int owner)
     {
@@ -160,6 +160,7 @@ public static partial class Engine
         if(s.PendingEvent!=null)return Result.Fail("Najpierw odpowiedz na sprawę przedstawioną radzie.");
         WarCouncil.EnsureActive(s);
         s.InvalidateLogistics();
+        Markets.Tick(s);
         foreach(var f in s.Factions)
         {
             if(!s.Cities.Any(c=>c.Owner==f.Id))continue;
@@ -242,6 +243,7 @@ public static partial class Engine
                 }
                 Regions.ManageAi(s,city);
             }
+            Markets.ManageAi(s,f.Id);
             foreach(var r in s.Relations.Where(r=>r.A==f.Id||r.B==f.Id))
             {
                 int other=r.A==f.Id?r.B:r.A;if(!s.Cities.Any(c=>c.Owner==other))continue;

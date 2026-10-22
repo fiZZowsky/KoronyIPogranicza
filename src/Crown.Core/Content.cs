@@ -50,6 +50,7 @@ public static class Content
         new("atlas", "Atlas świata", 3500, "observatory", "Ukończenie daje zwycięstwo naukowe."),
         new("housing", "Dzielnica mieszkalna", 85, "pottery", "+5 miejsc mieszkalnych. Ogranicza przeludnienie i presję na wyjazdy."),
         new("infirmary", "Lecznica", 135, "philosophy", "+6 do pojemności opieki i higieny miejskiej."),
+        new("warehouse", "Skład towarowy", 150, "currency", "+100 pojemności dla każdego rodzaju towaru. Chroni nadwyżki przed utratą."),
         new("treasury", "Roboty publiczne", 80, null, "Projekt powtarzalny: +60 złota do skarbu."),
         new("festival", "Święto wspólnoty", 90, "philosophy", "Projekt powtarzalny: +30 kultury i +4 prestiżu."),
         new("scout", "Zwiadowca", 28, null, "3 punkty ruchu, duży zasięg widzenia.", UnitKind.Scout),
