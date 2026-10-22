@@ -48,10 +48,13 @@ public sealed partial class MainWindow
                 p.Children.Add(Ui.Button("Wyślij dar · 40 złota · relacje +12", () => Do(Engine.Diplomacy(state, f.Id, "gift"))));
                 if (!r.Trade) p.Children.Add(Ui.Button("Traktat handlowy · 30 złota", () => Do(Engine.Diplomacy(state, f.Id, "trade"))));
                 p.Children.Add(Ui.Button("Negocjuj warunki: " + f.Name, () => ShowNegotiation(f)));
+                p.Children.Add(Ui.Button("Przejazd kupców: " + f.Name, () => ShowTransitNegotiation(f)));
                 p.Children.Add(Ui.Button("Rozważ wypowiedzenie wojny…", () => ConfirmWar(f)));
             }
             else p.Children.Add(Ui.Button("Negocjuj pokój: "+f.Name,()=>ShowPeaceConference(f)));
             if (r.TruceUntil > state.Turn) p.Children.Add(Ui.Label($"Pakt / rozejm do tury {r.TruceUntil}.", 11, Ui.Gold));
+            int until=TransitCouncil.Until(state,f.Id);
+            if(until>0)p.Children.Add(Ui.Label(until>state.Turn?$"Zgoda na przejazd ładunków Marchii: do początku T{until}. Wojna i embargo mają pierwszeństwo.":$"Zgoda na przejazd wygasła w T{until}.",12,until>state.Turn?Ui.Green:Ui.Muted));
             side.Children.Add(Ui.Card(p));
         }
     }
@@ -62,7 +65,7 @@ public sealed partial class MainWindow
         var p = Ui.Stack(Ui.Eyebrow("INSTRUKCJA DLA POSŁÓW"), Ui.Label(f.Name, 30, Ui.Text, true),
             Ui.Label("Posłowie powrócą po dwóch turach. Rada sąsiada oceni sytuację w dniu odpowiedzi. Dar lub zmiana siły armii przed ich powrotem mogą wpłynąć na wynik.", 14, Ui.Muted));
         Ui.Gap(p, 18);
-        foreach (var kind in Enum.GetValues<DemandKind>())
+        foreach (var kind in new[]{DemandKind.Compensation,DemandKind.NonAggression})
         {
             p.Children.Add(Ui.Label(DiplomaticCouncil.DemandName(kind), 20, Ui.Gold, true));
             p.Children.Add(Ui.Label(kind == DemandKind.Compensation ? "Wymaga 30 krzywd. Przyjęcie: +80 złota i -30 krzywd. Odmowa: relacje -5. Krzywdy pozostają." : "Przyjęcie blokuje wypowiedzenie wojny przez obie strony przez 15 tur. Odmowa: relacje -5.", 13, Ui.Muted));
@@ -72,9 +75,7 @@ public sealed partial class MainWindow
                 var result = Engine.SendDemand(state, f.Id, kind);
                 if (result.Success) CloseModal(); Do(result);
             });
-            button.IsEnabled = !r.War && r.LastActionTurn != state.Turn && state.Player.Gold >= 20 && state.Turn-r.LastDemandTurn >= 10 &&
-                !state.Demands.Any(d => d.To == f.Id && d.Status == DemandStatus.Pending) &&
-                (kind == DemandKind.Compensation ? DiplomaticCouncil.Grievances(state, 0, f.Id) >= 30 : r.TruceUntil <= state.Turn);
+            button.IsEnabled = DiplomaticCouncil.DemandError(state,f.Id,kind)==null;
             p.Children.Add(button); Ui.Gap(p, 16);
         }
         p.Children.Add(Ui.Label("Po poselstwie kolejne warunki można wysłać temu państwu po dziesięciu turach. Przyjęte warunki poprawiają relacje o 5. Wypowiedzenie wojny anuluje oczekujące negocjacje.", 12, Ui.Muted));

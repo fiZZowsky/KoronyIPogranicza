@@ -88,4 +88,18 @@ PASS Caravan report cancels an escort without refunding movement
 PASS Unit panel can reassign a colocated caravan escort
 PASS Arrival releases the escort on the near side of the peaceful foreign city
 PASS Compact caravan report keeps escort controls reachable
-90 desktop integration checks passed.
+PASS Closed caravan report identifies the specific third-party gate
+PASS Gate dialogue offers distinct free and paid proposals with the actual acceptance forecast
+PASS Paid proposal spends only embassy costs before consent
+PASS Desktop reload preserves a travelling transit proposal without early access
+PASS The first blocked phase does not pause while envoys travel
+PASS Reply arrives after two turns and reopens the corridor before the third stop
+PASS Active permission prevents duplicate negotiation through the dialogue
+PASS Desktop reload retains the accepted right and exclusive expiry date
+PASS Market resumes prepaid cargo through the permitted gate while the escort remains outside
+PASS Transit completes a prepaid manifest without reviving its cancelled contract
+PASS Unpaid proposal can be refused and leaves the caravan waiting
+PASS Permit expiry closes the route before that turn's market phase
+PASS An expired right does not protect a manifest at its third consecutive stop
+PASS Compact transit dialogue keeps its return control visible or reachable by scrolling
+104 desktop integration checks passed.

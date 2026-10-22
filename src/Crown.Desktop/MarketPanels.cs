@@ -96,6 +96,8 @@ public sealed partial class MainWindow
             preview.Text=$"{seller.Name} → {buyer.Name}\nCena orientacyjna {price:0.00}; pełny ładunek {(quantity.SelectedIndex+1)*price:0.00} złota.\nPodróż od wysyłki: {(turns<0?"trasa niedostępna":$"około {turns} tur przy obecnej trasie")}.\n"+(Markets.RouteError(state,draft)??Markets.PolicyDescription(state.Factions[seller.Owner].TradePolicy));feedback.Text="";
         }
         foreach(var combo in new[]{direction,home,partner,good,quantity})combo.SelectionChanged+=(_,_)=>Update();Update();
+        p.Children.Add(Ui.Button("Sprawdź granice wybranej trasy",()=>
+        {var (buyer,seller)=Parties();ShowTransitRoute(new(){Buyer=buyer.Owner,Seller=seller.Owner,BuyerCity=buyer.Id,SellerCity=seller.Id});}));
         p.Children.Add(Ui.Button("Podpisz umowę · 15 złota",()=>
         {
             var (buyer,seller)=Parties();var result=Engine.SignTradeContract(state,buyer.Id,seller.Id,Markets.Goods[good.SelectedIndex],quantity.SelectedIndex+1);
@@ -106,7 +108,7 @@ public sealed partial class MainWindow
     private void ShowCaravans()
     {
         var p=Ui.Stack(Ui.Eyebrow("ŁADUNKI I BEZPIECZEŃSTWO"),Ui.Label("Karawany Marchii",32,Ui.Text,true),
-            Ui.Label("Karawana ma 3 punkty ruchu na turę: droga kosztuje 0,5, trudny teren 2, pozostały 1. Wyrusza turę po załadunku. Szuka bezpiecznej trasy; tranzyt wymaga traktatów trzeciego państwa z obiema stronami. Oddział każdej ze stron (również zwiadowcy, bez osadników) w promieniu jednego pola osłania przed sąsiednim wrogiem. Wrogi oddział na polu karawany przechwytuje ją zawsze. Trzy tury postoju lub zmiana właściciela miasta oznaczają utratę bez zwrotu płatności.",13,Ui.Muted));
+            Ui.Label("Karawana ma 3 punkty ruchu na turę: droga kosztuje 0,5, trudny teren 2, pozostały 1. Wyrusza turę po załadunku. Tranzyt wymaga traktatów trzeciego państwa z obiema stronami lub czasowej zgody na przewóz ładunków Marchii. Oddział każdej ze stron (również zwiadowcy, bez osadników) w promieniu jednego pola osłania przed sąsiednim wrogiem. Wrogi oddział na polu karawany przechwytuje ją zawsze. Trzy tury postoju lub zmiana właściciela miasta oznaczają utratę bez zwrotu płatności.",13,Ui.Muted));
         var cargoes=state.Caravans.Where(c=>{var t=state.TradeContracts.First(t=>t.Id==c.ContractId);return t.Buyer==0||t.Seller==0;})
             .OrderByDescending(Caravans.Active).ThenByDescending(c=>c.Id).Take(16).ToArray();
         if(cargoes.Length==0)p.Children.Add(Ui.Label("Nie wysłano jeszcze karawan. Podpisz kontrakt i zakończ turę, aby rozpocząć załadunek.",16,Ui.Gold));
@@ -126,6 +128,8 @@ public sealed partial class MainWindow
                     q.Children.Add(Ui.Label("Na tej trasie wojsko odłączy się przed granicą lub obcym oddziałem. Dalsza droga będzie oceniona bez jego osłony; przewidywany czas może się zmienić.",12,Ui.Gold));
                 if(Caravans.AtRisk(state,contract,cargo.Tile))q.Children.Add(Ui.Label("ZAGROŻENIE: przechwycenie przy następnym rozliczeniu. Odsuń przeciwnika lub sprowadź osłonę przed końcem tury.",13,Ui.Red));
                 q.Children.Add(Ui.Label($"Pozycja ({tile.X}, {tile.Y}) · postój {cargo.BlockedTurns}/{Caravans.MaxBlockedTurns}\n{arrival} · {(Caravans.Guarded(state,contract,cargo.Tile)?"pod osłoną":"bez osłony")}",13,Ui.Gold));
+                if(route.Count==0&&Caravans.Suspension(state,contract)==null)q.Children.Add(Ui.Label(TransitCouncil.Blockage(state,contract,cargo.Tile,escort),12,Ui.Red));
+                q.Children.Add(Ui.Button("Granice i tranzyt #"+cargo.Id,()=>ShowTransitRoute(contract,cargo.Tile,escort)));
                 q.Children.Add(Ui.Button("Pokaż na mapie #"+cargo.Id,()=>{CloseModal();map.TrackedCaravanId=cargo.Id;map.Center(cargo.Tile);tab="markets";RefreshSide();}));
                 if(escort?.Owner==0)q.Children.Add(Ui.Button("Odwołaj eskortę #"+cargo.Id,()=>{var result=Engine.CancelEscort(state,escort.Id);CloseModal();Do(result);TryAutoSave(false);ShowCaravans();}));
                 else if(escort==null)q.Children.Add(Ui.Button("Wyznacz eskortę #"+cargo.Id,()=>ShowEscortAssignment(cargo)));

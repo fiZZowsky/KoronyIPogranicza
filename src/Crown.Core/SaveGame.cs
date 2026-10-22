@@ -10,7 +10,7 @@ public static class SaveGame
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
-        if(s.Version is <1 or >9)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version is <1 or >10)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
         if(s.Version<4)
         {
             s.Demands=[];s.NextDemandId=1;
@@ -58,7 +58,7 @@ public static class SaveGame
         if(s.Relations.Any(r=>r.Trust is < -100 or >100||r.GrievanceA is <0 or >100||r.GrievanceB is <0 or >100||r.TruceUntil<0||r.TruceUntil>s.Turn+15||
             r.LastDemandTurn< -10||r.LastDemandTurn>s.Turn))throw new InvalidDataException("Uszkodzone zobowiązania dyplomatyczne.");
         if(s.Demands==null||s.Demands.Count>2000||s.NextDemandId<1||s.Demands.Select(d=>d.Id).Distinct().Count()!=s.Demands.Count||s.Demands.Any(d=>
-            d.Id<1||d.Id>=s.NextDemandId||d.From!=0||d.To<1||d.To>3||!Enum.IsDefined(d.Kind)||!Enum.IsDefined(d.Status)||d.SentTurn<1||d.SentTurn>s.Turn||
+            d.Id<1||d.Id>=s.NextDemandId||d.From!=0||d.To<1||d.To>3||!Enum.IsDefined(d.Kind)||!Enum.IsDefined(d.Status)||s.Version<10&&TransitCouncil.IsRequest(d.Kind)||d.SentTurn<1||d.SentTurn>s.Turn||
             d.DueTurn!=d.SentTurn+2||d.Reply==null||d.Reply.Length>2000||
             (d.Status==DemandStatus.Pending ? d.ResolvedTurn!=null||d.DueTurn<=s.Turn||d.Reply.Length!=0||s.Relation(d.From,d.To).War :
                 d.ResolvedTurn==null||d.ResolvedTurn<d.SentTurn||d.ResolvedTurn>s.Turn||d.Reply.Length==0||d.Status!=DemandStatus.Cancelled&&d.ResolvedTurn<d.DueTurn))||
@@ -86,7 +86,7 @@ public static class SaveGame
         TradeCaseSaveRules.Validate(s);
         if(s.Version<9)foreach(var unit in s.Units)unit.EscortCaravanId=null;
         EscortSaveRules.Validate(s);
-        s.Version=9;
+        s.Version=10;
         return s;
     }
     public static void Write(GameState state,string path)
@@ -95,7 +95,7 @@ public static class SaveGame
         string temp=path+".tmp";File.WriteAllText(temp,Serialize(state));
         if(File.Exists(path))
         {
-            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=8&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
+            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=9&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
             catch(JsonException){ /* An invalid old file may still be replaced by an explicit save. */ }
         }
         File.Move(temp,path,true);

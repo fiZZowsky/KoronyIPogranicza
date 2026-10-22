@@ -7,7 +7,7 @@ public enum UnitKind { Scout, Spearmen, Archer, Cavalry, Settler, Catapult }
 public enum CityFocus { Balanced, Agriculture, Industry, Scholarship }
 public enum Governance { Integrated, Autonomous, Military }
 public enum WarReason { Conquest, Redress, Liberation }
-public enum DemandKind { Compensation, NonAggression }
+public enum DemandKind { Compensation, NonAggression, Transit, PaidTransit }
 public enum DemandStatus { Pending, Accepted, Rejected, Cancelled }
 public enum PeaceStatus { Travelling, AwaitingPlayer, Accepted, Rejected, Cancelled, Expired }
 public enum TradeGood { Iron, Salt, Dyes }
@@ -188,7 +188,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 9;
+    public int Version { get; set; } = 10;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;

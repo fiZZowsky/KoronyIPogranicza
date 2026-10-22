@@ -17,7 +17,13 @@ public static class DiplomaticCouncil
 
     public static string WarName(WarReason reason) => reason switch
     { WarReason.Redress => "Zadośćuczynienie", WarReason.Liberation => "Wyzwolenie własnych miast", _ => "Wojna podboju" };
-    public static string DemandName(DemandKind kind) => kind == DemandKind.Compensation ? "Odszkodowanie · 80 złota" : "Pakt o nieagresji · 15 tur";
+    public static string DemandName(DemandKind kind) => kind switch
+    {
+        DemandKind.Compensation=>"Odszkodowanie · 80 złota",
+        DemandKind.NonAggression=>"Pakt o nieagresji · 15 tur",
+        DemandKind.Transit=>"Bezpłatny tranzyt · 12 tur",
+        _=>"Płatny tranzyt · 60 złota · 12 tur"
+    };
 
     public static WarDeclaration PreviewWar(GameState s, int other, WarReason reason)
     {
@@ -37,6 +43,8 @@ public static class DiplomaticCouncil
     // A public forecast uses the same calculation as the eventual reply. No hidden random roll.
     public static int AcceptanceScore(GameState s, int other, DemandKind kind)
     {
+        if(TransitCouncil.IsRequest(kind))return s.Relation(0,other).Trust+(s.Relation(0,other).Trade?10:0)+
+            (kind==DemandKind.PaidTransit?35:0)-(other==3?15:0);
         double own = Engine.Military(s, 0), foreign = Engine.Military(s, other);
         int leverage = (int)Math.Clamp((own - foreign) / Math.Max(20, foreign) * 35, -60, 60);
         return s.Relation(0, other).Trust + leverage + (int)s.Factions[other].WarWeariness / 2 +
@@ -44,9 +52,26 @@ public static class DiplomaticCouncil
     }
 
     public static string Forecast(GameState s, int other, DemandKind kind) =>
+        TransitCouncil.IsRequest(kind)&&TransitCouncil.RequestError(s,other) is string error ? error :
+        kind==DemandKind.PaidTransit&&s.Player.Gold<20+TransitCouncil.PassagePrice ? "Po wysłaniu posłów zabraknie 60 złota na zgodę. Skarbiec będzie sprawdzony ponownie przy odpowiedzi." :
         kind == DemandKind.Compensation && s.Factions[other].Gold < 80 ? "Obecnie odmówią: skarbiec nie pokrywa 80 złota." :
         AcceptanceScore(s, other, kind) >= 15 ? "Obecnie przyjęliby propozycję. Stan przy powrocie posłów rozstrzygnie odpowiedź." :
+        TransitCouncil.IsRequest(kind)?"Obecnie odmówiliby. Liczą się zaufanie, traktat handlowy i oferta opłaty; Kharu wymaga większych ustępstw.":
         "Obecnie odmówiliby. Wpływ mają relacje, siła armii, krzywdy i wyczerpanie wojną.";
+
+    public static string? DemandError(GameState s,int other,DemandKind kind)
+    {
+        if(s.Ending!=null||other<=0||other>=s.Factions.Count||!Enum.IsDefined(kind)||!s.Cities.Any(c=>c.Owner==other)||!s.Cities.Any(c=>c.Owner==0))return "Nieprawidłowy rozmówca.";
+        var r=s.Relation(0,other);
+        if(r.War||r.LastActionTurn==s.Turn)return "Poselstwo wymaga pokoju i wolnej rozmowy w tej turze.";
+        if(s.Turn-r.LastDemandTurn<10||s.Demands.Any(d=>d.To==other&&d.Status==DemandStatus.Pending))return "Kolejne poselstwo można wysłać po dziesięciu turach i powrocie poprzedniego.";
+        if(kind==DemandKind.Compensation&&Grievances(s,0,other)<30)return "Żądanie odszkodowania wymaga 30 punktów krzywd.";
+        if(kind==DemandKind.NonAggression&&r.TruceUntil>s.Turn)return "Obowiązuje już pakt lub rozejm.";
+        if(TransitCouncil.IsRequest(kind)&&TransitCouncil.RequestError(s,other) is string error)return error;
+        if(s.Player.Gold<20)return "Podróż posłów kosztuje 20 złota.";
+        if(kind==DemandKind.PaidTransit&&s.Player.Gold<20+TransitCouncil.PassagePrice)return "Potrzeba 20 złota na posłów i 60 na proponowaną zgodę. Opłata za zgodę będzie pobrana dopiero przy przyjęciu.";
+        return null;
+    }
 
     internal static void Cancel(GameState s, Relation r, string explanation)
     {
@@ -64,7 +89,9 @@ public static class DiplomaticCouncil
             var r = s.Relation(d.From, d.To);
             if (r.War || !s.Cities.Any(c => c.Owner == d.To) || !s.Cities.Any(c => c.Owner == d.From))
             { Cancel(s, r, "Poselstwo przerwano z powodu wojny lub upadku państwa."); continue; }
-            bool accept = AcceptanceScore(s, d.To, d.Kind) >= 15 && (d.Kind != DemandKind.Compensation || s.Factions[d.To].Gold >= 80);
+            string? transitError=TransitCouncil.IsRequest(d.Kind)?TransitCouncil.RequestError(s,d.To):null;
+            bool insolvent=d.Kind==DemandKind.PaidTransit&&s.Player.Gold<TransitCouncil.PassagePrice;
+            bool accept = AcceptanceScore(s, d.To, d.Kind) >= 15 && (d.Kind != DemandKind.Compensation || s.Factions[d.To].Gold >= 80)&&transitError==null&&!insolvent;
             d.Status = accept ? DemandStatus.Accepted : DemandStatus.Rejected; d.ResolvedTurn = s.Turn;
             if (accept)
             {
@@ -73,6 +100,11 @@ public static class DiplomaticCouncil
                     s.Factions[d.To].Gold -= 80; s.Player.Gold += 80; AddGrievance(s, 0, d.To, -30);
                     d.Reply = "„Uznajemy wyrządzoną krzywdę. Przekazujemy 80 złota odszkodowania.”";
                 }
+                else if(TransitCouncil.IsRequest(d.Kind))
+                {
+                    if(d.Kind==DemandKind.PaidTransit){s.Player.Gold-=TransitCouncil.PassagePrice;s.Factions[d.To].Gold+=TransitCouncil.PassagePrice;}
+                    d.Reply=$"„Nasze bramy stoją otworem dla ładunków Marchii do początku tury {s.Turn+TransitCouncil.Duration}. Zgoda dotyczy importu i eksportu, także po rozwiązaniu kontraktu. Wojsko pozostaje za granicą. Wojna i embargo wstrzymują przejazd.”";
+                }
                 else
                 { r.TruceUntil = Math.Max(r.TruceUntil, s.Turn + 15); d.Reply = $"„Przyjmujemy pakt. Nasze miecze pozostaną w pochwach do tury {r.TruceUntil}.”"; }
                 r.Trust = Math.Min(100, r.Trust + 5);
@@ -80,7 +112,9 @@ public static class DiplomaticCouncil
             else
             {
                 r.Trust = Math.Max(-100, r.Trust - 5);
-                d.Reply = "„Nie przyjmiemy tych warunków. Nasza rada uznaje żądanie za zbyt daleko idące.”";
+                d.Reply = transitError!=null?"„Nie możemy otworzyć bram.” "+transitError:insolvent?
+                    "„Obiecaliście 60 złota, lecz wasz skarbiec jest pusty. Nie podpiszemy zgody.”":
+                    "„Nie przyjmiemy tych warunków. Nasza rada uznaje żądanie za zbyt daleko idące.”";
             }
             s.Log($"{s.Factions[d.To].Leader}: {d.Reply} ({DemandName(d.Kind)})", "poselstwo");
         }
@@ -93,13 +127,8 @@ public static partial class Engine
 {
     public static Result SendDemand(GameState s, int other, DemandKind kind)
     {
-        if (s.Ending != null || other <= 0 || other >= s.Factions.Count || !Enum.IsDefined(kind) || !s.Cities.Any(c => c.Owner == other)) return Result.Fail("Nieprawidłowy rozmówca.");
+        if(DiplomaticCouncil.DemandError(s,other,kind) is string error)return Result.Fail(error);
         var r = s.Relation(0, other);
-        if (r.War || r.LastActionTurn == s.Turn) return Result.Fail("Poselstwo wymaga pokoju i wolnej rozmowy w tej turze.");
-        if (s.Turn - r.LastDemandTurn < 10 || s.Demands.Any(d => d.To == other && d.Status == DemandStatus.Pending)) return Result.Fail("Kolejne poselstwo można wysłać po dziesięciu turach i powrocie poprzedniego.");
-        if (kind == DemandKind.Compensation && DiplomaticCouncil.Grievances(s, 0, other) < 30) return Result.Fail("Żądanie odszkodowania wymaga 30 punktów krzywd.");
-        if (kind == DemandKind.NonAggression && r.TruceUntil > s.Turn) return Result.Fail("Obowiązuje już pakt lub rozejm.");
-        if (s.Player.Gold < 20) return Result.Fail("Podróż posłów kosztuje 20 złota.");
         s.Player.Gold -= 20; r.LastActionTurn = r.LastDemandTurn = s.Turn;
         s.Demands.Add(new() { Id = s.NextDemandId++, From = 0, To = other, Kind = kind, SentTurn = s.Turn, DueTurn = s.Turn + 2 });
         s.Log($"Posłowie do {s.Factions[other].Name}: {DiplomaticCouncil.DemandName(kind)}. Odpowiedź w turze {s.Turn + 2}.", "poselstwo");

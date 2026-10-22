@@ -66,7 +66,7 @@ public static class Markets
             if(!city.Buildings.Contains("market")||!s.Factions[city.Owner].Technologies.Contains("trade"))return "Potrzebne targowiska i Szlaki handlowe po obu stronach.";
             if(!network.ConnectedCities.Contains(city.Id)||network.Interdicted.Contains(city.Tile))return "Miasto utraciło bezpieczne połączenie ze stolicą.";
         }
-        if(Caravans.Route(s,contract).Count==0)return "Brak bezpiecznej trasy lądowej. Tranzyt przez trzecie państwo wymaga jego traktatów handlowych z obiema stronami.";
+        if(Caravans.Route(s,contract).Count==0)return TransitCouncil.Blockage(s,contract);
         return null;
     }
 

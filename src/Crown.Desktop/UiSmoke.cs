@@ -19,7 +19,11 @@ public sealed partial class MainWindow
         void Check(bool value,string message){if(!value)throw new InvalidOperationException(message);checks.Add("PASS "+message);}
         async Task Capture(string name)
         {
-            root.UpdateLayout();await Task.Delay(100);var bmp=new RenderTargetBitmap((int)root.ActualWidth,(int)root.ActualHeight,96,96,PixelFormats.Pbgra32);bmp.Render(root);var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bmp));using var output=File.Create(Path.Combine(folder,name+".png"));encoder.Save(output);
+            root.UpdateLayout();await Task.Delay(100);var bmp=new RenderTargetBitmap((int)root.ActualWidth,(int)root.ActualHeight,96,96,PixelFormats.Pbgra32);bmp.Render(root);var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bmp));
+            string path=Path.Combine(folder,name+".png"),temp=path+".tmp";
+            using(var output=File.Create(temp))encoder.Save(output);
+            // Replace the completed image atomically; a preview may still map the previous PNG.
+            File.Move(temp,path,true);
         }
         void Click(string text)
         {
@@ -269,6 +273,43 @@ public sealed partial class MainWindow
             var escortReturnBounds=escortReturn.TransformToAncestor(root).TransformBounds(new Rect(escortReturn.RenderSize));
             Check(escortReturnBounds.Top>=0&&escortReturnBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact caravan report keeps escort controls reachable");
             Width=1600;Height=980;LoadPath(escortPath);CloseModal();tab="markets";RefreshSide();Click("Karawany i trasy");await Capture("escort-final");
+            // A single third-party gate closes after dispatch; use real embassy and turn handlers to reopen it.
+            var borderWorld=SaveGame.Read(escortPath);
+            foreach(var t in borderWorld.Tiles){t.Terrain=Terrain.Mountain;t.Owner=-1;t.Road=false;t.RoadOwner=-1;}
+            foreach(var c in borderWorld.Cities){borderWorld.Tiles[c.Tile].Terrain=Terrain.Grassland;borderWorld.Tiles[c.Tile].Owner=c.Owner;}
+            for(int x=9;x<=21;x++){var t=borderWorld.Tiles[15*borderWorld.Width+x];t.Terrain=Terrain.Grassland;t.Road=true;t.RoadOwner=0;}
+            borderWorld.Tiles[15*borderWorld.Width+14].Owner=2;borderWorld.Relation(0,2).Trust=-10;borderWorld.InvalidateLogistics();
+            string borderPath=Path.Combine(folder,"transit-closed-save.crown");SaveGame.Write(borderWorld,borderPath);
+            Start(borderWorld);tab="markets";RefreshSide();Click("Karawany i trasy");
+            Check(TransitCouncil.ClosedBorders(state,state.TradeContracts[0],state.Caravans[0].Tile).SequenceEqual(new[]{2}),"Closed caravan report identifies the specific third-party gate");await Capture("transit-blocked");
+            Click("Granice i tranzyt #1");await Capture("transit-route");Click("Rozmowa o przejeździe: "+state.Factions[2].Name);
+            root.UpdateLayout();
+            Check(Descendants<Button>(overlay!).Count(b=>b.IsEnabled&&b.Content?.ToString()?.StartsWith("Wyślij: ")==true)==2&&DiplomaticCouncil.AcceptanceScore(state,2,DemandKind.PaidTransit)==25,"Gate dialogue offers distinct free and paid proposals with the actual acceptance forecast");await Capture("transit-negotiation");
+            double envoyGold=state.Player.Gold,envoyHostGold=state.Factions[2].Gold;Click("Wyślij: "+DiplomaticCouncil.DemandName(DemandKind.PaidTransit));
+            Check(state.Demands.Single().Status==DemandStatus.Pending&&state.Player.Gold==envoyGold-20&&state.Factions[2].Gold==envoyHostGold&&TransitCouncil.Until(state,2)==0,"Paid proposal spends only embassy costs before consent");
+            string envoyPath=Path.Combine(folder,"transit-pending-save.crown");SaveGame.Write(state,envoyPath);string envoyBefore=SaveGame.Serialize(state);LoadPath(envoyPath);CloseModal();
+            Check(SaveGame.Serialize(state)==envoyBefore,"Desktop reload preserves a travelling transit proposal without early access");
+            PromiseTurn();Check(state.Caravans[0].BlockedTurns==1&&state.Demands[0].Status==DemandStatus.Pending,"The first blocked phase does not pause while envoys travel");
+            PromiseTurn();Check(state.Caravans[0].BlockedTurns==2&&state.Demands[0].Status==DemandStatus.Accepted&&TransitCouncil.Until(state,2)==state.Turn+12,"Reply arrives after two turns and reopens the corridor before the third stop");
+            tab="diplomacy";RefreshSide();Click("Przejazd kupców: "+state.Factions[2].Name);await Capture("transit-accepted");
+            Check(Descendants<Button>(overlay!).Where(b=>b.Content?.ToString()?.StartsWith("Wyślij: ")==true).All(b=>!b.IsEnabled),"Active permission prevents duplicate negotiation through the dialogue");CloseModal();
+            string consentPath=Path.Combine(folder,"transit-accepted-save.crown");SaveGame.Write(state,consentPath);string consentBefore=SaveGame.Serialize(state);LoadPath(consentPath);CloseModal();
+            Check(SaveGame.Serialize(state)==consentBefore&&TransitCouncil.Until(state,2)>state.Turn,"Desktop reload retains the accepted right and exclusive expiry date");
+            int gateGuardTile=state.Units.First(u=>u.Id==escortUnitId).Tile;PromiseTurn();var gateGuard=state.Units.First(u=>u.Id==escortUnitId);
+            Check(state.Caravans[0].Tile==15*state.Width+19&&state.Caravans[0].BlockedTurns==0&&gateGuard.Tile==gateGuardTile&&gateGuard.EscortCaravanId==null,"Market resumes prepaid cargo through the permitted gate while the escort remains outside");
+            tab="markets";RefreshSide();Click("Karawany i trasy");await Capture("transit-resumed");CloseModal();PromiseTurn();
+            Check(state.Caravans[0].Status==CaravanStatus.Delivered&&state.Caravans.Count==1&&state.TradeContracts[0].Status==ContractStatus.Cancelled,"Transit completes a prepaid manifest without reviving its cancelled contract");
+            LoadPath(borderPath);CloseModal();tab="diplomacy";RefreshSide();Click("Przejazd kupców: "+state.Factions[2].Name);Click("Wyślij: "+DiplomaticCouncil.DemandName(DemandKind.Transit));PromiseTurn();PromiseTurn();
+            Check(state.Demands[0].Status==DemandStatus.Rejected&&TransitCouncil.Until(state,2)==0&&state.Caravans[0].BlockedTurns==2,"Unpaid proposal can be refused and leaves the caravan waiting");
+            tab="diplomacy";RefreshSide();Click("Przejazd kupców: "+state.Factions[2].Name);await Capture("transit-refused");
+            LoadPath(consentPath);CloseModal();state.Turn=TransitCouncil.Until(state,2);state.InvalidateLogistics();
+            Check(Caravans.Route(state,state.TradeContracts[0],state.Caravans[0].Tile).Count==0,"Permit expiry closes the route before that turn's market phase");PromiseTurn();
+            Check(state.Caravans[0].Status==CaravanStatus.Lost,"An expired right does not protect a manifest at its third consecutive stop");
+            tab="diplomacy";RefreshSide();Click("Przejazd kupców: "+state.Factions[2].Name);await Capture("transit-expired");
+            Width=1200;Height=800;root.UpdateLayout();await Capture("transit-compact");var transitReturn=Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Wróć do mapy");
+            var transitBounds=transitReturn.TransformToAncestor(root).TransformBounds(new Rect(transitReturn.RenderSize));
+            Check(transitBounds.Top>=0&&transitBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact transit dialogue keeps its return control visible or reachable by scrolling");
+            Width=1600;Height=980;LoadPath(consentPath);CloseModal();tab="diplomacy";RefreshSide();Click("Przejazd kupców: "+state.Factions[2].Name);await Capture("transit-final");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }
         catch(Exception e){checks.Add(e.ToString());File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Application.Current.Shutdown(3);}

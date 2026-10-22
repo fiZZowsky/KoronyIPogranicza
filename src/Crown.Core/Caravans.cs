@@ -18,10 +18,11 @@ public static class Caravans
         s.Units.Any(u=>u.Tile==tile&&u.Kind!=UnitKind.Settler&&u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&
             (Engine.AtWar(s,u.Owner,contract.Buyer)||Engine.AtWar(s,u.Owner,contract.Seller)))||
         Threatened(s,contract,tile)&&!Guarded(s,contract,tile);
-    private static bool Transit(GameState s,TradeContract contract,Tile tile)=>tile.Passable&&
-        (tile.Owner<0||tile.Owner==contract.Buyer||tile.Owner==contract.Seller||
-            new[]{contract.Buyer,contract.Seller}.All(owner=>!s.Relation(owner,tile.Owner).War&&s.Relation(owner,tile.Owner).Trade&&s.Factions[tile.Owner].TradePolicy!=TradePolicy.Embargo));
     public static IReadOnlyList<int> Route(GameState s,TradeContract contract,int? start=null,Unit? escort=null)
+        =>FindRoute(s,contract,start,escort,false);
+    internal static IReadOnlyList<int> PreviewTransitRoute(GameState s,TradeContract contract,int? start=null,Unit? escort=null)
+        =>FindRoute(s,contract,start,escort,true);
+    private static IReadOnlyList<int> FindRoute(GameState s,TradeContract contract,int? start,Unit? escort,bool previewOpenBorders)
     {
         var seller=s.Cities.FirstOrDefault(c=>c.Id==contract.SellerCity);var buyer=s.Cities.FirstOrDefault(c=>c.Id==contract.BuyerCity);
         if(seller==null||buyer==null)return [];
@@ -30,7 +31,7 @@ public static class Caravans
         var danger=s.Units.Where(u=>u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&u.Kind!=UnitKind.Settler&&
             (Engine.AtWar(s,u.Owner,contract.Buyer)||Engine.AtWar(s,u.Owner,contract.Seller)))
             .SelectMany(u=>World.Neighbors(s,u.Tile).Select(t=>t.Id).Append(u.Tile)).ToHashSet();
-        bool Safe(Tile t)=>Transit(s,contract,t)&&(!danger.Contains(t.Id)||Guarded(s,contract,t.Id)||movingGuard)&&
+        bool Safe(Tile t)=>TransitCouncil.CanCross(s,contract,t,previewOpenBorders)&&(!danger.Contains(t.Id)||Guarded(s,contract,t.Id)||movingGuard)&&
             !s.Units.Any(u=>u.Tile==t.Id&&u.Kind!=UnitKind.Settler&&u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&
                 (Engine.AtWar(s,u.Owner,contract.Buyer)||Engine.AtWar(s,u.Owner,contract.Seller)));
         if(!Safe(s.Tiles[start??seller.Tile])||!Safe(s.Tiles[buyer.Tile]))return [];
@@ -63,7 +64,7 @@ public static class Caravans
         var moves=new List<EscortMovement>();
         // Only cloned units move in the forecast. Terrain, politics and inventories remain read-only.
         var world=new GameState{Width=s.Width,Height=s.Height,Turn=s.Turn,Tiles=s.Tiles,Cities=s.Cities,Factions=s.Factions,
-            Relations=s.Relations,Caravans=s.Caravans,TradeContracts=s.TradeContracts,
+            Relations=s.Relations,Demands=s.Demands,Caravans=s.Caravans,TradeContracts=s.TradeContracts,
             Units=s.Units.Select(u=>new Unit{Id=u.Id,Owner=u.Owner,Tile=u.Tile,Kind=u.Kind,Health=u.Health,Actions=u.Actions,
                 Destination=u.Destination,EscortCaravanId=u.EscortCaravanId,Experience=u.Experience}).ToList()};
         foreach(var original in s.Caravans.OrderBy(c=>c.Id))
@@ -91,7 +92,7 @@ public static class Caravans
             string? suspended=Suspension(s,contract);var route=suspended==null?Route(world,contract,c.Tile,escort):[];
             if(route.Count==0)
             {
-                c.BlockedTurns++;c.Status=CaravanStatus.Waiting;c.Message=suspended??"Brak bezpiecznej trasy lub zgody na tranzyt.";
+                c.BlockedTurns++;c.Status=CaravanStatus.Waiting;c.Message=suspended??TransitCouncil.Blockage(world,contract,c.Tile,escort);
                 if(c.BlockedTurns>=MaxBlockedTurns)Lose("Trzy kolejne tury postoju zmusiły kupców do porzucenia transportu.");
                 RecordEscort();
                 continue;

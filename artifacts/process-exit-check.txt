@@ -1,1 +1,1 @@
-Expected forced failure exit: 3; actual: 3
+3

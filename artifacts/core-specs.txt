@@ -166,4 +166,26 @@ PASS Capture evacuates a designated guard and immediately clears its invalid esc
 PASS Joint movement and persistent escort orders resume deterministically after reload
 PASS V8 migration preserves promises and caravans without retroactive escort assignments
 PASS Save validation rejects unknown, remote, civilian, duplicated and conflicting escort orders
-164 specifications passed in 10,3s.
+PASS Transit embassy takes two turns and grants exactly twelve market phases
+PASS Paid transit changes acceptance and transfers its price exactly once on reply
+PASS Rejected transit charges only the embassy and leaves the border closed
+PASS Spending the offered passage money before reply causes a recorded refusal
+PASS An embargo introduced while envoys travel prevents acceptance without taking passage money
+PASS War cancels a travelling paid embassy before passage can be charged
+PASS Transit validation rejects duplicate rights, poor offers, cooldowns and embargo atomically
+PASS A closed corridor reports every missing host and one permission cannot open two borders
+PASS Available neutral detours avoid spurious border disputes
+PASS Host treaties with both parties still allow transit after a temporary permit expires
+PASS Safe conduct covers exports and imports but cannot subsidize unrelated AI cargo
+PASS A permit never overrides host embargo or host war against either trading party
+PASS Trade between buyer and seller remains mandatory even with every host's consent
+PASS Transit replies reopen stopped prepaid cargo before its third waiting phase
+PASS A late transit reply cannot resurrect a caravan already abandoned
+PASS Expired permissions strand cargo inside the host until normal three-phase loss
+PASS Civilian passage ends escorts at the foreign gate without moving the army across
+PASS Transit permission never bypasses enemy occupation or grants phantom protection
+PASS Pending offers and accepted rights continue identically through save and reload
+PASS V9 migration preserves escorts and promises without inventing transit consent
+PASS Forged transit replies, future grants and unknown embassy variants are rejected
+PASS Expiry notices are pure, warn two turns ahead and reach the turn chronicle
+186 specifications passed in 10,6s.

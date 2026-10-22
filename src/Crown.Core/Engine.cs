@@ -209,6 +209,7 @@ public static partial class Engine
             u.Actions=u.MaxActions;
         }
         ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
+        foreach(string notice in TransitCouncil.Notices(s))s.Log(notice,"tranzyt");
         foreach(var unit in s.Units.Where(u=>u.Owner==0&&u.Destination!=null).OrderBy(u=>u.Id).ToArray())FollowOrder(s,unit);
         EscortOrders.Normalize(s);
         foreach(var effect in s.Deferred.Where(e=>e.Due<=s.Turn).ToArray())

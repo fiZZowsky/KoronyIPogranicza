@@ -1,5 +1,16 @@
 # Zmiany
 
+## 0.10 — Otwarte bramy · 22 października 2026
+
+- Dwa warianty negocjowania przejazdu kupców: prośba oparta na zaufaniu lub oferta 60 złota za zgodę na 12 tur. Posłowie kosztują 20 złota i wracają po dwóch turach. Oferta płatna podnosi jawną ocenę o 35; 60 złota przechodzi do gospodarza dopiero po przyjęciu. Brak środków przy odpowiedzi oznacza odmowę.
+- Zgoda obejmuje importy i eksporty Marchii przez ziemie wskazanego gospodarza, również wysłane już karawany i zamknięte kontrakty. Zastępuje jego traktaty z obiema stronami ładunku. Traktat kupującego ze sprzedawcą nadal jest konieczny; zgoda nie obejmuje transportów między samymi państwami AI.
+- Wojna gospodarza z którąkolwiek stroną i embargo zawieszają przejazd. Eskorta pozostaje przed wojskowo niedostępną granicą, a karawana ponownie ocenia bezpieczeństwo bez jej ruchomej osłony.
+- Raport „Granice i tranzyt” wskazuje brakujące zgody na jednym potencjalnym bezpiecznym korytarzu i prowadzi do rozmowy z właściwym państwem. Obsługuje kilka zamkniętych granic, neutralne objazdy i różnicę między brakiem zezwolenia a wojną, embargiem lub zagrożeniem. Dostępny z manifestu i formularza kontraktu.
+- Dwuturowa podróż posłów nie zatrzymuje licznika postoju. Zgoda może uratować wóz przed trzecią blokadą; spóźniona odpowiedź nie przywraca porzuconego ładunku. Przyjęcie daje relacje +5, odmowa -5; wszystkie poselstwa korzystają ze wspólnego odstępu dziesięciu tur.
+- Termin jest wyłączny: zgoda z T5 działa do fazy T16, wygasa przed rynkiem T17. Kronika i komunikat tury przypominają dwa ruchy wcześniej i w dniu wygaśnięcia. Nie ma automatycznego przedłużenia ani wcześniejszego odnawiania aktywnej zgody.
+- Format v10 przechowuje nowe warianty poselstw. Ważność praw jest wyliczana z przyjętych odpowiedzi, bez osobnej kopii stanu traktatu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejszą dyplomację bez dopisywania zgód; nadpisanie tworzy `.v9.bak`. Starsze migracje pozostają obsługiwane.
+- Osobne wydanie `wydanie-0.10/`. Poprzednie wydania i zapisy pozostają zachowane. To dwustronne zgody dla kupców gracza, bez wielostronnej konferencji, ubezpieczeń, wojskowego dostępu ani samodzielnego negocjowania tranzytu przez AI. Oprawa nadal jest teksturowaną mapą 2D.
+
 ## 0.9 — Straż na trakcie · 22 października 2026
 
 - Rozkaz eskorty aktywnej karawany przez własny oddział stojący na jej polu. Jedna eskorta na transport, bez osadników, z co najmniej 0,5 pozostałego punktu ruchu. Przydział jest bezpłatny, zastępuje poprzedni marsz i nie przesuwa jednostki od razu.

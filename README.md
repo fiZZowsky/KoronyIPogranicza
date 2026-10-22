@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.9
+# Korony i Pogranicza · 0.10
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.9/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.9` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.10/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.10` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Straż na trakcie.** Wersja 0.9 dodaje rozkazy eskorty: oddział maszeruje razem z karawaną, osłania ją i zużywa własne punkty ruchu. Wolniejsza eskorta ogranicza tempo dostawy, a granice wojskowe mogą zakończyć jej służbę przed dotarciem wozu. Rozkazy pozostają w zapisach kampanii. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Otwarte bramy.** Wersja 0.10 dodaje negocjowane zgody na tranzyt i raport państw zamykających potencjalny szlak. Możesz oprzeć prośbę na zaufaniu albo zaoferować opłatę. Dwuturowa podróż posłów i termin wygaśnięcia zgody wpływają na los już opłaconych transportów. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -35,6 +35,16 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Zapis i wczytanie stanu JSON z walidacją, atomowym zastępowaniem pliku i zapisanym stanem generatora losowego. Autozapis po turze i decyzji rady; kronika przechowuje wybory oraz ich skutki.
 
 Długość i balans wymagają dalszych rozgrywek z udziałem człowieka. Automatyczne symulacje nie potwierdzają jakości wielogodzinnej rozgrywki.
+
+## Poselstwa o prawo przejazdu
+
+**Granice i tranzyt** w raporcie karawany lub **Sprawdź granice wybranej trasy** w formularzu kontraktu wskazuje brakujące zgody na jednym potencjalnym bezpiecznym korytarzu. Dostępny neutralny objazd wyklucza zgłoszenie blokady granic. Jeśli droga wymaga kilku państw, każde musi wyrazić własną zgodę. Raport nie proponuje poselstwa jako sposobu obejścia wojny, embarga, gór lub okupacji przez wrogie wojsko.
+
+W **Dyplomacja → Przejazd kupców** wybierz prośbę o bezpłatny tranzyt albo jednorazową opłatę 60 złota. Podróż posłów kosztuje zawsze 20 złota i trwa dwie tury. Ocena to zaufanie +10 za traktat z gospodarzem +35 za ofertę opłaty -15 wobec Kharu; przyjęcie wymaga 15. Nie ma losowania. Sytuację i środki sprawdzamy ponownie w dniu odpowiedzi. Opłata 60 złota przechodzi do gospodarza dopiero po przyjęciu; jeśli ją wcześniej wydasz, propozycja zostanie odrzucona. Przyjęcie daje relacje +5, odmowa -5. Obowiązuje wspólna dla wszystkich poselstw przerwa dziesięciu tur i jedna rozmowa z danym państwem na turę.
+
+Zgoda działa przez 12 faz rynku od tury przyjęcia, także dla już wysłanych ładunków oraz rozwiązanych lub wygasłych kontraktów. Zastępuje wyłącznie wymóg traktatów gospodarza z obiema stronami transportu. Traktat między kupującym i sprzedawcą nadal jest konieczny. Zgoda nie obejmuje transportów między samymi państwami AI ani przemarszu wojska. Wojna z którąkolwiek stroną i embargo zawieszają przejazd; po ich ustaniu pozostały czas zgody może zostać wykorzystany.
+
+Zgoda przyjęta w T5 pozwala przejeżdżać w fazach T5–T16 i wygasa przed rynkiem T17. Na dwie tury przed końcem oraz w dniu wygaśnięcia pojawia się wpis kroniki i komunikat przy zmianie tury, o ile pierwszeństwa nie mają pilniejsze wieści. Aktywnej zgody nie można przedłużyć z góry; po wygaśnięciu można wysłać nowe poselstwo. Eskorta zatrzyma się przed wojskowo niedostępną granicą. Zablokowana karawana nadal przepada przy trzecim kolejnym postoju, również wewnątrz obcego kraju. Poselstwo nie zatrzymuje tego licznika i może wrócić za późno; utraconego manifestu nie przywraca.
 
 ## Pierwsze dziesięć tur
 
@@ -99,7 +109,7 @@ Panel **Rynek → Karawany i trasy** pokazuje manifesty, zapłacone kwoty, pozyc
 
 Karawana otrzymuje 3 punkty ruchu na fazę rynku. Połączone drogi kosztują 0,5, lasy, wzgórza i mokradła 2, pozostały ląd 1. Niewykorzystane punkty nie przechodzą między turami. Załadowany transport zaczyna marsz przy następnym rozliczeniu. Podany czas jest prognozą według obecnej trasy, bez przyszłych blokad; transport nie używa sezonowych modyfikatorów dostaw wojskowych.
 
-Szlak biegnie przez ziemie obu stron i neutralny ląd. Przejazd przez trzecie państwo wymaga jego pokojowych traktatów handlowych z obiema stronami oraz braku jego embarga. Zmiany dróg, granic i wojsk powodują ponowne wyszukiwanie najtańszej bezpiecznej trasy, bez teleportowania ładunku.
+Szlak biegnie przez ziemie obu stron i neutralny ląd. Przejazd przez trzecie państwo wymaga jego pokojowych traktatów handlowych z obiema stronami albo czasowej zgody na przewóz ładunków Marchii. Gospodarz musi pozostawać w pokoju z obiema stronami i nie stosować embarga. Zmiany dróg, granic i wojsk powodują ponowne wyszukiwanie najtańszej bezpiecznej trasy, bez teleportowania ładunku.
 
 Wrogie wobec którejkolwiek ze stron oddziały państwa trzeciego stwarzają zagrożenie na swoim polu i w sąsiedztwie. Oddział nabywcy albo sprzedawcy (również zwiadowca, bez osadników) w promieniu jednego pola osłania przed sąsiednią strefą zagrożenia; miasto stron osłania własne pole. Wrogi oddział bezpośrednio na heksie transportu przechwytuje go zawsze. Karawana omija nieosłonięte zagrożenia; jeśli przeciwnik podejdzie do jej obecnej pozycji, przed końcem tury trzeba zapewnić osłonę lub usunąć przeciwnika. Wyznaczona eskorta może teraz podążać razem z transportem. Nie ma osobnej komendy ataku na wóz.
 
@@ -216,7 +226,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.9/saves/`. Format v9 zachowuje rozkazy eskorty i ich powiązanie z karawanami; odczytuje v1–v8. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v8.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.10/saves/`. Format v10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu; odczytuje v1–v9. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v9.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -225,7 +235,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.9 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.10 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -241,6 +251,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 - `Caravans.cs`, `CaravanSaveRules.cs`: ruch ładunków, tranzyt, osłona, postoje, przechwytywanie i walidacja manifestów.
 - `TradeCouncil.cs`, `TradeCaseSaveRules.cs`: delegacje po stratach, dynamiczne dialogi, obietnice zależne od przyjazdów i walidacja ich historii.
 - `EscortOrders.cs`, `EscortSaveRules.cs`: przydziały eskorty, wspólna prognoza ruchu, rezerwacja wojska, odłączanie i walidacja rozkazów.
+- `TransitCouncil.cs`, `TransitPanels.cs`: czasowe prawa przejazdu wynikające z przyjętych poselstw, diagnoza granic, ostrzeżenia i rozmowy z gospodarzem szlaku.
 - `src/Crown.Desktop`: natywny interfejs WPF, rysowanie mapy, proceduralne materiały terenu i sterowanie.
 - `tests/Crown.Specs`: wykonywalne specyfikacje bez bibliotek testowych; symulacje kampanii i test odtwarzalności zapisu.
 - `DESIGN.md`: założenia projektu, ograniczenia i kierunek dalszych etapów.
