@@ -9,6 +9,7 @@ public static partial class Engine
         var u = s.Units.FirstOrDefault(u => u.Id == unitId);
         if (s.Ending != null || u == null || u.Actions < .5 || target < 0 || target >= s.Tiles.Count)
             return Result.Fail("Brak ruchu lub jednostki.");
+        if(u.EscortCaravanId!=null)return Result.Fail("Najpierw odwołaj eskortę, aby wydać samodzielny rozkaz.");
         if (u.Owner == 0 && !s.Tiles[target].Explored) return Result.Fail("Najpierw odkryj to pole.");
         if (u.Tile == target) return Result.Fail("Jednostka już tu jest.");
         var enemy = s.Units.FirstOrDefault(e => e.Tile == target && e.Owner != u.Owner);
@@ -26,6 +27,7 @@ public static partial class Engine
         var u = s.Units.FirstOrDefault(u => u.Id == unitId && u.Owner == 0);
         if (s.Ending != null || u == null || target < 0 || target >= s.Tiles.Count)
             return Result.Fail("Nieprawidłowy rozkaz marszu.");
+        if(u.EscortCaravanId!=null)return Result.Fail("Najpierw odwołaj eskortę, aby wydać samodzielny rozkaz.");
         if (u.Tile == target) return CancelOrder(s, unitId);
         if (Navigation.Route(s, u, target).Count == 0)
             return Result.Fail("Brak dostępnej, odkrytej trasy. Marsz nie przekracza obcych granic w czasie pokoju.");
@@ -38,6 +40,7 @@ public static partial class Engine
     {
         var u = s.Units.FirstOrDefault(u => u.Id == unitId && u.Owner == 0);
         if (s.Ending != null || u == null) return Result.Fail("Nieprawidłowy oddział.");
+        if(u.EscortCaravanId!=null)return Result.Fail("Ten oddział eskortuje karawanę. Użyj odwołania eskorty.");
         u.Destination = null;
         return Result.Ok("Anulowano dalszy marsz. Pozostałe punkty ruchu są dostępne.");
     }

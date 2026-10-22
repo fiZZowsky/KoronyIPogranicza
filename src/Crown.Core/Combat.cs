@@ -7,6 +7,7 @@ public static partial class Engine
         var u = s.Units.FirstOrDefault(u => u.Id == unitId);
         CombatPreview Invalid(string text) => new(false, text, u == null ? "" : Content.UnitName(u.Kind), "");
         if (s.Ending != null || u == null || target < 0 || target >= s.Tiles.Count) return Invalid("Nieprawidłowy cel.");
+        if(u.EscortCaravanId!=null)return Invalid("Najpierw odwołaj eskortę, aby zaatakować samodzielnie.");
         if (u.Actions < 1) return Invalid("Atak wymaga co najmniej 1 punktu ruchu.");
         if (u.Owner == 0 && !s.Tiles[target].Explored) return Invalid("Cel nie został odkryty.");
         var defender = s.Units.FirstOrDefault(e => e.Tile == target && e.Owner != u.Owner);

@@ -59,6 +59,7 @@ public static class PeaceCouncil
         {s.Factions[owner].WarWeariness=Math.Max(0,s.Factions[owner].WarWeariness-15);DiplomaticCouncil.AddGrievance(s,owner,owner==from?to:from,-20);}
         Withdraw(s,from,to);Withdraw(s,to,from);
         int goldToAggressor=war.Aggressor==to?gold:-gold;
+        EscortOrders.Normalize(s);
         WarCouncil.Finish(s,war,$"Traktat {s.Factions[from].Name} – {s.Factions[to].Name}: {Terms(s,from,to,gold,cityId)}.",goldToAggressor);
         if(from==0||to==0)s.Player.Flags.Add("negotiated_peace");
         s.InvalidateLogistics();Engine.Explore(s);Engine.CheckEnding(s);

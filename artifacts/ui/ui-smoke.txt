@@ -80,4 +80,12 @@ PASS Turn handlers fulfill the obligation only when replacement goods arrive
 PASS Fulfilled promise records the actual manifests and political consequence
 PASS Passing the deadline without replacement goods breaks the promise
 PASS Compact promise report keeps its return control visible or reachable by scrolling
-82 desktop integration checks passed.
+PASS Escort assignment form binds an own colocated unit without spending movement
+PASS A map march cannot interrupt a designated escort implicitly
+PASS Turn handler moves slow escort and caravan together without passive healing
+PASS Desktop reload preserves the joint position and persistent escort order
+PASS Caravan report cancels an escort without refunding movement
+PASS Unit panel can reassign a colocated caravan escort
+PASS Arrival releases the escort on the near side of the peaceful foreign city
+PASS Compact caravan report keeps escort controls reachable
+90 desktop integration checks passed.

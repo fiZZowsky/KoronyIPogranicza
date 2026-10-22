@@ -77,6 +77,7 @@ public sealed class Unit
     public double Health { get; set; } = 100;
     public double Actions { get; set; } = 2;
     public int? Destination { get; set; }
+    public int? EscortCaravanId { get; set; }
     public int Experience { get; set; }
     public int MaxActions => Kind is UnitKind.Scout or UnitKind.Cavalry ? 3 : 2;
 }
@@ -187,7 +188,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 8;
+    public int Version { get; set; } = 9;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -278,7 +279,9 @@ public sealed record CommodityBalance(TradeGood Good,double Opening,double Produ
 public sealed record CommodityShipment(int From,int To,TradeGood Good,double Quantity);
 public sealed record TradeExecution(int ContractId,double Quantity,double Price,double Payment,string Message);
 public sealed record MarketPlan(Dictionary<int,List<CommodityBalance>> Cities,IReadOnlyList<CommodityShipment> Shipments,
-    IReadOnlyList<TradeExecution> Trades,Dictionary<int,double> Cash,IReadOnlyList<Caravan> Caravans);
+    IReadOnlyList<TradeExecution> Trades,Dictionary<int,double> Cash,IReadOnlyList<Caravan> Caravans,IReadOnlyList<EscortMovement> EscortMoves);
+public sealed record EscortMovement(int UnitId,int CaravanId,IReadOnlyList<int> Path,string? ReleaseReason);
+public sealed record CaravanProjection(List<Caravan> Caravans,IReadOnlyList<EscortMovement> EscortMoves);
 public sealed class Caravan
 {
     public int Id { get; set; }

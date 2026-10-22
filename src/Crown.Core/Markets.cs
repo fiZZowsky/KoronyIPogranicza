@@ -74,7 +74,7 @@ public static class Markets
     {
         var production=Production(s);
         var lines=s.Cities.ToDictionary(c=>c.Id,c=>Goods.ToDictionary(g=>g,g=>new Line(g,c.MarketStocks[g],production[c.Id][g],Demand(c,g))));
-        var caravans=Caravans.Project(s);
+        var projection=Caravans.Project(s);var caravans=projection.Caravans;
         foreach(var cargo in caravans.Where(c=>c.Status==CaravanStatus.Delivered&&c.ResolvedTurn==s.Turn&&s.Caravans.Any(old=>old.Id==c.Id&&Caravans.Active(old))))
         {
             var contract=s.TradeContracts.First(c=>c.Id==cargo.ContractId);var arrival=lines[contract.BuyerCity][contract.Good];
@@ -135,19 +135,22 @@ public static class Markets
         }
         foreach(var c in s.Cities)foreach(var good in Goods)
         {var line=lines[c.Id][good];line.Lost=Math.Max(0,line.Stock-Capacity(c));line.Stock=Math.Clamp(line.Stock,0,Capacity(c));}
-        return new(lines.ToDictionary(p=>p.Key,p=>Goods.Select(g=>p.Value[g].Freeze()).ToList()),shipments,trades,cash,caravans);
+        return new(lines.ToDictionary(p=>p.Key,p=>Goods.Select(g=>p.Value[g].Freeze()).ToList()),shipments,trades,cash,caravans,projection.EscortMoves);
     }
 
     public static void Tick(GameState s)
     {
         if(s.LastMarketTurn==s.Turn)return;
+        EscortOrders.Normalize(s);
         var plan=Plan(s);
+        foreach(var move in plan.EscortMoves)Engine.ApplyEscortMovement(s,move);
         foreach(var caravan in plan.Caravans.Where(c=>!Caravans.Active(c)&&s.Caravans.Any(old=>old.Id==c.Id&&Caravans.Active(old))))
         {
             var contract=s.TradeContracts.First(c=>c.Id==caravan.ContractId);
             if(contract.Buyer==0||contract.Seller==0)s.Log($"Karawana #{caravan.Id}: {caravan.Message} {Name(contract.Good)}, {caravan.Quantity:0.##}.","handel");
         }
         s.Caravans=plan.Caravans.ToList();s.NextCaravanId=Math.Max(s.NextCaravanId,s.Caravans.Select(c=>c.Id).DefaultIfEmpty(0).Max()+1);
+        EscortOrders.Normalize(s);
         foreach(var c in s.Cities)
         {
             c.LastMarketLines=plan.Cities[c.Id];c.LastMarketTurn=s.Turn;

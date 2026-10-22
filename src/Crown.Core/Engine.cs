@@ -204,12 +204,13 @@ public static partial class Engine
         }
         foreach(var u in s.Units.ToArray())
         {
-            if(u.Actions==u.MaxActions&&u.Destination==null)u.Health=Math.Min(100,u.Health+(Supplied(s,u)?s.Factions[u.Owner].Technologies.Contains("medicine")?20:12:3));
+            if(u.Actions==u.MaxActions&&u.Destination==null&&u.EscortCaravanId==null)u.Health=Math.Min(100,u.Health+(Supplied(s,u)?s.Factions[u.Owner].Technologies.Contains("medicine")?20:12:3));
             if(!Supplied(s,u)&&u.Kind!=UnitKind.Scout&&u.Kind!=UnitKind.Settler)u.Health=Math.Max(10,u.Health-5);
             u.Actions=u.MaxActions;
         }
         ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         foreach(var unit in s.Units.Where(u=>u.Owner==0&&u.Destination!=null).OrderBy(u=>u.Id).ToArray())FollowOrder(s,unit);
+        EscortOrders.Normalize(s);
         foreach(var effect in s.Deferred.Where(e=>e.Due<=s.Turn).ToArray())
         {
             var f=s.Factions[effect.Faction];f.Gold=Math.Max(0,f.Gold+effect.Gold);f.Stability+=effect.Stability;f.Commons+=effect.Commons;f.Nobles+=effect.Nobles;f.Scholars+=effect.Scholars;f.Prestige+=effect.Prestige;Clamp(f);s.Log(effect.Text,"konsekwencja");s.Deferred.Remove(effect);
@@ -244,6 +245,7 @@ public static partial class Engine
                 Regions.ManageAi(s,city);
             }
             Markets.ManageAi(s,f.Id);
+            EscortOrders.ManageAi(s,f.Id);
             foreach(var r in s.Relations.Where(r=>r.A==f.Id||r.B==f.Id))
             {
                 int other=r.A==f.Id?r.B:r.A;if(!s.Cities.Any(c=>c.Owner==other))continue;
@@ -262,6 +264,7 @@ public static partial class Engine
             }
             foreach(var u in s.Units.Where(u=>u.Owner==f.Id).ToArray())
             {
+                if(u.EscortCaravanId!=null)continue;
                 if(u.Health<45&&Supplied(s,u))continue;
                 if(u.Health<50&&!Supplied(s,u)&&u.Kind is not (UnitKind.Settler or UnitKind.Scout))
                 {AiStep(s,u,cities.OrderBy(c=>World.Distance(s.Tiles[u.Tile],s.Tiles[c.Tile])).First().Tile);continue;}

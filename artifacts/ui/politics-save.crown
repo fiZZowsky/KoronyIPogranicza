@@ -1,5 +1,5 @@
 {
-  "Version": 8,
+  "Version": 9,
   "Seed": 17421,
   "RandomState": 1725304554,
   "Width": 42,
@@ -16775,6 +16775,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16785,6 +16786,7 @@
       "Health": 100,
       "Actions": 3,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16795,6 +16797,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16805,6 +16808,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16815,6 +16819,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16825,6 +16830,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16835,6 +16841,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     }
   ],

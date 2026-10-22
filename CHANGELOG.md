@@ -1,5 +1,18 @@
 # Zmiany
 
+## 0.9 — Straż na trakcie · 22 października 2026
+
+- Rozkaz eskorty aktywnej karawany przez własny oddział stojący na jej polu. Jedna eskorta na transport, bez osadników, z co najmniej 0,5 pozostałego punktu ruchu. Przydział jest bezpłatny, zastępuje poprzedni marsz i nie przesuwa jednostki od razu.
+- Wspólny marsz w fazie rynku zużywa pozostały ruch wojska i budżet karawany. Wóz czeka na wolniejszego towarzysza. Drogi zachowują koszt 0,5 punktu; ETA uwzględnia tempo oddziału i niewykorzystany ruch. Prognoza przemieszcza wyłącznie kopie jednostek.
+- Wyznaczona osłona porusza się razem z transportem przez sąsiednie strefy zagrożenia, bez samoczynnego ataku. Bezpośrednie zajęcie pola wozu nadal oznacza przechwycenie. Kolejne karawany oceniają pozycje już przemieszczonych eskort, bez pozostawiania ochrony w dawnym miejscu.
+- Handel nie daje wojskowego prawa przejścia. Przed pokojową obcą granicą, obcym miastem lub oddziałem eskorta się odłącza; wóz ponownie ocenia trasę bez jej ruchomej osłony. Wojsko pozostaje na ostatnim osiągniętym heksie. Raport ostrzega o przewidywanym odłączeniu i możliwej zmianie czasu przybycia.
+- Rozkaz rezerwuje oddział: samodzielny marsz, atak i niszczenie dróg wymagają odwołania eskorty. Podczas służby nie ma biernego leczenia. Normalne utrzymanie i zaopatrzenie armii nadal działają. Anulowanie nie zwraca wydanych punktów ruchu.
+- Ruch rzeczywistej eskorty odsłania teren i rozlicza mijane ruiny raz. Przybycie lub utrata ładunku, odłączenie i ewakuacja po przejęciu miasta usuwają nieaktualny rozkaz. Nowy transport tej samej umowy nie dziedziczy eskorty.
+- AI może przydzielić własnego zdrowego zwiadowcę znajdującego się na polu transportu strony umowy i nie odsyła go do zwykłego ruchu podczas służby. Nie przejmuje kontroli nad jednostką gracza.
+- Formularz wyznaczenia i odwołania w raporcie karawany, rozkazy z panelu jednostki, status wojska, punkty ruchu, oznaczenie E na mapie oraz prognoza wspólnej drogi.
+- Zapis v9 przechowuje przydział eskorty. Migracja v8 zachowuje obietnice i karawany bez dopisywania rozkazów; nadpisanie tworzy `.v8.bak`. Odczyt v1–v7 nadal działa.
+- Osobne wydanie `wydanie-0.9/`; poprzednie katalogi, zapisy i paczki pozostają zachowane. Oprawa nadal jest mapą 2D. Brak automatycznej zbiórki eskort i złożonego planowania ochrony szlaków przez AI.
+
 ## 0.8 — Kupcy pamiętają · 22 października 2026
 
 - Utrata karawany importowej do własnego miasta otwiera kontekstową sprawę rady: konkretny manifest, towar, ilość, wartość zakupu i odbiorca. Otwarcie obniża poparcie ludu o 2 i zwiększa miejscowe niepokoje o 4. Limit jednej nowej delegacji z prowincji na dziesięć tur ogranicza powtarzanie spraw.

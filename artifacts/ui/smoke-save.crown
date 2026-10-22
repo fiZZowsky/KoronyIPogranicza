@@ -1,5 +1,5 @@
 {
-  "Version": 8,
+  "Version": 9,
   "Seed": 17421,
   "RandomState": 1412161214,
   "Width": 42,
@@ -16818,6 +16818,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16828,6 +16829,7 @@
       "Health": 100,
       "Actions": 3,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16838,6 +16840,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16848,6 +16851,7 @@
       "Health": 100,
       "Actions": 1,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16858,6 +16862,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16868,6 +16873,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16878,6 +16884,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16888,6 +16895,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16898,6 +16906,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16908,6 +16917,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16918,6 +16928,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16928,6 +16939,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16938,6 +16950,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     },
     {
@@ -16948,6 +16961,7 @@
       "Health": 100,
       "Actions": 2,
       "Destination": null,
+      "EscortCaravanId": null,
       "Experience": 0
     }
   ],

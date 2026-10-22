@@ -144,7 +144,7 @@ public sealed class MapView : FrameworkElement
             if(contract.Buyer!=0&&contract.Seller!=0)continue;
             if(cargo.Id==TrackedCaravanId)
             {
-                var route=Caravans.Route(State,contract,cargo.Tile);
+                var route=Caravans.Route(State,contract,cargo.Tile,EscortOrders.Attached(State,cargo));
                 for(int i=1;i<route.Count;i++)
                     if(State.Tiles[route[i-1]].Explored&&State.Tiles[route[i]].Explored)
                         dc.DrawLine(new Pen(B("#E2C887"),2.8){DashStyle=DashStyles.Dash},CenterOf(State.Tiles[route[i-1]]),CenterOf(State.Tiles[route[i]]));
@@ -283,6 +283,8 @@ public sealed class MapView : FrameworkElement
         var p=CenterOf(State.Tiles[u.Tile]);p.Offset(-15,-16);bool selected=u.Id==SelectedUnit;var col=B(State.Factions[u.Owner].Color);
         dc.DrawEllipse(B("#4C0E1514"),null,new(p.X+3,p.Y+5),13,8);dc.DrawEllipse(B(selected?"#E2D4AB":"#172D32"),new Pen(col,selected?2.5:1.7),p,12,12);
         Brush symbol=selected?B("#172D32"):col;
+        if(u.EscortCaravanId!=null)
+        {dc.DrawRoundedRectangle(B("#193B38"),new Pen(B("#9BCFC1"),1),new Rect(p.X-24,p.Y-7,11,14),2,2);Text(dc,"E",new(p.X-18.5,p.Y-6),9,B("#C3E9D8"));}
         if(u.Kind==UnitKind.Settler){dc.DrawEllipse(null,new Pen(symbol,1.4),new(p.X,p.Y-3),3,3);dc.DrawLine(new Pen(symbol,1.4),new(p.X,p.Y),new(p.X,p.Y+7));dc.DrawLine(new Pen(symbol,1.4),new(p.X-5,p.Y+3),new(p.X+5,p.Y+3));}
         else if(u.Kind==UnitKind.Archer){var g=new StreamGeometry();using(var x=g.Open()){x.BeginFigure(new(p.X-3,p.Y-7),false,false);x.QuadraticBezierTo(new(p.X+9,p.Y),new(p.X-3,p.Y+7),true,false);}dc.DrawGeometry(null,new Pen(symbol,1.7),g);dc.DrawLine(new Pen(symbol,1),new(p.X-3,p.Y-7),new(p.X-3,p.Y+7));}
         else Text(dc,u.Kind switch{UnitKind.Scout=>"◇",UnitKind.Cavalry=>"♞",UnitKind.Catapult=>"⊕",_=>"⚔"},new(p.X,p.Y-10),15,symbol);

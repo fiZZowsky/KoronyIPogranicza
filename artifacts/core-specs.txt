@@ -144,4 +144,26 @@ PASS Presenting a trade petition cannot overwrite another pending council event
 PASS Trade petitions and partially fulfilled promises continue deterministically after reload
 PASS V7 migration preserves caravan losses without inventing retroactive petitions
 PASS Save validation rejects forged losses, deadlines, progress and council context
-142 specifications passed in 10,9s.
+PASS Escort assignment replaces a march without moving, spending or duplicating an order
+PASS Escorts reject remote, civilian, unrelated, foreign-controlled and exhausted units atomically
+PASS Only one designated escort can serve a caravan and a unit cannot escort two
+PASS Joint forecasts are pure and real caravan and escort movement match them
+PASS Slow escorts limit speed while cavalry and connected roads preserve faster movement
+PASS Spent movement can delay an escort but no movement is borrowed from the next phase
+PASS Terrain-aware escort ETA matches arrival and the military stops before a peaceful foreign city
+PASS A designated escort carries protection through a hostile zone without attacking
+PASS Direct occupation still loses cargo and releases the designated escort
+PASS Commercial transit rights never grant military entry and the convoy can continue alone
+PASS Detaching at a border recalculates safety rather than carrying phantom protection onward
+PASS Earlier convoys move their guards before later convoys evaluate shared protection
+PASS Escort orders reserve marches, attacks and pillaging until explicitly cancelled
+PASS Cancelling after joint movement never refunds spent points
+PASS An escort discovers real intermediate ruins once while the forecast grants no rewards
+PASS Embargo holds the escort in place and an active assignment prevents passive healing
+PASS Cargo loss and displacement release an escort without inventing a retreat move
+PASS AI may assign its own colocated scout but cannot take control of a player's unit
+PASS Capture evacuates a designated guard and immediately clears its invalid escort order
+PASS Joint movement and persistent escort orders resume deterministically after reload
+PASS V8 migration preserves promises and caravans without retroactive escort assignments
+PASS Save validation rejects unknown, remote, civilian, duplicated and conflicting escort orders
+164 specifications passed in 10,3s.

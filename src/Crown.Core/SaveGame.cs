@@ -10,7 +10,7 @@ public static class SaveGame
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
-        if(s.Version is <1 or >8)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version is <1 or >9)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
         if(s.Version<4)
         {
             s.Demands=[];s.NextDemandId=1;
@@ -84,7 +84,9 @@ public static class SaveGame
         CaravanSaveRules.Validate(s);
         if(s.Version<8){s.TradeCases=[];s.PendingTradeCaseId=null;}
         TradeCaseSaveRules.Validate(s);
-        s.Version=8;
+        if(s.Version<9)foreach(var unit in s.Units)unit.EscortCaravanId=null;
+        EscortSaveRules.Validate(s);
+        s.Version=9;
         return s;
     }
     public static void Write(GameState state,string path)
@@ -93,7 +95,7 @@ public static class SaveGame
         string temp=path+".tmp";File.WriteAllText(temp,Serialize(state));
         if(File.Exists(path))
         {
-            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=7&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
+            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=8&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
             catch(JsonException){ /* An invalid old file may still be replaced by an explicit save. */ }
         }
         File.Move(temp,path,true);

@@ -243,6 +243,32 @@ public sealed partial class MainWindow
             var returnBounds=returnControl.TransformToAncestor(root).TransformBounds(new Rect(returnControl.RenderSize));
             Check(returnBounds.Top>=0&&returnBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact promise report keeps its return control visible or reachable by scrolling");
             Width=1600;Height=980;LoadPath(fulfilledPath);CloseModal();tab="markets";RefreshSide();Click("Sprawy kupców i obietnice");await Capture("trade-promise-final");
+            var escortWorld=World.Create();Narrative.Resolve(escortWorld,0);escortWorld.Units.Clear();
+            foreach(var t in escortWorld.Tiles){t.Resource=Resource.None;t.Owner=-1;t.Ruin=false;t.Explored=true;}
+            var escortSeller=escortWorld.Cities.First(c=>c.Owner==0);var escortBuyer=escortWorld.Cities.First(c=>c.Owner==1);escortBuyer.Tile=15*escortWorld.Width+21;
+            foreach(var c in escortWorld.Cities){escortWorld.Tiles[c.Tile].Owner=c.Owner;escortWorld.Tiles[c.Tile].Terrain=Terrain.Grassland;}
+            for(int x=9;x<=21;x++){var t=escortWorld.Tiles[15*escortWorld.Width+x];t.Terrain=Terrain.Grassland;t.Road=true;t.RoadOwner=0;}
+            foreach(var f in escortWorld.Factions){f.Gold=3000;f.Technologies.UnionWith(["pottery","trade","currency"]);}
+            escortSeller.Buildings.Add("market");escortBuyer.Buildings.Add("market");escortSeller.MarketStocks[TradeGood.Salt]=50;escortWorld.Relation(0,1).Trade=true;escortWorld.InvalidateLogistics();
+            Engine.SignTradeContract(escortWorld,escortBuyer.Id,escortSeller.Id,TradeGood.Salt,4);Markets.Tick(escortWorld);Engine.CancelTradeContract(escortWorld,1);escortWorld.Turn++;
+            var escortUnit=Engine.AddUnit(escortWorld,0,escortSeller.Tile,UnitKind.Spearmen);escortUnit.Health=60;int escortUnitId=escortUnit.Id;
+            Start(escortWorld);tab="markets";RefreshSide();Click("Karawany i trasy");Click("Wyznacz eskortę #1");await Capture("escort-assignment");Click("Przydziel: ");
+            Check(escortUnit.EscortCaravanId==1&&escortUnit.Destination==null&&escortUnit.Actions==2,"Escort assignment form binds an own colocated unit without spending movement");await Capture("escort-order");
+            Click("Pokaż na mapie #1");Select(escortUnit.Tile);root.UpdateLayout();int escortStart=escortUnit.Tile;double escortActions=escortUnit.Actions;Order(escortStart+1);
+            Check(escortUnit.Tile==escortStart&&escortUnit.Actions==escortActions&&escortUnit.EscortCaravanId==1,"A map march cannot interrupt a designated escort implicitly");await Capture("escort-map");
+            Advance();CloseModal();Check(escortUnit.Tile==state.Caravans[0].Tile&&escortUnit.Tile==15*state.Width+13&&escortUnit.Health==60,"Turn handler moves slow escort and caravan together without passive healing");await Capture("escort-moving");
+            string escortPath=Path.Combine(folder,"escort-save.crown");SaveGame.Write(state,escortPath);string escortBefore=SaveGame.Serialize(state);LoadPath(escortPath);CloseModal();escortUnit=state.Units.First(u=>u.Id==escortUnitId);
+            Check(SaveGame.Serialize(state)==escortBefore&&escortUnit.EscortCaravanId==1,"Desktop reload preserves the joint position and persistent escort order");
+            tab="markets";RefreshSide();Click("Karawany i trasy");double cancelActions=escortUnit.Actions;Click("Odwołaj eskortę #1");
+            Check(escortUnit.EscortCaravanId==null&&escortUnit.Actions==cancelActions,"Caravan report cancels an escort without refunding movement");CloseModal();
+            Select(escortUnit.Tile);Click("Eskortuj karawanę #1");Check(escortUnit.EscortCaravanId==1,"Unit panel can reassign a colocated caravan escort");
+            Advance();CloseModal();Advance();CloseModal();
+            Check(state.Caravans[0].Status==CaravanStatus.Delivered&&escortUnit.EscortCaravanId==null&&escortUnit.Tile==15*state.Width+20&&state.Tiles[escortUnit.Tile].Owner!=1,"Arrival releases the escort on the near side of the peaceful foreign city");
+            tab="markets";RefreshSide();Click("Karawany i trasy");await Capture("escort-arrival");
+            Width=1200;Height=800;root.UpdateLayout();await Capture("escort-compact");var escortReturn=Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Wróć do mapy");
+            var escortReturnBounds=escortReturn.TransformToAncestor(root).TransformBounds(new Rect(escortReturn.RenderSize));
+            Check(escortReturnBounds.Top>=0&&escortReturnBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact caravan report keeps escort controls reachable");
+            Width=1600;Height=980;LoadPath(escortPath);CloseModal();tab="markets";RefreshSide();Click("Karawany i trasy");await Capture("escort-final");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }
         catch(Exception e){checks.Add(e.ToString());File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Application.Current.Shutdown(3);}

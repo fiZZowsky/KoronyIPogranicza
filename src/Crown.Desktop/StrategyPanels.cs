@@ -81,12 +81,19 @@ public sealed partial class MainWindow
                 if (u.Id != selectedUnit) continue;
                 side.Children.Add(Ui.Label($"Zdrowie {u.Health:0}% · siła {Engine.Strength(state, u):0} · doświadczenie {u.Experience}", 11, Ui.Muted));
                 UnitSupply(u);
+                if(u.EscortCaravanId is int convoy)
+                {
+                    side.Children.Add(Ui.Label($"Eskorta karawany #{convoy}. Wspólny marsz w fazie rynku, bez odpoczynku. Odwołaj przed samodzielnym marszem lub atakiem.",12,Ui.Gold));
+                    side.Children.Add(Ui.Button("Odwołaj eskortę oddziału",()=>{Do(Engine.CancelEscort(state,u.Id));TryAutoSave(false);}));
+                }
+                else foreach(var cargo in state.Caravans.Where(c=>c.Tile==u.Tile&&Caravans.Active(c)&&EscortOrders.AssignmentError(state,u,c)==null))
+                    side.Children.Add(Ui.Button("Eskortuj karawanę #"+cargo.Id,()=>{Do(Engine.AssignEscort(state,u.Id,cargo.Id));TryAutoSave(false);}));
                 if (u.Destination is int goal)
                 {
                     side.Children.Add(Ui.Label($"Marsz do ({state.Tiles[goal].X}, {state.Tiles[goal].Y}). Kontynuacja po zakończeniu tury.", 12, Ui.Gold));
                     side.Children.Add(Ui.Button("Anuluj rozkaz marszu", () => Do(Engine.CancelOrder(state, u.Id))));
                 }
-                if (tile?.Road == true && Engine.AtWar(state, 0, tile.RoadOwner))
+                if (u.EscortCaravanId==null&&tile?.Road == true && Engine.AtWar(state, 0, tile.RoadOwner))
                     side.Children.Add(Ui.Button("Zniszcz wrogą drogę · +20 złota", () => Do(Engine.PillageRoad(state, u.Id))));
                 if (u.Kind == UnitKind.Settler)
                     side.Children.Add(Ui.Button("Załóż miasto w tym miejscu", () => Do(Engine.FoundCity(state, u.Id)), true));

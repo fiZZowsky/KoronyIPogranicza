@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional diagnostic failure to verify process exit propagation.
+   at Crown.Desktop.MainWindow.Smoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\UiSmoke.cs:line 30

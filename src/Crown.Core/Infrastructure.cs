@@ -64,6 +64,7 @@ public static partial class Engine
         var u = s.Units.FirstOrDefault(u => u.Id == unitId && u.Owner == 0);
         if (s.Ending != null || u == null || u.Actions < 1 || u.Kind == UnitKind.Settler)
             return Result.Fail("Potrzebny oddział z co najmniej 1 punktem ruchu.");
+        if(u.EscortCaravanId!=null)return Result.Fail("Najpierw odwołaj eskortę, aby niszczyć drogi.");
         var tile = s.Tiles[u.Tile];
         if (!tile.Road || !AtWar(s, u.Owner, tile.RoadOwner)) return Result.Fail("Możesz zniszczyć drogę państwa, z którym toczysz wojnę.");
           DiplomaticCouncil.AddGrievance(s, tile.RoadOwner, u.Owner, 12);
