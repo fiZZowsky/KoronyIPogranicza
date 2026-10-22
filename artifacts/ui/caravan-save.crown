@@ -1,5 +1,5 @@
 {
-  "Version": 7,
+  "Version": 8,
   "Seed": 17421,
   "RandomState": 1725304554,
   "Width": 42,
@@ -17274,5 +17274,7 @@
     }
   ],
   "NextCaravanId": 2,
+  "TradeCases": [],
+  "PendingTradeCaseId": null,
   "NextId": 14
 }

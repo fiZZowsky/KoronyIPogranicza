@@ -16,6 +16,7 @@ public sealed partial class MainWindow
         var cargoes=state.Caravans.Where(c=>{var t=state.TradeContracts.First(t=>t.Id==c.ContractId);return t.Buyer==0||t.Seller==0;}).ToArray();
         side.Children.Add(Ui.Label($"Karawany w drodze: {cargoes.Count(Caravans.Active)} · dostarczone: {cargoes.Count(c=>c.Status==CaravanStatus.Delivered)} · utracone: {cargoes.Count(c=>c.Status==CaravanStatus.Lost)}",12,Ui.Gold));
         side.Children.Add(Ui.Button("Karawany i trasy",ShowCaravans));
+        side.Children.Add(Ui.Button($"Sprawy kupców i obietnice · {state.TradeCases.Count(c=>c.Status is TradeCaseStatus.Pending or TradeCaseStatus.Promised)}",ShowTradeCases));
         if(map.TrackedCaravanId>=0)side.Children.Add(Ui.Button("Zakończ śledzenie trasy",()=>{map.TrackedCaravanId=-1;map.InvalidateVisual();RefreshSide();}));
         side.Children.Add(Ui.Label($"Ostatni bilans kontraktów: {Ui.Signed(Markets.LastTradeBalance(state,0))} złota\nPodatki rynkowe: {state.Cities.Where(c=>c.Owner==0).Sum(c=>c.LastMarketTax):0.##} złota",12,Ui.Muted));
         side.Children.Add(Ui.Rule());

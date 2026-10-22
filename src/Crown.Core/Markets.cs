@@ -165,6 +165,7 @@ public static class Markets
             if(changed&&(contract.Buyer==0||contract.Seller==0))s.Log($"Umowa #{contract.Id}, {Name(contract.Good)}: {trade.Message} Ilość {trade.Quantity:0.##}, płatność {trade.Payment:0.##}.","handel");
         }
         s.LastMarketTurn=s.Turn;
+        TradeCouncil.Tick(s);
     }
 
     public static void ManageAi(GameState s,int owner)

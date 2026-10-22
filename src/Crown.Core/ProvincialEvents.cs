@@ -59,6 +59,7 @@ public static class ProvincialEvents
 
     public static NarrativeEvent Current(GameState s)
     {
+        if(s.PendingEvent==TradeCouncil.Event.Id)return TradeCouncil.Current(s);
         var e = Narrative.Get(s.PendingEvent!);
         if (!IsLocal(e.Id) || s.PendingCityId is not int id) return e;
         var city = s.Cities.FirstOrDefault(c => c.Id == id);

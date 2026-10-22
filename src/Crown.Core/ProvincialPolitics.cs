@@ -83,6 +83,7 @@ public static class ProvincialPolitics
             else { unit.Tile = refuge.Tile; unit.Destination = null; unit.Actions = 0; }
         }
         if (s.PendingCityId == city.Id && owner != 0) { s.PendingCityId = null; s.PendingEvent = null; }
+        TradeCouncil.OwnershipChanged(s,city);
         s.InvalidateLogistics();
     }
 }

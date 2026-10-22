@@ -1,5 +1,17 @@
 # Zmiany
 
+## 0.8 — Kupcy pamiętają · 22 października 2026
+
+- Utrata karawany importowej do własnego miasta otwiera kontekstową sprawę rady: konkretny manifest, towar, ilość, wartość zakupu i odbiorca. Otwarcie obniża poparcie ludu o 2 i zwiększa miejscowe niepokoje o 4. Limit jednej nowej delegacji z prowincji na dziesięć tur ogranicza powtarzanie spraw.
+- Trzy odpowiedzi: dodatkowe odszkodowanie równe zaokrąglonej w górę wartości zakupu, obietnica zastępczej dostawy albo bezpłatna odmowa. Każda ma jawne skutki społeczne lub miejscowe. Odszkodowanie nie odtwarza towaru i nie jest zwrotem od zagranicznego sprzedawcy.
+- Obietnica wskazuje towar, ilość, miasto i termin do fazy rynku tury decyzji +8. Rozlicza rzeczywiste zagraniczne przyjazdy, również wcześniej wysłanych karawan i kilka dostaw częściowych. Sam zakup, zapasy, produkcja, wcześniejsze przyjazdy oraz inny odbiorca lub towar nie wystarczają.
+- Dotrzymanie daje lud +6, stabilność +2, prestiż +5 oraz miejscowy dobrobyt +8 i niepokoje -6. Złamanie daje lud -10, stabilność -4, prestiż -5 (minimum 0), a we własnym mieście dobrobyt -6 i niepokoje +10. Wynik i zaliczone manifesty pozostają w historii. Skutki rozliczają się raz.
+- Przyjazd w ostatniej dozwolonej fazie może jeszcze spełnić obietnicę; późniejszy nie zmienia porażki. Utrata miasta zamyka delegację lub łamie podjętą obietnicę, bez nakładania miejscowej kary na nowego właściciela. Wygaśnięcie kontraktu nie usuwa opłaconych ładunków ani zobowiązania rady.
+- Nie można utrzymywać dwóch równoległych obietnic tego samego towaru dla jednego miasta ani wielokrotnie zaliczyć manifestu. Delegacje nie zastępują już otwartej sprawy rady; po jej zamknięciu nie muszą czekać na turę podzielną przez pięć.
+- Panel „Sprawy kupców i obietnice” pokazuje oczekujące delegacje, postęp, termin, zaliczone transporty i wynik. Pozwala otworzyć właściwy dialog i przejść do rynku miasta. Interfejs zgłasza rozliczenie obietnicy, a kronika zapisuje decyzję i konsekwencję.
+- Zapis v8 zachowuje kontekst dialogu i cały przebieg zobowiązania. Migracja v7 zachowuje karawany bez fikcyjnych spraw za dawne straty; nadpisanie tworzy `.v7.bak`. Odczyt v1–v6 nadal działa.
+- Osobne wydanie `wydanie-0.8/`; poprzednie katalogi, zapisy i paczki pozostają zachowane. Oprawa nadal jest mapą 2D; etap rozwija jeden wątek kupiecki, bez samodzielnych przedsiębiorstw i nowej klasy społecznej.
+
 ## 0.7 — Droga ma swoją cenę · 22 października 2026
 
 - Zagraniczne kontrakty wysyłają fizyczne karawany zamiast dostarczać towary natychmiast. Nabywca płaci przy załadunku; ładunek pozostaje poza magazynami do przybycia. Zużycie, podatki i ceny odbiorcy reagują dopiero na realny przyjazd.

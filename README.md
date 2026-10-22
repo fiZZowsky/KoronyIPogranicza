@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.7
+# Korony i Pogranicza · 0.8
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.7/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.7` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.8/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.8` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Droga ma swoją cenę.** Wersja 0.7 dodaje karawany z rzeczywistymi ładunkami, pozycją i czasem podróży. Drogi przyspieszają dostawy; zgody na tranzyt, osłona wojskowa i blokady decydują o ich dotarciu. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Kupcy pamiętają.** Wersja 0.8 wiąże straty transportów z delegacjami konkretnych miast. Rada może wypłacić pomoc, odmówić lub obiecać zastępczą dostawę. Obietnice są rozliczane na podstawie faktycznie przybyłych towarów i zmieniają poparcie, prestiż oraz sytuację prowincji. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -19,7 +19,7 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Miasta, ludność, wzrost i głód, sezonowe plony, eksploatacja pól, farmy, kopalnie, placówki handlowe, produkcja i utrzymanie.
 - 24 technologie z wymaganiami; 18 trwałych projektów miejskich, dwa projekty powtarzalne i sześć rodzajów oddziałów.
 - Lud, rody i uczeni: ich poparcie wpływa na docelową stabilność, a ta na gospodarkę. Ustawy zmieniają podatki, ustrój i priorytety.
-- 24 rodzaje wyjątkowych i lokalnych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
+- 25 rodzajów wyjątkowych i kontekstowych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta; delegacje kupców odnoszą się do konkretnych utraconych karawan. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
 - Dyplomacja: dary, handel, krzywdy, trzy powody wypowiedzenia wojny, odszkodowania, pakty o nieagresji i rozejmy. Posłowie wracają z odpowiedzią po dwóch turach. AI zakłada miasta, bada, buduje, ulepsza ziemię i prowadzi działania wojenne.
 - Negocjowany pokój z reparacjami i zwrotem miast, propozycjami AI, kontrofertami i terminem odpowiedzi. Historia wojny przechowuje ogłoszony cel, straty, bilans i końcowe rozliczenie obietnicy.
 - Walka wręcz i dystansowa, doświadczenie, obrona terenu, oblężenia i przejmowanie miast. Woda i góry blokują ruch. Armie poza zasięgiem dostaw słabną; odpoczynek leczy.
@@ -29,6 +29,7 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Lojalność i pamięć założycieli miast. Autonomia oddaje część dochodów za większą lojalność i kulturę; zarząd wojskowy wymaga garnizonu. Podbite miasto może wrócić do założycieli po trzech turach lojalności poniżej 20.
 - Fizyczne zapasy żelaza, soli i barwników, wydobycie z pracujących pól, regionalny popyt i ceny. Dostawy krajowe dzielą nadwyżkę w sieci drogowej. Kontrakty zagraniczne przenoszą towary i złoto; embargo, wojna i blokady przerywają dostawy.
 - Karawany poruszające się po heksach, podgląd trasy i czasu przybycia, tranzyt przez państwa trzecie, przechwytywanie przez wroga i osłona przez pobliskie wojska. Nabywca płaci przy wysyłce i ponosi ryzyko utraty.
+- Delegacje kupieckie po stratach importów, pomoc zależna od wartości manifestu i obietnice zastępczych dostaw do wskazanego miasta. Termin, postęp, manifesty i polityczny wynik pozostają w historii kampanii.
 - Zwycięstwo naukowe, kulturowe, przez zjednoczenie oraz punktowe po 320 turach. Kampania może zakończyć się wcześniej.
 - Zapis i wczytanie stanu JSON z walidacją, atomowym zastępowaniem pliku i zapisanym stanem generatora losowego. Autozapis po turze i decyzji rady; kronika przechowuje wybory oraz ich skutki.
 
@@ -117,6 +118,27 @@ Zużycie tworzy podatek od obrotu: 8%, 12% lub 18% wartości towarów przy niski
 
 Sprawa rady **Komu służy otwarty targ?** wiąże politykę handlową z poparciem i skarbem. Wybór embarga obejmuje teraz również już opłacone transporty. Ceny obejmują trzy towary; nie ma samodzielnych przedsiębiorstw kupieckich, frachtu morskiego ani kredytu.
 
+## Kupcy pamiętają: straty i obietnice
+
+Utrata importowej karawany do nadal własnego miasta może otworzyć **Wozy, które nie wróciły**. Delegacja odwołuje się do rzeczywistego manifestu, wartości zakupu, towaru i odbiorcy. Otwarcie sprawy oznacza lud -2 i miejscowe niepokoje +4. Jedno miasto otwiera najwyżej jedną nową sprawę na dziesięć tur, niezależnie od liczby strat. Straty eksportów do obcych odbiorców i straty po przejęciu miasta nie wywołują krajowej delegacji.
+
+W panelu **Rynek → Sprawy kupców i obietnice** można otworzyć oczekującą sprawę, przejrzeć zobowiązania oraz ich wyniki. Delegacja pojawia się też przy najbliższym planowaniu rady, bez czekania na turę podzielną przez pięć. Wcześniejsza sprawa rady musi najpierw otrzymać odpowiedź.
+
+| Odpowiedź | Koszt i bezpośredni skutek |
+|---|---|
+| Odszkodowanie | Koszt równy zapłaconej wartości utraconego ładunku, zaokrąglonej w górę do pełnego złota; lud +5, rody +2; w mieście dobrobyt +8, niepokoje -6 |
+| Obietnica zastępczej dostawy | Lud +2 teraz; trzeba sprowadzić ilość i rodzaj towaru z utraconego manifestu do wskazanego miasta, do fazy rynku tury decyzji +8 włącznie |
+| Odmowa pomocy | Bez opłaty; lud -5, rody -4; w mieście niepokoje +8 |
+
+Odszkodowanie jest dodatkową pomocą ze skarbu, nie zwrotem pierwotnej zapłaty od sprzedawcy. Nie odtwarza towarów. Odmowa pozostaje dostępna także przy pustym skarbie. Wszystkie skutki społeczne i miejscowe podlegają zwykłym granicom 0–100.
+
+Obietnicę wypełnia suma **faktycznych zagranicznych przyjazdów po decyzji**, z właściwym towarem i odbiorcą. Można zsumować kilka częściowych dostaw; liczy się również karawana wysłana wcześniej, która dopiero dotrze. Nie liczą się wcześniejsze przyjazdy, samo opłacenie ładunku, własne zapasy, produkcja, wymiana krajowa, inny towar ani inne miasto. Nie można utrzymywać dwóch obietnic tego samego towaru dla jednej prowincji ani rozliczyć tego samego manifestu dwukrotnie. Wygaśnięcie kontraktu nie usuwa obietnicy: liczy się przybycie opłaconego transportu.
+
+- **Dotrzymane słowo:** lud +6, stabilność +2, prestiż +5; w mieście dobrobyt +8 i niepokoje -6.
+- **Złamana obietnica:** lud -10, stabilność -4, prestiż -5 (minimum 0); we własnym mieście dobrobyt -6 i niepokoje +10.
+
+Ostatnia dozwolona faza najpierw rozlicza przyjazdy, a dopiero potem ewentualną porażkę. Spóźniona dostawa nie zmienia już wyniku. Utrata miasta zamyka nierozpatrzoną delegację, a podjętą obietnicę łamie; nowy właściciel nie otrzymuje dodatkowej kary miejscowej. Każdy wynik rozlicza się raz i trafia do kroniki. Zapis zachowuje termin oraz identyfikatory zaliczonych ładunków. To rozbudowa jednego wątku kupieckiego; nie ma jeszcze osobnych przedsiębiorstw, dowolnie składanych obietnic ani złożonych osobowości kupców.
+
 ## Poselstwa i uzasadnienia wojny
 
 W **Dyplomacji** wybierz **Negocjuj warunki**. Podróż kosztuje 20 złota. Odszkodowanie wymaga co najmniej 30 krzywd; przyjęcie przynosi 80 złota i zużywa 30 krzywd. Pakt o nieagresji blokuje wypowiedzenie wojny przez obie strony przez 15 tur od odpowiedzi. Przyjęcie poprawia relacje o 5, odmowa obniża je o 5. Do tego samego państwa nowe warunki można wysłać po dziesięciu turach. Jedna rozmowa na państwo na turę obejmuje także dary i traktaty.
@@ -177,7 +199,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.7/saves/`. Format v7 przechowuje manifesty, pozycje, postoje i los karawan; odczytuje v1–v6. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v6.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.8/saves/`. Format v8 przechowuje delegacje, decyzje, obietnice, terminy, wyniki i zaliczone manifesty; odczytuje v1–v7. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v7.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -186,7 +208,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.7 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.8 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -200,6 +222,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 - `WarCouncil.cs`, `PeaceCouncil.cs`, `WarSaveRules.cs`: ogłoszone cele, bilans, rokowania, kontroferty, ratyfikacja i walidacja historii konfliktu.
 - `Markets.cs`, `TradeActions.cs`, `MarketSaveRules.cs`, `MarketCouncil.cs`: produkcja i zużycie towarów, ceny, kontrakty, polityka handlowa, dialog oraz walidacja bilansów.
 - `Caravans.cs`, `CaravanSaveRules.cs`: ruch ładunków, tranzyt, osłona, postoje, przechwytywanie i walidacja manifestów.
+- `TradeCouncil.cs`, `TradeCaseSaveRules.cs`: delegacje po stratach, dynamiczne dialogi, obietnice zależne od przyjazdów i walidacja ich historii.
 - `src/Crown.Desktop`: natywny interfejs WPF, rysowanie mapy, proceduralne materiały terenu i sterowanie.
 - `tests/Crown.Specs`: wykonywalne specyfikacje bez bibliotek testowych; symulacje kampanii i test odtwarzalności zapisu.
 - `DESIGN.md`: założenia projektu, ograniczenia i kierunek dalszych etapów.

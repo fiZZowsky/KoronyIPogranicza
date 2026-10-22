@@ -123,4 +123,25 @@ PASS A captured endpoint terminates cargo while preserving its historical paymen
 PASS Reload during travel preserves positions, manifests and deterministic arrival
 PASS V6 migration keeps paid trade history and never invents retroactive caravans
 PASS Save validation rejects duplicate, unbacked and impossible caravan manifests
-121 specifications passed in 9,2s.
+PASS A real import loss opens one contextual petition with local political cost
+PASS Compensation spends the exact rounded loss once without inventing goods
+PASS Unfunded compensation is atomic and a free refusal remains available
+PASS A replacement promise requires actual arrivals and settles its reward once
+PASS Partial arrival manifests accumulate across shipments before the deadline
+PASS Wrong commodities and pre-existing warehouse stocks do not satisfy a promise
+PASS Earlier arrivals cannot be reused for a promise made after their market phase
+PASS Deliveries to another own city do not satisfy the named province's promise
+PASS An already travelling caravan can fulfill a later promise upon its arrival
+PASS Deadline failure applies political and local penalties exactly once
+PASS Arrival during the final permitted market phase fulfills rather than breaks the pledge
+PASS Arrivals after the deadline never repair a broken promise retroactively
+PASS Losing the petition city closes an undecided case without blocking the council
+PASS Losing a promised city breaks the word without changing the new owner's province
+PASS Repeated losses from one province respect the ten-turn delegation interval
+PASS Export losses do not create a domestic buyer's petition
+PASS Overlapping promises for one city and commodity are rejected before applying effects
+PASS Presenting a trade petition cannot overwrite another pending council event
+PASS Trade petitions and partially fulfilled promises continue deterministically after reload
+PASS V7 migration preserves caravan losses without inventing retroactive petitions
+PASS Save validation rejects forged losses, deadlines, progress and council context
+142 specifications passed in 10,9s.

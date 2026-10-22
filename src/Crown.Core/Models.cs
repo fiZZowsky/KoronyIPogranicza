@@ -14,6 +14,7 @@ public enum TradeGood { Iron, Salt, Dyes }
 public enum TradePolicy { DomesticFirst, OpenExports, Embargo }
 public enum ContractStatus { Active, Cancelled, Expired }
 public enum CaravanStatus { Travelling, Waiting, Delivered, Lost }
+public enum TradeCaseStatus { Pending, Compensated, Promised, Fulfilled, Broken, Declined, Voided }
 public sealed class Tile
 {
     public int Id { get; set; }
@@ -186,7 +187,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 7;
+    public int Version { get; set; } = 8;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -217,6 +218,8 @@ public sealed class GameState
     public string? Ending { get; set; }
     public List<Caravan> Caravans { get; set; } = [];
     public int NextCaravanId { get; set; } = 1;
+    public List<TradeCase> TradeCases { get; set; } = [];
+    public int? PendingTradeCaseId { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
     internal Dictionary<int, SupplyMap> LogisticsCache = [];
@@ -290,6 +293,19 @@ public sealed class Caravan
     public double Payment { get; set; }
     public CaravanStatus Status { get; set; }
     public string Message { get; set; } = "Załadowano towar. Wyruszy w następnej turze.";
+}
+public sealed class TradeCase
+{
+    // The lost caravan is also the unique identifier of its petition.
+    public int CaravanId { get; set; }
+    public int OpenedTurn { get; set; }
+    public TradeCaseStatus Status { get; set; }
+    public int? Decision { get; set; }
+    public int? DecidedTurn { get; set; }
+    public int? DeadlineTurn { get; set; }
+    public int? AfterMarketTurn { get; set; }
+    public int? ResolvedTurn { get; set; }
+    public List<int> CreditedCaravans { get; set; } = [];
 }
 public sealed record CombatPreview(bool Valid, string Reason, string Attacker, string Target,
     double AttackStrength = 0, double DefenseStrength = 0, double TargetHealth = 0,

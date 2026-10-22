@@ -1,0 +1,23 @@
+# Weryfikacja wydania 0.8
+
+Data: 22 października 2026 r. Windows, .NET SDK 10.0.401, .NET Desktop Runtime 10.0.12.
+
+- Kompilacja Release: sukces, 0 ostrzeżeń i 0 błędów. Opublikowany program ma wersję pliku 0.8.0.0.
+- **142 specyfikacje silnika**: sukces (`core-specs.txt`), w tym 21 nowych scenariuszy delegacji i obietnic. Kontrola wszystkich gałęzi narracyjnych korzysta dla nowego dialogu z rzeczywistego kontekstu utraconego transportu.
+- **82 kontrole WPF**: sukces (`ui/ui-smoke.txt`), w tym 12 nowych. Opublikowane wydanie przeszło te same kontrole (`published-ui-0.8/ui-smoke.txt`).
+- Rzeczywista strata importu otwiera jedną sprawę właściwego miasta i manifestu, z miejscowymi niepokojami i zmianą poparcia. Ponowne przeliczenie nie powtarza sprawy ani jej kosztu. Rozpatrzenie nie czeka na turę podzielną przez pięć i blokuje dalszą turę jak pozostałe sprawy rady.
+- Odszkodowanie pobiera dokładną, zaokrągloną w górę wartość pierwotnej płatności i nie odtwarza towarów. Powtórna odpowiedź nie płaci drugi raz. Brak środków odrzuca wybór bez zmiany stanu; odmowa pozostaje bezpłatną możliwością.
+- Obietnica wymaga rzeczywistych przyjazdów. Sam zakup, zapasy, inny towar, inne miasto i przyjazd sprzed decyzji nie dają postępu. Częściowe przyjazdy sumują się. Wcześniej wysłana karawana może zostać zaliczona, jeśli dopiero przyjedzie po podjęciu zobowiązania.
+- Sukces daje opisane poparcie, stabilność, prestiż i miejscowe skutki dokładnie raz. Ostatnia dozwolona faza rynku najpierw rozlicza przyjazdy, więc dostawa w terminie ratuje zobowiązanie. Brak dostawy powoduje porażkę z karami dokładnie raz. Późniejszy przyjazd nie zmienia wyniku.
+- Utrata miasta zamyka oczekującą delegację i usuwa jej kontekst z rady. Podjętą obietnicę łamie, ale nie dodaje miejscowej kary nowemu właścicielowi. Straty eksportów do obcych odbiorców nie tworzą krajowych delegacji. Kolejne straty tej samej prowincji respektują odstęp dziesięciu tur.
+- Druga równoległa obietnica tego samego towaru dla jednego miasta jest odrzucana przed zmianą poparcia. Inna aktywna sprawa rady nie może zostać nadpisana przez delegację.
+- Zapis v8 zachowuje oczekujący dialog, postęp, terminy, rozstrzygnięcia i zaliczone manifesty. Wczytanie częściowo wykonanej obietnicy prowadzi do identycznych dalszych wyników. Walidacja odrzuca nieistniejącą stratę, podmienione terminy, nieprzybyłe ładunki, fałszywy sukces i błędny kontekst rady.
+- Migracja v7 zachowuje karawany i płatności bez delegacji za dawne straty. Nadpisanie tworzy oryginalną kopię `.v7.bak`. Scenariusze migracji i kopii v1–v6 również przechodzą.
+- WPF: panel spraw, otwarcie wskazanej delegacji, dynamiczne miasto i kwota pomocy, zapis i wczytanie nierozpatrzonej sprawy, wszystkie trzy odpowiedzi, tworzenie datowanej obietnicy, zakup niewypełniający jeszcze zobowiązania, zapis podczas transportu, sukces po rzeczywistym przyjeździe, rejestr zaliczonych manifestów, porażka po terminie oraz dostęp do kontrolek w mniejszym oknie.
+- Wizualnie obejrzano rendery dialogu i raportu sukcesu oraz porażki przy mniejszym oknie. Raport sukcesu opublikowanego programu także został obejrzany. Są to rzeczywiste rendery WPF RenderTargetBitmap, bez przechwytywania pulpitu.
+- Scenariusze WPF są przygotowane: złoto, targowiska, technologie, zapasy i międzynarodowa droga. Stratę przygotowano, przetwarzając trzy zablokowane fazy rynku rzeczywistej karawany bez dodatkowych faz wzrostu i ruchu AI. Następnie standardowe przyciski tur rozliczyły transport zastępczy i termin. Wcześniejsza kontrola polityki przesuwa numer tury po jednym postoju. To kontrola integracji, nie standardowy start ani pomiar balansu.
+- Cztery pasywne kampanie zakończyły się po 135, 140, 128 i 110 turach dla ziaren 17421, 2026, 8 i 99. Maksymalne liczby miast: 20, 16, 18, 16. Wszystkie zakończyły się utratą ostatniego miasta gracza. Kontrolują integralność, nie jakość balansu dla człowieka.
+- Opublikowana diagnostyka po celowym błędzie zwróciła oczekiwany kod 3 (`process-exit-check.txt`). `diagnostics-0.8/` zawiera opis tej oczekiwanej awarii testowej.
+- `wydanie-0.8/` i `Korony-i-Pogranicza-0.8-Windows.zip` zawierają program oraz dokumentację. ZIP nie zawiera zapisów. Jeden istniejący zapis skopiowano bez nadpisywania i potwierdzono zgodność bajtową z 0.7. Dawne katalogi i paczki pozostały zachowane; suma SHA256 archiwum 0.7 jest niezmieniona. Diagnostyka nie wykonuje autozapisu w katalogu gry.
+
+Nadal potrzebne są rozgrywki z ludźmi, balans oraz testy sprzętowe i DPI. Etap rozwija jeden wątek kupiecki, bez odrębnej klasy społecznej, autonomicznych przedsiębiorstw i dowolnego systemu składania obietnic. Dotyczy importów trzech istniejących towarów. Oprawa nadal jest mapą 2D.

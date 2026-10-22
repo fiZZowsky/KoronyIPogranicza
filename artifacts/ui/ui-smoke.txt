@@ -68,4 +68,16 @@ PASS Contract expiry preserves its prepaid cargo in transit
 PASS Trade form can open a new agreement after the old one expires
 PASS Contract cancellation button closes the new agreement without deleting earlier cargo
 PASS Compact layout keeps the market and turn controls usable
-70 desktop integration checks passed.
+PASS Market petition report exposes a real import loss
+PASS Petition button opens the council for the affected city and manifest
+PASS Desktop reload preserves an unanswered contextual petition
+PASS Compensation button spends the actual loss without replacing goods
+PASS Refusal button resolves the local petition without creating a promise
+PASS Promise choice creates a dated replacement obligation
+PASS Buying replacement cargo does not fulfill the promise before arrival
+PASS Desktop reload preserves a promise and its replacement caravan in transit
+PASS Turn handlers fulfill the obligation only when replacement goods arrive
+PASS Fulfilled promise records the actual manifests and political consequence
+PASS Passing the deadline without replacement goods breaks the promise
+PASS Compact promise report keeps its return control visible or reachable by scrolling
+82 desktop integration checks passed.

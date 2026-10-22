@@ -202,6 +202,47 @@ public sealed partial class MainWindow
             Click("Rozwiąż umowę #2");Check(state.TradeContracts[1].Status==ContractStatus.Cancelled&&state.Caravans.Any(Caravans.Active),"Contract cancellation button closes the new agreement without deleting earlier cargo");
             Width=1200;Height=800;Refresh();await Capture("market-compact");Check(endButton.IsVisible&&root.ActualWidth>=1100,"Compact layout keeps the market and turn controls usable");
             Width=1600;Height=980;Refresh();await Capture("markets-final");
+            // Reuse the real travelling manifest, then process three blocked market phases to prepare a loss.
+            var petitionWorld=SaveGame.Read(transitPath);petitionWorld.Player.TradePolicy=TradePolicy.Embargo;Engine.CancelTradeContract(petitionWorld,1);
+            for(int i=0;i<3;i++){Markets.Tick(petitionWorld);petitionWorld.Turn++;petitionWorld.InvalidateLogistics();}
+            petitionWorld.Player.TradePolicy=TradePolicy.DomesticFirst;Start(petitionWorld);tab="markets";RefreshSide();
+            Click("Sprawy kupców i obietnice");Check(state.TradeCases.Count==1&&state.TradeCases[0].Status==TradeCaseStatus.Pending,"Market petition report exposes a real import loss");await Capture("trade-petitions");
+            Click("Rozpatrz sprawę #1");var petitionCity=TradeCouncil.City(state,state.TradeCases[0]);
+            Check(state.PendingTradeCaseId==1&&ProvincialEvents.Current(state).Title.Contains(petitionCity.Name),"Petition button opens the council for the affected city and manifest");await Capture("trade-loss-council");
+            string petitionPath=Path.Combine(folder,"trade-petition-save.crown");SaveGame.Write(state,petitionPath);string petitionBefore=SaveGame.Serialize(state);LoadPath(petitionPath);
+            Check(SaveGame.Serialize(state)==petitionBefore&&overlay!=null,"Desktop reload preserves an unanswered contextual petition");
+            double compensationGold=state.Player.Gold,compensationStock=TradeCouncil.City(state,state.TradeCases[0]).MarketStocks[TradeGood.Salt];int compensation=(int)Math.Ceiling(state.Caravans[0].Payment);
+            Click("01   Wypłacimy");Check(state.TradeCases[0].Status==TradeCaseStatus.Compensated&&state.Player.Gold==compensationGold-compensation&&TradeCouncil.City(state,state.TradeCases[0]).MarketStocks[TradeGood.Salt]==compensationStock,"Compensation button spends the actual loss without replacing goods");
+            LoadPath(petitionPath);Click("03   Rada nie");Check(state.TradeCases[0].Status==TradeCaseStatus.Declined&&state.PendingTradeCaseId==null,"Refusal button resolves the local petition without creating a promise");
+            LoadPath(petitionPath);Click("02   Dostarczymy");
+            Check(state.TradeCases[0].Status==TradeCaseStatus.Promised&&state.TradeCases[0].DeadlineTurn==state.Turn+TradeCouncil.PromiseTurns,"Promise choice creates a dated replacement obligation");
+            tab="markets";RefreshSide();Click("Sprawy kupców i obietnice");await Capture("trade-promise-active");CloseModal();
+            string promisePath=Path.Combine(folder,"trade-promise-save.crown");SaveGame.Write(state,promisePath);
+            Click("Podpisz kontrakt handlowy");root.UpdateLayout();var promiseInputs=Descendants<ComboBox>(overlay!).ToArray();promiseInputs[3].SelectedIndex=1;promiseInputs[4].SelectedIndex=3;Click("Podpisz umowę");Advance();CloseModal();
+            Check(TradeCouncil.Progress(state,state.TradeCases[0])==0&&state.Caravans.Any(Caravans.Active),"Buying replacement cargo does not fulfill the promise before arrival");
+            string movingPromisePath=Path.Combine(folder,"trade-promise-transit-save.crown");SaveGame.Write(state,movingPromisePath);string movingBefore=SaveGame.Serialize(state);LoadPath(movingPromisePath);CloseModal();
+            Check(SaveGame.Serialize(state)==movingBefore,"Desktop reload preserves a promise and its replacement caravan in transit");
+            void PromiseTurn()
+            {
+                if(state.PendingEvent!=null)
+                {
+                    ShowCouncil();var e=ProvincialEvents.Current(state);int option=Array.FindIndex(e.Choices,c=>state.Player.Gold+c.Gold>=0);Click($"{option+1:00}   ");
+                }
+                Advance();CloseModal();
+            }
+            for(int i=0;i<10&&state.TradeCases[0].Status==TradeCaseStatus.Promised;i++)PromiseTurn();
+            Check(state.TradeCases[0].Status==TradeCaseStatus.Fulfilled&&TradeCouncil.Progress(state,state.TradeCases[0])==state.Caravans[0].Quantity,"Turn handlers fulfill the obligation only when replacement goods arrive");
+            Check(state.TradeCases[0].CreditedCaravans.Count>0&&state.Chronicle.Any(c=>c.Category=="konsekwencja"&&c.Text.Contains("słowo dotrzymane")),"Fulfilled promise records the actual manifests and political consequence");
+            string fulfilledPath=Path.Combine(folder,"trade-promise-fulfilled-save.crown");SaveGame.Write(state,fulfilledPath);
+            tab="markets";RefreshSide();Click("Sprawy kupców i obietnice");await Capture("trade-promise-fulfilled");CloseModal();
+            LoadPath(promisePath);CloseModal();for(int i=0;i<11&&state.TradeCases[0].Status==TradeCaseStatus.Promised;i++)PromiseTurn();
+            Check(state.TradeCases[0].Status==TradeCaseStatus.Broken&&state.TradeCases[0].ResolvedTurn==state.TradeCases[0].DeadlineTurn,"Passing the deadline without replacement goods breaks the promise");
+            tab="markets";RefreshSide();Click("Sprawy kupców i obietnice");await Capture("trade-promise-broken");
+            Width=1200;Height=800;root.UpdateLayout();await Capture("trade-promise-compact");
+            var returnControl=Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Wróć do mapy");
+            var returnBounds=returnControl.TransformToAncestor(root).TransformBounds(new Rect(returnControl.RenderSize));
+            Check(returnBounds.Top>=0&&returnBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact promise report keeps its return control visible or reachable by scrolling");
+            Width=1600;Height=980;LoadPath(fulfilledPath);CloseModal();tab="markets";RefreshSide();Click("Sprawy kupców i obietnice");await Capture("trade-promise-final");
             checks.Add($"{checks.Count} desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }
         catch(Exception e){checks.Add(e.ToString());File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Application.Current.Shutdown(3);}
