@@ -1,5 +1,16 @@
 # Zmiany
 
+## 0.13 — Utrzymać pozycję · 22 października 2026
+
+- Stały rozkaz okopywania: pełny ruch za przygotowanie, +20% siły obronnej po pierwszym rozliczeniu tury, +40% po drugim. Premia dotyczy oddziału, uwzględnia zdrowie i dostawy, a dodatek terenu jest liczony osobno. Nie wzmacnia natarcia ani nie jest przenoszona do miejskich murów.
+- Rekonwalescencja do pełnego zdrowia: 20 zdrowia/turę z dostawami lub 28 po Medycynie; automatyczne przywrócenie gotowości. Trafienie przeciwnika przerywa rozkaz. Bez dostaw tylko 3 leczenia i zwykłe 5 strat, z dotychczasowym wyjątkiem zwiadowców. Brak bezpłatnego leczenia przy wydaniu rozkazu.
+- Wydanie lub zmiana wymaga pełnego ruchu. Odwołanie nie zwraca punktów; w następnej turze dostępny jest nowy zapas. Marsz, atak, niszczenie drogi i przydział eskorty porzucają pozycje. Nieprawidłowe polecenie oraz zamknięcie podglądu walki zachowuje je. Przymusowe wycofanie usuwa przygotowanie.
+- Panel rozkazów pokazuje warunki, poziom umocnień, leczenie i straty za brak zaopatrzenia. Przegląd armii odnajduje wszystkie oddziały i prowadzi do ich pozycji. Tab pomija stałe rozkazy i eskorty. Na mapie pojawiają się znaczniki F0–F2 i +.
+- Podgląd walki opisuje umocnienia przeciwnika i utratę własnych przy ataku. Używa tej samej formuły co rzeczywista walka, także przy ostrzale. Przygotowane pozycje pozostają po obronie, dopóki oddział żyje.
+- AI okopuje stacjonujące w pobliżu miast oddziały bojowe i kieruje rannych z dostawami na rekonwalescencję. Marsze, ofensywy i odwrót nadal korzystają z dotychczasowych heurystyk.
+- Format v13 zapisuje rozkaz i stopień przygotowania. Migracja v12 zachowuje gospodarkę, plany produkcji, eskorty i marsze bez fikcyjnych umocnień. Nadpisanie starszego pliku zachowuje również `.v12.bak`. Walidacja odrzuca sprzeczne rozkazy i niemożliwe stopnie przygotowania.
+- Osobne wydanie `wydanie-0.13/`; starsze wydania, paczki i zapisy pozostają zachowane. To obrona pozycyjna i odpoczynek w istniejącym modelu walki, bez osobnych modeli oblężenia, morale i obozów na mapie. Oprawa nadal jest teksturowaną mapą 2D.
+
 ## 0.12 — Miasta z planem · 22 października 2026
 
 - Trwałe kolejki produkcji: do ośmiu oczekujących zleceń na miasto, dodawanie, usuwanie, przesuwanie i rozpoczęcie pierwszego od razu. Edycja przyszłych pozycji nie zmienia obecnego projektu, postępu ani skarbca.

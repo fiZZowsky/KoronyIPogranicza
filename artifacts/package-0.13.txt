@@ -1,0 +1,6 @@
+Package: Korony-i-Pogranicza-0.13-Windows.zip
+Bytes: 3552929
+Entries: 13
+SHA256: B71FB858085034AFEF281DBEA0EE7CFA496BB18BFFE262CA3FF1460ECD672726
+All entry hashes match published files. No saves or temporary files.
+Previous 0.12 archive and copied save hashes unchanged.

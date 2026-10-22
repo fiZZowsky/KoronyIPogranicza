@@ -1,5 +1,5 @@
 {
-  "Version": 12,
+  "Version": 13,
   "Seed": 17421,
   "RandomState": 1412161214,
   "Width": 42,
@@ -16855,6 +16855,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "None",
+      "FortificationTurns": 0,
       "Experience": 0
     },
     {
@@ -16866,6 +16868,8 @@
       "Actions": 3,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "None",
+      "FortificationTurns": 0,
       "Experience": 0
     },
     {
@@ -16877,6 +16881,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     },
     {
@@ -16888,6 +16894,8 @@
       "Actions": 1,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "None",
+      "FortificationTurns": 0,
       "Experience": 0
     },
     {
@@ -16899,6 +16907,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     },
     {
@@ -16910,6 +16920,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "None",
+      "FortificationTurns": 0,
       "Experience": 0
     },
     {
@@ -16921,6 +16933,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     },
     {
@@ -16932,6 +16946,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "None",
+      "FortificationTurns": 0,
       "Experience": 0
     },
     {
@@ -16943,6 +16959,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     },
     {
@@ -16954,6 +16972,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     },
     {
@@ -16965,6 +16985,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     },
     {
@@ -16976,6 +16998,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     },
     {
@@ -16987,6 +17011,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     },
     {
@@ -16998,6 +17024,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "Order": "Fortify",
+      "FortificationTurns": 2,
       "Experience": 0
     }
   ],

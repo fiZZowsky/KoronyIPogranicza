@@ -145,11 +145,11 @@ internal static class StageNineSpecs
         test("V8 migration preserves promises and caravans without retroactive escort assignments",()=>
         {
             var (s,cargo,u)=Fixture();Assign(s,u,cargo);var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=8;foreach(var unit in node["Units"]!.AsArray())unit!.AsObject().Remove("EscortCaravanId");string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version==12&&loaded.Caravans[0].Payment==cargo.Payment&&loaded.Units.All(v=>v.EscortCaravanId==null),"Migration assigned a guard or lost cargo history.");
+            Assert(loaded.Version==13&&loaded.Caravans[0].Payment==cargo.Payment&&loaded.Units.All(v=>v.EscortCaravanId==null),"Migration assigned a guard or lost cargo history.");
             var (promises,_,_)=StageEightSpecs.Loss();TradeCouncil.Present(promises,1);Narrative.Resolve(promises,1);var promiseNode=JsonNode.Parse(SaveGame.Serialize(promises))!;promiseNode["Version"]=8;
             var preserved=SaveGame.Deserialize(promiseNode.ToJsonString());Assert(preserved.TradeCases[0].Status==TradeCaseStatus.Promised&&preserved.TradeCases[0].DeadlineTurn==promises.TradeCases[0].DeadlineTurn,"V8 migration lost an active promise.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v8-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v8.bak")==legacy&&SaveGame.Read(path).Version==12,"V8 backup missing.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v8.bak")==legacy&&SaveGame.Read(path).Version==13,"V8 backup missing.");}
             finally{File.Delete(path);File.Delete(path+".v8.bak");}
         });
         test("Save validation rejects unknown, remote, civilian, duplicated and conflicting escort orders",()=>

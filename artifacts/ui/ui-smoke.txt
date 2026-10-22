@@ -131,4 +131,22 @@ PASS Missing education blocks the project without silently skipping it or bankin
 PASS A later technology discovery unlocks the waiting planned building
 PASS Clearing pending work leaves the active city project intact
 PASS Compact production plan keeps controls reachable through scrolling
-133 desktop integration checks passed.
+PASS Military panel spends full movement without granting immediate defense
+PASS Spent movement disables a conflicting recovery order
+PASS Wake control clears standing orders without refunding movement
+PASS Actual turn processing builds the first twenty-percent defensive stage
+PASS Next-unit shortcut skips prepared troops while leaving active troops selectable
+PASS Army overview selects and centers a troop omitted by the ready-unit shortcut
+PASS Second turn reaches the forty-percent defensive cap
+PASS Desktop reload retains completed works and active standing orders
+PASS Combat dialog explains enemy works and excludes own defensive bonus from attack
+PASS Dismissing a combat preview keeps prepared works
+PASS Confirmed attack abandons own works and matches fortified target forecast
+PASS Recovery control replaces works without instant treatment
+PASS Supplied recovery heals twenty through real turn processing
+PASS Desktop reload retains partial treatment and reserved order
+PASS Completed treatment automatically returns the troop to ready selection
+PASS Remote order report warns that treatment cannot replace supply
+PASS Unsupplied treatment applies three healing and five attrition without falsely waking
+PASS Compact military panel keeps its orders and return reachable by scrolling
+151 desktop integration checks passed.

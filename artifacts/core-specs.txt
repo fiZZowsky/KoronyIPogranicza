@@ -17,10 +17,10 @@ PASS Settling validates distance and creates territory
 PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
-  seed 17421: 191 turns, 17 cities, 53 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 135 turns, 16 cities, 51 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 8: 246 turns, 16 cities, 56 units; Liga Talassu: zwycięstwo kulturowe. Historia zapamięta podjęte decyzje.
-  seed 99: 161 turns, 19 cities, 71 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 17421: 160 turns, 18 cities, 46 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 135 turns, 16 cities, 50 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 209 turns, 16 cities, 53 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 99: 129 turns, 21 cities, 71 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
 PASS Road quotes, atomic funding and economy reconciliation
@@ -234,4 +234,33 @@ PASS Planning forecasts and repeated presentation never change accumulated work 
 PASS Paused, repeated and blocked queues continue deterministically after reload
 PASS V11 migration preserves an unanswered audit and active project without inventing queue orders
 PASS Save validation rejects oversized, unknown, null and impossible repeating production plans
-232 specifications passed in 13,3s.
+PASS Fortification spends all movement, replaces a march and grants no instant bonus
+PASS Fortification grows once per completed turn and caps at forty percent
+PASS Wake and repeated preparation cannot refund movement or create readiness
+PASS Orders reject exhausted, foreign, settler, unknown and ended inputs atomically
+PASS A duplicate standing order neither consumes readiness nor starts it again
+PASS Pure combat preview multiplies unit defense before adding terrain
+PASS Actual combat matches fortified preview and preserves the defender's position
+PASS Ranged damage respects fortifications without a counterattack
+PASS Prepared nearby troops never multiply an ungarrisoned city's walls
+PASS Launching an attack abandons works and never boosts offensive strength
+PASS A successful march clears works while rejected movement preserves them
+PASS Queued movement breaks preparation even before its first step without healing
+PASS Pillaging a road consumes movement and abandons fortifications
+PASS Escort assignment abandons works and prevents conflicting rest commands
+PASS Recovery heals faster, finishes at full health and wakes exactly once
+PASS Medicine improves supplied recovery and ordinary rest at their own rates
+PASS Ordinary fortification heals normally rather than receiving recovery twice
+PASS Unsupplied recovery applies weak healing then attrition and never falsely completes
+PASS Unsupplied scout recovery retains its existing attrition exemption
+PASS Enemy fire interrupts recovery without granting any defensive works
+PASS Switching from entrenchment to recovery discards all old preparation
+PASS Full-health units cannot buy unnecessary recovery
+PASS Evacuation after sovereignty transfer removes works from the displaced unit
+PASS AI prepares stationary garrisons and treats its supplied wounded
+PASS Peace withdrawal removes prepared works instead of transporting them home
+PASS Market projections retain and never mutate standing military orders
+PASS Standing orders and partially completed works continue identically after reload
+PASS V12 migration retains production and audit data without inventing prepared positions
+PASS Military save validation rejects impossible readiness and conflicting orders
+261 specifications passed in 16,4s.

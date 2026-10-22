@@ -75,7 +75,7 @@ public static class PeaceCouncil
             var refuge=s.Cities.Where(c=>c.Owner==owner&&!s.Units.Any(u=>u.Owner!=owner&&u.Owner!=other&&u.Tile==c.Tile))
                 .OrderBy(c=>World.Distance(s.Tiles[unit.Tile],s.Tiles[c.Tile])).ThenBy(c=>c.Id).FirstOrDefault();
             if(refuge==null)s.Units.Remove(unit);
-            else{unit.Tile=refuge.Tile;unit.Destination=null;unit.Actions=0;}
+            else{MilitaryOrders.Clear(unit);unit.Tile=refuge.Tile;unit.Destination=null;unit.Actions=0;}
         }
     }
 

@@ -4,6 +4,7 @@ public enum Terrain { Ocean, Coast, Grassland, Forest, Hills, Mountain, Desert, 
 public enum Resource { None, Grain, Iron, Horses, Stone, Salt, Dyes }
 public enum Improvement { None, Farm, Mine, TradingPost }
 public enum UnitKind { Scout, Spearmen, Archer, Cavalry, Settler, Catapult }
+public enum MilitaryOrder { None, Fortify, Recover }
 public enum CityFocus { Balanced, Agriculture, Industry, Scholarship }
 public enum Governance { Integrated, Autonomous, Military }
 public enum WarReason { Conquest, Redress, Liberation }
@@ -88,6 +89,8 @@ public sealed class Unit
     public double Actions { get; set; } = 2;
     public int? Destination { get; set; }
     public int? EscortCaravanId { get; set; }
+    public MilitaryOrder Order { get; set; }
+    public int FortificationTurns { get; set; }
     public int Experience { get; set; }
     public int MaxActions => Kind is UnitKind.Scout or UnitKind.Cavalry ? 3 : 2;
 }
@@ -198,7 +201,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 12;
+    public int Version { get; set; } = 13;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;

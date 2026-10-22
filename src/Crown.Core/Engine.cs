@@ -208,12 +208,7 @@ public static partial class Engine
             if(f.Stability<25){foreach(var c in s.Cities.Where(c=>c.Owner==f.Id))c.Unrest=Math.Min(90,c.Unrest+8);f.Gold=Math.Max(0,f.Gold-15);}
             Clamp(f);
         }
-        foreach(var u in s.Units.ToArray())
-        {
-            if(u.Actions==u.MaxActions&&u.Destination==null&&u.EscortCaravanId==null)u.Health=Math.Min(100,u.Health+(Supplied(s,u)?s.Factions[u.Owner].Technologies.Contains("medicine")?20:12:3));
-            if(!Supplied(s,u)&&u.Kind!=UnitKind.Scout&&u.Kind!=UnitKind.Settler)u.Health=Math.Max(10,u.Health-5);
-            u.Actions=u.MaxActions;
-        }
+        foreach(var u in s.Units.ToArray())MilitaryOrders.FinishTurn(s,u);
         ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         AuditCouncil.Tick(s);
         foreach(string notice in TransitCouncil.Notices(s))s.Log(notice,"tranzyt");
@@ -273,7 +268,8 @@ public static partial class Engine
             foreach(var u in s.Units.Where(u=>u.Owner==f.Id).ToArray())
             {
                 if(u.EscortCaravanId!=null)continue;
-                if(u.Health<45&&Supplied(s,u))continue;
+                if(u.Kind!=UnitKind.Settler&&Supplied(s,u)&&(u.Health<45||u.Order==MilitaryOrder.Recover))
+                {if(u.Order!=MilitaryOrder.Recover)SetMilitaryOrder(s,u.Id,MilitaryOrder.Recover,f.Id);continue;}
                 if(u.Health<50&&!Supplied(s,u)&&u.Kind is not (UnitKind.Settler or UnitKind.Scout))
                 {AiStep(s,u,cities.OrderBy(c=>World.Distance(s.Tiles[u.Tile],s.Tiles[c.Tile])).First().Tile);continue;}
                 if(u.Kind==UnitKind.Settler)
@@ -287,6 +283,7 @@ public static partial class Engine
                 if(targetCity!=null&&u.Kind!=UnitKind.Scout){if(World.Distance(s.Tiles[u.Tile],s.Tiles[targetCity.Tile])<=(u.Kind is UnitKind.Archer or UnitKind.Catapult?2:1))Move(s,u.Id,targetCity.Tile);else AiStep(s,u,targetCity.Tile);}
                 else if(u.Kind==UnitKind.Scout){var ns=World.Neighbors(s,u.Tile).Where(t=>CanEnter(s,u,t)).ToArray();if(ns.Length>0)Move(s,u.Id,ns[s.Next(ns.Length)].Id);}
                 else if(!cities.Any(c=>World.Distance(s.Tiles[u.Tile],s.Tiles[c.Tile])<=2))AiStep(s,u,cities.OrderBy(c=>World.Distance(s.Tiles[u.Tile],s.Tiles[c.Tile])).First().Tile);
+                else if(u.Order!=MilitaryOrder.Fortify)SetMilitaryOrder(s,u.Id,MilitaryOrder.Fortify,f.Id);
             }
         }
     }

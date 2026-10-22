@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.12
+# Korony i Pogranicza · 0.13
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.12/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.12` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.13/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.13` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Miasta z planem.** Wersja 0.12 dodaje kolejki miejskiej produkcji: zaplanuj osiem kolejnych zleceń, zmieniaj priorytety, powtarzaj rekrutację i wstrzymuj pracę. Wymagania są sprawdzane na bieżąco, a automatyczne przejście do następnego projektu zachowuje całą nadwyżkę produkcji. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Utrzymać pozycję.** Wersja 0.13 dodaje okopywanie i rekonwalescencję oddziałów, przegląd armii oraz premie pozycyjne w podglądzie starcia. Czas przygotowania, dostawy i wybór między obroną a ruchem wpływają na wynik walki. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -35,6 +35,17 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Zapis i wczytanie stanu JSON z walidacją, atomowym zastępowaniem pliku i zapisanym stanem generatora losowego. Autozapis po turze i decyzji rady; kronika przechowuje wybory oraz ich skutki.
 
 Długość i balans wymagają dalszych rozgrywek z udziałem człowieka. Automatyczne symulacje nie potwierdzają jakości wielogodzinnej rozgrywki.
+
+## Wojsko: utrzymać pozycję
+
+Wybierz własny oddział i otwórz **Rozkazy wojskowe**, albo użyj **Wojsko i stałe rozkazy**, aby odnaleźć całą armię. Tab pomija oddziały z tymi rozkazami oraz przydzielone eskorty. Możesz nadal wybrać je na mapie lub w przeglądzie armii. Na mapie `F0`, `F1`, `F2` oznacza przygotowanie pozycji, a `+` rekonwalescencję.
+
+- **Okop oddział:** pełny ruch jest zużywany na przygotowanie. Po rozliczeniu pierwszej tury obrona oddziału rośnie o 20%, po drugiej o 40%; nie ma dalszego wzrostu. Premia mnoży siłę obrońcy po uwzględnieniu zdrowia i dostaw, przed osobnym dodatkiem +5 z lasu lub wzgórz. Nie wzmacnia ataku ani obrony samego miasta, gdy nie ma już garnizonu. Ostrzał również podlega tej premii.
+- **Rekonwalescencja:** także wymaga i zużywa pełny ruch, zastępując przygotowane pozycje. Leczy 20 zdrowia na turę z dostawami lub 28 po Medycynie, do limitu 100. Przy pełnym zdrowiu rozkaz kończy się automatycznie; trafienie przeciwnika przerywa go wcześniej. Zwykły odpoczynek oraz okopywanie leczą odpowiednio 12 lub 20 po Medycynie.
+- **Bez dostaw:** każdy odpoczynek leczy tylko 3 zdrowia, po czym zwykłe wojsko traci 5. Najpierw stosujemy limit 100, potem straty; oddział może więc tracić zdrowie mimo rekonwalescencji. Zwiadowcy i osadnicy zachowują dotychczasowe zwolnienie ze strat za brak dostaw. Osadnicy nie mogą przyjąć tych rozkazów wojskowych.
+- **Powrót do działania:** odwołanie rozkazu usuwa umocnienia i nie zwraca wydanego ruchu. W kolejnej turze dostępny jest nowy ruch. Poprawny marsz, rozkaz dalszego marszu, atak, niszczenie drogi lub przydział eskorty porzuca stały rozkaz i całą premię. Odrzucona czynność i anulowany podgląd walki niczego nie odbierają. Przymusowe wycofanie po utracie miasta lub pokoju również usuwa pozycje.
+
+Umocnienia utrzymują się po ostrzale i walce obronnej, dopóki oddział żyje i pozostaje na pozycji. Rozkazy nie pobierają dodatkowego złota; zwykłe utrzymanie armii nadal obowiązuje. AI przygotowuje stacjonujące przy miastach oddziały bojowe oraz kieruje rannych z dostawami na rekonwalescencję. W czasie wojny nadal wykorzystuje dotychczasowe reguły ataku i odwrotu.
 
 ## Poselstwa o prawo przejazdu
 
@@ -260,7 +271,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.12/saves/`. Format v12 zachowuje kolejki produkcji, powtarzanie i wstrzymanie pracy; odczytuje v1–v11. Migracja v11 zachowuje bieżący projekt, zgromadzoną pracę, rachunki i otwarte kontrole bez dopisywania zamówień. V11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v11.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.13/saves/`. Format v13 zachowuje stałe rozkazy wojskowe i stopień przygotowania pozycji; odczytuje v1–v12. Migracja v12 zachowuje kolejki produkcji, rachunki, kontrole, eskorty i dotychczasowe marsze, bez dopisywania umocnień lub rekonwalescencji. V12 zachowuje kolejki produkcji, powtarzanie i wstrzymanie pracy. Migracja v11 zachowuje bieżący projekt, zgromadzoną pracę, rachunki i otwarte kontrole bez dopisywania zamówień. V11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v12.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -269,7 +280,7 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.12 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.13 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
 `NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
@@ -278,6 +289,7 @@ dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.
 
 - `src/Crown.Core`: model świata, symulacja, AI, treść dialogów i serializacja; niezależne od WPF.
 - `Navigation.cs`, `Movement.cs`, `Logistics.cs`, `Infrastructure.cs`, `Combat.cs`: wspólne wyszukiwanie tras, rozkazy, dostawy, gospodarka infrastruktury i model starcia z podglądem.
+- `MilitaryOrders.cs`, `MilitaryPanels.cs`: stałe rozkazy, leczenie, przygotowane pozycje, walidacja i przegląd armii.
 - `Regions.cs`, `ProvincialEvents.cs`: potrzeby i kierunki rozwoju miast, rynki regionalne, migracje oraz dialogi z lokalnymi skutkami.
 - `DiplomaticCouncil.cs`, `ProvincialPolitics.cs`: poselstwa, krzywdy, uzasadnienia wojny, lojalność, ustroje i zmiany właściciela miast.
 - `WarCouncil.cs`, `PeaceCouncil.cs`, `WarSaveRules.cs`: ogłoszone cele, bilans, rokowania, kontroferty, ratyfikacja i walidacja historii konfliktu.

@@ -43,7 +43,7 @@ public static partial class Engine
     {
         var unit=s.Units.FirstOrDefault(u=>u.Id==unitId);var cargo=s.Caravans.FirstOrDefault(c=>c.Id==caravanId);
         string? error=EscortOrders.AssignmentError(s,unit,cargo,owner);if(error!=null)return Result.Fail(error);
-        unit!.Destination=null;unit.EscortCaravanId=caravanId;
+        MilitaryOrders.Clear(unit!);unit!.Destination=null;unit.EscortCaravanId=caravanId;
         if(owner==0)s.Log($"{Content.UnitName(unit.Kind)} obejmuje eskortę karawany #{caravanId}. Marsz w fazie rynku, kosztem pozostałych punktów ruchu; bez samodzielnych ataków i odpoczynku.","rozkazy");
         return Result.Ok("Przydzielono eskortę. Ruch wspólny przy następnym rozliczeniu rynku; granice wojskowe nadal obowiązują.");
     }

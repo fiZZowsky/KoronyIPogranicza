@@ -67,6 +67,12 @@ Wymagania nie są obietnicą spełnienia z chwili dodania zlecenia. Sprawdzamy t
 
 To plan jednego miasta, bez globalnych szablonów, wielu równoległych linii, automatycznego omijania niedostępnych zleceń, rezerwacji przyszłych zasobów i strategicznego planowania kolejek przez AI. Formularz pokazuje bieżące ograniczenia, a nie gwarantowane terminy przyszłych budów. Format v12 zachowuje kolejki i tryby pracy; starsze kampanie zachowują swoje bieżące projekty i nadwyżki bez dopisywania zamiarów gracza.
 
+Wersja 0.13 dodaje trwały wybór między obroną pozycji, szybszym leczeniem a mobilnością. Rozkaz wymaga całego ruchu i jest finansowany czasem oddziału. Przygotowanie narasta przy rozliczeniu tury przed akcjami AI: +20% po pierwszej fazie, +40% po drugiej. Obrona mnoży podstawową siłę obrońcy, zależną od zdrowia i dostaw, a dopiero potem otrzymuje stały dodatek terenu. Nie zwiększa natarcia i nie przechodzi na mury miejskie. Obrona nie usuwa umocnień; dobrowolna akcja lub wymuszone przemieszczenie usuwa je w całości.
+
+Rekonwalescencja rezerwuje oddział do pełnego zdrowia, zwiększając tempo leczenia z dostawami z 12 do 20, a po Medycynie z 20 do 28. Bez dostaw nadal działa tylko leczenie 3 i późniejsza strata 5. Próg pełnego zdrowia sprawdzamy po stratach, aby samo chwilowe osiągnięcie limitu nie kończyło rozkazu. Atak przeciwnika przerywa leczenie. Nie ma leczenia przy kliknięciu rozkazu, zwrotu wydanego ruchu ani podwójnego dodawania zwykłego odpoczynku.
+
+Panel armii pozwala wrócić do oddziałów pomijanych przez Tab. Podgląd walki podaje pochodzenie premii i korzysta z tego samego modelu co bitwa. Symulacja handlu zachowuje nowe pola w kopiach jednostek i nadal nie zmienia rozkazów w rzeczywistym świecie. AI ma proste reguły okopywania w pobliżu miast i leczenia rannych, bez strategicznego planowania frontu. Format v13 zapisuje rozkaz i przygotowanie; starsze kampanie otrzymują gotowe do dalszych decyzji oddziały bez dopisywania wykonanej wcześniej pracy. Model nie obejmuje osobnych fortyfikacji terenowych, oblężeń, morale, zużywalnych zapasów wojskowych ani automatycznego budzenia na sam widok wroga.
+
 ## Kolejne etapy
 
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.

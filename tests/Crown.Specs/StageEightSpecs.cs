@@ -142,9 +142,9 @@ internal static class StageEightSpecs
         test("V7 migration preserves caravan losses without inventing retroactive petitions",()=>
         {
             var (s,_,_)=Loss();var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=7;node.AsObject().Remove("TradeCases");node.AsObject().Remove("PendingTradeCaseId");string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version==12&&loaded.Caravans.Count==s.Caravans.Count&&loaded.Caravans[0].Payment==s.Caravans[0].Payment&&loaded.TradeCases.Count==0,"Migration erased cargo or invented a petition.");Step(loaded);Assert(loaded.TradeCases.Count==0,"Old losses became retroactive petitions.");
+            Assert(loaded.Version==13&&loaded.Caravans.Count==s.Caravans.Count&&loaded.Caravans[0].Payment==s.Caravans[0].Payment&&loaded.TradeCases.Count==0,"Migration erased cargo or invented a petition.");Step(loaded);Assert(loaded.TradeCases.Count==0,"Old losses became retroactive petitions.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v7-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v7.bak")==legacy&&SaveGame.Read(path).Version==12,"V7 backup missing.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v7.bak")==legacy&&SaveGame.Read(path).Version==13,"V7 backup missing.");}
             finally{File.Delete(path);File.Delete(path+".v7.bak");}
         });
         test("Save validation rejects forged losses, deadlines, progress and council context",()=>

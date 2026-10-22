@@ -81,7 +81,7 @@ public static class ProvincialPolitics
             var refuge = s.Cities.Where(c => c.Owner == old && !s.Units.Any(u => u.Owner != old && u.Tile == c.Tile))
                 .OrderBy(c => World.Distance(s.Tiles[unit.Tile], s.Tiles[c.Tile])).ThenBy(c => c.Id).FirstOrDefault();
             if (refuge == null) s.Units.Remove(unit);
-            else { unit.Tile = refuge.Tile; unit.Destination = null; unit.Actions = 0; }
+            else { MilitaryOrders.Clear(unit); unit.Tile = refuge.Tile; unit.Destination = null; unit.Actions = 0; }
         }
         if (s.PendingCityId == city.Id && owner != 0) { s.PendingCityId = null; s.PendingEvent = null; }
         TradeCouncil.OwnershipChanged(s,city);

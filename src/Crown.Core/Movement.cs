@@ -31,6 +31,7 @@ public static partial class Engine
         if (u.Tile == target) return CancelOrder(s, unitId);
         if (Navigation.Route(s, u, target).Count == 0)
             return Result.Fail("Brak dostępnej, odkrytej trasy. Marsz nie przekracza obcych granic w czasie pokoju.");
+        MilitaryOrders.Clear(u);
         u.Destination = target;
         FollowOrder(s, u);
         return Result.Ok(u.Destination == null ? "Oddział dotarł do celu." : "Rozkaz przyjęty. Marsz będzie kontynuowany po kolejnych turach.");
@@ -47,6 +48,7 @@ public static partial class Engine
 
     private static void EnterTile(GameState s, Unit u, int next)
     {
+        MilitaryOrders.Clear(u);
         u.Actions -= Navigation.MovementCost(s, u.Tile, next);
         u.Tile = next;
         s.InvalidateLogistics();

@@ -136,4 +136,5 @@ StageNineSpecs.Run(Test);
 StageTenSpecs.Run(Test);
 StageElevenSpecs.Run(Test);
 StageTwelveSpecs.Run(Test);
+StageThirteenSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

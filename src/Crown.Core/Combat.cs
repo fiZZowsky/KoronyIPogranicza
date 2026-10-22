@@ -28,7 +28,8 @@ public static partial class Engine
         if (defender != null)
         {
             bool terrain = s.Tiles[target].Terrain is Terrain.Forest or Terrain.Hills;
-            defense = Strength(s, defender) + (terrain ? 5 : 0);
+            defense = Strength(s, defender) * MilitaryOrders.DefenseMultiplier(defender) + (terrain ? 5 : 0);
+            if (defender.Order == MilitaryOrder.Fortify) modifiers.Add($"Umocnienia przeciwnika {defender.FortificationTurns}/2: siła obronna +{defender.FortificationTurns * 20}% (przed premią terenu).");
             if (terrain) modifiers.Add("Las lub wzgórza: +5 obrony przeciwnika.");
             if (!Supplied(s, defender)) modifiers.Add("Przeciwnik bez dostaw: siła ×0,72.");
             if (city != null) modifiers.Add("Najpierw walczysz z garnizonem. Ten atak nie zdobywa miasta.");
@@ -45,6 +46,8 @@ public static partial class Engine
         double counter = ranged ? 0 : Math.Min(u.Health, defender != null ?
             Math.Clamp(21 * defense / Math.Max(2, attack), 5, 55) : Math.Clamp(15 * defense / Math.Max(2, attack), 4, 45));
         if (ranged) modifiers.Add("Atak dystansowy: bez kontrataku.");
+        if (u.Order != MilitaryOrder.None) modifiers.Add("Atak porzuci stały rozkaz i własne umocnienia; nie wzmacniają one ataku.");
+        if (defender?.Order == MilitaryOrder.Recover) modifiers.Add("Trafienie przerwie rekonwalescencję przeciwnika.");
         modifiers.Add("Siła uwzględnia zdrowie, doświadczenie, technologie i cechę państwa.");
         bool capture = defender == null && city != null && !ranged && damage >= health && counter < u.Health;
         return new(true, "", Content.UnitName(u.Kind), defender == null ? city!.Name : Content.UnitName(defender.Kind),
@@ -55,6 +58,7 @@ public static partial class Engine
     {
         var preview = PreviewAttack(s, u.Id, target);
         if (!preview.Valid) return Result.Fail(preview.Reason);
+        MilitaryOrders.Clear(u);
         int owner = defender?.Owner ?? city!.Owner;
         WarCouncil.RecordBattle(s,u.Owner,owner,preview.DamageToAttacker,preview.DamageToTarget);
         u.Actions = 0;
@@ -62,6 +66,11 @@ public static partial class Engine
         u.Health -= preview.DamageToAttacker;
         if (defender != null)
         {
+            if (defender.Order == MilitaryOrder.Recover)
+            {
+                MilitaryOrders.Clear(defender);
+                if (defender.Owner == 0) s.Log($"{Content.UnitName(defender.Kind)}: atak przerwał rekonwalescencję.", "rozkazy");
+            }
             defender.Health -= preview.DamageToTarget;
             if (defender.Health <= 0) { s.Units.Remove(defender); u.Experience += 2; s.Factions[u.Owner].Prestige += 3; }
         }

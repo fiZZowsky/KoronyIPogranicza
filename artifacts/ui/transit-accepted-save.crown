@@ -1,5 +1,5 @@
 {
-  "Version": 12,
+  "Version": 13,
   "Seed": 17421,
   "RandomState": 724574529,
   "Width": 42,
@@ -16857,6 +16857,8 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": 1,
+      "Order": "None",
+      "FortificationTurns": 0,
       "Experience": 0
     }
   ],

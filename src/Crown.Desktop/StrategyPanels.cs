@@ -73,6 +73,7 @@ public sealed partial class MainWindow
 
         if(state.Caravans.Any(c=>c.Tile==selectedTile&&Caravans.Active(c)&&state.TradeContracts.Any(t=>t.Id==c.ContractId&&(t.Buyer==0||t.Seller==0))))
             side.Children.Add(Ui.Button("Karawany na tym polu",ShowCaravans));
+        side.Children.Add(Ui.Button("Wojsko i stałe rozkazy", ShowArmy));
         var units = state.Units.Where(u => u.Owner == 0 && u.Tile == selectedTile).ToArray();
         if (units.Length > 0)
         {
@@ -85,6 +86,8 @@ public sealed partial class MainWindow
                 if (u.Id != selectedUnit) continue;
                 side.Children.Add(Ui.Label($"Zdrowie {u.Health:0}% · siła {Engine.Strength(state, u):0} · doświadczenie {u.Experience}", 11, Ui.Muted));
                 UnitSupply(u);
+                side.Children.Add(Ui.Label(MilitaryOrders.Name(u), 12, Ui.Gold));
+                side.Children.Add(Ui.Button("Rozkazy wojskowe #" + u.Id, () => ShowMilitaryOrders(u)));
                 if(u.EscortCaravanId is int convoy)
                 {
                     side.Children.Add(Ui.Label($"Eskorta karawany #{convoy}. Wspólny marsz w fazie rynku, bez odpoczynku. Odwołaj przed samodzielnym marszem lub atakiem.",12,Ui.Gold));

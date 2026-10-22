@@ -70,6 +70,7 @@ public static partial class Engine
           DiplomaticCouncil.AddGrievance(s, tile.RoadOwner, u.Owner, 12);
           tile.Road = false;
         tile.RoadOwner = -1;
+        MilitaryOrders.Clear(u);
         u.Actions -= 1;
         u.Destination = null;
         s.Player.Gold += 20;

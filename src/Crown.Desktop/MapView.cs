@@ -285,6 +285,8 @@ public sealed class MapView : FrameworkElement
         Brush symbol=selected?B("#172D32"):col;
         if(u.EscortCaravanId!=null)
         {dc.DrawRoundedRectangle(B("#193B38"),new Pen(B("#9BCFC1"),1),new Rect(p.X-24,p.Y-7,11,14),2,2);Text(dc,"E",new(p.X-18.5,p.Y-6),9,B("#C3E9D8"));}
+        if(u.Order!=MilitaryOrder.None)
+        {dc.DrawRoundedRectangle(B("#193B38"),new Pen(B("#D7C28D"),1),new Rect(p.X-30,p.Y-7,20,14),2,2);Text(dc,u.Order==MilitaryOrder.Recover?"+":"F"+u.FortificationTurns,new(p.X-20,p.Y-6),9,B("#E5D2A3"));}
         if(u.Kind==UnitKind.Settler){dc.DrawEllipse(null,new Pen(symbol,1.4),new(p.X,p.Y-3),3,3);dc.DrawLine(new Pen(symbol,1.4),new(p.X,p.Y),new(p.X,p.Y+7));dc.DrawLine(new Pen(symbol,1.4),new(p.X-5,p.Y+3),new(p.X+5,p.Y+3));}
         else if(u.Kind==UnitKind.Archer){var g=new StreamGeometry();using(var x=g.Open()){x.BeginFigure(new(p.X-3,p.Y-7),false,false);x.QuadraticBezierTo(new(p.X+9,p.Y),new(p.X-3,p.Y+7),true,false);}dc.DrawGeometry(null,new Pen(symbol,1.7),g);dc.DrawLine(new Pen(symbol,1),new(p.X-3,p.Y-7),new(p.X-3,p.Y+7));}
         else Text(dc,u.Kind switch{UnitKind.Scout=>"◇",UnitKind.Cavalry=>"♞",UnitKind.Catapult=>"⊕",_=>"⚔"},new(p.X,p.Y-10),15,symbol);

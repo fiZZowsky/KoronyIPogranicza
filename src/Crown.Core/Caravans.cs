@@ -66,7 +66,7 @@ public static class Caravans
         var world=new GameState{Width=s.Width,Height=s.Height,Turn=s.Turn,Tiles=s.Tiles,Cities=s.Cities,Factions=s.Factions,
             Relations=s.Relations,Demands=s.Demands,Caravans=s.Caravans,TradeContracts=s.TradeContracts,
             Units=s.Units.Select(u=>new Unit{Id=u.Id,Owner=u.Owner,Tile=u.Tile,Kind=u.Kind,Health=u.Health,Actions=u.Actions,
-                Destination=u.Destination,EscortCaravanId=u.EscortCaravanId,Experience=u.Experience}).ToList()};
+                Destination=u.Destination,EscortCaravanId=u.EscortCaravanId,Order=u.Order,FortificationTurns=u.FortificationTurns,Experience=u.Experience}).ToList()};
         foreach(var original in s.Caravans.OrderBy(c=>c.Id))
         {
             var c=new Caravan{Id=original.Id,ContractId=original.ContractId,Tile=original.Tile,DepartedTurn=original.DepartedTurn,
