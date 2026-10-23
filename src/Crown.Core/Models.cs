@@ -9,6 +9,7 @@ public enum LoanStatus { Active, AwaitingCouncil, Repaid, Defaulted }
 public enum SpyStatus { Available, Deployed, Captured, Lost }
 public enum SpyMission { Reconnaissance, StealResearch, Sabotage }
 public enum SpyOutcome { Active, Succeeded, Failed, Captured, Cancelled }
+public enum CustodyDecision { Ransom, Exchange, Release, Intern }
 public enum CityFocus { Balanced, Agriculture, Industry, Scholarship }
 public enum Governance { Integrated, Autonomous, Military }
 public enum WarReason { Conquest, Redress, Liberation }
@@ -206,7 +207,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 15;
+    public int Version { get; set; } = 16;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -398,6 +399,10 @@ public sealed class SpyOperation
     public string Report { get; set; } = "";
     public int? CaptureChoice { get; set; }
     public int? CaptureDecisionTurn { get; set; }
+    public CustodyDecision? CustodyChoice { get; set; }
+    public int? CustodyTurn { get; set; }
+    public int? InternedUntil { get; set; }
+    public int? ExchangeOperationId { get; set; }
 }
 public sealed record SpyForecast(int SuccessChance, int DetectionChance, int Defense, string? ResearchId);
 public sealed record CombatPreview(bool Valid, string Reason, string Attacker, string Target,

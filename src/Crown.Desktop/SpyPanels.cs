@@ -31,6 +31,17 @@ public sealed partial class MainWindow
             }
             p.Children.Add(Ui.Card(q));
         }
+        p.Children.Add(Ui.Rule()); p.Children.Add(Ui.Eyebrow("OBCY AGENCI W NASZEJ NIEWOLI"));
+        var captives = state.SpyOperations.Where(o => o.TargetOwner == 0 && o.Owner != 0 && o.Outcome == SpyOutcome.Captured && o.CaptureChoice == null).OrderBy(o => o.Id).ToArray();
+        p.Children.Add(Ui.Label("Zażądaj 100 złota z obcego skarbu, wymień jeńców, zwolnij agenta dla poprawy relacji lub internuj na osiem tur. Wymiana jest dostępna także z rady o naszym jeńcu. Internowanie jest nieodwracalne i do końca zajmuje miejsce w obcej służbie.", 13, Ui.Muted));
+        if (captives.Length == 0) p.Children.Add(Ui.Label("Nie przetrzymujemy obcych agentów.", 13, Ui.Muted));
+        foreach (var captive in captives)
+        {
+            var agent = state.Spies.First(a => a.Id == captive.AgentId);
+            p.Children.Add(Ui.Label($"{agent.Name} · {state.Factions[captive.Owner].Name}" + (captive.InternedUntil == null ? " · czeka na decyzję" : $" · internowany do początku T{captive.InternedUntil}"), 16, Ui.Gold, true));
+            if (CustodyCouncil.Open(captive)) p.Children.Add(CustodyReplyButton(captive));
+            p.Children.Add(Ui.Button("Raport o jeńcu #" + captive.Id, () => ShowSpyReport(captive)));
+        }
         p.Children.Add(Ui.Rule()); p.Children.Add(Ui.Eyebrow("OCHRONA WŁASNYCH MIAST"));
         p.Children.Add(Ui.Label("Sąd daje +15 obrony wywiadowczej, Pismo +5, stabilność co najmniej 70 kolejne +5. Wzmocniony kontrwywiad dodaje +25 przez osiem tur, także wobec operacji już w drodze. Zmiana właściciela kończy ochronę. Wrogie państwa od T20 mogą prowadzić kradzież badań i sabotaż.", 13, Ui.Muted));
         foreach (var city in state.Cities.Where(c => c.Owner == 0).OrderBy(c => c.Id))
@@ -50,6 +61,11 @@ public sealed partial class MainWindow
     {
         var button = Ui.Button("Rozpatrz los agenta #" + operation.AgentId, () => { var result = SpyCouncil.Present(state, operation.Id); if (result.Success) ShowCouncil(); else Do(result); }, true);
         button.IsEnabled = state.Ending == null && (state.PendingEvent == null || state.PendingEvent == SpyCouncil.Event.Id && state.PendingSpyOperationId == operation.Id); return button;
+    }
+    private Button CustodyReplyButton(SpyOperation operation)
+    {
+        var button = Ui.Button("Rozpatrz obcego jeńca #" + operation.Id, () => { var result = CustodyCouncil.Present(state, operation.Id); if (result.Success) ShowCouncil(); else Do(result); }, true);
+        button.IsEnabled = state.Ending == null && (state.PendingEvent == null || state.PendingEvent == CustodyCouncil.Event.Id && state.PendingSpyOperationId == operation.Id); return button;
     }
     private void ShowSpyPlanner(SpyAgent agent)
     {
@@ -95,7 +111,9 @@ public sealed partial class MainWindow
         }
         else p.Children.Add(Ui.Label(operation.Report, 15, Ui.Text));
         if (operation.Outcome == SpyOutcome.Captured && operation.Owner == 0 && operation.CaptureChoice == null) p.Children.Add(SpyReplyButton(operation));
-        if (operation.CaptureChoice is int choice) p.Children.Add(Ui.Label($"Decyzja w T{operation.CaptureDecisionTurn}: " + (choice == 0 ? "okup i powrót" : choice == 1 ? "przeprosiny i powrót" : "agent utracony"), 14, Ui.Gold));
+        if (CustodyCouncil.Open(operation)) p.Children.Add(CustodyReplyButton(operation));
+        if (operation.InternedUntil != null) p.Children.Add(Ui.Label($"Internowanie do początku T{operation.InternedUntil}" + (operation.CaptureChoice == null ? " · agent nadal w niewoli" : " · zakończone"), 14, Ui.Gold));
+        if (operation.CaptureChoice is int choice) p.Children.Add(Ui.Label($"Powrót lub utrata w T{operation.CaptureDecisionTurn}: " + CustodyCouncil.DecisionName(choice), 14, Ui.Gold));
         p.Children.Add(Ui.Button("Wróć do wywiadu", ShowEspionage)); p.Children.Add(Ui.Button("Wróć do mapy", CloseModal)); Modal(p, 810);
     }
 }

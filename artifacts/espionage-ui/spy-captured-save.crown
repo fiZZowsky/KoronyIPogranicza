@@ -1,5 +1,5 @@
 {
-  "Version": 15,
+  "Version": 16,
   "Seed": 17421,
   "RandomState": 2398689233,
   "Width": 42,
@@ -17143,7 +17143,11 @@
       "ResultValue": 0,
       "Report": "Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu.",
       "CaptureChoice": null,
-      "CaptureDecisionTurn": null
+      "CaptureDecisionTurn": null,
+      "CustodyChoice": null,
+      "CustodyTurn": null,
+      "InternedUntil": null,
+      "ExchangeOperationId": null
     }
   ],
   "NextSpyId": 2,

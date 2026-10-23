@@ -199,12 +199,12 @@ internal static class StageFifteenSpecs
             var s = Fresh(); var operation = Launch(s, SpyMission.Sabotage, 1, s.Cities[0].Id); int logs = s.Chronicle.Count; Finish(s, operation, true, false);
             Assert(s.Cities[0].Production == 30 && s.Chronicle.Count == logs && !operation.Detected && s.PendingSpyOperationId == null, "Undetected AI operation revealed itself or had no effect."); SaveGame.Deserialize(SaveGame.Serialize(s));
         });
-        test("Captured AI agents pay a real ransom to the defending player or are abandoned without funds", () =>
+        test("Captured AI agents in another AI state pay ransom or are abandoned without funds", () =>
         {
             foreach (bool funded in new[] { true, false })
             {
-                var s = Fresh(); var operation = Launch(s, SpyMission.Sabotage, 1, s.Cities[0].Id); if (!funded) s.Factions[1].Gold = 0; double gold = s.Player.Gold, foreign = s.Factions[1].Gold; Finish(s, operation, false, true);
-                Assert(operation.CaptureChoice == (funded ? 0 : 2) && s.Player.Gold == gold + (funded ? 100 : 0) && s.Factions[1].Gold == foreign - (funded ? 100 : 0) && s.Spies[0].Status == (funded ? SpyStatus.Available : SpyStatus.Lost) && !SpyCouncil.Schedule(s), "AI captivity created money or a player-owned council."); SaveGame.Deserialize(SaveGame.Serialize(s));
+                var s = Fresh(); var operation = Launch(s, SpyMission.Sabotage, 1, s.Cities[2].Id); if (!funded) s.Factions[1].Gold = 0; double gold = s.Factions[2].Gold, foreign = s.Factions[1].Gold; Finish(s, operation, false, true);
+                Assert(operation.CaptureChoice == (funded ? 0 : 2) && s.Factions[2].Gold == gold + (funded ? 100 : 0) && s.Factions[1].Gold == foreign - (funded ? 100 : 0) && s.Spies[0].Status == (funded ? SpyStatus.Available : SpyStatus.Lost) && !SpyCouncil.Schedule(s), "AI captivity created money or a player-owned council."); SaveGame.Deserialize(SaveGame.Serialize(s));
             }
         });
         test("AI strengthens defense only after detected intrusion and pays its own protection cost", () =>
@@ -222,9 +222,9 @@ internal static class StageFifteenSpecs
         {
             var s = StageFourteenSpecs.Ready(); s.Version = 14; var city = s.Cities[0]; city.ProductionQueue.Add(new() { Project = "scout", Repeat = true }); var unit = s.Units.First(); unit.Order = MilitaryOrder.Fortify; unit.FortificationTurns = 1;
             string legacy = SaveGame.Serialize(s); var loaded = SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 15 && loaded.PendingLoanId == 1 && loaded.Loans[0].Principal == 200 && loaded.Spies.Count == 0 && loaded.SpyOperations.Count == 0 && loaded.Cities.All(c => c.CounterIntelligenceUntil == 0) && loaded.Units[0].FortificationTurns == 1 && loaded.Cities[0].ProductionQueue.Single().Repeat, "Migration lost existing state or invented intelligence history.");
+            Assert(loaded.Version == 16 && loaded.PendingLoanId == 1 && loaded.Loans[0].Principal == 200 && loaded.Spies.Count == 0 && loaded.SpyOperations.Count == 0 && loaded.Cities.All(c => c.CounterIntelligenceUntil == 0) && loaded.Units[0].FortificationTurns == 1 && loaded.Cities[0].ProductionQueue.Single().Repeat, "Migration lost existing state or invented intelligence history.");
             string path = Path.Combine(Environment.CurrentDirectory, "artifacts", "migration-v14-test.crown");
-            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v14.bak") == legacy && SaveGame.Read(path).Version == 15, "V14 backup failed."); }
+            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v14.bak") == legacy && SaveGame.Read(path).Version == 16, "V14 backup failed."); }
             finally { File.Delete(path); File.Delete(path + ".v14.bak"); }
         });
         test("Spy validation rejects invalid identities, ownership, status, chance, dates and rolls", () =>

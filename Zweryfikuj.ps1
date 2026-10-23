@@ -24,3 +24,12 @@ if (-not $spyProcess.WaitForExit(60000)) {
 }
 if ($spyProcess.ExitCode -ne 0) { throw 'Test szpiegostwa WPF nie przeszedł. Sprawdź artifacts/espionage-ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $spySmokeDirectory 'ui-smoke.txt')
+
+$custodySmokeDirectory = Join-Path $reportDirectory 'custody-ui'
+$custodyProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-custody', ('"' + $custodySmokeDirectory + '"')) -WindowStyle Hidden -PassThru
+if (-not $custodyProcess.WaitForExit(60000)) {
+    Stop-Process -Id $custodyProcess.Id -Force
+    throw 'Test jeńców wywiadu przekroczył limit 60 sekund.'
+}
+if ($custodyProcess.ExitCode -ne 0) { throw 'Test jeńców WPF nie przeszedł. Sprawdź artifacts/custody-ui/ui-smoke.txt.' }
+Get-Content -LiteralPath (Join-Path $custodySmokeDirectory 'ui-smoke.txt')

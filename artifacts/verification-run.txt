@@ -8,7 +8,7 @@ Kompilacja powiodła się.
     Ostrzeżenia: 0
     Liczba błędów: 0
 
-Czas, który upłynął: 00:00:03.97
+Czas, który upłynął: 00:00:05.81
 PASS Seed determinism and distinct worlds
 PASS Hex topology, symmetry, distance
 PASS Capital land connections across seeds
@@ -326,13 +326,37 @@ PASS Sovereignty changes cancel active missions and clear the former owner's pro
 PASS Captives remain held by the original state when their former target city is conquered
 PASS Hostile AI pays for its own operations while peaceful states and player control stay untouched
 PASS AI spies can sabotage the player without revealing attribution when undetected
-PASS Captured AI agents pay a real ransom to the defending player or are abandoned without funds
+PASS Captured AI agents in another AI state pay ransom or are abandoned without funds
 PASS AI strengthens defense only after detected intrusion and pays its own protection cost
 PASS In-flight outcomes and captured decisions continue identically after reload
 PASS V14 migration preserves debt, army orders and production without inventing spies
 PASS Spy validation rejects invalid identities, ownership, status, chance, dates and rolls
 PASS Spy validation rejects invented effects, reversed capture decisions and resurrected agents
-319 specifications passed in 15,1s.
+PASS Foreign capture leaves funds and the prisoner's fate under player control
+PASS Custody council describes the actual agent, state, city and exchange candidate
+PASS Ransom demand transfers exactly a hundred from the sender once
+PASS An insolvent sender blocks ransom without blocking the free decisions
+PASS Foreign captive exchange returns the same two agents without gold or erased grievances
+PASS Own captive dialogue offers the same atomic exchange during war and with an empty treasury
+PASS Exchange rejects missing, resolved, interned or wrong-country partners atomically
+PASS An exchange consumes one prisoner pair and leaves other people in custody
+PASS Release improves trust, costs noble support and rewards prestige without transferring gold
+PASS Release trust is clamped and is available during war
+PASS Internment keeps the person and roster slot for eight turns with a diplomatic cost
+PASS Internment expires once at the start of its final turn and frees the same agent
+PASS A real end turn releases an interned agent through the normal intelligence phase
+PASS Conquest changes neither the captor nor an internment deadline
+PASS Custody waits behind an existing council and precedes own ransom when both are waiting
+PASS Present rejects wrong ids, already-decided cases, other councils and ended campaigns
+PASS No captor decision is offered for undetected failures or detected successes
+PASS Save and reload preserve open custody, exchange links and delayed release identically
+PASS V15 migration preserves captured people and old ransom decisions without invented custody
+PASS Custody validation rejects false context, missing decisions and invalid imprisonment dates
+PASS V15 migration keeps previously resolved foreign captives closed
+PASS V15 migration rejects a missing spy registry with a controlled invalid-data error
+PASS Custody validation rejects early freedom, stale captivity and forged prisoner exchanges
+PASS Returned captives can deploy again while both sides of an exchange remain valid history
+343 specifications passed in 17,1s.
 PASS New game opens the council
 PASS Council button applies the founding charter
 PASS Map order moves a selected unit
@@ -524,6 +548,25 @@ PASS Empty treasury keeps a free denial choice available
 PASS Denial permanently removes the agent from the usable roster
 PASS Protection button buys eight turns of counterintelligence
 PASS Hostile AI launches a paid operation which the target cannot inspect before detection
-PASS Counterintelligence exposes the captured AI spy and its paid ransom resolution
+PASS Counterintelligence exposes the captured AI spy and leaves its fate to the defending player
 PASS Compact intelligence panel keeps actions and return reachable through scrolling
 22 espionage desktop integration checks passed.
+PASS A real fourth turn opens the player's foreign-agent decision instead of auto-paying ransom
+PASS Foreign-agent council shows the actual captive, country and four decisions
+PASS Desktop reload reopens the same unanswered foreign-agent case
+PASS Insolvent sender and missing exchange partner disable only the unavailable choices
+PASS Free release returns the agent and applies political and diplomatic consequences
+PASS Ransom button transfers the actual foreign gold and releases the same person
+PASS Internment button binds the agent until the exact deadline and reduces trust
+PASS Agency lists the interned captive and prevents reversing the decision
+PASS Desktop reload retains the internment deadline and custody history
+PASS A real end turn automatically returns the interned agent at the deadline
+PASS Report identifies the finished internment instead of a lost agent
+PASS When both sides capture agents the foreign-captive council preserves the exchange opportunity
+PASS Foreign-captive dialogue enables exchange when that country holds our agent
+PASS Exchange button returns exactly the two linked people with no gold transfer
+PASS Desktop reload retains reciprocal prisoner exchange links
+PASS Own-captive dialogue allows wartime exchange even when both treasuries are empty
+PASS Own-captive exchange uses the same free atomic release
+PASS Compact council keeps every choice reachable through scrolling
+18 custody desktop integration checks passed.

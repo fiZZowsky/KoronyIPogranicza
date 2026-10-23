@@ -18,6 +18,6 @@ PASS Empty treasury keeps a free denial choice available
 PASS Denial permanently removes the agent from the usable roster
 PASS Protection button buys eight turns of counterintelligence
 PASS Hostile AI launches a paid operation which the target cannot inspect before detection
-PASS Counterintelligence exposes the captured AI spy and its paid ransom resolution
+PASS Counterintelligence exposes the captured AI spy and leaves its fate to the defending player
 PASS Compact intelligence panel keeps actions and return reachable through scrolling
 22 espionage desktop integration checks passed.

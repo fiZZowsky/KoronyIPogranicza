@@ -55,7 +55,7 @@ internal static class SpySaveRules
             }
             if (operation.Outcome == SpyOutcome.Captured)
             {
-                if (operation.CaptureChoice == null ? operation.CaptureDecisionTurn != null || operation.Owner != 0 : operation.CaptureChoice is < 0 or > 2 || operation.CaptureDecisionTurn == null || operation.CaptureDecisionTurn < operation.ResolvedTurn || operation.CaptureDecisionTurn > s.Turn)
+                if (operation.CaptureChoice == null ? operation.CaptureDecisionTurn != null || operation.Owner != 0 && operation.TargetOwner != 0 : operation.CaptureChoice is < 0 or > 5 || operation.CaptureDecisionTurn == null || operation.CaptureDecisionTurn < operation.ResolvedTurn || operation.CaptureDecisionTurn > s.Turn)
                     throw new InvalidDataException("Nieprawidłowe rozstrzygnięcie sprawy schwytanego agenta.");
             }
             else if (operation.CaptureChoice != null || operation.CaptureDecisionTurn != null) throw new InvalidDataException("Decyzja o niewoli bez schwytanego agenta.");
@@ -71,8 +71,10 @@ internal static class SpySaveRules
             if (history.Zip(history.Skip(1)).Any(p => p.First.ResolvedTurn == null || (p.First.Outcome == SpyOutcome.Captured ? p.First.CaptureDecisionTurn == null || p.First.CaptureChoice == 2 || p.First.CaptureDecisionTurn > p.Second.StartedTurn : p.First.ResolvedTurn > p.Second.StartedTurn)))
                 throw new InvalidDataException("Agent prowadzi sprzeczne operacje.");
         }
-        if (s.PendingEvent == SpyCouncil.Event.Id ? s.PendingCityId != null || s.PendingTradeCaseId != null || s.PendingAuditId != null || s.PendingLoanId != null ||
-            !s.SpyOperations.Any(o => o.Id == s.PendingSpyOperationId && o.Owner == 0 && o.Outcome == SpyOutcome.Captured && o.CaptureChoice == null) : s.PendingSpyOperationId != null)
+        bool ownCouncil = s.PendingEvent == SpyCouncil.Event.Id, foreignCouncil = s.PendingEvent == CustodyCouncil.Event.Id;
+        if (ownCouncil || foreignCouncil ? s.PendingCityId != null || s.PendingTradeCaseId != null || s.PendingAuditId != null || s.PendingLoanId != null ||
+            !s.SpyOperations.Any(o => o.Id == s.PendingSpyOperationId && (ownCouncil ? o.Owner == 0 && o.Outcome == SpyOutcome.Captured && o.CaptureChoice == null : CustodyCouncil.Open(o))) : s.PendingSpyOperationId != null)
             throw new InvalidDataException("Uszkodzony kontekst rady wywiadu.");
+        CustodySaveRules.Validate(s);
     }
 }

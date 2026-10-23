@@ -315,10 +315,34 @@ PASS Sovereignty changes cancel active missions and clear the former owner's pro
 PASS Captives remain held by the original state when their former target city is conquered
 PASS Hostile AI pays for its own operations while peaceful states and player control stay untouched
 PASS AI spies can sabotage the player without revealing attribution when undetected
-PASS Captured AI agents pay a real ransom to the defending player or are abandoned without funds
+PASS Captured AI agents in another AI state pay ransom or are abandoned without funds
 PASS AI strengthens defense only after detected intrusion and pays its own protection cost
 PASS In-flight outcomes and captured decisions continue identically after reload
 PASS V14 migration preserves debt, army orders and production without inventing spies
 PASS Spy validation rejects invalid identities, ownership, status, chance, dates and rolls
 PASS Spy validation rejects invented effects, reversed capture decisions and resurrected agents
-319 specifications passed in 15,1s.
+PASS Foreign capture leaves funds and the prisoner's fate under player control
+PASS Custody council describes the actual agent, state, city and exchange candidate
+PASS Ransom demand transfers exactly a hundred from the sender once
+PASS An insolvent sender blocks ransom without blocking the free decisions
+PASS Foreign captive exchange returns the same two agents without gold or erased grievances
+PASS Own captive dialogue offers the same atomic exchange during war and with an empty treasury
+PASS Exchange rejects missing, resolved, interned or wrong-country partners atomically
+PASS An exchange consumes one prisoner pair and leaves other people in custody
+PASS Release improves trust, costs noble support and rewards prestige without transferring gold
+PASS Release trust is clamped and is available during war
+PASS Internment keeps the person and roster slot for eight turns with a diplomatic cost
+PASS Internment expires once at the start of its final turn and frees the same agent
+PASS A real end turn releases an interned agent through the normal intelligence phase
+PASS Conquest changes neither the captor nor an internment deadline
+PASS Custody waits behind an existing council and precedes own ransom when both are waiting
+PASS Present rejects wrong ids, already-decided cases, other councils and ended campaigns
+PASS No captor decision is offered for undetected failures or detected successes
+PASS Save and reload preserve open custody, exchange links and delayed release identically
+PASS V15 migration preserves captured people and old ransom decisions without invented custody
+PASS Custody validation rejects false context, missing decisions and invalid imprisonment dates
+PASS V15 migration keeps previously resolved foreign captives closed
+PASS V15 migration rejects a missing spy registry with a controlled invalid-data error
+PASS Custody validation rejects early freedom, stale captivity and forged prisoner exchanges
+PASS Returned captives can deploy again while both sides of an exchange remain valid history
+343 specifications passed in 17,1s.

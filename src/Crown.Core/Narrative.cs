@@ -62,7 +62,7 @@ public static class Narrative
         [new("Odbudujemy domy i wesprzemy rodziny po obu stronach.","Odbudowa i pojednanie.",Gold:-70,Stability:4,Commons:10,Nobles:-4,Prestige:6,Delay:8,FutureText:"Fundusz odbudowy przywraca warsztaty i zaufanie rodzin do rady.",FutureGold:100,FutureCommons:4),
          new("Utrwalimy pamięć wszystkich ofiar tej wojny.","Wspólna pamięć kosztem dumy rodów.",Gold:-35,Stability:2,Commons:4,Nobles:-5,Scholars:8,Prestige:12),
          new("Ogłosimy chwałę armii i zwycięskie czyny rodów.","Prestiż i poparcie dowódców kosztem społecznym.",Commons:-6,Nobles:10,Scholars:-4,Prestige:8)]);
-    public static IEnumerable<NarrativeEvent> All => Events.Concat(Recurring).Append(InfrastructureEvent).Append(PeaceEvent).Append(MarketCouncil.Event).Append(TradeCouncil.Event).Append(AuditCouncil.Event).Append(DebtCouncil.Event).Append(SpyCouncil.Event).Concat(ProvincialEvents.Events);
+    public static IEnumerable<NarrativeEvent> All => Events.Concat(Recurring).Append(InfrastructureEvent).Append(PeaceEvent).Append(MarketCouncil.Event).Append(TradeCouncil.Event).Append(AuditCouncil.Event).Append(DebtCouncil.Event).Append(SpyCouncil.Event).Append(CustodyCouncil.Event).Concat(ProvincialEvents.Events);
     public static NarrativeEvent Get(string id) => All.First(e=>e.Id==id);
     public static string Effects(Choice c,string eventId,int choice)
     {
@@ -76,7 +76,7 @@ public static class Narrative
         if(c.Delay>0)result+=$"\nZa {c.Delay} tur: "+Deltas(c.FutureGold,c.FutureStability,c.FutureCommons,c.FutureNobles,c.FutureScholars,c.FuturePrestige);
         if(eventId=="caravan_compact")result+="\nTrwale: "+(choice==0?"połączone miasta +1 nauki":choice==1?"połączone miasta +2 bazowego złota":"zasięg dostaw +1");
         if(ProvincialEvents.IsLocal(eventId))result+="\n"+ProvincialEvents.Describe(eventId,choice);
-        if(eventId==TradeCouncil.Event.Id||eventId==AuditCouncil.Event.Id||eventId==DebtCouncil.Event.Id||eventId==SpyCouncil.Event.Id)result+="\n"+c.Consequence;
+        if(eventId==TradeCouncil.Event.Id||eventId==AuditCouncil.Event.Id||eventId==DebtCouncil.Event.Id||eventId==SpyCouncil.Event.Id||eventId==CustodyCouncil.Event.Id)result+="\n"+c.Consequence;
           if(eventId=="market_charter")result+="\nPolityka handlowa: "+Markets.PolicyDescription((TradePolicy)choice)+" Zmiana zablokowana przez osiem tur.";
         return result;
     }
@@ -86,6 +86,7 @@ public static class Narrative
         if(TradeCouncil.Schedule(s))return;
         if(AuditCouncil.Schedule(s))return;
         if(DebtCouncil.Schedule(s))return;
+        if(CustodyCouncil.Schedule(s))return;
         if(SpyCouncil.Schedule(s))return;
         if(s.Turn%5!=0)return;
         s.PendingCityId=null;
@@ -119,6 +120,7 @@ public static class Narrative
         if(e.Id==AuditCouncil.Event.Id&&AuditCouncil.ChoiceError(s,choice) is string auditError)return Result.Fail(auditError);
         if(e.Id==DebtCouncil.Event.Id&&DebtCouncil.ChoiceError(s,choice) is string debtError)return Result.Fail(debtError);
         if(e.Id==SpyCouncil.Event.Id&&SpyCouncil.ChoiceError(s,choice) is string spyError)return Result.Fail(spyError);
+        if(e.Id==CustodyCouncil.Event.Id&&CustodyCouncil.ChoiceError(s,choice) is string custodyError)return Result.Fail(custodyError);
         if(f.Gold+c.Gold<0) return Result.Fail("Skarb nie wystarczy na tę obietnicę.");
         f.Gold+=c.Gold; f.Stability+=c.Stability; f.Commons+=c.Commons; f.Nobles+=c.Nobles; f.Scholars+=c.Scholars; f.Prestige+=c.Prestige;
         if(c.Flag!=null) f.Flags.Add(c.Flag);
@@ -127,6 +129,7 @@ public static class Narrative
         if(e.Id==AuditCouncil.Event.Id)AuditCouncil.Apply(s,choice);
         if(e.Id==DebtCouncil.Event.Id)DebtCouncil.Apply(s,choice);
         if(e.Id==SpyCouncil.Event.Id)SpyCouncil.Apply(s,choice);
+        if(e.Id==CustodyCouncil.Event.Id)CustodyCouncil.Apply(s,choice);
         if(context!=null)ProvincialEvents.Apply(s,context,e.Id,choice);
         if(e.Id=="oath") s.Relation(0,3).Trust=Math.Clamp(s.Relation(0,3).Trust+(choice==0?20:choice==1?-25:8),-100,100);
         if(c.Delay>0) s.Deferred.Add(new(){Due=s.Turn+c.Delay,Faction=0,Text=c.FutureText??"Obietnica przynosi skutki.",Gold=c.FutureGold,Stability=c.FutureStability,Commons=c.FutureCommons,Nobles=c.FutureNobles,Scholars=c.FutureScholars,Prestige=c.FuturePrestige});

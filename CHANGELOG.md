@@ -1,5 +1,16 @@
 # Zmiany
 
+## 0.16 — Ludzie za granicą · 23 października 2026
+
+- Obcy agenci schwytani przez gracza czekają na decyzję jego rady. AI nie wykupuje ich automatycznie. Nowy kontekstowy dialog wskazuje osobę, państwo, miasto, środki wysyłającego i możliwość odzyskania naszego człowieka.
+- Okup przenosi dokładnie 100 złota z obcego skarbu; brak środków wyłącza tę odpowiedź. Bez darmowo tworzonych pieniędzy i ponownej wypłaty za tę samą niewolę.
+- Dwustronna wymiana zwalnia jednego obcego i jednego własnego agenta przetrzymywanego przez to samo państwo. Dostępna także podczas wojny i bez złota, z obu dialogów niewoli. Historia zachowuje wzajemne powiązanie operacji. Kilku jeńców nie znika po jednej wymianie.
+- Pojednawcze zwolnienie przywraca obcego agenta do służby, zwiększa zaufanie o 12 oraz prestiż o 4, a obniża poparcie rodów o 3. Wcześniejsze krzywdy pozostają; wojna nie kończy się samoczynnie.
+- Internowanie na osiem tur wiąże miejsce w obcej służbie: zaufanie -8, lud +3. Nie można go odwołać ani później sprzedać jeńca. Na początku tury końcowej ta sama osoba automatycznie wraca do służby, a raport i kronika odnotowują powrót. Zmiana kontroli miasta nie przenosi niewoli.
+- Panel wywiadu pokazuje oczekujących i internowanych jeńców, terminy, dostęp do rady i raporty. Nowa sprawa nie zastępuje otwartej rozmowy; czekająca sprawa obcego agenta ma pierwszeństwo przed własnym okupem, aby pozostawić możliwość wymiany.
+- Format v16 zachowuje decyzje, terminy i pary wymian. Migracja v15 nie otwiera dawnych zamkniętych niewoli, nie powiela płatności i zachowuje starych agentów. Nadpisanie pozostawia `.v15.bak`; dotychczasowe migracje nadal działają.
+- Osobne wydanie `wydanie-0.16/`, zachowane starsze paczki i zapisy. Osobna diagnostyka WPF jeńców, wykonywana kolejno z pozostałymi trybami i bez autozapisu. To stałe rozstrzygnięcia rady, bez negocjowania ceny, przesłuchań, ucieczek i podwójnych agentów. Oprawa pozostaje 2D.
+
 ## 0.15 — Służba cieni · 23 października 2026
 
 - Agenci po Piśmie, szkolenie za 60 złota, trzy miejsca na państwo i doświadczenie z operacji. Schwytani nadal zajmują miejsce; utraceni zostają w historii. Jeden agent prowadzi jedną operację.

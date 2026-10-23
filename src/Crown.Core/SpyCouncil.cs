@@ -7,11 +7,13 @@ public static class SpyCouncil
         "Obca straż schwytała naszego agenta. Możemy zapłacić okup, publicznie przyjąć odpowiedzialność albo pozostawić go bez ochrony państwa.",
         [new("Zapłacimy okup i sprowadzimy agenta.", "100 złota trafia do państwa przetrzymującego agenta. Wykrycie nadal obciąża relacje.", Gold: -Ransom),
          new("Przeprosimy publicznie i wynegocjujemy powrót.", "40 złota dla obcego skarbu, zaufanie +8; wymaga pokoju.", Gold: -ApologyCost, Commons: -3, Prestige: -8),
-         new("Wyprzemy się powiązań z tym człowiekiem.", "Agent zostaje bezpowrotnie utracony; miejsce w służbie zostaje zwolnione.", Nobles: 3, Prestige: -4)]);
+         new("Wyprzemy się powiązań z tym człowiekiem.", "Agent zostaje bezpowrotnie utracony; miejsce w służbie zostaje zwolnione.", Nobles: 3, Prestige: -4),
+         new("Wymienimy jeńców i odzyskamy agenta.", "Wymaga nierozstrzygniętej sprawy agenta tego państwa w naszej niewoli. Obaj wracają bez opłaty, także podczas wojny.")]);
     public static string? ChoiceError(GameState s, int choice)
     {
         var operation = s.SpyOperations.FirstOrDefault(o => o.Id == s.PendingSpyOperationId && o.Owner == 0 && o.Outcome == SpyOutcome.Captured && o.CaptureChoice == null);
-        if (s.Ending != null || s.PendingEvent != Event.Id || operation == null || choice is < 0 or > 2) return "Nie ma takiej nierozstrzygniętej sprawy agenta.";
+        if (s.Ending != null || s.PendingEvent != Event.Id || operation == null || choice is < 0 or > 3) return "Nie ma takiej nierozstrzygniętej sprawy agenta.";
+        if (choice == 3 && CustodyCouncil.ForeignPartner(s, operation) == null) return "Nie mamy agenta tego państwa gotowego do wymiany.";
         if (choice == 1 && Engine.AtWar(s, 0, operation.TargetOwner)) return "Publiczne porozumienie wymaga pokoju.";
         int cost = choice == 0 ? Ransom : choice == 1 ? ApologyCost : 0;
         return s.Player.Gold < cost ? $"Ta decyzja wymaga {cost} złota." : null;
@@ -23,7 +25,7 @@ public static class SpyCouncil
         return Event with { Title = Event.Title + " — " + agent.Name,
             Body = $"Agenta ({agent.Name}) schwytano podczas operacji „{Espionage.Name(operation.Mission)}” w mieście {city.Name}, w T{operation.ResolvedTurn}. " +
                 $"Agenta przetrzymuje państwo {s.Factions[operation.TargetOwner].Name}. Cena powrotu to 100 złota albo publiczne przeprosiny z opłatą 40 złota w czasie pokoju. " +
-                "Wyparcie się agenta zwolni miejsce w służbie, lecz ten człowiek już do nas nie wróci. Samo wykrycie przyniosło już utratę zaufania i nowe krzywdy. Jaką odpowiedź wyślemy?" };
+                "Wyparcie się agenta zwolni miejsce w służbie, lecz ten człowiek już do nas nie wróci. Jeśli trzymamy ich agenta z nierozstrzygniętą sprawą, możemy wymienić jeńców bez opłaty. Samo wykrycie przyniosło już utratę zaufania i nowe krzywdy. Jaką odpowiedź wyślemy?" };
     }
     public static bool Schedule(GameState s)
     {
@@ -40,7 +42,12 @@ public static class SpyCouncil
         if (!s.SpyOperations.Any(o => o.Id == operationId && o.Owner == 0 && o.Outcome == SpyOutcome.Captured && o.CaptureChoice == null)) return Result.Fail("Nie ma takiej sprawy schwytanego agenta.");
         SetContext(s, operationId); return Result.Ok("Rada rozpatruje los agenta.");
     }
-    internal static void Apply(GameState s, int choice) => ResolveCapture(s, s.SpyOperations.First(o => o.Id == s.PendingSpyOperationId), choice, false);
+    internal static void Apply(GameState s, int choice)
+    {
+        var operation = s.SpyOperations.First(o => o.Id == s.PendingSpyOperationId);
+        if (choice == 3) CustodyCouncil.Exchange(s, CustodyCouncil.ForeignPartner(s, operation)!, operation);
+        else ResolveCapture(s, operation, choice, false);
+    }
     internal static void ResolveCapture(GameState s, SpyOperation operation, int choice, bool chargeSender)
     {
         var sender = s.Factions[operation.Owner]; var agent = s.Spies.First(a => a.Id == operation.AgentId); int cost = choice == 0 ? Ransom : choice == 1 ? ApologyCost : 0;

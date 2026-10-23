@@ -60,6 +60,7 @@ public static class Espionage
     }
     public static void Tick(GameState s)
     {
+        CustodyCouncil.Tick(s);
         foreach (var operation in s.SpyOperations.Where(o => o.Outcome == SpyOutcome.Active && o.DueTurn <= s.Turn).OrderBy(o => o.Id))
         {
             var city = s.Cities.First(c => c.Id == operation.CityId); var agent = s.Spies.First(a => a.Id == operation.AgentId);
@@ -83,7 +84,7 @@ public static class Espionage
             if (operation.Outcome == SpyOutcome.Captured)
             {
                 operation.Report += " Agent pozostaje w niewoli do rozstrzygnięcia jego losu.";
-                if (operation.Owner != 0) SpyCouncil.ResolveCapture(s, operation, s.Factions[operation.Owner].Gold >= SpyCouncil.Ransom ? 0 : 2, true);
+                if (operation.Owner != 0 && operation.TargetOwner != 0) SpyCouncil.ResolveCapture(s, operation, s.Factions[operation.Owner].Gold >= SpyCouncil.Ransom ? 0 : 2, true);
             }
             if (operation.Owner == 0 || operation.TargetOwner == 0 && operation.Detected)
                 s.Log($"{Name(operation.Mission)} #{operation.Id} — {city.Name}: {StatusName(operation.Outcome)}. {operation.Report}", "wywiad");

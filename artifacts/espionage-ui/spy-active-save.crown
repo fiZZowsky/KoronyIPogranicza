@@ -1,5 +1,5 @@
 {
-  "Version": 15,
+  "Version": 16,
   "Seed": 17421,
   "RandomState": 134253570,
   "Width": 42,
@@ -17164,7 +17164,11 @@
       "ResultValue": 0,
       "Report": "Raport z T4: Talassar, ludno\u015B\u0107 4, zdrowie 100%, projekt W\u0142\u00F3cznicy, praca 90. Skarb pa\u0144stwa Liga Talassu: 2906,3. Garnizon: 0 oddzia\u0142\u00F3w. To stan z chwili rozpoznania, bez sta\u0142ego podgl\u0105du miasta.",
       "CaptureChoice": null,
-      "CaptureDecisionTurn": null
+      "CaptureDecisionTurn": null,
+      "CustodyChoice": null,
+      "CustodyTurn": null,
+      "InternedUntil": null,
+      "ExchangeOperationId": null
     },
     {
       "Id": 2,
@@ -17186,7 +17190,11 @@
       "ResultValue": 12,
       "Report": "Kopie bada\u0144: Rolnictwo. \u002B12 nauki do wsp\u00F3lnej puli; bez automatycznego odkrycia technologii.",
       "CaptureChoice": null,
-      "CaptureDecisionTurn": null
+      "CaptureDecisionTurn": null,
+      "CustodyChoice": null,
+      "CustodyTurn": null,
+      "InternedUntil": null,
+      "ExchangeOperationId": null
     },
     {
       "Id": 3,
@@ -17208,7 +17216,11 @@
       "ResultValue": 0,
       "Report": "",
       "CaptureChoice": null,
-      "CaptureDecisionTurn": null
+      "CaptureDecisionTurn": null,
+      "CustodyChoice": null,
+      "CustodyTurn": null,
+      "InternedUntil": null,
+      "ExchangeOperationId": null
     }
   ],
   "NextSpyId": 2,

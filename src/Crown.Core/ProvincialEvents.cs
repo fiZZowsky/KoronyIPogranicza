@@ -63,6 +63,7 @@ public static class ProvincialEvents
         if(s.PendingEvent==AuditCouncil.Event.Id)return AuditCouncil.Current(s);
         if(s.PendingEvent==DebtCouncil.Event.Id)return DebtCouncil.Current(s);
         if(s.PendingEvent==SpyCouncil.Event.Id)return SpyCouncil.Current(s);
+        if(s.PendingEvent==CustodyCouncil.Event.Id)return CustodyCouncil.Current(s);
         var e = Narrative.Get(s.PendingEvent!);
         if (!IsLocal(e.Id) || s.PendingCityId is not int id) return e;
         var city = s.Cities.FirstOrDefault(c => c.Id == id);

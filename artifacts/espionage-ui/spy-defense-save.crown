@@ -1,5 +1,5 @@
 {
-  "Version": 15,
+  "Version": 16,
   "Seed": 17421,
   "RandomState": 268507140,
   "Width": 42,
@@ -16855,7 +16855,7 @@
       "Leader": "Ty \u2014 Stra\u017Cnik Marchii",
       "Color": "#D1B273",
       "Trait": "Pogranicznicy \u00B7 \u002B1 produkcji w miastach",
-      "Gold": 3077.8809523,
+      "Gold": 2977.8809523,
       "Science": 18.561838110799997,
       "Culture": 7.479849928,
       "Prestige": 4.33659324676,
@@ -16885,7 +16885,7 @@
       "Leader": "Irena z Talassu",
       "Color": "#65B4C2",
       "Trait": "Kupcy m\u00F3rz \u00B7 \u002B3 z\u0142ota w miastach",
-      "Gold": 2619.9284827568,
+      "Gold": 2719.9284827568,
       "Science": 18.291841368399997,
       "Culture": 7.371049544,
       "Prestige": -1.66830277052,
@@ -17075,7 +17075,7 @@
     },
     {
       "Turn": 31,
-      "Text": "Sabota\u017C produkcji #1 \u2014 Wysogr\u00F3d: Agent schwytany. Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu. W T31 wp\u0142acono 100 z\u0142ota; agent wr\u00F3ci\u0142 do s\u0142u\u017Cby.",
+      "Text": "Sabota\u017C produkcji #1 \u2014 Wysogr\u00F3d: Agent schwytany. Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu.",
       "Category": "wywiad"
     }
   ],
@@ -17084,7 +17084,7 @@
     "founding",
     "grain"
   ],
-  "PendingEvent": null,
+  "PendingEvent": "foreign_captive",
   "PendingCityId": null,
   "Migrations": [],
   "Demands": [],
@@ -17113,7 +17113,7 @@
       "Owner": 1,
       "Name": "Lena Wrona",
       "Experience": 0,
-      "Status": "Available"
+      "Status": "Captured"
     }
   ],
   "SpyOperations": [
@@ -17135,13 +17135,17 @@
       "Detected": true,
       "ResearchId": null,
       "ResultValue": 0,
-      "Report": "Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu. W T31 wp\u0142acono 100 z\u0142ota; agent wr\u00F3ci\u0142 do s\u0142u\u017Cby.",
-      "CaptureChoice": 0,
-      "CaptureDecisionTurn": 31
+      "Report": "Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu.",
+      "CaptureChoice": null,
+      "CaptureDecisionTurn": null,
+      "CustodyChoice": null,
+      "CustodyTurn": null,
+      "InternedUntil": null,
+      "ExchangeOperationId": null
     }
   ],
   "NextSpyId": 2,
   "NextSpyOperationId": 2,
-  "PendingSpyOperationId": null,
+  "PendingSpyOperationId": 1,
   "NextId": 13
 }

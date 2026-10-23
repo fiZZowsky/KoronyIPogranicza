@@ -7,7 +7,7 @@ void Test(string name,Action action){try{action();passed++;Console.WriteLine($"P
 GameState Fresh(){var s=World.Create();Narrative.Resolve(s,0);return s;}
 void Decide(GameState s)
 {
-    if(s.PendingEvent==null)return;var e=Narrative.Get(s.PendingEvent);int c=Array.FindIndex(e.Choices,x=>s.Player.Gold+x.Gold>=0);Assert(c>=0,"Every event needs an affordable option.");Assert(Narrative.Resolve(s,c).Success,"Resolution must succeed.");
+    if(s.PendingEvent==null)return;var e=ProvincialEvents.Current(s);int c=Enumerable.Range(0,e.Choices.Length).FirstOrDefault(i=>s.Player.Gold+e.Choices[i].Gold>=0&&(e.Id!=CustodyCouncil.Event.Id||CustodyCouncil.ChoiceError(s,i)==null)&&(e.Id!=SpyCouncil.Event.Id||SpyCouncil.ChoiceError(s,i)==null),-1);Assert(c>=0,"Every event needs an affordable option.");Assert(Narrative.Resolve(s,c).Success,"Resolution must succeed.");
 }
 
 Test("Seed determinism and distinct worlds",()=>
@@ -36,7 +36,7 @@ Test("All events retain an affordable option and known effects",()=>
         Assert(e.Choices.Any(c=>c.Gold>=0),e.Id+" can softlock an empty treasury.");
         for(int i=0;i<e.Choices.Length;i++)
         {
-            var s=e.Id==TradeCouncil.Event.Id?StageEightSpecs.Loss().S:e.Id==AuditCouncil.Event.Id?StageElevenSpecs.Ready():e.Id==DebtCouncil.Event.Id?StageFourteenSpecs.Ready():e.Id==SpyCouncil.Event.Id?StageFifteenSpecs.Ready():Fresh();s.PendingEvent=e.Id;
+            var s=e.Id==TradeCouncil.Event.Id?StageEightSpecs.Loss().S:e.Id==AuditCouncil.Event.Id?StageElevenSpecs.Ready():e.Id==DebtCouncil.Event.Id?StageFourteenSpecs.Ready():e.Id==SpyCouncil.Event.Id?(i==3?StageSixteenSpecs.Pair(true):StageFifteenSpecs.Ready()):e.Id==CustodyCouncil.Event.Id?(i==1?StageSixteenSpecs.Pair():StageSixteenSpecs.Ready()):Fresh();s.PendingEvent=e.Id;
             if(e.Id==TradeCouncil.Event.Id)s.PendingTradeCaseId=1;
             if(ProvincialEvents.IsLocal(e.Id))s.PendingCityId=s.Cities.First(c=>c.Owner==0).Id;
             s.Player.Gold=10000;var current=ProvincialEvents.Current(s);
@@ -139,4 +139,5 @@ StageTwelveSpecs.Run(Test);
 StageThirteenSpecs.Run(Test);
 StageFourteenSpecs.Run(Test);
 StageFifteenSpecs.Run(Test);
+StageSixteenSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");
