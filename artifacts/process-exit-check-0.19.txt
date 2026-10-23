@@ -1,0 +1,6 @@
+--ui-smoke intentional failure exit: 3
+--ui-smoke-espionage intentional failure exit: 3
+--ui-smoke-custody intentional failure exit: 3
+--ui-smoke-epochs intentional failure exit: 3
+--ui-smoke-power intentional failure exit: 3
+--ui-smoke-energy-cases intentional failure exit: 3

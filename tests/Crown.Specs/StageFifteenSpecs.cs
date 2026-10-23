@@ -222,9 +222,9 @@ internal static class StageFifteenSpecs
         {
             var s = StageFourteenSpecs.Ready(); s.Version = 14; var city = s.Cities[0]; city.ProductionQueue.Add(new() { Project = "scout", Repeat = true }); var unit = s.Units.First(); unit.Order = MilitaryOrder.Fortify; unit.FortificationTurns = 1;
             string legacy = SaveGame.Serialize(s); var loaded = SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 18 && loaded.PendingLoanId == 1 && loaded.Loans[0].Principal == 200 && loaded.Spies.Count == 0 && loaded.SpyOperations.Count == 0 && loaded.Cities.All(c => c.CounterIntelligenceUntil == 0) && loaded.Units[0].FortificationTurns == 1 && loaded.Cities[0].ProductionQueue.Single().Repeat, "Migration lost existing state or invented intelligence history.");
+            Assert(loaded.Version == 19 && loaded.PendingLoanId == 1 && loaded.Loans[0].Principal == 200 && loaded.Spies.Count == 0 && loaded.SpyOperations.Count == 0 && loaded.Cities.All(c => c.CounterIntelligenceUntil == 0) && loaded.Units[0].FortificationTurns == 1 && loaded.Cities[0].ProductionQueue.Single().Repeat, "Migration lost existing state or invented intelligence history.");
             string path = Path.Combine(Environment.CurrentDirectory, "artifacts", "migration-v14-test.crown");
-            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v14.bak") == legacy && SaveGame.Read(path).Version == 18, "V14 backup failed."); }
+            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v14.bak") == legacy && SaveGame.Read(path).Version == 19, "V14 backup failed."); }
             finally { File.Delete(path); File.Delete(path + ".v14.bak"); }
         });
         test("Spy validation rejects invalid identities, ownership, status, chance, dates and rolls", () =>

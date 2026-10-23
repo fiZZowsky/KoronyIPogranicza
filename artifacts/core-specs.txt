@@ -373,8 +373,8 @@ PASS V16 migration preserves espionage and custody without inventing new era dec
 PASS Validation rejects impossible eras, milestones, climate values and mismatched models
 PASS A real campaign researches every epoch, resolves its institutions and keeps deterministic saves
   extended development T200: AI eras 8,7,7; techs 38,33,35
-  extended development T400: AI eras 15,11,13; techs 73,54,61
-  future reached after 472 turns; highest AI era 18; cities 13
+  extended development T400: AI eras 15,11,13; techs 72,54,61
+  future reached after 473 turns; highest AI era 18; cities 13
 PASS AI develops from prehistoric income into future eras without granted research or buildings
 PASS Army model forecasts remain pure and preserve modern movement metadata
 PASS V16 save overwrite creates a faithful backup with the old custody context
@@ -414,4 +414,33 @@ PASS Power save reload retains operating costs, priorities and same-turn locks e
 PASS V17 overwrite retains a faithful backup of the player's previous campaign
 PASS Validation rejects unsupported shutdowns, future dates, undefined priorities and null registers
 PASS Legacy games and ended campaigns reject industrial commands atomically
-409 specifications passed in 22,8s.
+PASS An energy petition requires three real consecutive phases below seventy-five percent
+PASS Shortages apply pressure to all countries while only the player receives a council
+PASS Exactly seventy-five percent coverage does not trigger a crisis
+PASS A powered phase resets the consecutive-shortage requirement
+PASS Historical coverage uses the frozen economic phase rather than a newly completed plant
+PASS Power forecasts never create observations or petitions
+PASS Energy observations are bounded, consecutive and preserved by save reload
+PASS Relief pays the displayed opening quote once and does not invent electricity
+PASS An empty treasury still has both a promise and an explicit refusal
+PASS Promise decisions alone never count existing or forecast power as delivery
+PASS Three fully powered future phases settle a pledge through actual turn execution
+PASS One interruption resets promise progress and success wins on the final allowed phase
+PASS Two full phases at the deadline break the promise and cannot later resurrect its reward
+PASS Turning off promised services cannot satisfy a restoration pledge with zero demand
+PASS Powering a substitute does not erase the named services in the original promise
+PASS A pledge checks the entire active city's power rather than only its old demand
+PASS A real priority change can recover a pledged city by shifting power from its neighbour
+PASS A case keeps its original protocol after the recent city history has rolled over
+PASS Repeated shortages respect sixteen turns after resolution and one open case per city
+PASS An unresolved older council is never overwritten by a new energy delegation
+PASS Losing a pledged city breaks the national word but does not punish its new local owner
+PASS Losing a city closes its pending delegation and clears only that council context
+PASS A recovered city does not inherit its previous owner's shortage observations
+PASS V18 migration preserves power directives without inventing old outages or promises
+PASS V18 overwrite retains an exact backup before introducing the new save format
+PASS A mid-pledge save retains evidence and follows the same future political outcome
+PASS Malformed observations, impossible success and missing council contexts are rejected
+PASS Legacy campaigns neither accumulate energy evidence nor permit fabricated petitions
+PASS Live pledges cannot hide an observed phase or forge an earlier successful streak
+438 specifications passed in 20,7s.

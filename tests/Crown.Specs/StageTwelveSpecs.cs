@@ -156,9 +156,9 @@ internal static class StageTwelveSpecs
             var s=StageElevenSpecs.Ready();var c=s.Cities[0];c.Production=37;var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=11;
             foreach(var city in node["Cities"]!.AsArray())foreach(string key in new[]{"ProductionQueue","RepeatProject","ProductionPaused"})city!.AsObject().Remove(key);
             string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 18&&loaded.PendingAuditId==1&&loaded.Audits[0].AssessedGold==s.Audits[0].AssessedGold&&loaded.Cities[0].Production==37&&loaded.Cities[0].Project==c.Project&&loaded.Cities.All(v=>v.ProductionQueue.Count==0&&!v.RepeatProject&&!v.ProductionPaused),"Migration erased audit evidence, work or invented orders.");
+            Assert(loaded.Version == 19&&loaded.PendingAuditId==1&&loaded.Audits[0].AssessedGold==s.Audits[0].AssessedGold&&loaded.Cities[0].Production==37&&loaded.Cities[0].Project==c.Project&&loaded.Cities.All(v=>v.ProductionQueue.Count==0&&!v.RepeatProject&&!v.ProductionPaused),"Migration erased audit evidence, work or invented orders.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v11-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v11.bak")==legacy&&SaveGame.Read(path).Version == 18,"V11 backup missing.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v11.bak")==legacy&&SaveGame.Read(path).Version == 19,"V11 backup missing.");}
             finally{File.Delete(path);File.Delete(path+".v11.bak");}
         });
         test("Save validation rejects oversized, unknown, null and impossible repeating production plans",()=>

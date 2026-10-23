@@ -52,6 +52,7 @@ public sealed partial class MainWindow
             p.Children.Add(Ui.Button("Zarządzaj energią: " + c.Name, () => ShowPowerManagement(c.Id)));
             p.Children.Add(Ui.Button("Infrastruktura: " + c.Name, () => ShowProjects(c)));
         }
+        p.Children.Add(Ui.Button("Kryzysy i obietnice energetyczne", () => ShowEnergyCases()));
         p.Children.Add(Ui.Eyebrow("PROGRAMY POZAZIEMSKIE"));
         p.Children.Add(Ui.Label("Placówki są trwałymi programami państwa z dochodami w stolicy. Ta wersja nie ma osobnej mapy kosmosu ani sterowania flotą. Programy budujesz w wybranym mieście i możesz umieszczać w planie produkcji.", 12, Ui.Muted));
         foreach (var program in Epochs.Programs)

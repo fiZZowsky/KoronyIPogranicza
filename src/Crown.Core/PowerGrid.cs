@@ -71,11 +71,18 @@ public static class PowerGrid
     {
         private readonly GameState state;
         public double? Emissions { get; }
+        public IReadOnlyList<EnergySample> Readings { get; } = [];
         public EconomicPhase(GameState s)
         {
             state = s;
             if (!s.EpochCampaign) return;
             s.PowerPhase = s.Cities.ToDictionary(c => c.Id, c => Plan(s, c));
+            Readings = s.Cities.Select(c =>
+            {
+                var row = s.PowerPhase[c.Id].Cities.First(x => x.CityId == c.Id);
+                return new EnergySample(c.Id, c.Owner, new() { PhaseTurn = s.Turn, Demand = row.Demand, Allocated = row.Allocated,
+                    Services = EpochCatalog.Buildings.Where(b => b.Demand > 0 && Active(c, b.Id)).Select(b => b.Id).OrderBy(id => id, StringComparer.Ordinal).ToList() });
+            }).ToArray();
             Emissions = s.Factions.Sum(f => Epochs.Emissions(s, f.Id));
         }
         public void Dispose() => state.PowerPhase = null;

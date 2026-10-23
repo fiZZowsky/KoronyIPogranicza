@@ -1,0 +1,6 @@
+--ui-smoke: 50.7 seconds
+--ui-smoke-espionage: 6.3 seconds
+--ui-smoke-custody: 5.4 seconds
+--ui-smoke-epochs: 6.6 seconds
+--ui-smoke-power: 4.3 seconds
+--ui-smoke-energy-cases: 5.9 seconds

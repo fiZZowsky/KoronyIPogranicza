@@ -86,6 +86,7 @@ public static class ProvincialPolitics
         }
         if (s.PendingCityId == city.Id && owner != 0) { s.PendingCityId = null; s.PendingEvent = null; }
         TradeCouncil.OwnershipChanged(s,city);
+        EnergyCouncil.OwnershipChanged(s,city);
         AuditCouncil.OwnershipChanged(s,city);
         Espionage.OwnershipChanged(s,city);
         EscortOrders.Normalize(s);

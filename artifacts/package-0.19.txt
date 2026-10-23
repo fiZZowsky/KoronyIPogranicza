@@ -1,0 +1,10 @@
+Package: Korony-i-Pogranicza-0.19-Windows.zip
+Bytes: 3727543
+Entries: 14
+SHA256: 9EBB114E22B8425F5A540EF0F530B4A77899B76299E1325F79F479DD7A7763AF
+Every entry hash matches the published file. Includes EPOKI.md and VERIFICATION.md. No player saves, backups or temporary files.
+438 core specifications and 293 WPF checks passed. All six source and published modes pass; intentional failures all exit 3.
+Published UI durations: 50.7 + 6.3 + 5.4 + 6.6 + 4.3 + 5.9 seconds, sequential.
+EXE, desktop DLL and core DLL hashes match the source Release build.
+Previous 0.18 ZIP and copied player save hashes remain unchanged.
+Commit title: feat: add energy crisis councils and verifiable recovery pledges

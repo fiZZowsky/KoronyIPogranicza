@@ -117,6 +117,12 @@ Cztery odnawialne źródła używają już istniejącego terenu i technologii, b
 
 Format v18 zachowuje dyspozycje i daty. Migracja v17 pozostawia cały świat epok, ale zaczyna nowe mechaniki z normalnym przydziałem i czynnymi obiektami. Stare kampanie nadal wymagają świadomego rozszerzenia epok. Testy obejmują rzeczywiste skutki w dwóch miastach, blokadę i wznowienie programu kosmicznego, konserwację mocy, geografię, klimat, AI, zapisy i sterowanie WPF.
 
+Wersja 0.19 wiąże reguły energetyki ze społeczną pamięcią decyzji. Odczyt powstaje z migawki rzeczywistej fazy gospodarki i obejmuje aktywne usługi, popyt oraz przydział. Trzy kolejne niedobory poniżej 75% uruchamiają łagodną presję w każdym państwie. Gracz otrzymuje kontekstową delegację, która nie nadpisuje już otwartej rady. Pomoc kupuje uspokojenie, nie energię. Odmowa przyznaje priorytet dotychczasowemu podziałowi bez fałszywej gwarancji.
+
+Obietnica zawiera zamknięty protokół usług i sześć przyszłych rozliczeń. Wymaga trzech kolejnych pełnych faz całego miasta oraz działania obiecanych obiektów. Nie można spełnić jej przez wyłączenie potrzeb. Zapisane dowody pozostają przy sprawie niezależnie od krótkiej historii miasta, a wynik nie ulega późniejszemu powtórzeniu. Ostatnia faza ma pierwszeństwo przed porażką terminu. Utrata suwerenności łamie słowo na poziomie dawnego państwa; miejscowa kara nie obciąża nowego właściciela. Równocześnie zmiana władcy czyści lokalną serię niedoborów. Odstęp szesnastu tur od zamknięcia i jedna aktywna sprawa ograniczają powielanie nagród oraz zalew dialogów.
+
+Format v19 zachowuje źródło, koszt pomocy, decyzję, termin i dowody. Migracja v18 nie wytwarza retrospektywnych odczytów. Walidacja sprawdza chronologię, popyt wynikający z usług, pełne pokrycie, brak pominiętych faz aktywnej obietnicy oraz zgodność wyniku. To konflikt pracowników i usług w agregacie miejskim, bez fizycznej symulacji gospodarstw domowych, indywidualnych firm, cen energii lub losowych awarii. AI ponosi presję niedoboru i stosuje wcześniejsze heurystyki naprawy; nie ma dialogów gracza dotyczących obcych delegacji.
+
 ## Kolejne etapy
 
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.

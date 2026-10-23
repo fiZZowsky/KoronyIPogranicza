@@ -218,6 +218,7 @@ public static partial class Engine
         foreach(var u in s.Units.ToArray())MilitaryOrders.FinishTurn(s,u);
         ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         AuditCouncil.Tick(s);
+        EnergyCouncil.Observe(s,powerPhase.Readings);
         TreasuryLoans.Tick(s);
         Espionage.Tick(s);
         foreach(string notice in TransitCouncil.Notices(s))s.Log(notice,"tranzyt");

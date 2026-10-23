@@ -11,6 +11,7 @@ void Decide(GameState s)
 }
 
 if(args.Contains("--export-epochs")){EpochDocumentation.Write(args.Last());return;}
+if(args.Contains("--energy-cases")){StageNineteenSpecs.Run(Test);Console.WriteLine($"{passed} energy case specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--power")){StageEighteenSpecs.Run(Test);Console.WriteLine($"{passed} power specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--epochs")){StageSeventeenSpecs.Run(Test);Console.WriteLine($"{passed} epoch specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 Test("Seed determinism and distinct worlds",()=>
@@ -39,7 +40,7 @@ Test("All events retain an affordable option and known effects",()=>
         Assert(e.Choices.Any(c=>c.Gold>=0),e.Id+" can softlock an empty treasury.");
         for(int i=0;i<e.Choices.Length;i++)
         {
-            var s=EpochCouncils.Index(e.Id)>=0?StageSeventeenSpecs.Council(EpochCouncils.Index(e.Id)):e.Id==TradeCouncil.Event.Id?StageEightSpecs.Loss().S:e.Id==AuditCouncil.Event.Id?StageElevenSpecs.Ready():e.Id==DebtCouncil.Event.Id?StageFourteenSpecs.Ready():e.Id==SpyCouncil.Event.Id?(i==3?StageSixteenSpecs.Pair(true):StageFifteenSpecs.Ready()):e.Id==CustodyCouncil.Event.Id?(i==1?StageSixteenSpecs.Pair():StageSixteenSpecs.Ready()):Fresh();s.PendingEvent=e.Id;
+            var s=e.Id==EnergyCouncil.Event.Id?StageNineteenSpecs.Ready():EpochCouncils.Index(e.Id)>=0?StageSeventeenSpecs.Council(EpochCouncils.Index(e.Id)):e.Id==TradeCouncil.Event.Id?StageEightSpecs.Loss().S:e.Id==AuditCouncil.Event.Id?StageElevenSpecs.Ready():e.Id==DebtCouncil.Event.Id?StageFourteenSpecs.Ready():e.Id==SpyCouncil.Event.Id?(i==3?StageSixteenSpecs.Pair(true):StageFifteenSpecs.Ready()):e.Id==CustodyCouncil.Event.Id?(i==1?StageSixteenSpecs.Pair():StageSixteenSpecs.Ready()):Fresh();s.PendingEvent=e.Id;
             if(e.Id==TradeCouncil.Event.Id)s.PendingTradeCaseId=1;
             if(ProvincialEvents.IsLocal(e.Id))s.PendingCityId=s.Cities.First(c=>c.Owner==0).Id;
             s.Player.Gold=10000;var current=ProvincialEvents.Current(s);
@@ -145,4 +146,5 @@ StageFifteenSpecs.Run(Test);
 StageSixteenSpecs.Run(Test);
 StageSeventeenSpecs.Run(Test);
 StageEighteenSpecs.Run(Test);
+StageNineteenSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

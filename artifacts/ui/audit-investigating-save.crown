@@ -1,5 +1,5 @@
 {
-  "Version": 18,
+  "Version": 19,
   "EpochCampaign": false,
   "ContinueAfterVictory": false,
   "ClimatePressure": 0,
@@ -16532,7 +16532,8 @@
       "PowerPriority": "Normal",
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
-      "LastOperationTurns": {}
+      "LastOperationTurns": {},
+      "EnergyHistory": []
     },
     {
       "Id": 4,
@@ -16586,7 +16587,8 @@
       "PowerPriority": "Normal",
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
-      "LastOperationTurns": {}
+      "LastOperationTurns": {},
+      "EnergyHistory": []
     },
     {
       "Id": 7,
@@ -16640,7 +16642,8 @@
       "PowerPriority": "Normal",
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
-      "LastOperationTurns": {}
+      "LastOperationTurns": {},
+      "EnergyHistory": []
     },
     {
       "Id": 10,
@@ -16694,7 +16697,8 @@
       "PowerPriority": "Normal",
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
-      "LastOperationTurns": {}
+      "LastOperationTurns": {},
+      "EnergyHistory": []
     }
   ],
   "Units": [
@@ -17081,5 +17085,9 @@
   "NextSpyId": 1,
   "NextSpyOperationId": 1,
   "PendingSpyOperationId": null,
+  "EnergyCases": [],
+  "NextEnergyCaseId": 1,
+  "PendingEnergyCaseId": null,
+  "LastEnergyPhase": 0,
   "NextId": 13
 }

@@ -10,7 +10,8 @@ public static class SaveGame
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
-        if(s.Version is <1 or >18)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version is <1 or >19)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version<19){s.EnergyCases=[];s.NextEnergyCaseId=1;s.PendingEnergyCaseId=null;s.LastEnergyPhase=0;foreach(var c in s.Cities)c.EnergyHistory=[];}
         if(s.Version<18)foreach(var c in s.Cities){c.PowerPriority=PowerPriority.Normal;c.LastPowerPriorityTurn=-1;c.SuspendedBuildings=[];c.LastOperationTurns=[];}
         if(s.Version<17){s.EpochCampaign=s.ContinueAfterVictory=false;s.ClimatePressure=0;foreach(var f in s.Factions){f.EpochChoices=[];f.SpaceMilestones=[];}foreach(var u in s.Units)u.ModelId=null;}
         if(s.Version==15)
@@ -110,7 +111,8 @@ public static class SaveGame
         SpySaveRules.Validate(s);
         EpochSaveRules.Validate(s);
         PowerGrid.Validate(s);
-        s.Version=18;
+        EnergySaveRules.Validate(s);
+        s.Version=19;
         return s;
     }
     public static void Write(GameState state,string path)
@@ -119,7 +121,7 @@ public static class SaveGame
         string temp=path+".tmp";File.WriteAllText(temp,Serialize(state));
         if(File.Exists(path))
         {
-            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=17&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
+            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=18&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
             catch(JsonException){ /* An invalid old file may still be replaced by an explicit save. */ }
         }
         File.Move(temp,path,true);

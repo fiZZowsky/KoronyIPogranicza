@@ -186,7 +186,7 @@ internal static class StageEighteenSpecs
         test("V17 migration keeps the extended world and resets only newly introduced power directives", () =>
         {
             var s = Fresh(); var c = s.Cities[0]; c.Buildings.Add("atomic_reactor"); s.Player.EpochChoices[13] = 2; s.ClimatePressure = 33; s.Version = 17; c.SuspendedBuildings.Add("atomic_reactor"); c.PowerPriority = PowerPriority.Critical;
-            var loaded = SaveGame.Deserialize(SaveGame.Serialize(s)); Assert(loaded.Version == 18 && loaded.EpochCampaign && loaded.ClimatePressure == 33 && loaded.Player.EpochChoices[13] == 2 && loaded.Cities[0].PowerPriority == PowerPriority.Normal && loaded.Cities[0].SuspendedBuildings.Count == 0, "Migration erased epoch history or invented directives.");
+            var loaded = SaveGame.Deserialize(SaveGame.Serialize(s)); Assert(loaded.Version == 19 && loaded.EpochCampaign && loaded.ClimatePressure == 33 && loaded.Player.EpochChoices[13] == 2 && loaded.Cities[0].PowerPriority == PowerPriority.Normal && loaded.Cities[0].SuspendedBuildings.Count == 0, "Migration erased epoch history or invented directives.");
         });
         test("Power save reload retains operating costs, priorities and same-turn locks exactly", () =>
         {
@@ -197,7 +197,7 @@ internal static class StageEighteenSpecs
         test("V17 overwrite retains a faithful backup of the player's previous campaign", () =>
         {
             var s = Fresh(); s.Version = 17; string old = SaveGame.Serialize(s); string path = Path.Combine(Environment.CurrentDirectory, "artifacts", "migration-v17-test.crown");
-            try { File.WriteAllText(path, old); SaveGame.Write(SaveGame.Deserialize(old), path); Assert(File.ReadAllText(path + ".v17.bak") == old && SaveGame.Read(path).Version == 18, "Old campaign backup missing."); }
+            try { File.WriteAllText(path, old); SaveGame.Write(SaveGame.Deserialize(old), path); Assert(File.ReadAllText(path + ".v17.bak") == old && SaveGame.Read(path).Version == 19, "Old campaign backup missing."); }
             finally { File.Delete(path); File.Delete(path + ".v17.bak"); }
         });
         test("Validation rejects unsupported shutdowns, future dates, undefined priorities and null registers", () =>

@@ -168,7 +168,7 @@ internal static class StageSeventeenSpecs
         test("V16 migration preserves espionage and custody without inventing new era decisions", () =>
         {
             var s = StageSixteenSpecs.Ready(); Narrative.Resolve(s, 3); s.Version = 16; var loaded = SaveGame.Deserialize(SaveGame.Serialize(s));
-            Assert(loaded.Version == 18 && !loaded.EpochCampaign && loaded.MaxTurns == 320 && loaded.SpyOperations[0].InternedUntil == s.SpyOperations[0].InternedUntil && loaded.Spies[0].Status == SpyStatus.Captured && loaded.Factions.All(f => f.EpochChoices.Count == 0 && f.SpaceMilestones.Count == 0), "Migration lost custody or invented history.");
+            Assert(loaded.Version == 19 && !loaded.EpochCampaign && loaded.MaxTurns == 320 && loaded.SpyOperations[0].InternedUntil == s.SpyOperations[0].InternedUntil && loaded.Spies[0].Status == SpyStatus.Captured && loaded.Factions.All(f => f.EpochChoices.Count == 0 && f.SpaceMilestones.Count == 0), "Migration lost custody or invented history.");
         });
         test("Validation rejects impossible eras, milestones, climate values and mismatched models", () =>
         {

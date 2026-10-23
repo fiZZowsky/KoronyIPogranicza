@@ -34,6 +34,7 @@ public sealed partial class MainWindow
             p.Children.Add(Ui.Label($"{member.Name} · {PowerGrid.PriorityName(member.PowerPriority)} · {row.Allocated:0.##}/{row.Demand} mocy · {row.Coverage:P0}", 14, row.Coverage < 1 ? Ui.Gold : Ui.Green));
             if (member.Id != cityId) p.Children.Add(Ui.Button("Dyspozycje: " + member.Name, () => ShowPowerManagement(member.Id)));
         }
+        AddEnergyHistory(p, city);
         p.Children.Add(Ui.Eyebrow("ZAKŁADY TEGO MIASTA"));
         p.Children.Add(Ui.Label("Wyłączony zakład nie daje premii ani energii, nie potrzebuje zasilania i nie emituje. Pozostają miejsca mieszkalne i 25% jego utrzymania. Rozruch kosztuje 5% kosztu budowy w złocie, zaokrąglone w górę. Nie zmienia to planu produkcji. Bez energii działający zakład daje 25–100% premii; jego utrzymanie pozostaje pełne.", 13, Ui.Muted));
         foreach (var building in EpochCatalog.Buildings.Where(b => city.Buildings.Contains(b.Id) && PowerGrid.Controllable(b.Id)).OrderByDescending(b => b.Energy).ThenBy(b => b.Era))

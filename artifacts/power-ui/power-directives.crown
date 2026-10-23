@@ -1,5 +1,5 @@
 {
-  "Version": 18,
+  "Version": 19,
   "EpochCampaign": true,
   "ContinueAfterVictory": false,
   "ClimatePressure": 0.195,
@@ -16577,7 +16577,15 @@
       "SuspendedBuildings": [],
       "LastOperationTurns": {
         "orbital_shipyard": 2
-      }
+      },
+      "EnergyHistory": [
+        {
+          "PhaseTurn": 1,
+          "Demand": 0,
+          "Allocated": 0,
+          "Services": []
+        }
+      ]
     },
     {
       "Id": 4,
@@ -16674,7 +16682,15 @@
       "PowerPriority": "Normal",
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
-      "LastOperationTurns": {}
+      "LastOperationTurns": {},
+      "EnergyHistory": [
+        {
+          "PhaseTurn": 1,
+          "Demand": 0,
+          "Allocated": 0,
+          "Services": []
+        }
+      ]
     },
     {
       "Id": 7,
@@ -16771,7 +16787,15 @@
       "PowerPriority": "Normal",
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
-      "LastOperationTurns": {}
+      "LastOperationTurns": {},
+      "EnergyHistory": [
+        {
+          "PhaseTurn": 1,
+          "Demand": 0,
+          "Allocated": 0,
+          "Services": []
+        }
+      ]
     },
     {
       "Id": 10,
@@ -16868,7 +16892,15 @@
       "PowerPriority": "Normal",
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
-      "LastOperationTurns": {}
+      "LastOperationTurns": {},
+      "EnergyHistory": [
+        {
+          "PhaseTurn": 1,
+          "Demand": 0,
+          "Allocated": 0,
+          "Services": []
+        }
+      ]
     },
     {
       "Id": 13,
@@ -16967,7 +16999,17 @@
       "PowerPriority": "Normal",
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
-      "LastOperationTurns": {}
+      "LastOperationTurns": {},
+      "EnergyHistory": [
+        {
+          "PhaseTurn": 1,
+          "Demand": 25,
+          "Allocated": 25,
+          "Services": [
+            "data_centre"
+          ]
+        }
+      ]
     }
   ],
   "Units": [],
@@ -17350,5 +17392,9 @@
   "NextSpyId": 1,
   "NextSpyOperationId": 1,
   "PendingSpyOperationId": null,
+  "EnergyCases": [],
+  "NextEnergyCaseId": 1,
+  "PendingEnergyCaseId": null,
+  "LastEnergyPhase": 1,
   "NextId": 14
 }

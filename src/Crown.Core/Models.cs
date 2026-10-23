@@ -88,6 +88,7 @@ public sealed class City
     public int LastPowerPriorityTurn { get; set; } = -1;
     public HashSet<string> SuspendedBuildings { get; set; } = [];
     public Dictionary<string, int> LastOperationTurns { get; set; } = [];
+    public List<EnergyReading> EnergyHistory { get; set; } = [];
 }
 public sealed class Unit
 {
@@ -215,7 +216,7 @@ public sealed class DeferredEffect
 public sealed class GameState
 {
     internal Dictionary<int, PowerNetwork>? PowerPhase { get; set; }
-    public int Version { get; set; } = 18;
+    public int Version { get; set; } = 19;
     public bool EpochCampaign { get; set; }
     public bool ContinueAfterVictory { get; set; }
     public double ClimatePressure { get; set; }
@@ -262,6 +263,10 @@ public sealed class GameState
     public int NextSpyId { get; set; } = 1;
     public int NextSpyOperationId { get; set; } = 1;
     public int? PendingSpyOperationId { get; set; }
+    public List<EnergyCase> EnergyCases { get; set; } = [];
+    public int NextEnergyCaseId { get; set; } = 1;
+    public int? PendingEnergyCaseId { get; set; }
+    public int LastEnergyPhase { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
     internal Dictionary<int, SupplyMap> LogisticsCache = [];

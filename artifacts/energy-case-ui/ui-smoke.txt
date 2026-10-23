@@ -1,0 +1,23 @@
+PASS World overview exposes an initially empty energy petition register
+PASS Two actual desktop turns record history without opening an early petition
+PASS Third real shortage turn opens the contextual city energy council
+PASS Energy dialogue identifies its speaker and the actual affected service
+PASS A free verifiable recovery pledge is selectable
+PASS Reload reopens the correct pending delegation
+PASS Relief option pays the quoted amount and leaves the power shortage real
+PASS Register retains the actual relief decision
+PASS Promise decision records its deadline without crediting forecasts
+PASS Operating panel displays real earlier economic readings
+PASS Plant construction changes the forecast but does not rewrite that turn's unpowered delivery
+PASS Two later fully powered desktop phases build a genuine consecutive recovery streak
+PASS Mid-pledge desktop reload preserves the exact evidence and progress
+PASS Third full phase completes the real political commitment
+PASS Register shows fulfilled recovery with its preserved outcome
+PASS Empty treasury disables relief while preserving both free political choices
+PASS Refusal records a real decision without fabricating a payment or promise
+PASS Turning off the named service cannot satisfy the pledge at zero demand
+PASS Failed pledge register explains the unmet phases rather than awarding a timer reward
+PASS An older pending council visibly prevents replacing its context with an energy hearing
+PASS Compact native layout: requested 1200x800, window 1200x800, root 1184x761, state Minimized
+PASS Energy case explanations and actions remain reachable in a compact scrolling window
+22 energy case desktop integration checks passed.

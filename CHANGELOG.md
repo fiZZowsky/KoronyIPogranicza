@@ -1,5 +1,16 @@
 # Zmiany
 
+## 0.19 — Słowo rady pod napięciem · 23 października 2026
+
+- Historyczne odczyty faktycznego przydziału energii z początku fazy gospodarczej. Osiem ostatnich faz miasta, bez zamiany aktualnej prognozy w fikcyjną historię. Nowe źródła i zmiany sezonu nie zmieniają wcześniejszych danych.
+- Po trzech kolejnych fazach poniżej 75% pokrycia, przy dodatnim popycie: lokalne niepokoje +2 i dobrobyt -1 na fazę, lud państwa -1 niezależnie od liczby miast. Te same zasady dla AI. Jedna dobra faza przerywa serię.
+- Delegatka Ira Senn przedstawia rzeczywisty kryzys własnego miasta. Trzy odpowiedzi: pomoc za 60 + 5 × ludność w chwili zgłoszenia złota, darmowa sprawdzalna obietnica lub jawna odmowa. Miejscowe i narodowe skutki są widoczne w radzie. Pomoc nie odtwarza energii.
+- Obietnica wymaga trzech kolejnych przyszłych pełnych faz zasilania w sześć tur i działania wszystkich zakładów protokołu. Wyłączenie tych usług lub zastąpienie innymi nie zalicza odbudowy. Ostatnia dozwolona faza najpierw sprawdza wykonanie, potem termin. Dowody, postęp i zakończenie pozostają zapisane, bez ponownej nagrody lub kary.
+- Utrata miasta łamie obietnicę, lecz nie nakłada miejscowej kary dawnego władcy na nowego. Nierozpatrzona delegacja zostaje zamknięta. Zmiana właściciela czyści lokalną historię odczytów; nie otwiera nowej sprawy za cudze stare niedobory.
+- Jedna aktywna sprawa na miasto, 16 tur odstępu od zamknięcia. Rejestr kryzysów z protokołem, odczytami, terminem, postępem i wynikiem; przejście do naprawy zasilania. Odczyty i aktywna sprawa także w panelu energii miasta. Inny otwarty dialog zachowuje kontekst.
+- Format v19 i kopia `.v18.bak`. Migracja v18 zachowuje całą kampanię oraz dyspozycje energetyczne, bez dopisywania starych kryzysów. Walidacja wiąże chronologię, potrzeby usług, źródło delegacji, przyszłe dostawy i możliwy wynik.
+- Nowe specyfikacje i szósty tryb WPF `--ui-smoke-energy-cases`: prawdziwe kończenie tur, trzy gałęzie dialogu, budowa źródła, postęp, zapis w toku, sukces i porażka. Osobne wydanie `wydanie-0.19/`; zachowane poprzednie paczki i zapis gracza.
+
 ## 0.18 — Energia pod kontrolą · 23 października 2026
 
 - Trzy priorytety zasilania miast. Najpierw wyższa grupa; w tej samej grupie podział proporcjonalny. Rzeczywiste zmiany nauki, pracy, dochodów i gotowości programu kosmicznego, bez tworzenia dodatkowej energii.

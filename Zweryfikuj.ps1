@@ -50,3 +50,12 @@ if (-not $powerProcess.WaitForExit(60000)) {
 }
 if ($powerProcess.ExitCode -ne 0) { throw 'Test energetyki WPF nie przeszedł. Sprawdź artifacts/power-ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $powerDirectory 'ui-smoke.txt')
+
+$energyCaseDirectory = Join-Path $reportDirectory 'energy-case-ui'
+$energyCaseProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-energy-cases', ('"' + $energyCaseDirectory + '"')) -WindowStyle Hidden -PassThru
+if (-not $energyCaseProcess.WaitForExit(60000)) {
+    Stop-Process -Id $energyCaseProcess.Id -Force
+    throw 'Test kryzysów energetycznych przekroczył limit 60 sekund.'
+}
+if ($energyCaseProcess.ExitCode -ne 0) { throw 'Test kryzysów WPF nie przeszedł. Sprawdź artifacts/energy-case-ui/ui-smoke.txt.' }
+Get-Content -LiteralPath (Join-Path $energyCaseDirectory 'ui-smoke.txt')
