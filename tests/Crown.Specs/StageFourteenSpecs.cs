@@ -6,7 +6,7 @@ internal static class StageFourteenSpecs
     private static void Assert(bool value, string message) { if (!value) throw new Exception(message); }
     public static GameState Fresh()
     {
-        var s = World.Create(); Narrative.Resolve(s, 0); s.Player.Technologies.Add("currency");
+        var s = World.CreateLegacy(); Narrative.Resolve(s, 0); s.Player.Technologies.Add("currency");
         foreach (var f in s.Factions) f.Gold = 3000;
         foreach (var c in s.Cities) { c.ProductionPaused = true; c.Project = "treasury"; }
         s.Units.RemoveAll(u => u.Owner != 0);
@@ -187,9 +187,9 @@ internal static class StageFourteenSpecs
         {
             var s = Fresh(); s.Version = 13; var u = s.Units.First(); u.Order = MilitaryOrder.Fortify; u.FortificationTurns = 1; var c = s.Cities[0]; c.ProductionQueue.Add(new() { Project = "scout", Repeat = true }); c.HiddenGold = 18;
             string legacy = SaveGame.Serialize(s); var loaded = SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 16 && loaded.Loans.Count == 0 && loaded.NextLoanId == 1 && loaded.PendingLoanId == null && loaded.Units[0].FortificationTurns == 1 && loaded.Cities[0].HiddenGold == 18 && loaded.Cities[0].ProductionQueue[0].Repeat, "Migration invented debt or erased ongoing state.");
+            Assert(loaded.Version == 17 && loaded.Loans.Count == 0 && loaded.NextLoanId == 1 && loaded.PendingLoanId == null && loaded.Units[0].FortificationTurns == 1 && loaded.Cities[0].HiddenGold == 18 && loaded.Cities[0].ProductionQueue[0].Repeat, "Migration invented debt or erased ongoing state.");
             string path = Path.Combine(Environment.CurrentDirectory, "artifacts", "migration-v13-test.crown");
-            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v13.bak") == legacy && SaveGame.Read(path).Version == 16, "V13 backup missing."); }
+            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v13.bak") == legacy && SaveGame.Read(path).Version == 17, "V13 backup missing."); }
             finally { File.Delete(path); File.Delete(path + ".v13.bak"); }
         });
         test("Loan validation rejects unknown terms, impossible dates, fake payments and bad contexts", () =>

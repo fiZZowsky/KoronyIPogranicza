@@ -1,5 +1,8 @@
 {
-  "Version": 16,
+  "Version": 17,
+  "EpochCampaign": false,
+  "ContinueAfterVictory": false,
+  "ClimatePressure": 0,
   "Seed": 17421,
   "RandomState": 1412161214,
   "Width": 42,
@@ -16855,6 +16858,7 @@
       "Owner": 0,
       "Tile": 639,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16868,6 +16872,7 @@
       "Owner": 0,
       "Tile": 639,
       "Kind": "Scout",
+      "ModelId": null,
       "Health": 100,
       "Actions": 3,
       "Destination": null,
@@ -16881,6 +16886,7 @@
       "Owner": 1,
       "Tile": 366,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16894,6 +16900,7 @@
       "Owner": 1,
       "Tile": 284,
       "Kind": "Scout",
+      "ModelId": null,
       "Health": 100,
       "Actions": 1,
       "Destination": null,
@@ -16907,6 +16914,7 @@
       "Owner": 2,
       "Tile": 913,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16920,6 +16928,7 @@
       "Owner": 2,
       "Tile": 962,
       "Kind": "Scout",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16933,6 +16942,7 @@
       "Owner": 3,
       "Tile": 220,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16946,6 +16956,7 @@
       "Owner": 3,
       "Tile": 54,
       "Kind": "Scout",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16959,6 +16970,7 @@
       "Owner": 2,
       "Tile": 913,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16972,6 +16984,7 @@
       "Owner": 1,
       "Tile": 366,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16985,6 +16998,7 @@
       "Owner": 3,
       "Tile": 220,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16998,6 +17012,7 @@
       "Owner": 2,
       "Tile": 913,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -17011,6 +17026,7 @@
       "Owner": 3,
       "Tile": 220,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -17024,6 +17040,7 @@
       "Owner": 1,
       "Tile": 366,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -17062,7 +17079,9 @@
         "shelter"
       ],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 1,
@@ -17089,7 +17108,9 @@
       ],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 2,
@@ -17116,7 +17137,9 @@
       ],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 3,
@@ -17143,7 +17166,9 @@
       ],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     }
   ],
   "Relations": [

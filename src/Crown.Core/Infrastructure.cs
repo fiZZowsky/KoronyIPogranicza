@@ -13,11 +13,11 @@ public static partial class Engine
         var f = s.Factions[owner];
         double trade = s.Relations.Count(r => (r.A == owner || r.B == owner) && r.Trade && !r.War) *
             (f.Technologies.Contains("navigation") ? 14 : 6);
-        double army = s.Units.Count(u => u.Owner == owner) * 1.4;
+        double army = s.Units.Where(u => u.Owner == owner).Sum(UnitModels.Upkeep);
         double administration = s.Cities.Where(c => c.Owner == owner).Sum(c => 2 + c.Buildings.Count * .35) *
             (f.Technologies.Contains("civilservice") ? .75 : 1);
         double roads = s.Tiles.Count(t => t.Road && t.RoadOwner == owner) * Logistics.RoadUpkeep;
-        return new(gross, trade, army, administration, roads,s.Cities.Where(c=>c.Owner==owner).Sum(c=>c.LastMarketTax),Markets.LastTradeBalance(s,owner));
+        return new(gross, trade, army, administration+Epochs.Upkeep(s,owner), roads,s.Cities.Where(c=>c.Owner==owner).Sum(c=>c.LastMarketTax),Markets.LastTradeBalance(s,owner));
     }
 
     public static Result BuildRoad(GameState s, int tileId, int owner = 0)

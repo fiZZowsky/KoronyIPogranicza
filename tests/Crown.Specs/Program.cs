@@ -4,17 +4,19 @@ using System.Diagnostics;
 int passed=0;var timer=Stopwatch.StartNew();
 void Assert(bool value,string message){if(!value)throw new Exception(message);}
 void Test(string name,Action action){try{action();passed++;Console.WriteLine($"PASS {name}");}catch(Exception e){Console.Error.WriteLine($"FAIL {name}: {e}");Environment.ExitCode=1;}}
-GameState Fresh(){var s=World.Create();Narrative.Resolve(s,0);return s;}
+GameState Fresh(){var s=World.CreateLegacy();Narrative.Resolve(s,0);return s;}
 void Decide(GameState s)
 {
     if(s.PendingEvent==null)return;var e=ProvincialEvents.Current(s);int c=Enumerable.Range(0,e.Choices.Length).FirstOrDefault(i=>s.Player.Gold+e.Choices[i].Gold>=0&&(e.Id!=CustodyCouncil.Event.Id||CustodyCouncil.ChoiceError(s,i)==null)&&(e.Id!=SpyCouncil.Event.Id||SpyCouncil.ChoiceError(s,i)==null),-1);Assert(c>=0,"Every event needs an affordable option.");Assert(Narrative.Resolve(s,c).Success,"Resolution must succeed.");
 }
 
+if(args.Contains("--export-epochs")){EpochDocumentation.Write(args.Last());return;}
+if(args.Contains("--epochs")){StageSeventeenSpecs.Run(Test);Console.WriteLine($"{passed} epoch specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 Test("Seed determinism and distinct worlds",()=>
 {
-    Assert(SaveGame.Serialize(World.Create(44))==SaveGame.Serialize(World.Create(44)),"Same seed diverged.");
-    Assert(!World.Create(44).Tiles.Select(t=>t.Terrain).SequenceEqual(World.Create(45).Tiles.Select(t=>t.Terrain)),"Seeds made identical maps.");
-    foreach(int seed in new[]{0,-1,int.MinValue,int.MaxValue,17421,2026}){var s=World.Create(seed);Assert(s.Cities.All(c=>s.Tiles[c.Tile].Passable),"Invalid start.");SaveGame.Deserialize(SaveGame.Serialize(s));}
+    Assert(SaveGame.Serialize(World.CreateLegacy(44))==SaveGame.Serialize(World.CreateLegacy(44)),"Same seed diverged.");
+    Assert(!World.CreateLegacy(44).Tiles.Select(t=>t.Terrain).SequenceEqual(World.CreateLegacy(45).Tiles.Select(t=>t.Terrain)),"Seeds made identical maps.");
+    foreach(int seed in new[]{0,-1,int.MinValue,int.MaxValue,17421,2026}){var s=World.CreateLegacy(seed);Assert(s.Cities.All(c=>s.Tiles[c.Tile].Passable),"Invalid start.");SaveGame.Deserialize(SaveGame.Serialize(s));}
 });
 Test("Hex topology, symmetry, distance",()=>
 {
@@ -24,7 +26,7 @@ Test("Capital land connections across seeds",()=>
 {
     foreach(int seed in new[]{0,-1,17421,2026,8,99,771})
     {
-        var s=World.Create(seed);var reached=new HashSet<int>{s.Cities[0].Tile};var queue=new Queue<int>();queue.Enqueue(s.Cities[0].Tile);
+        var s=World.CreateLegacy(seed);var reached=new HashSet<int>{s.Cities[0].Tile};var queue=new Queue<int>();queue.Enqueue(s.Cities[0].Tile);
         while(queue.TryDequeue(out int tile))foreach(var n in World.Neighbors(s,tile).Where(t=>t.Passable))if(reached.Add(n.Id))queue.Enqueue(n.Id);
         Assert(s.Cities.All(c=>reached.Contains(c.Tile)),"A capital is inaccessible without fleets.");
     }
@@ -36,7 +38,7 @@ Test("All events retain an affordable option and known effects",()=>
         Assert(e.Choices.Any(c=>c.Gold>=0),e.Id+" can softlock an empty treasury.");
         for(int i=0;i<e.Choices.Length;i++)
         {
-            var s=e.Id==TradeCouncil.Event.Id?StageEightSpecs.Loss().S:e.Id==AuditCouncil.Event.Id?StageElevenSpecs.Ready():e.Id==DebtCouncil.Event.Id?StageFourteenSpecs.Ready():e.Id==SpyCouncil.Event.Id?(i==3?StageSixteenSpecs.Pair(true):StageFifteenSpecs.Ready()):e.Id==CustodyCouncil.Event.Id?(i==1?StageSixteenSpecs.Pair():StageSixteenSpecs.Ready()):Fresh();s.PendingEvent=e.Id;
+            var s=EpochCouncils.Index(e.Id)>=0?StageSeventeenSpecs.Council(EpochCouncils.Index(e.Id)):e.Id==TradeCouncil.Event.Id?StageEightSpecs.Loss().S:e.Id==AuditCouncil.Event.Id?StageElevenSpecs.Ready():e.Id==DebtCouncil.Event.Id?StageFourteenSpecs.Ready():e.Id==SpyCouncil.Event.Id?(i==3?StageSixteenSpecs.Pair(true):StageFifteenSpecs.Ready()):e.Id==CustodyCouncil.Event.Id?(i==1?StageSixteenSpecs.Pair():StageSixteenSpecs.Ready()):Fresh();s.PendingEvent=e.Id;
             if(e.Id==TradeCouncil.Event.Id)s.PendingTradeCaseId=1;
             if(ProvincialEvents.IsLocal(e.Id))s.PendingCityId=s.Cities.First(c=>c.Owner==0).Id;
             s.Player.Gold=10000;var current=ProvincialEvents.Current(s);
@@ -47,7 +49,7 @@ Test("All events retain an affordable option and known effects",()=>
 });
 Test("Council blocks turn and choices are irreversible",()=>
 {
-    var s=World.Create();Assert(!Engine.EndTurn(s).Success&&s.Turn==1,"Unresolved council advanced time.");Assert(!Narrative.Resolve(s,99).Success,"Accepted bad choice.");Assert(Narrative.Resolve(s,0).Success,"Founding failed.");Assert(!Narrative.Resolve(s,0).Success,"Repeated choice.");Assert(s.Player.Flags.Contains("land_charter")&&s.Deferred.Count==1,"No lasting effect.");
+    var s=World.CreateLegacy();Assert(!Engine.EndTurn(s).Success&&s.Turn==1,"Unresolved council advanced time.");Assert(!Narrative.Resolve(s,99).Success,"Accepted bad choice.");Assert(Narrative.Resolve(s,0).Success,"Founding failed.");Assert(!Narrative.Resolve(s,0).Success,"Repeated choice.");Assert(s.Player.Flags.Contains("land_charter")&&s.Deferred.Count==1,"No lasting effect.");
 });
 Test("Promises mature once and survive save/load",()=>
 {
@@ -56,7 +58,7 @@ Test("Promises mature once and survive save/load",()=>
 });
 Test("Unaffordable choices make no mutation",()=>
 {
-    var s=World.Create();s.Player.Gold=0;var json=SaveGame.Serialize(s);Assert(!Narrative.Resolve(s,0).Success,"Accepted debt.");Assert(SaveGame.Serialize(s)==json,"Rejected action changed state.");Assert(Narrative.Resolve(s,1).Success,"No affordable fallback.");
+    var s=World.CreateLegacy();s.Player.Gold=0;var json=SaveGame.Serialize(s);Assert(!Narrative.Resolve(s,0).Success,"Accepted debt.");Assert(SaveGame.Serialize(s)==json,"Rejected action changed state.");Assert(Narrative.Resolve(s,1).Success,"No affordable fallback.");
 });
 Test("Technology prerequisites and retained science",()=>
 {
@@ -114,7 +116,7 @@ Test("Campaign soak: multiple seeds, complete campaigns and AI expansion",()=>
 {
     foreach(int seed in new[]{17421,2026,8,99})
     {
-        var s=World.Create(seed);int turns=0,maxCities=4;
+        var s=World.CreateLegacy(seed);int turns=0,maxCities=4;
         while(s.Ending==null&&turns<321)
         {
             Decide(s);Assert(Engine.EndTurn(s).Success,"Turn failed.");turns++;maxCities=Math.Max(maxCities,s.Cities.Count);
@@ -140,4 +142,5 @@ StageThirteenSpecs.Run(Test);
 StageFourteenSpecs.Run(Test);
 StageFifteenSpecs.Run(Test);
 StageSixteenSpecs.Run(Test);
+StageSeventeenSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

@@ -5,7 +5,7 @@ public static partial class Engine
     public static CombatPreview PreviewAttack(GameState s, int unitId, int target)
     {
         var u = s.Units.FirstOrDefault(u => u.Id == unitId);
-        CombatPreview Invalid(string text) => new(false, text, u == null ? "" : Content.UnitName(u.Kind), "");
+        CombatPreview Invalid(string text) => new(false, text, u == null ? "" : UnitModels.Name(u), "");
         if (s.Ending != null || u == null || target < 0 || target >= s.Tiles.Count) return Invalid("Nieprawidłowy cel.");
         if(u.EscortCaravanId!=null)return Invalid("Najpierw odwołaj eskortę, aby zaatakować samodzielnie.");
         if (u.Actions < 1) return Invalid("Atak wymaga co najmniej 1 punktu ruchu.");
@@ -18,7 +18,7 @@ public static partial class Engine
         if (u.Kind == UnitKind.Settler) return Invalid("Osadnicy nie mogą walczyć.");
         bool ranged = u.Kind is UnitKind.Archer or UnitKind.Catapult;
         int distance = World.Distance(s.Tiles[u.Tile], s.Tiles[target]);
-        if (distance > (ranged ? 2 : 1)) return Invalid("Wróg jest poza zasięgiem ataku.");
+        if (distance > UnitModels.Range(u)) return Invalid("Wróg jest poza zasięgiem ataku.");
         if (ranged && distance == 2 && !World.Neighbors(s, u.Tile).Any(t => World.Distance(t, s.Tiles[target]) == 1 && t.Terrain != Terrain.Mountain))
             return Invalid("Góry zasłaniają cel.");
 
@@ -36,9 +36,9 @@ public static partial class Engine
         }
         else
         {
-            defense = 20 + city!.Population * 1.5 + (city.Buildings.Contains("walls") ? 10 : 0) + s.Factions[owner].Era * 3;
+            defense = 20 + city!.Population * 1.5 + (city.Buildings.Contains("walls") ? 10 : 0) + (s.EpochCampaign?s.Factions[owner].Era:s.Factions[owner].Technologies.Count/5) * 3 + Epochs.Defense(s,city);
             if (city.Buildings.Contains("walls")) modifiers.Add("Mury miejskie: +10 obrony.");
-            if (u.Kind == UnitKind.Catapult) { attack *= 2; modifiers.Add("Katapulta przeciw miastu: siła ×2."); }
+            if (u.Kind == UnitKind.Catapult) { attack *= 2; modifiers.Add("Artyleria oblężnicza przeciw miastu: siła ×2."); }
             if (ranged) modifiers.Add("Ostrzał nie zdobywa miasta. Potrzebna piechota lub kawaleria.");
         }
         double health = defender?.Health ?? city!.Health;
@@ -50,7 +50,7 @@ public static partial class Engine
         if (defender?.Order == MilitaryOrder.Recover) modifiers.Add("Trafienie przerwie rekonwalescencję przeciwnika.");
         modifiers.Add("Siła uwzględnia zdrowie, doświadczenie, technologie i cechę państwa.");
         bool capture = defender == null && city != null && !ranged && damage >= health && counter < u.Health;
-        return new(true, "", Content.UnitName(u.Kind), defender == null ? city!.Name : Content.UnitName(defender.Kind),
+        return new(true, "", UnitModels.Name(u), defender == null ? city!.Name : UnitModels.Name(defender),
             attack, defense, health, damage, counter, capture, ranged, modifiers);
     }
 
@@ -69,7 +69,7 @@ public static partial class Engine
             if (defender.Order == MilitaryOrder.Recover)
             {
                 MilitaryOrders.Clear(defender);
-                if (defender.Owner == 0) s.Log($"{Content.UnitName(defender.Kind)}: atak przerwał rekonwalescencję.", "rozkazy");
+                if (defender.Owner == 0) s.Log($"{UnitModels.Name(defender)}: atak przerwał rekonwalescencję.", "rozkazy");
             }
             defender.Health -= preview.DamageToTarget;
             if (defender.Health <= 0) { s.Units.Remove(defender); u.Experience += 2; s.Factions[u.Owner].Prestige += 3; }
@@ -90,7 +90,7 @@ public static partial class Engine
         if (u.Health <= 0) s.Units.Remove(u); else u.Experience++;
         s.InvalidateLogistics();
         if (u.Owner == 0 || owner == 0)
-            s.Log($"{Content.UnitName(u.Kind)} atakują pod ({s.Tiles[target].X}, {s.Tiles[target].Y}): {preview.DamageToTarget:0} obrażeń.", "wojna");
+            s.Log($"{UnitModels.Name(u)} atakują pod ({s.Tiles[target].X}, {s.Tiles[target].Y}): {preview.DamageToTarget:0} obrażeń.", "wojna");
         Explore(s); CheckEnding(s);
         return Result.Ok($"Atak zadał {preview.DamageToTarget:0} obrażeń. Straty własne: {preview.DamageToAttacker:0}.");
     }

@@ -11,7 +11,7 @@ public static class Logistics
     public static double Range(GameState s, int owner) => 6 +
         (s.Factions[owner].Technologies.Contains("trade") ? 2 : 0) +
         (s.Factions[owner].Technologies.Contains("engineering") ? 2 : 0) +
-        (s.Factions[owner].Flags.Contains("road_patrols") ? 1 : 0);
+        (s.Factions[owner].Flags.Contains("road_patrols") ? 1 : 0) + Epochs.Supply(s,owner) + (s.EpochCampaign?EpochCouncils.Policy(s.Factions[owner]).Supply:0);
 
     public static SupplyMap For(GameState s, int owner)
     {

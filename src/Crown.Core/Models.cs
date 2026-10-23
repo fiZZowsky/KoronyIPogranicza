@@ -91,6 +91,7 @@ public sealed class Unit
     public int Owner { get; set; }
     public int Tile { get; set; }
     public UnitKind Kind { get; set; }
+    public string? ModelId { get; set; }
     public double Health { get; set; } = 100;
     public double Actions { get; set; } = 2;
     public int? Destination { get; set; }
@@ -98,7 +99,7 @@ public sealed class Unit
     public MilitaryOrder Order { get; set; }
     public int FortificationTurns { get; set; }
     public int Experience { get; set; }
-    public int MaxActions => Kind is UnitKind.Scout or UnitKind.Cavalry ? 3 : 2;
+    public int MaxActions => UnitModels.For(this)?.Moves ?? (Kind is UnitKind.Scout or UnitKind.Cavalry ? 3 : 2);
 }
 public sealed class Faction
 {
@@ -125,7 +126,9 @@ public sealed class Faction
     public HashSet<string> Flags { get; set; } = [];
     public TradePolicy TradePolicy { get; set; }
     public int LastTradePolicyTurn { get; set; } = -10;
-    public int Era => Technologies.Count / 5;
+    public Dictionary<int, int> EpochChoices { get; set; } = [];
+    public HashSet<string> SpaceMilestones { get; set; } = [];
+    public int Era => Epochs.Current(this);
 }
 public sealed class Relation
 {
@@ -207,7 +210,10 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 16;
+    public int Version { get; set; } = 17;
+    public bool EpochCampaign { get; set; }
+    public bool ContinueAfterVictory { get; set; }
+    public double ClimatePressure { get; set; }
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -257,7 +263,7 @@ public sealed class GameState
     public void InvalidateLogistics() { LogisticsRevision++; LogisticsCache.Clear(); }
     public Faction Player => Factions[0];
     public string Season => (Turn % 4) switch { 1 => "Wiosna", 2 => "Lato", 3 => "Jesień", _ => "Zima" };
-    public int Year => -2400 + (Turn - 1) * 15;
+    public int Year => EpochCampaign ? Epochs.WorldYear(this) : -2400 + (Turn - 1) * 15;
     public int Next(int max)
     {
         RandomState ^= RandomState << 13; RandomState ^= RandomState >> 17; RandomState ^= RandomState << 5;

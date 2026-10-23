@@ -11,8 +11,8 @@ public static class ProductionPlanning
         if(!Repeatable(project)&&city.Buildings.Contains(id))return "Ten budynek został już ukończony.";
         if(project.Technology is string tech&&!s.Factions[city.Owner].Technologies.Contains(tech))return "Wymagana technologia: "+Content.Tech(tech).Name+".";
         if(project.Unit==UnitKind.Settler&&city.Population<3)return "Osadnicy wymagają co najmniej trzech mieszkańców; rekrutacja zużyje jednego.";
-        if(project.Unit==UnitKind.Cavalry&&!Engine.HasResource(s,city.Owner,Resource.Horses))return "Kawaleria wymaga koni we własnych granicach.";
-        return null;
+        if(UnitModels.RequiresHorses(project.Id)&&!Engine.HasResource(s,city.Owner,Resource.Horses))return "Jazda konna wymaga koni we własnych granicach.";
+        return Epochs.ProjectError(s,city,project);
     }
     public static string? CurrentBlock(GameState s,City city)=>city.ProductionPaused?"Produkcja została wstrzymana przez gracza.":ProjectError(s,city,city.Project);
     public static string? EnqueueError(GameState s,int cityId,string id,bool repeat=false)
@@ -20,6 +20,7 @@ public static class ProductionPlanning
         var city=s.Cities.FirstOrDefault(c=>c.Id==cityId&&c.Owner==0);
         var project=Content.Projects.FirstOrDefault(p=>p.Id==id);
         if(s.Ending!=null||city==null||project==null)return "Nieprawidłowe miasto lub projekt.";
+        if(s.Factions[city.Owner].SpaceMilestones.Contains(id))return "Państwo ukończyło już ten program.";
         if(city.ProductionQueue.Count>=QueueLimit)return "Plan może zawierać najwyżej osiem oczekujących zleceń.";
         if(repeat&&!Repeatable(project))return "Powtarzać można oddziały, roboty publiczne i święto wspólnoty.";
         if(!Repeatable(project)&&(city.Buildings.Contains(id)||city.Project==id||city.ProductionQueue.Any(o=>o.Project==id)))
@@ -33,13 +34,13 @@ public static class ProductionPlanning
         while(city.ProductionQueue.Count>0)
         {
             var order=city.ProductionQueue[0];city.ProductionQueue.RemoveAt(0);var project=Content.Project(order.Project);
-            if(!Repeatable(project)&&city.Buildings.Contains(project.Id))
+            if(!Repeatable(project)&&(city.Buildings.Contains(project.Id)||s.Factions[city.Owner].SpaceMilestones.Contains(project.Id)))
             {if(city.Owner==0)s.Log($"{city.Name}: pominięto ukończony już projekt {project.Name} w kolejce.","produkcja");continue;}
             city.Project=order.Project;city.RepeatProject=order.Repeat;
             if(city.Owner==0)s.Log($"{city.Name}: następne zlecenie — {project.Name}. "+(ProjectError(s,city,project.Id)??"Kontynuujemy bez utraty zgromadzonej nadwyżki produkcji."),"produkcja");
             return;
         }
-        city.Project=Engine.AvailableProjects(s,city).FirstOrDefault(p=>p.Unit==null)?.Id??"spearmen";
+        city.Project=s.EpochCampaign?Engine.AvailableProjects(s,city).FirstOrDefault(p=>p.Unit==null&&p.Id is not ("treasury" or "festival"))?.Id??"treasury":Engine.AvailableProjects(s,city).FirstOrDefault(p=>p.Unit==null)?.Id??"spearmen";
     }
     internal static void Validate(GameState s)
     {

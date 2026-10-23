@@ -62,7 +62,7 @@ public static class Narrative
         [new("Odbudujemy domy i wesprzemy rodziny po obu stronach.","Odbudowa i pojednanie.",Gold:-70,Stability:4,Commons:10,Nobles:-4,Prestige:6,Delay:8,FutureText:"Fundusz odbudowy przywraca warsztaty i zaufanie rodzin do rady.",FutureGold:100,FutureCommons:4),
          new("Utrwalimy pamięć wszystkich ofiar tej wojny.","Wspólna pamięć kosztem dumy rodów.",Gold:-35,Stability:2,Commons:4,Nobles:-5,Scholars:8,Prestige:12),
          new("Ogłosimy chwałę armii i zwycięskie czyny rodów.","Prestiż i poparcie dowódców kosztem społecznym.",Commons:-6,Nobles:10,Scholars:-4,Prestige:8)]);
-    public static IEnumerable<NarrativeEvent> All => Events.Concat(Recurring).Append(InfrastructureEvent).Append(PeaceEvent).Append(MarketCouncil.Event).Append(TradeCouncil.Event).Append(AuditCouncil.Event).Append(DebtCouncil.Event).Append(SpyCouncil.Event).Append(CustodyCouncil.Event).Concat(ProvincialEvents.Events);
+    public static IEnumerable<NarrativeEvent> All => Events.Concat(Recurring).Append(InfrastructureEvent).Append(PeaceEvent).Append(MarketCouncil.Event).Append(TradeCouncil.Event).Append(AuditCouncil.Event).Append(DebtCouncil.Event).Append(SpyCouncil.Event).Append(CustodyCouncil.Event).Concat(ProvincialEvents.Events).Concat(EpochCouncils.Events);
     public static NarrativeEvent Get(string id) => All.First(e=>e.Id==id);
     public static string Effects(Choice c,string eventId,int choice)
     {
@@ -76,7 +76,7 @@ public static class Narrative
         if(c.Delay>0)result+=$"\nZa {c.Delay} tur: "+Deltas(c.FutureGold,c.FutureStability,c.FutureCommons,c.FutureNobles,c.FutureScholars,c.FuturePrestige);
         if(eventId=="caravan_compact")result+="\nTrwale: "+(choice==0?"połączone miasta +1 nauki":choice==1?"połączone miasta +2 bazowego złota":"zasięg dostaw +1");
         if(ProvincialEvents.IsLocal(eventId))result+="\n"+ProvincialEvents.Describe(eventId,choice);
-        if(eventId==TradeCouncil.Event.Id||eventId==AuditCouncil.Event.Id||eventId==DebtCouncil.Event.Id||eventId==SpyCouncil.Event.Id||eventId==CustodyCouncil.Event.Id)result+="\n"+c.Consequence;
+        if(eventId==TradeCouncil.Event.Id||eventId==AuditCouncil.Event.Id||eventId==DebtCouncil.Event.Id||eventId==SpyCouncil.Event.Id||eventId==CustodyCouncil.Event.Id||EpochCouncils.Index(eventId)>=0)result+="\n"+c.Consequence;
           if(eventId=="market_charter")result+="\nPolityka handlowa: "+Markets.PolicyDescription((TradePolicy)choice)+" Zmiana zablokowana przez osiem tur.";
         return result;
     }
@@ -88,6 +88,7 @@ public static class Narrative
         if(DebtCouncil.Schedule(s))return;
         if(CustodyCouncil.Schedule(s))return;
         if(SpyCouncil.Schedule(s))return;
+        if(EpochCouncils.Schedule(s))return;
         if(s.Turn%5!=0)return;
         s.PendingCityId=null;
         if(s.Player.Flags.Contains("negotiated_peace")&&!s.SeenEvents.Contains("peace_legacy")){s.PendingEvent="peace_legacy";return;}
@@ -116,6 +117,7 @@ public static class Narrative
             if(context==null||context.ResolvedIssues.Contains(e.Id))return Result.Fail("Ta sprawa nie ma już prawidłowego kontekstu prowincji.");
         }
         var c=e.Choices[choice]; var f=s.Player;
+        if(EpochCouncils.Index(e.Id)>=0&&EpochCouncils.ChoiceError(s,choice) is string epochError)return Result.Fail(epochError);
         if(e.Id==TradeCouncil.Event.Id&&TradeCouncil.ChoiceError(s,choice) is string error)return Result.Fail(error);
         if(e.Id==AuditCouncil.Event.Id&&AuditCouncil.ChoiceError(s,choice) is string auditError)return Result.Fail(auditError);
         if(e.Id==DebtCouncil.Event.Id&&DebtCouncil.ChoiceError(s,choice) is string debtError)return Result.Fail(debtError);
@@ -129,6 +131,7 @@ public static class Narrative
         if(e.Id==AuditCouncil.Event.Id)AuditCouncil.Apply(s,choice);
         if(e.Id==DebtCouncil.Event.Id)DebtCouncil.Apply(s,choice);
         if(e.Id==SpyCouncil.Event.Id)SpyCouncil.Apply(s,choice);
+        if(EpochCouncils.Index(e.Id)>=0)EpochCouncils.Apply(s,choice);
         if(e.Id==CustodyCouncil.Event.Id)CustodyCouncil.Apply(s,choice);
         if(context!=null)ProvincialEvents.Apply(s,context,e.Id,choice);
         if(e.Id=="oath") s.Relation(0,3).Trust=Math.Clamp(s.Relation(0,3).Trust+(choice==0?20:choice==1?-25:8),-100,100);

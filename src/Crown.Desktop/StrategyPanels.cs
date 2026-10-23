@@ -81,11 +81,12 @@ public sealed partial class MainWindow
             side.Children.Add(Ui.Eyebrow("ODDZIAŁY NA POLU"));
             foreach (var u in units)
             {
-                side.Children.Add(Ui.Button($"{(u.Id == selectedUnit ? "▸ " : "")}{Catalog.UnitName(u.Kind)} · {u.Actions:0.#}/{u.MaxActions} ruchu",
+                side.Children.Add(Ui.Button($"{(u.Id == selectedUnit ? "▸ " : "")}{UnitModels.Name(u)} · {u.Actions:0.#}/{u.MaxActions} ruchu",
                     () => { selectedUnit = u.Id; Refresh(); }));
                 if (u.Id != selectedUnit) continue;
                 side.Children.Add(Ui.Label($"Zdrowie {u.Health:0}% · siła {Engine.Strength(state, u):0} · doświadczenie {u.Experience}", 11, Ui.Muted));
                 UnitSupply(u);
+                if(state.EpochCampaign)side.Children.Add(Ui.Button("Modernizuj oddział #"+u.Id,()=>ShowUnitModernization(u)));
                 side.Children.Add(Ui.Label(MilitaryOrders.Name(u), 12, Ui.Gold));
                 side.Children.Add(Ui.Button("Rozkazy wojskowe #" + u.Id, () => ShowMilitaryOrders(u)));
                 if(u.EscortCaravanId is int convoy)
@@ -180,7 +181,7 @@ public sealed partial class MainWindow
         var isolated = state.Units.Where(u => u.Owner == 0 && !Engine.Supplied(state, u)).ToArray();
         side.Children.Add(Ui.Eyebrow($"ODDZIAŁY BEZ DOSTAW: {isolated.Length}"));
         foreach (var u in isolated)
-            side.Children.Add(Ui.Button($"{Catalog.UnitName(u.Kind)} · ({state.Tiles[u.Tile].X}, {state.Tiles[u.Tile].Y})", () => { Select(u.Tile); selectedUnit = u.Id; map.Center(u.Tile); Refresh(); }));
+            side.Children.Add(Ui.Button($"{UnitModels.Name(u)} · ({state.Tiles[u.Tile].X}, {state.Tiles[u.Tile].Y})", () => { Select(u.Tile); selectedUnit = u.Id; map.Center(u.Tile); Refresh(); }));
     }
 
     private void ShowCombat(int target)

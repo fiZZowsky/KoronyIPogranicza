@@ -10,18 +10,18 @@ public static class Content
         new("pottery", "Garncarstwo", 40, [], "Magazynowanie i wymiana. Odblokowuje targowisko i budowę dróg."),
         new("mining", "Górnictwo", 44, [], "Kopalnie, kamieniołomy i dostęp do rudy."),
         new("writing", "Pismo", 65, ["pottery"], "Biblioteki, agenci i kontrwywiad. +15% nauki w całym państwie."),
-        new("bronze", "Metalurgia brązu", 68, ["mining"], "Koszary. +3 siły wojsk lądowych."),
+        new("bronze", "Metalurgia brązu", 68, ["mining"], "Koszary. +3 siły podstawowych oddziałów. Modele nowych epok mają własną siłę."),
         new("irrigation", "Irygacja", 85, ["agriculture"], "+2 żywności w miastach nad rzeką."),
         new("masonry", "Kamieniarstwo", 80, ["mining"], "Mury i akwedukty."),
         new("riding", "Jeździectwo", 100, ["bronze","agriculture"], "Kawaleria; wymaga koni w granicach państwa."),
         new("trade", "Szlaki handlowe", 115, ["writing"], "Placówki handlowe. +25% dochodu i +2 do zasięgu dostaw."),
         new("philosophy", "Filozofia", 135, ["writing"], "Świątynie i instytucje. +20% kultury."),
-        new("iron", "Żelazo", 155, ["bronze","masonry"], "+5 siły; dodatkowe +3 z własnym złożem żelaza."),
+        new("iron", "Żelazo", 155, ["bronze","masonry"], "+5 siły podstawowych oddziałów; dodatkowe +3 z własnym złożem żelaza. Nowe modele mają własną siłę."),
         new("engineering", "Inżynieria", 180, ["masonry","writing"], "Katapulty, warsztaty i +2 do zasięgu dostaw."),
         new("currency", "Moneta", 200, ["trade"], "Banki, wspólny rynek i pożyczki państwowe. +2 złota z miasta."),
         new("civilservice", "Służba publiczna", 220, ["philosophy","trade"], "Sądy; -25% kosztów utrzymania miast, +2 miejsca mieszkalne i cel korupcji -8 w każdym mieście."),
         new("education", "Uniwersytety", 260, ["philosophy","engineering"], "Uniwersytety; +20% nauki."),
-        new("steel", "Stal", 290, ["iron","engineering"], "+7 siły wszystkim wojskom."),
+        new("steel", "Stal", 290, ["iron","engineering"], "+7 siły podstawowych oddziałów. Otwiera nowe projekty i modele epoki renesansu."),
         new("printing", "Druk", 320, ["education"], "+30% kultury; narodowa biblioteka."),
         new("navigation", "Nawigacja", 310, ["currency","engineering"], "Szlaki zamorskie: +8 złota za każdy traktat handlowy."),
         new("medicine", "Medycyna", 380, ["education","irrigation"], "+25% żywności, szybsze leczenie i +3 do pojemności opieki w każdym mieście."),
@@ -47,7 +47,7 @@ public static class Content
         new("archive", "Biblioteka narodowa", 220, "printing", "+10 kultury, +3 nauki."),
         new("factory", "Manufaktura", 260, "industry", "+14 produkcji, -3 do docelowej stabilności."),
         new("parliament", "Parlament", 280, "constitution", "+12 kultury, +6 do docelowej stabilności i +3 miejsca mieszkalne."),
-        new("atlas", "Atlas świata", 3500, "observatory", "Ukończenie daje zwycięstwo naukowe."),
+        new("atlas", "Atlas świata", 3500, "observatory", "Pełna historia: +35 nauki i +25 kultury miasta. W starej kampanii ukończenie daje zwycięstwo naukowe."),
         new("housing", "Dzielnica mieszkalna", 85, "pottery", "+5 miejsc mieszkalnych. Ogranicza przeludnienie i presję na wyjazdy."),
         new("infirmary", "Lecznica", 135, "philosophy", "+6 do pojemności opieki i higieny miejskiej."),
         new("warehouse", "Skład towarowy", 150, "currency", "+100 pojemności dla każdego rodzaju towaru. Chroni nadwyżki przed utratą."),
@@ -60,14 +60,22 @@ public static class Content
         new("catapult", "Katapulta", 100, "engineering", "Atak na 2 pola, premia przeciw miastom.", UnitKind.Catapult),
         new("settler", "Osadnicy", 100, "agriculture", "Zakładają miasto. Rekrutacja kosztuje 1 mieszkańca.", UnitKind.Settler)
     ];
+    public static readonly HashSet<string> LegacyTechnologies;
+    public static readonly HashSet<string> LegacyProjects;
     static Content()
     {
         for(int i=0;i<Technologies.Length;i++)Technologies[i]=Technologies[i] with {Cost=Technologies[i].Cost*(i<7?1:i<14?3:i<20?6:10)};
+        LegacyTechnologies = Technologies.Select(t => t.Id).ToHashSet();
+        LegacyProjects = Projects.Select(p => p.Id).ToHashSet();
+        Technologies = EpochCatalog.Technologies(Technologies);
+        Projects = Projects.Concat(EpochCatalog.Buildings.Select(b => new Project(b.Id, b.Name, b.Cost, b.Technology, EpochCatalog.Describe(b))))
+            .Concat(UnitModels.All.Select(m => new Project(m.Id, m.Name, m.Cost, m.Technology, $"Siła {m.Strength} · ruch {m.Moves} · zasięg {m.Range}. Lądowa rola: {UnitName(m.Role)}. Modernizacja zachowuje zdrowie i doświadczenie.", m.Role)))
+            .Concat(Epochs.Programs.Select(p => new Project(p.Id, p.Name, p.Cost, p.Technology, p.Effect))).ToArray();
     }
     public static Technology Tech(string id) => Technologies.First(t => t.Id == id);
     public static Project Project(string id) => Projects.First(p => p.Id == id);
     public static string TerrainName(Terrain t) => t switch { Terrain.Ocean => "Ocean", Terrain.Coast => "Wybrzeże", Terrain.Grassland => "Łąki", Terrain.Forest => "Las", Terrain.Hills => "Wzgórza", Terrain.Mountain => "Góry", Terrain.Desert => "Pustynia", Terrain.Marsh => "Mokradła", _ => "Tundra" };
     public static string ResourceName(Resource r) => r switch { Resource.Grain => "Zboże", Resource.Iron => "Żelazo", Resource.Horses => "Konie", Resource.Stone => "Kamień", Resource.Salt => "Sól", Resource.Dyes => "Barwniki", _ => "Brak" };
     public static string UnitName(UnitKind k) => k switch { UnitKind.Scout => "Zwiadowca", UnitKind.Spearmen => "Włócznicy", UnitKind.Archer => "Łucznicy", UnitKind.Cavalry => "Kawaleria", UnitKind.Catapult => "Katapulta", _ => "Osadnicy" };
-    public static string Era(int era) => new[] { "Era osad", "Era miast", "Era królestw", "Era odkryć", "Era przemian" }[Math.Clamp(era,0,4)];
+    public static string Era(int era) => EpochCatalog.All[Math.Clamp(era,0,EpochCatalog.All.Length-1)].Name;
 }

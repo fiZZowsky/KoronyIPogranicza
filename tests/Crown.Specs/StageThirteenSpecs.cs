@@ -5,7 +5,7 @@ internal static class StageThirteenSpecs
     private static void Assert(bool value, string text) { if (!value) throw new Exception(text); }
     private static (GameState S, Unit U) Fixture()
     {
-        var s = World.Create(); Narrative.Resolve(s, 0); s.Units.Clear();
+        var s = World.CreateLegacy(); Narrative.Resolve(s, 0); s.Units.Clear();
         foreach (var t in s.Tiles) { t.Terrain = Terrain.Grassland; t.Explored = true; t.Ruin = false; t.Owner = -1; t.Road = false; t.RoadOwner = -1; }
         foreach (var c in s.Cities) { s.Tiles[c.Tile].Owner = c.Owner; c.ProductionPaused = true; }
         foreach (var f in s.Factions) f.Gold = 4000;
@@ -185,9 +185,9 @@ internal static class StageThirteenSpecs
         {
             var (s, u) = Fixture(); var c = s.Cities[0]; c.ProductionQueue.Add(new() { Project = "scout", Repeat = true }); c.HiddenGold = 18; c.Production = 37; s.Version = 12;
             u.Order = MilitaryOrder.Fortify; u.FortificationTurns = 2; string legacy = SaveGame.Serialize(s); var loaded = SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 16 && loaded.Units.All(v => v.Order == MilitaryOrder.None && v.FortificationTurns == 0) && loaded.Cities[0].HiddenGold == 18 && loaded.Cities[0].Production == 37 && loaded.Cities[0].ProductionPaused && loaded.Cities[0].ProductionQueue.Single().Repeat, "Migration lost economic plans or invented works.");
+            Assert(loaded.Version == 17 && loaded.Units.All(v => v.Order == MilitaryOrder.None && v.FortificationTurns == 0) && loaded.Cities[0].HiddenGold == 18 && loaded.Cities[0].Production == 37 && loaded.Cities[0].ProductionPaused && loaded.Cities[0].ProductionQueue.Single().Repeat, "Migration lost economic plans or invented works.");
             string path = Path.Combine(Environment.CurrentDirectory, "artifacts", "migration-v12-test.crown");
-            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v12.bak") == legacy && SaveGame.Read(path).Version == 16, "V12 backup failed."); }
+            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v12.bak") == legacy && SaveGame.Read(path).Version == 17, "V12 backup failed."); }
             finally { File.Delete(path); File.Delete(path + ".v12.bak"); }
         });
         test("Military save validation rejects impossible readiness and conflicting orders", () =>

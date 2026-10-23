@@ -18,7 +18,7 @@ public static class Espionage
         return s.Factions[owner].Gold < RecruitCost ? "Szkolenie agenta kosztuje 60 złota." : null;
     }
     public static string? ResearchTarget(GameState s, int owner, int target) => Content.Technologies
-        .Where(t => s.Factions[target].Technologies.Contains(t.Id) && !s.Factions[owner].Technologies.Contains(t.Id) && t.Requires.All(s.Factions[owner].Technologies.Contains))
+        .Where(t => s.Factions[target].Technologies.Contains(t.Id) && Epochs.ResearchError(s, s.Factions[owner], t) == null)
         .OrderBy(t => t.Cost).ThenBy(t => t.Id).Select(t => t.Id).FirstOrDefault();
     public static int Defense(GameState s, City city) => (city.Buildings.Contains("court") ? 15 : 0) +
         (s.Factions[city.Owner].Technologies.Contains("writing") ? 5 : 0) + (s.Factions[city.Owner].Stability >= 70 ? 5 : 0) + (city.CounterIntelligenceUntil > s.Turn ? 25 : 0);

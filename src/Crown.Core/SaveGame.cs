@@ -10,7 +10,8 @@ public static class SaveGame
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
-        if(s.Version is <1 or >16)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version is <1 or >17)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version<17){s.EpochCampaign=s.ContinueAfterVictory=false;s.ClimatePressure=0;foreach(var f in s.Factions){f.EpochChoices=[];f.SpaceMilestones=[];}foreach(var u in s.Units)u.ModelId=null;}
         if(s.Version==15)
         {
             if(s.SpyOperations==null||s.SpyOperations.Any(o=>o==null))throw new InvalidDataException("Uszkodzony dawny rejestr wywiadu.");
@@ -48,14 +49,14 @@ public static class SaveGame
                 city.Charters=[];city.ResolvedIssues=[];
             }
         }
-        if(s.Width!=42||s.Height!=28||s.Tiles.Count!=s.Width*s.Height||s.Factions.Count!=4||s.RandomState==0||s.Turn<1||s.Turn>321||s.MaxTurns!=320)throw new InvalidDataException("Uszkodzone dane świata.");
+        if(s.Width!=42||s.Height!=28||s.Tiles.Count!=s.Width*s.Height||s.Factions.Count!=4||s.RandomState==0||s.Turn<1||s.Turn>s.MaxTurns+1||s.MaxTurns!=(s.EpochCampaign?Epochs.CampaignTurns:320))throw new InvalidDataException("Uszkodzone dane świata.");
         if(!s.Tiles.Select((t,i)=>t.Id==i&&t.X==i%s.Width&&t.Y==i/s.Width&&t.Owner>=-1&&t.Owner<4&&Enum.IsDefined(t.Terrain)&&Enum.IsDefined(t.Resource)&&Enum.IsDefined(t.Improvement)&&
             (t.Road?t.Passable&&t.RoadOwner>=0&&t.RoadOwner<4:t.RoadOwner==-1)).All(x=>x))throw new InvalidDataException("Uszkodzona mapa.");
         bool ValidOwner(int owner)=>owner>=0&&owner<4;
         bool ValidTile(int tile)=>tile>=0&&tile<s.Tiles.Count;
         if(s.Factions.Where((f,i)=>f.Id!=i||!double.IsFinite(f.Gold)||!double.IsFinite(f.Science)||!double.IsFinite(f.Culture)||!double.IsFinite(f.Prestige)||f.Tax is <0 or >2||f.Government is <0 or >2||f.Focus is <0 or >2||f.Technologies.Any(id=>!Content.Technologies.Any(t=>t.Id==id))||f.Research!=""&&!Content.Technologies.Any(t=>t.Id==f.Research)).Any())throw new InvalidDataException("Uszkodzone dane państw.");
         if(s.Cities.Any(c=>!ValidOwner(c.Owner)||!ValidTile(c.Tile)||c.Population<1||c.Population>1000||!double.IsFinite(c.Food)||!double.IsFinite(c.Production)||!double.IsFinite(c.Health)||!Content.Projects.Any(p=>p.Id==c.Project)||c.Buildings.Any(id=>!Content.Projects.Any(p=>p.Id==id&&p.Unit==null))))throw new InvalidDataException("Uszkodzone miasta.");
-        if(s.Cities.Any(c=>!Enum.IsDefined(c.Focus)||c.Prosperity is <0 or >100||c.Unrest is <0 or >100||c.Health is <0 or >100||c.Food<0||c.HungerTurns is <0 or >321||
+        if(s.Cities.Any(c=>!Enum.IsDefined(c.Focus)||c.Prosperity is <0 or >100||c.Unrest is <0 or >100||c.Health is <0 or >100||c.Food<0||c.HungerTurns<0||c.HungerTurns>s.MaxTurns+1||
             c.MigrantsReceived<0||c.MigrantsDeparted<0||!double.IsFinite(c.LastFoodImported)||!double.IsFinite(c.LastFoodExported)||c.LastFoodImported is <0 or >6||c.LastFoodExported is <0 or >6||
             c.Charters==null||c.Charters.Any(id=>!Regions.CharterIds.Contains(id))||c.ResolvedIssues==null||c.ResolvedIssues.Any(id=>!ProvincialEvents.IsLocal(id))))throw new InvalidDataException("Uszkodzone dane prowincji.");
         if(s.Units.Any(u=>!ValidOwner(u.Owner)||!ValidTile(u.Tile)||u.Health<=0||u.Health>100||!double.IsFinite(u.Health)||!Enum.IsDefined(u.Kind)||
@@ -106,7 +107,8 @@ public static class SaveGame
         MilitaryOrders.Validate(s);
         LoanSaveRules.Validate(s);
         SpySaveRules.Validate(s);
-        s.Version=16;
+        EpochSaveRules.Validate(s);
+        s.Version=17;
         return s;
     }
     public static void Write(GameState state,string path)
@@ -115,7 +117,7 @@ public static class SaveGame
         string temp=path+".tmp";File.WriteAllText(temp,Serialize(state));
         if(File.Exists(path))
         {
-            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=15&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
+            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=16&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
             catch(JsonException){ /* An invalid old file may still be replaced by an explicit save. */ }
         }
         File.Move(temp,path,true);

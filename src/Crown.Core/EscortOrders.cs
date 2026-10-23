@@ -21,7 +21,7 @@ public static class EscortOrders
             var cargo=s.Caravans.FirstOrDefault(c=>c.Id==unit.EscortCaravanId&&Caravans.Active(c));
             var contract=cargo==null?null:s.TradeContracts.First(t=>t.Id==cargo.ContractId);
             if(cargo!=null&&unit.Tile==cargo.Tile&&unit.Kind!=UnitKind.Settler&&(unit.Owner==contract!.Buyer||unit.Owner==contract.Seller))continue;
-            if(unit.Owner==0)s.Log($"{Content.UnitName(unit.Kind)}: zakończono eskortę #{unit.EscortCaravanId} — transport zakończył podróż lub oddział został odłączony.","rozkazy");
+            if(unit.Owner==0)s.Log($"{UnitModels.Name(unit)}: zakończono eskortę #{unit.EscortCaravanId} — transport zakończył podróż lub oddział został odłączony.","rozkazy");
             unit.EscortCaravanId=null;
         }
     }
@@ -44,14 +44,14 @@ public static partial class Engine
         var unit=s.Units.FirstOrDefault(u=>u.Id==unitId);var cargo=s.Caravans.FirstOrDefault(c=>c.Id==caravanId);
         string? error=EscortOrders.AssignmentError(s,unit,cargo,owner);if(error!=null)return Result.Fail(error);
         MilitaryOrders.Clear(unit!);unit!.Destination=null;unit.EscortCaravanId=caravanId;
-        if(owner==0)s.Log($"{Content.UnitName(unit.Kind)} obejmuje eskortę karawany #{caravanId}. Marsz w fazie rynku, kosztem pozostałych punktów ruchu; bez samodzielnych ataków i odpoczynku.","rozkazy");
+        if(owner==0)s.Log($"{UnitModels.Name(unit)} obejmuje eskortę karawany #{caravanId}. Marsz w fazie rynku, kosztem pozostałych punktów ruchu; bez samodzielnych ataków i odpoczynku.","rozkazy");
         return Result.Ok("Przydzielono eskortę. Ruch wspólny przy następnym rozliczeniu rynku; granice wojskowe nadal obowiązują.");
     }
     public static Result CancelEscort(GameState s,int unitId)
     {
         var unit=s.Units.FirstOrDefault(u=>u.Id==unitId&&u.Owner==0&&u.EscortCaravanId!=null);
         if(s.Ending!=null||unit==null)return Result.Fail("Oddział nie ma aktywnego rozkazu eskorty Marchii.");
-        s.Log($"{Content.UnitName(unit.Kind)}: odwołano eskortę karawany #{unit.EscortCaravanId}.","rozkazy");unit.EscortCaravanId=null;
+        s.Log($"{UnitModels.Name(unit)}: odwołano eskortę karawany #{unit.EscortCaravanId}.","rozkazy");unit.EscortCaravanId=null;
         return Result.Ok("Odwołano eskortę. Wydane punkty ruchu nie wracają; pozostałe są dostępne.");
     }
     internal static void ApplyEscortMovement(GameState s,EscortMovement move)
@@ -61,7 +61,7 @@ public static partial class Engine
         if(move.ReleaseReason!=null)
         {
             unit.EscortCaravanId=null;
-            if(unit.Owner==0)s.Log($"{Content.UnitName(unit.Kind)}: eskorta karawany #{move.CaravanId} zakończona. {move.ReleaseReason}","rozkazy");
+            if(unit.Owner==0)s.Log($"{UnitModels.Name(unit)}: eskorta karawany #{move.CaravanId} zakończona. {move.ReleaseReason}","rozkazy");
         }
     }
 }

@@ -8,7 +8,7 @@ Kompilacja powiodła się.
     Ostrzeżenia: 0
     Liczba błędów: 0
 
-Czas, który upłynął: 00:00:05.81
+Czas, który upłynął: 00:00:01.36
 PASS Seed determinism and distinct worlds
 PASS Hex topology, symmetry, distance
 PASS Capital land connections across seeds
@@ -28,10 +28,10 @@ PASS Settling validates distance and creates territory
 PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
-  seed 17421: 160 turns, 18 cities, 46 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 151 turns, 16 cities, 42 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 8: 231 turns, 16 cities, 58 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 99: 152 turns, 16 cities, 41 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 17421: 154 turns, 16 cities, 45 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 175 turns, 16 cities, 50 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 175 turns, 15 cities, 58 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 99: 163 turns, 16 cities, 43 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
 PASS Road quotes, atomic funding and economy reconciliation
@@ -356,7 +356,45 @@ PASS V15 migration keeps previously resolved foreign captives closed
 PASS V15 migration rejects a missing spy registry with a controlled invalid-data error
 PASS Custody validation rejects early freedom, stale captivity and forged prisoner exchanges
 PASS Returned captives can deploy again while both sides of an exchange remain valid history
-343 specifications passed in 17,1s.
+PASS New campaigns begin in the Paleolithic with 1600 turns and historical continuity
+PASS Eighteen eras contain ninety unique technologies and all original discoveries
+PASS The full technology graph is reachable in order without cyclic prerequisites
+PASS A later era cannot be researched by accumulating unrelated technology counts
+PASS Every new discovery has an observable city bonus or usable project unlock
+PASS All 54 new buildings and 34 models have actual effects and valid prerequisites
+PASS Energy shortage reduces the actual yield of powered infrastructure
+PASS Energy is shared by connected domestic cities and an interdiction can cut it
+PASS Powered facilities retain full upkeep when energy is scarce
+PASS Emissions from foreign factories affect global climate and domestic crops
+PASS Climate restoration reverses pressure without going below zero
+PASS Housing, sanitation, defense and supply bonuses reach their existing systems
+PASS Era choices have lasting different effects, survive reload and cannot be repeated
+PASS Era councils reject future contexts and keep a free affordable branch
+PASS Models are produced with their own combat strength, movement and name
+PASS Modernization transfers gold once and preserves health and experience
+PASS Modernization rejects wrong role, insufficient funds, movement and foreign location
+PASS Late artillery uses model range and cannot capture cities
+PASS Programs require technology, the right facility and their predecessor
+PASS All five space programs finish through real production and persist as national milestones
+PASS Atlas no longer ends an extended world before future eras
+PASS Final program pauses for inadequate stability or power without losing work
+PASS The calendar is monotonic, reaches the future and old campaigns retain their dates
+PASS Old campaigns explicitly extend without erasing cities, people, treasury or discovered knowledge
+PASS V16 migration preserves espionage and custody without inventing new era decisions
+PASS Validation rejects impossible eras, milestones, climate values and mismatched models
+PASS A real campaign researches every epoch, resolves its institutions and keeps deterministic saves
+  extended development T200: AI eras 8,7,7; techs 38,33,35
+  extended development T400: AI eras 15,11,13; techs 73,54,61
+  future reached after 473 turns; highest AI era 18; cities 13
+PASS AI develops from prehistoric income into future eras without granted research or buildings
+PASS Army model forecasts remain pure and preserve modern movement metadata
+PASS V16 save overwrite creates a faithful backup with the old custody context
+PASS Completed national programs cannot be queued and another city's redundant work moves on
+PASS Future or repeated era councils are rejected during load rather than trapping the player
+PASS Every new building can be ordered, completed once and used by a real city
+PASS Veteran material bonuses cannot turn a paid modernization into a downgrade
+PASS Modernization price uses the actual material-adjusted base strength
+378 specifications passed in 20,2s.
 PASS New game opens the council
 PASS Council button applies the founding charter
 PASS Map order moves a selected unit
@@ -570,3 +608,42 @@ PASS Own-captive dialogue allows wartime exchange even when both treasuries are 
 PASS Own-captive exchange uses the same free atomic release
 PASS Compact council keeps every choice reachable through scrolling
 18 custody desktop integration checks passed.
+PASS New desktop campaign starts a full Paleolithic-to-future history
+PASS Era browser contains all eighteen ordered stages
+PASS Era browser opens Paleolit
+PASS Era browser opens Neolit
+PASS Era browser opens Epoka brązu
+PASS Era browser opens Epoka żelaza
+PASS Era browser opens Starożytność klasyczna
+PASS Era browser opens Średniowiecze
+PASS Era browser opens Renesans
+PASS Era browser opens Oświecenie
+PASS Era browser opens Rewolucja przemysłowa
+PASS Era browser opens Nowoczesność
+PASS Era browser opens Epoka atomowa
+PASS Era browser opens Epoka informacyjna
+PASS Era browser opens Epoka automatyzacji
+PASS Era browser opens Epoka planetarna
+PASS Era browser opens Epoka orbitalna
+PASS Era browser opens Epoka międzyplanetarna
+PASS Era browser opens Epoka Układu Słonecznego
+PASS Era browser opens Epoka międzygwiezdna
+PASS Prehistoric state cannot start interstellar research from the browser
+PASS Era research button selects a real technology without resetting the science pool
+PASS A real turn completes Renaissance research and opens the era's political debate
+PASS Era debate stores the chosen permanent industrial and supply policy
+PASS Era browser shows the actually adopted historical institution
+PASS Modernization UI pays gold, changes the physical model and retains veteran health and experience
+PASS Project era filter shows the requested industrial infrastructure
+PASS An industrial building is ordered through its production button and really supplies energy after completion
+PASS Space program button is disabled when its industrial network lacks power
+PASS Sufficient fusion energy enables the orbital program
+PASS Space overview starts actual city production
+PASS Real production completes a national orbital program rather than a decorative local building
+PASS Desktop reload preserves era institutions, national infrastructure and the extended campaign
+PASS Planetary overview displays actual climate pressure and crop impact
+PASS Interstellar program completes through a real UI turn and triggers the new science victory
+PASS Victory dialog allows further development of the future world
+PASS Legacy campaign expansion preserves its cities and treasury
+PASS Extensive future-era content remains reachable in a compact scrolling window
+38 epoch desktop integration checks passed.

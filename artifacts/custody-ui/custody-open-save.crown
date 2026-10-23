@@ -1,5 +1,8 @@
 {
-  "Version": 16,
+  "Version": 17,
+  "EpochCampaign": false,
+  "ContinueAfterVictory": false,
+  "ClimatePressure": 0,
   "Seed": 17421,
   "RandomState": 2398689233,
   "Width": 42,
@@ -16877,7 +16880,9 @@
         "land_charter"
       ],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 1,
@@ -16905,7 +16910,9 @@
       ],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 2,
@@ -16933,7 +16940,9 @@
       ],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 3,
@@ -16961,7 +16970,9 @@
       ],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     }
   ],
   "Relations": [

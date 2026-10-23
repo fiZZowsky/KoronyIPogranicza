@@ -36,7 +36,7 @@ public static class MilitaryOrders
         if (unit.Order == MilitaryOrder.Recover && unit.Health >= 100)
         {
             Clear(unit);
-            if (unit.Owner == 0) s.Log($"{Content.UnitName(unit.Kind)}: rekonwalescencja zakończona. Oddział wraca do gotowości.", "rozkazy");
+            if (unit.Owner == 0) s.Log($"{UnitModels.Name(unit)}: rekonwalescencja zakończona. Oddział wraca do gotowości.", "rozkazy");
         }
         unit.Actions = unit.MaxActions;
     }
@@ -58,7 +58,7 @@ public static partial class Engine
         if (error != null) return Result.Fail(error);
         MilitaryOrders.Clear(unit!);
         unit!.Destination = null; unit.Order = order; unit.Actions = 0;
-        if (owner == 0) s.Log($"{Content.UnitName(unit.Kind)}: {MilitaryOrders.Name(unit)}. Poświęcono cały ruch tej tury.", "rozkazy");
+        if (owner == 0) s.Log($"{UnitModels.Name(unit)}: {MilitaryOrders.Name(unit)}. Poświęcono cały ruch tej tury.", "rozkazy");
         return Result.Ok(order == MilitaryOrder.Fortify ? "Przygotowanie pozycji rozpoczęte. +20% obrony po końcu tury, do +40% po dwóch turach." : "Oddział odpoczywa do pełnego zdrowia. Atak przeciwnika przerwie rekonwalescencję.");
     }
     public static Result WakeUnit(GameState s, int unitId)
@@ -66,7 +66,7 @@ public static partial class Engine
         var unit = s.Units.FirstOrDefault(u => u.Id == unitId && u.Owner == 0);
         if (s.Ending != null || unit == null || unit.Order == MilitaryOrder.None) return Result.Fail("Oddział nie ma stałego rozkazu wojskowego.");
         MilitaryOrders.Clear(unit);
-        s.Log($"{Content.UnitName(unit.Kind)}: odwołano stały rozkaz i porzucono umocnienia.", "rozkazy");
+        s.Log($"{UnitModels.Name(unit)}: odwołano stały rozkaz i porzucono umocnienia.", "rozkazy");
         return Result.Ok("Przywrócono gotowość. Wydane punkty ruchu nie wracają.");
     }
 }

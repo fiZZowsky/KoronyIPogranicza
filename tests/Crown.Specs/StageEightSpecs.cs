@@ -7,7 +7,7 @@ internal static class StageEightSpecs
     private static void Step(GameState s){s.Turn++;s.InvalidateLogistics();Markets.Tick(s);}
     internal static (GameState S,City Buyer,City Seller) Loss()
     {
-        var s=World.Create();Narrative.Resolve(s,0);s.Units.Clear();
+        var s=World.CreateLegacy();Narrative.Resolve(s,0);s.Units.Clear();
         foreach(var t in s.Tiles){t.Terrain=Terrain.Grassland;t.Resource=Resource.None;t.Owner=-1;t.Road=false;t.RoadOwner=-1;t.Improvement=Improvement.None;t.Explored=true;}
         var buyer=s.Cities.First(c=>c.Owner==0);var seller=s.Cities.First(c=>c.Owner==1);seller.Tile=15*s.Width+21;
         foreach(var c in s.Cities)s.Tiles[c.Tile].Owner=c.Owner;
@@ -142,9 +142,9 @@ internal static class StageEightSpecs
         test("V7 migration preserves caravan losses without inventing retroactive petitions",()=>
         {
             var (s,_,_)=Loss();var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=7;node.AsObject().Remove("TradeCases");node.AsObject().Remove("PendingTradeCaseId");string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 16&&loaded.Caravans.Count==s.Caravans.Count&&loaded.Caravans[0].Payment==s.Caravans[0].Payment&&loaded.TradeCases.Count==0,"Migration erased cargo or invented a petition.");Step(loaded);Assert(loaded.TradeCases.Count==0,"Old losses became retroactive petitions.");
+            Assert(loaded.Version == 17&&loaded.Caravans.Count==s.Caravans.Count&&loaded.Caravans[0].Payment==s.Caravans[0].Payment&&loaded.TradeCases.Count==0,"Migration erased cargo or invented a petition.");Step(loaded);Assert(loaded.TradeCases.Count==0,"Old losses became retroactive petitions.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v7-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v7.bak")==legacy&&SaveGame.Read(path).Version == 16,"V7 backup missing.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v7.bak")==legacy&&SaveGame.Read(path).Version == 17,"V7 backup missing.");}
             finally{File.Delete(path);File.Delete(path+".v7.bak");}
         });
         test("Save validation rejects forged losses, deadlines, progress and council context",()=>

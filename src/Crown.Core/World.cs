@@ -2,9 +2,10 @@ namespace Crown.Core;
 
 public static class World
 {
-    public static GameState Create(int seed = 17421, string difficulty = "Standard")
+    public static GameState CreateLegacy(int seed = 17421, string difficulty = "Standard") => Create(seed, difficulty, false);
+    public static GameState Create(int seed = 17421, string difficulty = "Standard", bool extended = true)
     {
-        var s = new GameState { Seed = seed, RandomState = unchecked((uint)seed) | 1u, Difficulty = difficulty };
+        var s = new GameState { Seed = seed, RandomState = unchecked((uint)seed) | 1u, Difficulty = difficulty, EpochCampaign = extended, MaxTurns = extended ? Epochs.CampaignTurns : 320 };
         for (int y=0; y<s.Height; y++) for(int x=0;x<s.Width;x++)
         {
             double edge = Math.Min(Math.Min(x / 5.0, (s.Width-1-x)/5.0), Math.Min(y/3.0,(s.Height-1-y)/3.0));
@@ -45,6 +46,12 @@ public static class World
             while(cursor.Id!=goal.Id){cursor=Neighbors(s,cursor.Id).OrderBy(t=>Distance(t,goal)).ThenBy(t=>t.Passable?0:1).First();if(!cursor.Passable)cursor.Terrain=Terrain.Hills;}
         }
         s.Tiles[16*s.Width+13].Terrain=Terrain.Forest; s.Tiles[16*s.Width+13].Ruin=true;
+        if (extended)
+        {
+            foreach (var f in s.Factions) { f.Research = "stone_tools"; }
+            foreach (var u in s.Units) { u.ModelId = u.Kind == UnitKind.Scout ? "tribal_scout" : "hunters"; u.Actions = u.MaxActions; }
+            foreach (var c in s.Cities) c.Project = "flint_workshop";
+        }
         s.Log("Cztery ludy osiadają w dolinie. Rada Wysogrodu oczekuje pierwszej decyzji.","kronika");
         Engine.Explore(s); return s;
     }

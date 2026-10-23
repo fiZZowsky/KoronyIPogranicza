@@ -63,9 +63,9 @@ public static class Caravans
         var result=new List<Caravan>();
         var moves=new List<EscortMovement>();
         // Only cloned units move in the forecast. Terrain, politics and inventories remain read-only.
-        var world=new GameState{Width=s.Width,Height=s.Height,Turn=s.Turn,Tiles=s.Tiles,Cities=s.Cities,Factions=s.Factions,
+        var world=new GameState{Width=s.Width,Height=s.Height,Turn=s.Turn,MaxTurns=s.MaxTurns,EpochCampaign=s.EpochCampaign,ClimatePressure=s.ClimatePressure,Tiles=s.Tiles,Cities=s.Cities,Factions=s.Factions,
             Relations=s.Relations,Demands=s.Demands,Caravans=s.Caravans,TradeContracts=s.TradeContracts,
-            Units=s.Units.Select(u=>new Unit{Id=u.Id,Owner=u.Owner,Tile=u.Tile,Kind=u.Kind,Health=u.Health,Actions=u.Actions,
+            Units=s.Units.Select(u=>new Unit{Id=u.Id,Owner=u.Owner,Tile=u.Tile,Kind=u.Kind,ModelId=u.ModelId,Health=u.Health,Actions=u.Actions,
                 Destination=u.Destination,EscortCaravanId=u.EscortCaravanId,Order=u.Order,FortificationTurns=u.FortificationTurns,Experience=u.Experience}).ToList()};
         foreach(var original in s.Caravans.OrderBy(c=>c.Id))
         {

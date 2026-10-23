@@ -1,5 +1,8 @@
 {
-  "Version": 16,
+  "Version": 17,
+  "EpochCampaign": false,
+  "ContinueAfterVictory": false,
+  "ClimatePressure": 0,
   "Seed": 17421,
   "RandomState": 2925202044,
   "Width": 42,
@@ -16690,6 +16693,7 @@
       "Owner": 0,
       "Tile": 639,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16703,6 +16707,7 @@
       "Owner": 0,
       "Tile": 640,
       "Kind": "Scout",
+      "ModelId": null,
       "Health": 100,
       "Actions": 3,
       "Destination": null,
@@ -16716,6 +16721,7 @@
       "Owner": 1,
       "Tile": 366,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16729,6 +16735,7 @@
       "Owner": 1,
       "Tile": 367,
       "Kind": "Scout",
+      "ModelId": null,
       "Health": 100,
       "Actions": 3,
       "Destination": null,
@@ -16742,6 +16749,7 @@
       "Owner": 2,
       "Tile": 913,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16755,6 +16763,7 @@
       "Owner": 2,
       "Tile": 914,
       "Kind": "Scout",
+      "ModelId": null,
       "Health": 100,
       "Actions": 3,
       "Destination": null,
@@ -16768,6 +16777,7 @@
       "Owner": 3,
       "Tile": 220,
       "Kind": "Spearmen",
+      "ModelId": null,
       "Health": 100,
       "Actions": 2,
       "Destination": null,
@@ -16781,6 +16791,7 @@
       "Owner": 3,
       "Tile": 221,
       "Kind": "Scout",
+      "ModelId": null,
       "Health": 100,
       "Actions": 3,
       "Destination": null,
@@ -16822,7 +16833,9 @@
         "land_charter"
       ],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 1,
@@ -16847,7 +16860,9 @@
       "Technologies": [],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 2,
@@ -16872,7 +16887,9 @@
       "Technologies": [],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     },
     {
       "Id": 3,
@@ -16897,7 +16914,9 @@
       "Technologies": [],
       "Flags": [],
       "TradePolicy": "DomesticFirst",
-      "LastTradePolicyTurn": -10
+      "LastTradePolicyTurn": -10,
+      "EpochChoices": {},
+      "SpaceMilestones": []
     }
   ],
   "Relations": [

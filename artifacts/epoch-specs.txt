@@ -1,0 +1,34 @@
+PASS New campaigns begin in the Paleolithic with 1600 turns and historical continuity
+PASS Eighteen eras contain ninety unique technologies and all original discoveries
+PASS The full technology graph is reachable in order without cyclic prerequisites
+PASS A later era cannot be researched by accumulating unrelated technology counts
+PASS Every new discovery has an observable city bonus or usable project unlock
+PASS All 54 new buildings and 34 models have actual effects and valid prerequisites
+PASS Energy shortage reduces the actual yield of powered infrastructure
+PASS Energy is shared by connected domestic cities and an interdiction can cut it
+PASS Powered facilities retain full upkeep when energy is scarce
+PASS Emissions from foreign factories affect global climate and domestic crops
+PASS Climate restoration reverses pressure without going below zero
+PASS Housing, sanitation, defense and supply bonuses reach their existing systems
+PASS Era choices have lasting different effects, survive reload and cannot be repeated
+PASS Era councils reject future contexts and keep a free affordable branch
+PASS Models are produced with their own combat strength, movement and name
+PASS Modernization transfers gold once and preserves health and experience
+PASS Modernization rejects wrong role, insufficient funds, movement and foreign location
+PASS Late artillery uses model range and cannot capture cities
+PASS Programs require technology, the right facility and their predecessor
+PASS All five space programs finish through real production and persist as national milestones
+PASS Atlas no longer ends an extended world before future eras
+PASS Final program pauses for inadequate stability or power without losing work
+PASS The calendar is monotonic, reaches the future and old campaigns retain their dates
+PASS Old campaigns explicitly extend without erasing cities, people, treasury or discovered knowledge
+PASS V16 migration preserves espionage and custody without inventing new era decisions
+PASS Validation rejects impossible eras, milestones, climate values and mismatched models
+PASS A real campaign researches every epoch, resolves its institutions and keeps deterministic saves
+  extended development T200: AI eras 8,7,8; techs 38,34,36
+  extended development T400: AI eras 15,11,13; techs 71,51,61
+  future reached after 485 turns; highest AI era 18; cities 13
+PASS AI develops from prehistoric income into future eras without granted research or buildings
+PASS Army model forecasts remain pure and preserve modern movement metadata
+PASS V16 save overwrite creates a faithful backup with the old custody context
+30 epoch specifications passed in 10,6s.

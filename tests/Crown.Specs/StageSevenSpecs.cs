@@ -7,7 +7,7 @@ internal static class StageSevenSpecs
     private static int At(GameState s,int x)=>15*s.Width+x;
     private static (GameState S,City Buyer,City Seller) Fixture()
     {
-        var s=World.Create();Narrative.Resolve(s,0);s.Units.Clear();
+        var s=World.CreateLegacy();Narrative.Resolve(s,0);s.Units.Clear();
         foreach(var t in s.Tiles){t.Terrain=Terrain.Mountain;t.Owner=-1;t.Resource=Resource.None;t.Improvement=Improvement.None;t.Road=false;t.RoadOwner=-1;t.Explored=true;}
         var buyer=s.Cities.First(c=>c.Owner==0);var seller=s.Cities.First(c=>c.Owner==1);seller.Tile=At(s,21);
         foreach(var c in s.Cities){s.Tiles[c.Tile].Terrain=Terrain.Grassland;s.Tiles[c.Tile].Owner=c.Owner;}
@@ -129,9 +129,9 @@ internal static class StageSevenSpecs
         {
             var (s,buyer,seller)=Fixture();Sign(s,buyer,seller);Markets.Tick(s);var node=JsonNode.Parse(SaveGame.Serialize(s))!;
             node["Version"]=6;node.AsObject().Remove("Caravans");node.AsObject().Remove("NextCaravanId");string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 16&&loaded.Caravans.Count==0&&loaded.TradeContracts.Single().LastPayment==s.TradeContracts.Single().LastPayment&&loaded.Player.Gold==s.Player.Gold,"Migration duplicated or erased payment.");
+            Assert(loaded.Version == 17&&loaded.Caravans.Count==0&&loaded.TradeContracts.Single().LastPayment==s.TradeContracts.Single().LastPayment&&loaded.Player.Gold==s.Player.Gold,"Migration duplicated or erased payment.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v6-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v6.bak")==legacy&&SaveGame.Read(path).Version == 16,"V6 backup missing.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v6.bak")==legacy&&SaveGame.Read(path).Version == 17,"V6 backup missing.");}
             finally{File.Delete(path);File.Delete(path+".v6.bak");}
         });
         test("Save validation rejects duplicate, unbacked and impossible caravan manifests",()=>

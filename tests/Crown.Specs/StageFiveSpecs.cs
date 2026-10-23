@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 internal static class StageFiveSpecs
 {
     private static void Assert(bool value,string message){if(!value)throw new Exception(message);}
-    private static GameState Fresh(){var s=World.Create();Narrative.Resolve(s,0);s.Player.Gold=3000;s.Factions[1].Gold=1000;return s;}
+    private static GameState Fresh(){var s=World.CreateLegacy();Narrative.Resolve(s,0);s.Player.Gold=3000;s.Factions[1].Gold=1000;return s;}
     private static GameState War(WarReason reason=WarReason.Conquest)
     {var s=Fresh();if(reason==WarReason.Redress)DiplomaticCouncil.AddGrievance(s,0,1,40);Assert(Engine.DeclareWar(s,1,reason).Success,"War fixture failed.");s.Turn=2;return s;}
     private static City ExtraCity(GameState s,int owner,string name)
@@ -133,9 +133,9 @@ internal static class StageFiveSpecs
             var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=4;
             foreach(string key in new[]{"Wars","PeaceOffers","NextWarId","NextPeaceId"})node.AsObject().Remove(key);
             string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 16&&loaded.Wars.Count==1&&!loaded.Wars[0].GoalDeclared&&loaded.Demands.Count==1&&loaded.Cities[0].Loyalty==61&&loaded.Cities[0].Governance==Governance.Autonomous&&DiplomaticCouncil.Grievances(loaded,0,1)==42,"V4 migration lost existing diplomacy or invented a goal.");
+            Assert(loaded.Version == 17&&loaded.Wars.Count==1&&!loaded.Wars[0].GoalDeclared&&loaded.Demands.Count==1&&loaded.Cities[0].Loyalty==61&&loaded.Cities[0].Governance==Governance.Autonomous&&DiplomaticCouncil.Grievances(loaded,0,1)==42,"V4 migration lost existing diplomacy or invented a goal.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v4-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v4.bak")==legacy&&SaveGame.Read(path).Version == 16,"V4 backup failed.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v4.bak")==legacy&&SaveGame.Read(path).Version == 17,"V4 backup failed.");}
             finally{File.Delete(path);File.Delete(path+".v4.bak");}
         });
         test("V5 rejects corrupt war ledgers, deadlines, parties and duplicate treaties",()=>

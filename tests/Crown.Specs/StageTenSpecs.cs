@@ -7,7 +7,7 @@ internal static class StageTenSpecs
     private static int At(GameState s,int x)=>15*s.Width+x;
     private static (GameState S,TradeContract Contract,Caravan Cargo) Fixture()
     {
-        var s=World.Create();Narrative.Resolve(s,0);s.Units.Clear();
+        var s=World.CreateLegacy();Narrative.Resolve(s,0);s.Units.Clear();
         foreach(var t in s.Tiles){t.Terrain=Terrain.Mountain;t.Resource=Resource.None;t.Owner=-1;t.Road=false;t.RoadOwner=-1;t.Ruin=false;t.Explored=true;t.Improvement=Improvement.None;}
         var seller=s.Cities.First(c=>c.Owner==0);var buyer=s.Cities.First(c=>c.Owner==1);buyer.Tile=At(s,21);
         foreach(var c in s.Cities){s.Tiles[c.Tile].Terrain=Terrain.Grassland;s.Tiles[c.Tile].Owner=c.Owner;}
@@ -151,11 +151,11 @@ internal static class StageTenSpecs
         {
             var (s,_,c)=Fixture();var u=Engine.AddUnit(s,0,c.Tile,UnitKind.Scout);Engine.AssignEscort(s,u.Id,c.Id);Engine.SendDemand(s,1,DemandKind.NonAggression);
             var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=9;string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 16&&loaded.Units.Single().EscortCaravanId==c.Id&&loaded.Demands[0].Kind==DemandKind.NonAggression&&TransitCouncil.Until(loaded,2)==0,"Migration lost orders or invented a permission.");
+            Assert(loaded.Version == 17&&loaded.Units.Single().EscortCaravanId==c.Id&&loaded.Demands[0].Kind==DemandKind.NonAggression&&TransitCouncil.Until(loaded,2)==0,"Migration lost orders or invented a permission.");
             var (promises,_,_)=StageEightSpecs.Loss();TradeCouncil.Present(promises,1);Narrative.Resolve(promises,1);node=JsonNode.Parse(SaveGame.Serialize(promises))!;node["Version"]=9;
             var preserved=SaveGame.Deserialize(node.ToJsonString());Assert(preserved.TradeCases[0].Status==TradeCaseStatus.Promised&&preserved.TradeCases[0].DeadlineTurn==promises.TradeCases[0].DeadlineTurn,"V9 migration lost an active promise.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v9-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v9.bak")==legacy&&SaveGame.Read(path).Version == 16,"V9 backup missing.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v9.bak")==legacy&&SaveGame.Read(path).Version == 17,"V9 backup missing.");}
             finally{File.Delete(path);File.Delete(path+".v9.bak");}
         });
         test("Forged transit replies, future grants and unknown embassy variants are rejected",()=>

@@ -123,7 +123,7 @@ public sealed partial class MainWindow
             if(Caravans.Active(cargo))
             {
                 q.Children.Add(Ui.Label(escort==null?"Brak rozkazu eskorty; pobliskie wojska nadal zapewniają osłonę.":
-                    $"Eskorta: {Crown.Core.Content.UnitName(escort.Kind)} #{escort.Id} · {state.Factions[escort.Owner].Name}\nPozostały ruch {escort.Actions:0.#}/{escort.MaxActions}. Wóz czeka na wolniejszy oddział. Eskorta nie odpoczywa i kończy się przed niedostępną granicą lub obcym oddziałem.",12,Ui.Muted));
+                    $"Eskorta: {Crown.Core.UnitModels.Name(escort)} #{escort.Id} · {state.Factions[escort.Owner].Name}\nPozostały ruch {escort.Actions:0.#}/{escort.MaxActions}. Wóz czeka na wolniejszy oddział. Eskorta nie odpoczywa i kończy się przed niedostępną granicą lub obcym oddziałem.",12,Ui.Muted));
                 if(escort!=null&&route.Skip(1).Any(id=>!Navigation.CanEnter(state,escort,state.Tiles[id])))
                     q.Children.Add(Ui.Label("Na tej trasie wojsko odłączy się przed granicą lub obcym oddziałem. Dalsza droga będzie oceniona bez jego osłony; przewidywany czas może się zmienić.",12,Ui.Gold));
                 if(Caravans.AtRisk(state,contract,cargo.Tile))q.Children.Add(Ui.Label("ZAGROŻENIE: przechwycenie przy następnym rozliczeniu. Odsuń przeciwnika lub sprowadź osłonę przed końcem tury.",13,Ui.Red));
@@ -145,7 +145,7 @@ public sealed partial class MainWindow
         var candidates=state.Units.Where(u=>u.Owner==0&&EscortOrders.AssignmentError(state,u,cargo)==null).OrderBy(u=>u.Id).ToArray();
         if(candidates.Length==0)p.Children.Add(Ui.Label("Brak gotowego oddziału na polu karawany. Przesuń tam własnych żołnierzy lub zwiadowców, następnie wróć do tego okna.",15,Ui.Gold));
         foreach(var unit in candidates)
-            p.Children.Add(Ui.Button($"Przydziel: {Crown.Core.Content.UnitName(unit.Kind)} #{unit.Id} · ruch {unit.Actions:0.#}/{unit.MaxActions}",()=>
+            p.Children.Add(Ui.Button($"Przydziel: {Crown.Core.UnitModels.Name(unit)} #{unit.Id} · ruch {unit.Actions:0.#}/{unit.MaxActions}",()=>
             {var result=Engine.AssignEscort(state,unit.Id,cargo.Id);CloseModal();Do(result);TryAutoSave(false);ShowCaravans();},true));
         p.Children.Add(Ui.Button("Wróć do karawan",ShowCaravans));Modal(p,820);
     }

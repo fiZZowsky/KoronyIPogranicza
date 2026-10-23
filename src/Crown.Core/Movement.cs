@@ -19,7 +19,7 @@ public static partial class Engine
         if (path.Count == 0) return Result.Fail("Cel jest niedostępny lub poza zasięgiem tej tury.");
         u.Destination = null;
         foreach (int next in path.Skip(1)) EnterTile(s, u, next);
-        return Result.Ok($"{Content.UnitName(u.Kind)}: pozostało {u.Actions:0.#} punktów ruchu.");
+        return Result.Ok($"{UnitModels.Name(u)}: pozostało {u.Actions:0.#} punktów ruchu.");
     }
 
     public static Result OrderMove(GameState s, int unitId, int target)
@@ -71,7 +71,7 @@ public static partial class Engine
         if (path.Count == 0)
         {
             u.Destination = null;
-            s.Log($"{Content.UnitName(u.Kind)}: marsz wstrzymany — trasa została zablokowana. Wydaj nowy rozkaz.", "rozkazy");
+            s.Log($"{UnitModels.Name(u)}: marsz wstrzymany — trasa została zablokowana. Wydaj nowy rozkaz.", "rozkazy");
             return;
         }
         foreach (int next in path.Skip(1))
@@ -82,7 +82,7 @@ public static partial class Engine
         if (u.Tile == goal)
         {
             u.Destination = null;
-            s.Log($"{Content.UnitName(u.Kind)} dotarli do celu marszu ({s.Tiles[goal].X}, {s.Tiles[goal].Y}).", "rozkazy");
+            s.Log($"{UnitModels.Name(u)} dotarli do celu marszu ({s.Tiles[goal].X}, {s.Tiles[goal].Y}).", "rozkazy");
         }
     }
 }

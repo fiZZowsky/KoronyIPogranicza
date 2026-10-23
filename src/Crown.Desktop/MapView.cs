@@ -272,8 +272,17 @@ public sealed class MapView : FrameworkElement
         var p=CenterOf(State.Tiles[c.Tile]);var color=B(State.Factions[c.Owner].Color);var random=new Random(c.Tile*19);
         dc.DrawEllipse(B("#526C7353"),null,new(p.X,p.Y+3),27,17);
         if(c.Buildings.Contains("walls"))dc.DrawEllipse(null,new Pen(B("#B6AF94"),4),new(p.X,p.Y),27,18);
-        for(int i=0;i<12;i++)House(dc,p.X+random.Next(-22,23),p.Y+random.Next(-8,14),random.Next(5,10),random.Next(5,11));
-        House(dc,p.X,p.Y-5,13,23);dc.DrawLine(new Pen(B("#E1CE9C"),1),new(p.X,p.Y-34),new(p.X,p.Y-49));dc.DrawGeometry(color,null,Poly(new(p.X,p.Y-49),new(p.X+13,p.Y-45),new(p.X,p.Y-40)));
+        int era=State.EpochCampaign?State.Factions[c.Owner].Era:4;
+        for(int i=0;i<12;i++)
+        {
+            double bx=p.X+random.Next(-22,23),by=p.Y+random.Next(-8,14);
+            if(era<8)House(dc,bx,by,random.Next(5,10),random.Next(5,11));
+            else {double h=random.Next(12,era>=12?35:24);dc.DrawRectangle(B(era>=12?"#57747B":"#777D78"),new Pen(color,.5),new Rect(bx-4,by-h,8,h));for(int w=4;w<h;w+=6)dc.DrawRectangle(B(era>=12?"#92D2CA":"#D8BF84"),null,new Rect(bx-2,by-w,3,2));}
+        }
+        if(era<8)House(dc,p.X,p.Y-5,13,23);
+        else if(era>=14){dc.DrawEllipse(B("#394C58"),new Pen(color,1.5),new(p.X,p.Y-22),19,10);dc.DrawLine(new Pen(B("#91D3D1"),1),new(p.X-19,p.Y-22),new(p.X+19,p.Y-22));}
+        else {dc.DrawRectangle(B("#718383"),new Pen(color,1),new Rect(p.X-8,p.Y-38,16,34));}
+        dc.DrawLine(new Pen(B("#E1CE9C"),1),new(p.X,p.Y-34),new(p.X,p.Y-49));dc.DrawGeometry(color,null,Poly(new(p.X,p.Y-49),new(p.X+13,p.Y-45),new(p.X,p.Y-40)));
         string name=c.Name.ToUpperInvariant();var ft=new FormattedText(name,CultureInfo.GetCultureInfo("pl-PL"),FlowDirection.LeftToRight,Sans,10,B("#F0E8D4"),1);double width=Math.Max(100,ft.Width+40);
         var rect=new Rect(p.X-width/2,p.Y+31,width,23);dc.DrawRoundedRectangle(B("#F014252A"),new Pen(color,.8),rect,2,2);dc.DrawText(ft,new(p.X-ft.Width/2-8,p.Y+35));Text(dc,c.Population.ToString(),new(p.X+width/2-13,p.Y+34),10,color);
         if(c.Health<100){dc.DrawRectangle(B("#202E28"),null,new Rect(p.X-22,p.Y+23,44,3));dc.DrawRectangle(B("#D09D71"),null,new Rect(p.X-22,p.Y+23,44*c.Health/100,3));}
@@ -287,7 +296,14 @@ public sealed class MapView : FrameworkElement
         {dc.DrawRoundedRectangle(B("#193B38"),new Pen(B("#9BCFC1"),1),new Rect(p.X-24,p.Y-7,11,14),2,2);Text(dc,"E",new(p.X-18.5,p.Y-6),9,B("#C3E9D8"));}
         if(u.Order!=MilitaryOrder.None)
         {dc.DrawRoundedRectangle(B("#193B38"),new Pen(B("#D7C28D"),1),new Rect(p.X-30,p.Y-7,20,14),2,2);Text(dc,u.Order==MilitaryOrder.Recover?"+":"F"+u.FortificationTurns,new(p.X-20,p.Y-6),9,B("#E5D2A3"));}
-        if(u.Kind==UnitKind.Settler){dc.DrawEllipse(null,new Pen(symbol,1.4),new(p.X,p.Y-3),3,3);dc.DrawLine(new Pen(symbol,1.4),new(p.X,p.Y),new(p.X,p.Y+7));dc.DrawLine(new Pen(symbol,1.4),new(p.X-5,p.Y+3),new(p.X+5,p.Y+3));}
+        if(UnitModels.For(u) is {Era: >=8} model)
+        {
+            if(u.Kind==UnitKind.Cavalry){dc.DrawRoundedRectangle(symbol,null,new Rect(p.X-7,p.Y-3,14,8),2,2);dc.DrawLine(new Pen(symbol,2),p,new(p.X+10,p.Y-5));}
+            else if(u.Kind==UnitKind.Catapult){dc.DrawLine(new Pen(symbol,3),new(p.X-6,p.Y+5),new(p.X+7,p.Y-6));dc.DrawEllipse(symbol,null,new(p.X-5,p.Y+5),3,3);}
+            else if(u.Kind==UnitKind.Scout){dc.DrawLine(new Pen(symbol,2),new(p.X-6,p.Y-5),new(p.X+6,p.Y+5));dc.DrawLine(new Pen(symbol,2),new(p.X-6,p.Y+5),new(p.X+6,p.Y-5));}
+            else {dc.DrawRoundedRectangle(null,new Pen(symbol,1.5),new Rect(p.X-5,p.Y-7,10,14),2,2);Text(dc,model.Era>=12?"R":"I",new(p.X,p.Y-6),9,symbol);}
+        }
+        else if(u.Kind==UnitKind.Settler){dc.DrawEllipse(null,new Pen(symbol,1.4),new(p.X,p.Y-3),3,3);dc.DrawLine(new Pen(symbol,1.4),new(p.X,p.Y),new(p.X,p.Y+7));dc.DrawLine(new Pen(symbol,1.4),new(p.X-5,p.Y+3),new(p.X+5,p.Y+3));}
         else if(u.Kind==UnitKind.Archer){var g=new StreamGeometry();using(var x=g.Open()){x.BeginFigure(new(p.X-3,p.Y-7),false,false);x.QuadraticBezierTo(new(p.X+9,p.Y),new(p.X-3,p.Y+7),true,false);}dc.DrawGeometry(null,new Pen(symbol,1.7),g);dc.DrawLine(new Pen(symbol,1),new(p.X-3,p.Y-7),new(p.X-3,p.Y+7));}
         else Text(dc,u.Kind switch{UnitKind.Scout=>"◇",UnitKind.Cavalry=>"♞",UnitKind.Catapult=>"⊕",_=>"⚔"},new(p.X,p.Y-10),15,symbol);
         dc.DrawRectangle(B("#20312B"),null,new Rect(p.X-9,p.Y+15,18,2));dc.DrawRectangle(B(u.Health>50?"#A7BE8A":"#D58B6D"),null,new Rect(p.X-9,p.Y+15,18*u.Health/100,2));

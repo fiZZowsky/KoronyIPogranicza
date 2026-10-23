@@ -33,3 +33,11 @@ if (-not $custodyProcess.WaitForExit(60000)) {
 }
 if ($custodyProcess.ExitCode -ne 0) { throw 'Test jeńców WPF nie przeszedł. Sprawdź artifacts/custody-ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $custodySmokeDirectory 'ui-smoke.txt')
+$epochDirectory = Join-Path $reportDirectory 'epoch-ui'
+$epochProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-epochs', ('"' + $epochDirectory + '"')) -WindowStyle Hidden -PassThru
+if (-not $epochProcess.WaitForExit(60000)) {
+    Stop-Process -Id $epochProcess.Id -Force
+    throw 'Test epok przekroczył limit 60 sekund.'
+}
+if ($epochProcess.ExitCode -ne 0) { throw 'Test epok WPF nie przeszedł. Sprawdź artifacts/epoch-ui/ui-smoke.txt.' }
+Get-Content -LiteralPath (Join-Path $epochDirectory 'ui-smoke.txt')

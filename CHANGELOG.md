@@ -1,5 +1,21 @@
 # Zmiany
 
+## 0.17 — Od ognia do gwiazd · 23 października 2026
+
+- 18 głównych etapów: paleolit, neolit, brąz, żelazo, starożytność klasyczna, średniowiecze, renesans, oświecenie, rewolucja przemysłowa, nowoczesność, atom, informacja, automatyzacja, planeta, orbita, świat międzyplanetarny, Układ Słoneczny i spekulatywna epoka międzygwiezdna.
+- 90 technologii (66 nowych), cztery dziedziny oraz zamknięcie każdego etapu. Następny etap wymaga poprzedniego zamknięcia, a nie dowolnej liczby odkryć. Każda nowa technologia daje rzeczywistą premię miasta. Państwa rozwijają się osobno.
+- 54 nowe budynki: od obozowisk i młynów przez sieci energetyczne, fabryki i centra danych po infrastrukturę orbitalną oraz stocznię statków pokoleniowych. Łącznie 72 trwałe projekty miejskie. Działają dochody, produkcja, wiedza, żywność, kultura, mieszkania, opieka, obrona, zasięg i utrzymanie. Filtr epoki w wyborze projektu.
+- 34 nowe modele wojsk, łącznie 40 modeli jednostek w sześciu lądowych rolach. Własna siła, ruch, zasięg, koszt i utrzymanie. Dalsza artyleria korzysta z właściwego zasięgu, nie zdobywa miast. Czołgi i wozy przyszłości nie wymagają koni, jazda konna nadal tak.
+- Modernizacja we własnym mieście z dostawami: złoto i pełny ruch za silniejszy znany model tej samej roli. Zdrowie i doświadczenie pozostają; umocnienia i marsz są anulowane. Porównanie i koszt uwzględniają dotychczasowe premie materiałowe dawnych wojsk, aby wykluczyć płatne osłabienie. Osobne symbole nowoczesnych jednostek i sylwetki miast epok w mapie 2D.
+- Energia współdzielona w bezpiecznej krajowej sieci drogowej. Odcięcie źródła wpływa na zasilanie. Brak energii ogranicza do 25% premie wymagającego jej obiektu; pełne pokrycie daje 100%. Utrzymanie płacone jest w całości. Program kosmiczny wymaga pełnego zasilania.
+- Wspólna presja klimatyczna od emisji i redukcji państw, wpływająca na plony. Energia, recykling, odbudowa klimatu i polityka tworzą różne drogi rozwoju. Bez losowych katastrof i deklarowania naukowej prognozy klimatu.
+- 18 nowych dialogów i 54 trwałe kierunki instytucjonalne. Podział ziemi, prawa obywateli, druk, przemysł, energia, dane, automatyzacja, biosfera i autonomia placówek pozaziemskich łączą przyszłość z wyborami społecznymi. Nie można odebrać decyzji drugi raz; wolne opcje chronią pusty skarb.
+- Pięć narodowych programów: stacja orbitalna, baza księżycowa, osadnictwo marsjańskie, wspólnota pasa asteroid i statek pokoleniowy. Rzeczywista produkcja, infrastruktura, energia i łańcuch wymagań; korzyści w aktualnej stolicy. Ukończony program nie jest powielany w innych miastach i jest pomijany w ich planach bez niszczenia pracy. Nie ma osobnej mapy kosmosu ani sterowalnych flot.
+- Nowa kampania do 1600 tur i umowny kalendarz do roku 5000, uwzględniający rozwój świata. Naukowe zwycięstwo dopiero za statek pokoleniowy. Atlas jest użytecznym wcześniejszym osiągnięciem. Wyższe wymagania zwycięstwa kulturowego i możliwość kontynuowania świata po zwycięstwie do limitu.
+- AI korzysta z technologii epok, energetyki, nowych budynków, modeli, modernizacji, programów i własnych instytucji. Nadal działa według heurystyk. Rozszerzone testy obejmują pełne 90 odkryć, całą nową infrastrukturę, realną produkcję programów i rozwój AI bez przyznawania badań lub budynków.
+- Format v17, migracja v16 zachowująca niewolę, wywiad i wcześniejsze systemy, kopia `.v16.bak`. Stare kampanie rozszerza osobny przycisk, zachowując miasta i zasoby oraz uznając wcześniejszy dorobek. Walidacja epok, par programów, modeli, klimatu i kontekstu rady.
+- Przegląd epok, infrastruktury, decyzji i modeli; panel energii, klimatu oraz programów. Podręcznik `EPOKI.md` generowany z faktycznych danych. Osobne wydanie `wydanie-0.17/`, zachowane wcześniejsze paczki i zapisy. Czwarty tryb diagnostyki WPF, wszystkie bez autozapisu i wykonywane kolejno.
+
 ## 0.16 — Ludzie za granicą · 23 października 2026
 
 - Obcy agenci schwytani przez gracza czekają na decyzję jego rady. AI nie wykupuje ich automatycznie. Nowy kontekstowy dialog wskazuje osobę, państwo, miasto, środki wysyłającego i możliwość odzyskania naszego człowieka.

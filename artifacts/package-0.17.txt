@@ -1,0 +1,8 @@
+Package: Korony-i-Pogranicza-0.17-Windows.zip
+Bytes: 3687061
+Entries: 14
+SHA256: 8D55F952927CC80F04DC3541580EEA659B0FEDA98673A15BC33F0041B3305F91
+All entry hashes match published files. Includes EPOKI.md. No saves or temporary files.
+Previous 0.16 archive and copied save hashes unchanged.
+Core specifications: 378 passed. Desktop integration: 170 base + 22 espionage + 18 custody + 38 epochs = 248 passed for source and published executable.
+Published UI: 49.0 seconds base + 5.7 seconds espionage + 4.4 seconds custody + 6.0 seconds epochs, run sequentially. All four diagnostic failure exit codes: 3.

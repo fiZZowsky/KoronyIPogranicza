@@ -26,7 +26,7 @@ public sealed partial class MainWindow
         }
         GameState Fixture()
         {
-            var s = World.Create(); Narrative.Resolve(s, 0); s.Units.Clear();
+            var s = World.CreateLegacy(); Narrative.Resolve(s, 0); s.Units.Clear();
             foreach (var f in s.Factions) { f.Gold = 3000; f.Stability = 65; f.Technologies.UnionWith(["pottery", "writing"]); }
             foreach (var c in s.Cities) { c.Project = "treasury"; c.Production = 90; c.ProductionPaused = true; s.Tiles[c.Tile].Explored = true; }
             foreach (var r in s.Relations) { r.Trust = 30; r.Trade = false; } return s;

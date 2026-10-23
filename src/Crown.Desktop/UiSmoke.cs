@@ -32,7 +32,9 @@ public sealed partial class MainWindow
         try
         {
             if(arguments.Contains("--smoke-force-failure"))throw new InvalidOperationException("Intentional diagnostic failure to verify process exit propagation.");
-            Landing();await Capture("menu");Click("ROZPOCZNIJ");Check(state.PendingEvent=="founding"&&overlay!=null,"New game opens the council");await Capture("council");
+            Landing();await Capture("menu");Click("ROZPOCZNIJ");Check(state.PendingEvent=="founding"&&overlay!=null,"New game opens the council");
+            // Keep the existing regression campaign on its original rules; EpochSmoke exercises the new default campaign.
+            Start(World.CreateLegacy());ShowCouncil();await Capture("council");
             Click("01   Ziemia");Check(state.Player.Flags.Contains("land_charter")&&overlay==null,"Council button applies the founding charter");await Capture("gameplay");
             var scout=state.Units.First(u=>u.Owner==0&&u.Kind==UnitKind.Scout);Select(scout.Tile);selectedUnit=scout.Id;var target=World.Neighbors(state,scout.Tile).First(t=>t.Passable&&t.Owner==0&&!state.Units.Any(u=>u.Owner!=0&&u.Tile==t.Id));Order(target.Id);Check(scout.Tile==target.Id,"Map order moves a selected unit");
             tab="research";RefreshSide();Click("Rozpocznij badania");Check(state.Player.Research=="pottery","Research button changes the technology");await Capture("research");
@@ -50,7 +52,7 @@ public sealed partial class MainWindow
             }
             CloseModal();Check(state.Turn==13,"Turn button advances twelve turns with council decisions");
             string path=Path.Combine(folder,"smoke-save.crown");SaveGame.Write(state,path);string before=SaveGame.Serialize(state);LoadPath(path);Check(SaveGame.Serialize(state)==before,"Desktop reload restores the complete game");CloseModal();tab="realm";Select(city.Tile);await Capture("turn-13");
-            var scenario=World.Create();Narrative.Resolve(scenario,0);scenario.Player.Technologies.UnionWith(["pottery","agriculture","mining","bronze"]);scenario.Player.Gold=3000;
+            var scenario=World.CreateLegacy();Narrative.Resolve(scenario,0);scenario.Player.Technologies.UnionWith(["pottery","agriculture","mining","bronze"]);scenario.Player.Gold=3000;
             var startCity=scenario.Cities.First(c=>c.Owner==0);int endTile=20*scenario.Width+13;
             var cursor=scenario.Tiles[startCity.Tile];var goal=scenario.Tiles[endTile];goal.Terrain=Terrain.Grassland;
             while(cursor.Id!=goal.Id){cursor=World.Neighbors(scenario,cursor.Id).OrderBy(t=>World.Distance(t,goal)).First();if(!cursor.Passable)cursor.Terrain=Terrain.Grassland;cursor.Explored=true;}
@@ -73,7 +75,7 @@ public sealed partial class MainWindow
             Width=1200;Height=800;tab="logistics";RefreshSide();await Capture("compact-layout");
             Check(root.ActualWidth>=1100&&endButton.IsVisible,"Compact desktop layout keeps the turn button visible");
             Width=1600;Height=980;
-            var society=World.Create();Narrative.Resolve(society,0);society.Player.Gold=3000;society.Player.Technologies.UnionWith(["pottery","agriculture","masonry"]);
+            var society=World.CreateLegacy();Narrative.Resolve(society,0);society.Player.Gold=3000;society.Player.Technologies.UnionWith(["pottery","agriculture","masonry"]);
             var oldTown=society.Cities.First(c=>c.Owner==0);int destination=20*society.Width+13;
             society.Tiles[destination].Terrain=Terrain.Grassland;
             foreach(var tile in society.Tiles.Where(t=>World.Distance(t,society.Tiles[oldTown.Tile])<=2))
@@ -97,7 +99,7 @@ public sealed partial class MainWindow
             string societyPath=Path.Combine(folder,"society-save.crown");SaveGame.Write(state,societyPath);string societyBefore=SaveGame.Serialize(state);LoadPath(societyPath);
             Check(SaveGame.Serialize(state)==societyBefore,"Desktop reload preserves provincial rights and migration history");
             CloseModal();tab="provinces";map.ShowPopulation=true;map.ShowSupply=false;RefreshSide();map.Center(oldTown.Tile);await Capture("provinces-final");
-            var politics=World.Create();Narrative.Resolve(politics,0);politics.Player.Gold=3000;politics.Relation(0,1).Trust=85;
+            var politics=World.CreateLegacy();Narrative.Resolve(politics,0);politics.Player.Gold=3000;politics.Relation(0,1).Trust=85;
             DiplomaticCouncil.AddGrievance(politics,0,1,40);Start(politics);tab="diplomacy";RefreshSide();
             Check(map.Viewport.Contains(MapView.CenterOf(state.Tiles[state.Cities[0].Tile])),"Starting another campaign centers the map after layout");
             Click("Negocjuj warunki: "+state.Factions[1].Name);await Capture("negotiation");
@@ -122,7 +124,7 @@ public sealed partial class MainWindow
             string politicsPath=Path.Combine(folder,"politics-save.crown");SaveGame.Write(state,politicsPath);string politicsBefore=SaveGame.Serialize(state);LoadPath(politicsPath);
             Check(SaveGame.Serialize(state)==politicsBefore,"Desktop reload preserves diplomatic replies, occupation and local governance");
             CloseModal();
-            var peaceWorld=World.Create();Narrative.Resolve(peaceWorld,0);peaceWorld.Player.Gold=4000;peaceWorld.Factions[1].Gold=2000;
+            var peaceWorld=World.CreateLegacy();Narrative.Resolve(peaceWorld,0);peaceWorld.Player.Gold=4000;peaceWorld.Factions[1].Gold=2000;
             var site=peaceWorld.Tiles.First(t=>t.Passable&&t.Owner<0&&peaceWorld.Cities.All(c=>World.Distance(t,peaceWorld.Tiles[c.Tile])>=4));
             var disputed=Engine.AddCity(peaceWorld,0,site.Id,"Sporny Brzeg");ProvincialPolitics.Transfer(peaceWorld,disputed,1);
             Engine.DeclareWar(peaceWorld,1,WarReason.Liberation,disputed.Id);peaceWorld.Turn=2;peaceWorld.Factions[1].WarWeariness=80;Engine.Explore(peaceWorld);
@@ -139,7 +141,7 @@ public sealed partial class MainWindow
             Check(state.Wars.Single().Outcome.Contains("Cel wojenny osiągnięty"),"Diplomatic city recovery fulfills the declared liberation goal");
             state.Turn=5;Narrative.Schedule(state);ShowCouncil();await Capture("peace-aftermath");Click("01   Odbudujemy");
             Check(state.SeenEvents.Contains("peace_legacy")&&state.Deferred.Any(e=>e.Text.Contains("Fundusz odbudowy")),"Peace aftermath dialogue funds reconstruction and stores its delayed consequence");
-            var bargaining=World.Create();Narrative.Resolve(bargaining,0);bargaining.Player.Gold=3000;bargaining.Factions[1].Gold=1000;Engine.DeclareWar(bargaining,1,WarReason.Conquest);bargaining.Turn=2;
+            var bargaining=World.CreateLegacy();Narrative.Resolve(bargaining,0);bargaining.Player.Gold=3000;bargaining.Factions[1].Gold=1000;Engine.DeclareWar(bargaining,1,WarReason.Conquest);bargaining.Turn=2;
             Start(bargaining);tab="diplomacy";RefreshSide();Click("Negocjuj pokój: "+state.Factions[1].Name);
             root.UpdateLayout();Descendants<ComboBox>(overlay!).First().SelectedIndex=0;Click("Wyślij warunki pokoju");Advance();Advance();CloseModal();
             Check(state.PeaceOffers.Count==2&&state.PeaceOffers[0].Status==PeaceStatus.Rejected&&state.PeaceOffers[1].From==1,"An excessive peace demand receives an AI counteroffer");
@@ -157,7 +159,7 @@ public sealed partial class MainWindow
             Check(!state.Relation(0,1).War&&state.PeaceOffers[1].Status==PeaceStatus.Accepted,"Accepting the saved counteroffer ratifies peace through the WPF handler");
             string finalPath=Path.Combine(folder,"negotiated-peace-save.crown");SaveGame.Write(state,finalPath);string finalBefore=SaveGame.Serialize(state);LoadPath(finalPath);
             Check(SaveGame.Serialize(state)==finalBefore,"Desktop reload restores ratified treaties and completed war history");tab="diplomacy";RefreshSide();await Capture("peace-final");
-            var commerce=World.Create();Narrative.Resolve(commerce,0);commerce.Player.Gold=4000;commerce.Factions[1].Gold=3000;
+            var commerce=World.CreateLegacy();Narrative.Resolve(commerce,0);commerce.Player.Gold=4000;commerce.Factions[1].Gold=3000;
             foreach(var tile in commerce.Tiles)tile.Resource=Resource.None;
             foreach(var f in commerce.Factions)f.Technologies.UnionWith(["pottery","trade","currency"]);
             var marketHome=commerce.Cities.First(c=>c.Owner==0);var marketForeign=commerce.Cities.First(c=>c.Owner==1);marketHome.Buildings.Add("market");marketForeign.Buildings.Add("market");
@@ -247,7 +249,7 @@ public sealed partial class MainWindow
             var returnBounds=returnControl.TransformToAncestor(root).TransformBounds(new Rect(returnControl.RenderSize));
             Check(returnBounds.Top>=0&&returnBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact promise report keeps its return control visible or reachable by scrolling");
             Width=1600;Height=980;LoadPath(fulfilledPath);CloseModal();tab="markets";RefreshSide();Click("Sprawy kupców i obietnice");await Capture("trade-promise-final");
-            var escortWorld=World.Create();Narrative.Resolve(escortWorld,0);escortWorld.Units.Clear();
+            var escortWorld=World.CreateLegacy();Narrative.Resolve(escortWorld,0);escortWorld.Units.Clear();
             foreach(var t in escortWorld.Tiles){t.Resource=Resource.None;t.Owner=-1;t.Ruin=false;t.Explored=true;}
             var escortSeller=escortWorld.Cities.First(c=>c.Owner==0);var escortBuyer=escortWorld.Cities.First(c=>c.Owner==1);escortBuyer.Tile=15*escortWorld.Width+21;
             foreach(var c in escortWorld.Cities){escortWorld.Tiles[c.Tile].Owner=c.Owner;escortWorld.Tiles[c.Tile].Terrain=Terrain.Grassland;}
@@ -310,7 +312,7 @@ public sealed partial class MainWindow
             var transitBounds=transitReturn.TransformToAncestor(root).TransformBounds(new Rect(transitReturn.RenderSize));
             Check(transitBounds.Top>=0&&transitBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact transit dialogue keeps its return control visible or reachable by scrolling");
             Width=1600;Height=980;LoadPath(consentPath);CloseModal();tab="diplomacy";RefreshSide();Click("Przejazd kupców: "+state.Factions[2].Name);await Capture("transit-final");
-            var officeWorld=World.Create();Narrative.Resolve(officeWorld,0);officeWorld.Player.Gold=4000;officeWorld.Player.Technologies.UnionWith(["pottery","writing","trade","currency"]);
+            var officeWorld=World.CreateLegacy();Narrative.Resolve(officeWorld,0);officeWorld.Player.Gold=4000;officeWorld.Player.Technologies.UnionWith(["pottery","writing","trade","currency"]);
             var officeCity=officeWorld.Cities.First(c=>c.Owner==0);officeCity.Corruption=55;officeCity.Buildings.UnionWith(["market","bank"]);officeCity.Project="treasury";officeCity.Production=0;
             Start(officeWorld);map.Center(officeCity.Tile);tab="provinces";RefreshSide();Click("Rachunki i kontrole prowincji");Click("Rachunki: "+officeCity.Name);
             Check(Administration.Loss(state,officeCity)>0&&officeCity.HiddenGold==0,"Administration report exposes current revenue loss without inventing past shortages");await Capture("administration");
@@ -343,7 +345,7 @@ public sealed partial class MainWindow
             var auditReturn=Descendants<Button>(overlay!).First(b=>b.Content?.ToString()=="Wróć do mapy");var auditBounds=auditReturn.TransformToAncestor(root).TransformBounds(new Rect(auditReturn.RenderSize));
             Check(auditBounds.Top>=0&&auditBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact audit history keeps its return control visible or reachable by scrolling");
             Width=1600;Height=980;CloseModal();Click("Rachunki i kontrole prowincji");await Capture("audit-final");
-            var planningWorld=World.Create();Narrative.Resolve(planningWorld,0);planningWorld.Player.Gold=3000;planningWorld.Player.Technologies.UnionWith(["pottery","writing","agriculture","mining","bronze"]);
+            var planningWorld=World.CreateLegacy();Narrative.Resolve(planningWorld,0);planningWorld.Player.Gold=3000;planningWorld.Player.Technologies.UnionWith(["pottery","writing","agriculture","mining","bronze"]);
             var planningCity=planningWorld.Cities.First(c=>c.Owner==0);planningCity.Project="treasury";planningCity.Production=90;
             Start(planningWorld);map.Center(planningCity.Tile);Select(planningCity.Tile);Click("Wybierz projekt");Click("Zaplanuj kolejkę produkcji");
             void AddProductionChoice(string id,bool repeating=false)
@@ -381,7 +383,7 @@ public sealed partial class MainWindow
             Check(productionBounds.Top>=0&&productionBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact production plan keeps controls reachable through scrolling");
             Width=1600;Height=980;root.UpdateLayout();await Capture("production-final");
             CloseModal();
-            var militaryWorld=World.Create();Narrative.Resolve(militaryWorld,0);militaryWorld.Player.Gold=3000;
+            var militaryWorld=World.CreateLegacy();Narrative.Resolve(militaryWorld,0);militaryWorld.Player.Gold=3000;
             var regiment=militaryWorld.Units.First(u=>u.Owner==0&&u.Kind==UnitKind.Spearmen);
             Start(militaryWorld);Select(regiment.Tile);selectedUnit=regiment.Id;Refresh();map.Center(regiment.Tile);
             Click("Rozkazy wojskowe #"+regiment.Id);await Capture("military-orders");Click("Okop oddział");
@@ -418,7 +420,7 @@ public sealed partial class MainWindow
             Check(militaryBounds.Top>=0&&militaryBounds.Bottom<=root.ActualHeight||Descendants<ScrollViewer>(overlay!).Any(v=>v.ScrollableHeight>0),"Compact military panel keeps its orders and return reachable by scrolling");
             Width=1600;Height=980;LoadPath(fortifiedPath);CloseModal();tab="realm";RefreshSide();Click("Wojsko i stałe rozkazy");await Capture("military-final");
             CloseModal();
-            var creditWorld=World.Create();Narrative.Resolve(creditWorld,0);creditWorld.Units.RemoveAll(u=>u.Owner!=0);
+            var creditWorld=World.CreateLegacy();Narrative.Resolve(creditWorld,0);creditWorld.Units.RemoveAll(u=>u.Owner!=0);
             foreach(var faction in creditWorld.Factions)faction.Gold=3000;
             foreach(var relation in creditWorld.Relations){relation.Trade=true;relation.Trust=40;}
             foreach(var town in creditWorld.Cities){town.ProductionPaused=true;town.Project="treasury";}
