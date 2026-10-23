@@ -1,5 +1,5 @@
 {
-  "Version": 14,
+  "Version": 15,
   "Seed": 17421,
   "RandomState": 1725304554,
   "Width": 42,
@@ -16566,7 +16566,8 @@
       "LastRevenueLoss": 0.1616669665,
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
-      "AuditProtectionUntil": 0
+      "AuditProtectionUntil": 0,
+      "CounterIntelligenceUntil": 0
     },
     {
       "Id": 4,
@@ -16660,7 +16661,8 @@
       "LastRevenueLoss": 0.159205033,
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
-      "AuditProtectionUntil": 0
+      "AuditProtectionUntil": 0,
+      "CounterIntelligenceUntil": 0
     },
     {
       "Id": 7,
@@ -16752,7 +16754,8 @@
       "LastRevenueLoss": 0.061232705000000005,
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
-      "AuditProtectionUntil": 0
+      "AuditProtectionUntil": 0,
+      "CounterIntelligenceUntil": 0
     },
     {
       "Id": 10,
@@ -16844,7 +16847,8 @@
       "LastRevenueLoss": 0.061232705000000005,
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
-      "AuditProtectionUntil": 0
+      "AuditProtectionUntil": 0,
+      "CounterIntelligenceUntil": 0
     },
     {
       "Id": 13,
@@ -16938,7 +16942,8 @@
       "LastRevenueLoss": 0.17729716320000002,
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
-      "AuditProtectionUntil": 0
+      "AuditProtectionUntil": 0,
+      "CounterIntelligenceUntil": 0
     }
   ],
   "Units": [
@@ -17351,5 +17356,10 @@
   "Loans": [],
   "NextLoanId": 1,
   "PendingLoanId": null,
+  "Spies": [],
+  "SpyOperations": [],
+  "NextSpyId": 1,
+  "NextSpyOperationId": 1,
+  "PendingSpyOperationId": null,
   "NextId": 14
 }

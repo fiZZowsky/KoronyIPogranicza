@@ -81,6 +81,16 @@ Wojna oraz eliminacja państwa wierzycieli pozostawiają rachunek długu; nie s�
 
 AI udostępnia własne zasoby, lecz nie zaciąga autonomicznie pożyczek. Nie ma płynnych stóp, rynku obligacji, zajęcia miast za długi, indywidualnych bankierów i systemu walutowego. To zamknięty model strategicznego zobowiązania i jego politycznych skutków. Walidacja respektuje to, że zapisy rejestrują numery tur, bez kolejności poszczególnych działań wewnątrz tury.
 
+Wersja 0.15 rozwija konflikt interesów przez agentów i zagraniczne siatki. Koszt i czas są związane z konkretną osobą oraz miastem. Rozpoznanie jest jednorazowym raportem, kradzież kopiuje badania dostępne dzięki własnym wymaganiom, a sabotaż uszczupla rzeczywiście trzymaną pracę. Nie usuwamy budynków ani przyszłego planu. Osiem tur między rozpoczęciami operacji w tym samym mieście ogranicza masowe nakładanie sabotażu. Wycofanie chroni osobę, lecz nie zwraca kosztu ani czasu siatki.
+
+Wynik i wykrycie to dwa niezależne losowania z tego samego zapisywanego generatora świata. Czysty podgląd nie losuje. Przy końcu operacji ponownie oceniamy obronę i stopień agenta; decyzje o sądzie lub kontrwywiadzie mogą więc zmienić ryzyko w trakcie misji. Zamknięty wynik zapisuje użyte szanse oraz losowania do walidacji i dalszego odtworzenia. Interfejs pokazuje szanse, bez surowych liczb losowania.
+
+Niewykryte niepowodzenie zużywa środki bez międzynarodowego incydentu. Wykryty sukces zachowuje efekt i tworzy krzywdy oraz utratę zaufania. Wykryte niepowodzenie zatrzymuje agenta w obcym państwie. Dialog daje wybór między realnym przelewem, publicznym przyjęciem odpowiedzialności i utratą człowieka. Stan niewoli nie znika po podboju miasta, a zapłacenie nie cofa wcześniejszych skutków wykrycia. Inne sprawy rady zachowują pierwszeństwo; każdą niewolę rozpatrujemy osobno.
+
+AI korzysta z tych samych operacji i rozliczeń, ale stosuje prostą politykę: wrogość, własne środki i cykl działania. Reaguje kontrwywiadem na faktycznie wykrytą ingerencję, bez wiedzy o niewykrytych wysłaniach. Własnych schwytanych wykupuje, gdy ma środki, albo porzuca. Poszkodowany gracz otrzymuje wtedy rzeczywisty okup. Raporty obcych działań pojawiają się dopiero po wykryciu. Nie ma jeszcze mechaniki politycznego zatrzymywania obcego agenta przez gracza, tras podróży siatek, podwójnych agentów i zamachów stanu. AI nadal używa pełnych danych świata dotychczasowej symulacji.
+
+Format v15 zachowuje osoby, operacje, ochronę i decyzje. Stare kampanie zaczynają bez fikcyjnego wywiadu. Walidacja wiąże stan agenta z ostatnią operacją i odrzuca powielone przydziały, zbyt wczesne wyniki, sprzeczne losowania i wskrzeszenie utraconej osoby. Testy interfejsu mają osobny przebieg, aby nie wydłużać pojedynczej instancji diagnostyki ponad jej limit. Oba tryby diagnostyczne mają wyłączony autozapis.
+
 ## Kolejne etapy
 
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.

@@ -1,0 +1,8 @@
+Package: Korony-i-Pogranicza-0.15-Windows.zip
+Bytes: 3604017
+Entries: 13
+SHA256: E071B4EB4174F15E89EE61C7F6288B1460CC136AF6322A71B22337F8DB64CE36
+All entry hashes match published files. No saves or temporary files.
+Previous 0.14 archive and copied save hashes unchanged.
+Core specifications: 319 passed. Desktop integration: 170 base + 22 espionage = 192 passed for source and published executable.
+Published UI duration: 51.6 seconds base + 5.5 seconds espionage, run sequentially. Both diagnostic failure exit codes: 3.

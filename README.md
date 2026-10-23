@@ -1,4 +1,4 @@
-# Korony i Pogranicza · 0.14
+# Korony i Pogranicza · 0.15
 
 Autorska, jednoosobowa strategia turowa dla Windows, napisana w **C# / .NET 10**, z interfejsem i dialogami po polsku. Historycznie inspirowany świat jest fikcyjny. Gracz prowadzi Marchie Veyru od osadnictwa po odkrycia naukowe i instytucje nowoczesnego państwa.
 
@@ -6,9 +6,9 @@ To **grywalna wersja rozwojowa**, a nie ukończona produkcja o skali komercyjnej
 
 ## Uruchomienie
 
-Uruchom `wydanie-0.14/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.14` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
+Uruchom `wydanie-0.15/KoronyIPogranicza.exe` albo główny `Uruchom.cmd`. Zachowaj pozostałe pliki z katalogu `wydanie-0.15` obok programu. Poprzednie wydania pozostają w osobnych katalogach.
 
-**Nowy etap: Pieczęć i dług.** Wersja 0.14 dodaje pożyczki państwowe finansowane przez zagraniczne skarbce, terminy spłaty, jednorazowe odroczenie i dialogi z wierzycielami. Zerwanie umowy ma skutki polityczne, kończy traktat handlowy i czasowo zamyka nowy kredyt. Szczegóły: `CHANGELOG.md`.
+**Nowy etap: Służba cieni.** Wersja 0.15 dodaje agentów, rozpoznanie miast, kradzież badań, sabotaż i kontrwywiad. Wykrycie ma konsekwencje dyplomatyczne, a schwytanie otwiera dialog o losie agenta. Wrogie państwa również prowadzą operacje. Szczegóły: `CHANGELOG.md`.
 
 Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na którym powstał projekt, ten runtime jest zainstalowany. Wydanie korzysta z zainstalowanego środowiska .NET, nie zawiera własnego runtime'u. Gra nie wymaga połączenia z Internetem ani konta.
 
@@ -19,7 +19,7 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Miasta, ludność, wzrost i głód, sezonowe plony, eksploatacja pól, farmy, kopalnie, placówki handlowe, produkcja i utrzymanie.
 - 24 technologie z wymaganiami; 18 trwałych projektów miejskich, dwa projekty powtarzalne i sześć rodzajów oddziałów.
 - Lud, rody i uczeni: ich poparcie wpływa na docelową stabilność, a ta na gospodarkę. Ustawy zmieniają podatki, ustrój i priorytety.
-- 27 rodzajów wyjątkowych i kontekstowych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta; delegacje kupców odnoszą się do konkretnych utraconych karawan. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
+- 28 rodzajów wyjątkowych i kontekstowych spraw rady oraz cztery wydarzenia powracające. Sprawy prowincji mogą pojawiać się osobno dla każdego miasta; delegacje kupców odnoszą się do konkretnych utraconych karawan. Odpowiedzi zmieniają poparcie, prawa lokalne i przyszłe zdarzenia. Nadanie ziemi lub przywilejów zmienia późniejszą gałąź dialogów. Prawo traktu trwale zmienia dochody, naukę albo dostawy.
 - Dyplomacja: dary, handel, krzywdy, trzy powody wypowiedzenia wojny, odszkodowania, pakty o nieagresji i rozejmy. Posłowie wracają z odpowiedzią po dwóch turach. AI zakłada miasta, bada, buduje, ulepsza ziemię i prowadzi działania wojenne.
 - Negocjowany pokój z reparacjami i zwrotem miast, propozycjami AI, kontrofertami i terminem odpowiedzi. Historia wojny przechowuje ogłoszony cel, straty, bilans i końcowe rozliczenie obietnicy.
 - Walka wręcz i dystansowa, doświadczenie, obrona terenu, oblężenia i przejmowanie miast. Woda i góry blokują ruch. Armie poza zasięgiem dostaw słabną; odpoczynek leczy.
@@ -35,6 +35,32 @@ Wymagania: Windows 10/11 i **.NET Desktop Runtime 10 x64**. Na komputerze, na kt
 - Zapis i wczytanie stanu JSON z walidacją, atomowym zastępowaniem pliku i zapisanym stanem generatora losowego. Autozapis po turze i decyzji rady; kronika przechowuje wybory oraz ich skutki.
 
 Długość i balans wymagają dalszych rozgrywek z udziałem człowieka. Automatyczne symulacje nie potwierdzają jakości wielogodzinnej rozgrywki.
+
+## Wywiad: służba cieni
+
+Po odkryciu **Pisma** otwórz **Dyplomacja → Wywiad i kontrwywiad**. Szkolenie kosztuje **60 złota**. Państwo może mieć trzech agentów w służbie, wliczając osoby w niewoli. Utraceni pozostają w historii, ale zwalniają miejsce. Agent jest zarządzany w panelu; nie jest jednostką przemieszczaną po mapie.
+
+| Operacja | Koszt z góry | Czas | Efekt sukcesu |
+|---|---|---|---|
+| Rozpoznanie miasta | 55 | 3 tury | Odkrycie pól w promieniu trzech heksów; datowany raport o ludności, zdrowiu, projekcie, pracy, garnizonie i skarbie państwa |
+| Kradzież badań | 110 | 4 tury | 35% kosztu kopiowanej technologii, w górę do całego punktu, najwyżej 120 nauki do puli |
+| Sabotaż produkcji | 95 | 4 tury | Utrata do 60 punktów rzeczywiście zgromadzonej pracy w mieście |
+
+Wybierz odkryte obce miasto i dostępnego agenta. Pokój lub traktat nie są wymagane; te same zasady ryzyka obowiązują podczas wojny. Agent prowadzi jedną operację. Siatka w tym samym mieście wymaga ośmiu tur odstępu od rozpoczęcia poprzedniej operacji danego państwa, również po jej odwołaniu. Wycofanie jest możliwe przed rozstrzygnięciem i od razu zwalnia agenta, bez zwrotu kosztu.
+
+Rozpoznanie nie daje stałego podglądu: raport opisuje stan z jednej tury, a odkryte pole nadal podlega zwykłej mgle widoczności. Kradzież wybiera najtańszą technologię znaną celowi, nieznaną wysyłającemu, z już spełnionymi wymaganiami. Dodaje naukę do wspólnej puli bez automatycznego odkrycia i bez zabierania punktów ofierze. Jeśli przed końcem poznasz tę technologię, misja zostanie odwołana bez nagrody lub zwrotu. Sabotaż nie usuwa budynków, kolejki ani wstrzymania produkcji. Jeśli miasto zdąży skończyć budowę, efekt na pozostałej pracy może być mniejszy, nawet zerowy. Zmiana właściciela celu przerywa trwające misje bez zwrotu; nie uwalnia agentów już schwytanych przez dawne państwo.
+
+**Ryzyko** liczymy ponownie przy rozstrzygnięciu po produkcji i ruchach AI. Podgląd pokazuje bieżące szanse, które mogą się zmienić. Obrona to +5 za Pismo właściciela, +15 za sąd, +5 przy stabilności co najmniej 70 i +25 za czynną ochronę kontrwywiadu. Ochrona kosztuje 60 i działa przez osiem tur, np. kupiona w T1 do początku T9; nie można jej przedłużać, gdy jeszcze trwa. Zmiana właściciela ją kończy. Działa również przeciw już wysłanym operacjom.
+
+Sukces bazowy to 85% rozpoznania, 60% kradzieży i 65% sabotażu. Dodaj 5 punktów procentowych za stopień agenta i odejmij obronę miasta; wynik ograniczamy do 20–95%. Wykrycie bazowe to odpowiednio 20%, 35% i 45%, powiększone o połowę obrony z dzieleniem całkowitym i pomniejszone o 3 punkty za stopień; granice 5–80%. Sukces daje +2 doświadczenia, niewykryta porażka +1. Każde trzy punkty doświadczenia dają stopień, najwyżej piąty; zapis przechowuje do 30 doświadczenia.
+
+Sukces i wykrycie mają osobne losowania. Sukces z wykryciem zachowuje efekt, ale obciąża relacje. Wykrycie to zaufanie -15, krzywdy poszkodowanego +25 i prestiż wysyłającego -2. Niepowodzenie z wykryciem oznacza niewolę. Generator i wyniki są zapisywane, więc odtworzenie tych samych działań z tego samego zapisu daje ten sam przebieg. Podgląd nie losuje wyniku.
+
+**Schwytany agent** czeka na decyzję rady, za aktualnie otwartą sprawą. Okup **100 złota** trafia do państwa przetrzymującego agenta i przywraca go do służby. Publiczne przeprosiny wymagają pokoju, kosztują **40 złota**, **8 prestiżu** i **3 poparcia ludu**, dając powrót i **+8 zaufania**. Wyparcie się jest darmowe, lecz bezpowrotnie traci agenta; **prestiż -4**, **rody +3**. Wcześniejsze skutki wykrycia nadal obowiązują. Wojna i pusty skarbiec nie blokują możliwości odmowy. Podbój dawnego celu nie przenosi niewoli na nowego właściciela miasta.
+
+**AI** korzysta z tych samych kosztów, ryzyka, efektów, agentów i ochrony. Od T20 raz na własną fazę w cyklu 12 tur rozważa operację przeciw państwu, z którym walczy lub ma zaufanie poniżej -10. Wymaga Pisma i co najmniej 250 złota przed rekrutacją oraz wysłaniem. Wybiera dostępne badania, a gdy ich nie ma — sabotaż miasta z co najmniej 20 pracy. Po wykrytej ingerencji może kupić kontrwywiad za własne złoto. Za schwytanego agenta płaci okup, jeśli ma 100 złota; w przeciwnym razie go porzuca. Wykryte obce operacje są w raporcie, a niewykryte nie zdradzają sprawcy w panelu lub kronice.
+
+To abstrakcyjny model siatek z ustalonym czasem operacji, bez osobnych tras podróży, podwójnych agentów, zabójstw, zamachów stanu i ręcznych operacji na karawanach. AI korzysta z informacji o świecie dostępnych dotychczasowej symulacji. Balans ryzyka i kosztów nadal wymaga rozgrywek z ludźmi.
 
 ## Skarb: pieczęć i dług
 
@@ -293,7 +319,7 @@ Dialog **Czyje prawa, czyja ziemia?** pozwala odpowiedzieć lokalnej radzie. Aut
 | Zapisz / wczytaj | F5 / F9 |
 | Zamknij okno dialogu | Esc |
 
-Pliki `.crown` znajdują się domyślnie w `wydanie-0.14/saves/`. Format v14 zachowuje umowy pożyczek, spłaty, odroczenia, odmowy i kontekst rozmowy z wierzycielami; odczytuje v1–v13. Migracja v13 zachowuje rozkazy wojskowe, przygotowanie pozycji, kolejki i rachunki bez dopisywania dawnych długów. V13 zachowuje stałe rozkazy wojskowe i stopień przygotowania pozycji. Migracja v12 zachowuje kolejki produkcji, rachunki, kontrole, eskorty i dotychczasowe marsze, bez dopisywania umocnień lub rekonwalescencji. V12 zachowuje kolejki produkcji, powtarzanie i wstrzymanie pracy. Migracja v11 zachowuje bieżący projekt, zgromadzoną pracę, rachunki i otwarte kontrole bez dopisywania zamówień. V11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v13.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
+Pliki `.crown` znajdują się domyślnie w `wydanie-0.15/saves/`. Format v15 zachowuje agentów, operacje, wyniki, raporty, niewolę, jej rozstrzygnięcia i ochronę miast; odczytuje v1–v14. Migracja v14 zachowuje długi, rozkazy armii, produkcję i rachunki, zaczynając bez fikcyjnych agentów i misji. V14 zachowuje umowy pożyczek, spłaty, odroczenia, odmowy i kontekst rozmowy z wierzycielami. Migracja v13 zachowuje rozkazy wojskowe, przygotowanie pozycji, kolejki i rachunki bez dopisywania dawnych długów. V13 zachowuje stałe rozkazy wojskowe i stopień przygotowania pozycji. Migracja v12 zachowuje kolejki produkcji, rachunki, kontrole, eskorty i dotychczasowe marsze, bez dopisywania umocnień lub rekonwalescencji. V12 zachowuje kolejki produkcji, powtarzanie i wstrzymanie pracy. Migracja v11 zachowuje bieżący projekt, zgromadzoną pracę, rachunki i otwarte kontrole bez dopisywania zamówień. V11 zachowuje korupcję, ubytki dochodów, kontrole, nierozpatrzone raporty, odzyskane środki i nadzór urzędu. Migracja v10 zachowuje poselstwa i zgody na tranzyt, obietnice oraz eskorty, zaczynając nowe rachunki od zera. Nie dopisuje dawnych braków. V10 przechowuje nowe warianty poselstw i wynikające z przyjętych odpowiedzi prawa tranzytu. Migracja v9 zachowuje eskorty, karawany, obietnice i wcześniejsze poselstwa bez dopisywania zgód na przejazd. V9 zachowuje rozkazy eskorty i ich powiązanie z karawanami. Migracja v8 zachowuje karawany i obietnice, bez przydzielania wojska wstecz. V8 przechowuje delegacje, decyzje, terminy, wyniki i zaliczone manifesty. Migracja v7 zachowuje karawany i ich historię bez tworzenia delegacji za dawne straty. V6 zachowuje magazyny, bilanse, podatki, ceny, płatności, politykę i kontrakty, bez dopisywania wstecz karawan. Dawne dostawy pozostają wykonane. Kampanie sprzed v6 zaczynają z pustymi magazynami. V5 zachowuje wojny i rokowania. Wojny rozpoczęte wcześniej otrzymują rejestr od chwili wczytania, bez wymyślonych strat lub celów. V4 zachowuje założycieli, okupację, lojalność i poselstwa; w starszych formatach założycielem staje się obecny właściciel, a lojalność startuje od 75. V3 zachowuje potrzeby, prawa i migracje; v1/v2 otrzymują zrównoważony rozwój i dobrobyt 50. Nadpisanie starszego pliku tworzy odpowiednią kopię `.v1.bak`–`.v14.bak`. Nowe reguły zmieniają dalszy przebieg starych kampanii. `autosave.crown` jest nadpisywany; osobne zapisy pozwalają zachować poprzednie kampanie.
 
 ## Budowanie i weryfikacja
 
@@ -302,15 +328,16 @@ Bez zależności NuGet i bez zewnętrznego silnika gry. Potrzebny .NET SDK 10 dl
 ```powershell
 dotnet build KoronyIPogranicza.slnx -m:1 -c Release -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 dotnet run --project tests/Crown.Specs -c Release -p:MSBuildEnableWorkloadResolver=false
-dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.14 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
+dotnet publish src/Crown.Desktop -c Release --self-contained false -o wydanie-0.15 -p:MSBuildEnableWorkloadResolver=false -p:TargetPlatformDisplayName=Windows
 ```
 
-`NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`.
+`NuGet.Config` celowo nie zawiera źródeł zewnętrznych. Parametr `TargetPlatformDisplayName` pozwala budować także w środowisku ograniczającym odczyt rejestru Windows. `Zweryfikuj.ps1` buduje, uruchamia specyfikacje silnika i testy integracji WPF. Raporty oraz rzeczywiste rendery aplikacji znajdują się w `artifacts/`. Szpiegostwo ma osobny przebieg `--ui-smoke-espionage`; skrypt wykonuje go po dotychczasowych kontrolach. Każda instancja ma limit 60 sekund. Diagnostyka obu trybów nie wykonuje autozapisu.
 
 ## Architektura i dalsza produkcja
 
 - `src/Crown.Core`: model świata, symulacja, AI, treść dialogów i serializacja; niezależne od WPF.
 - `Navigation.cs`, `Movement.cs`, `Logistics.cs`, `Infrastructure.cs`, `Combat.cs`: wspólne wyszukiwanie tras, rozkazy, dostawy, gospodarka infrastruktury i model starcia z podglądem.
+- `Espionage.cs`, `SpyCouncil.cs`, `SpySaveRules.cs`, `SpyPanels.cs`: agenci, operacje, kontrwywiad, losy schwytanych i raporty.
 - `TreasuryLoans.cs`, `DebtCouncil.cs`, `LoanSaveRules.cs`, `LoanPanels.cs`: finansowanie, zobowiązania, decyzje wierzycieli, walidacja i panel skarbu.
 - `MilitaryOrders.cs`, `MilitaryPanels.cs`: stałe rozkazy, leczenie, przygotowane pozycje, walidacja i przegląd armii.
 - `Regions.cs`, `ProvincialEvents.cs`: potrzeby i kierunki rozwoju miast, rynki regionalne, migracje oraz dialogi z lokalnymi skutkami.

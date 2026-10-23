@@ -18,9 +18,9 @@ PASS Save round trip and deterministic continuation
 PASS Malformed save is rejected
 PASS Scientific, cultural and turn-limit endings
   seed 17421: 160 turns, 18 cities, 46 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 2026: 135 turns, 16 cities, 50 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 8: 209 turns, 16 cities, 53 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
-  seed 99: 129 turns, 21 cities, 71 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 151 turns, 16 cities, 42 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 231 turns, 16 cities, 58 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 99: 152 turns, 16 cities, 41 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
 PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
 PASS Road movement, full reach and compatible improvements
 PASS Road quotes, atomic funding and economy reconciliation
@@ -289,4 +289,36 @@ PASS Ongoing, extended and due loans continue identically across save and reload
 PASS V13 migration keeps military preparation, production and audits without inventing debt
 PASS Loan validation rejects unknown terms, impossible dates, fake payments and bad contexts
 PASS Loan validation rejects duplicate records, null registries and unsettled terminal amounts
-287 specifications passed in 17,4s.
+PASS Intelligence recruitment charges sixty, gives unique agents and enforces the roster limit
+PASS Recruitment rejects unavailable technology, money, state and owner without mutations
+PASS Each mission charges its own cost and deadline once without rolling or immediate effects
+PASS Mission previews are pure and agent rank improves both chances with a cap
+PASS Invalid mission, ownership, fog, target, knowledge and funds fail atomically
+PASS Recall returns the agent without refund or bypassing the eight-turn city interval
+PASS Reconnaissance reveals three hexes and retains a dated snapshot without live visibility
+PASS Research theft copies actual available research into science without an automatic discovery
+PASS Research theft cannot exceed one hundred twenty science for a costly technology
+PASS Previously learned target research cancels without reward, refund or a random draw
+PASS Sabotage removes only accumulated work and preserves buildings, queue and pause
+PASS Real end-turn processing resolves reconnaissance on its third turn exactly once
+PASS Successful detected missions keep their effect and cause diplomatic consequences
+PASS Undetected failure returns the agent with experience but without an effect or incident
+PASS Capture creates a named council and still occupies one of the three roster slots
+PASS Ransom transfers one hundred exactly once and returns the same agent
+PASS Public apology trades money and prestige for recovery and improved relations
+PASS Wartime and empty treasuries keep a free denial choice without enabling an apology
+PASS Existing councils and completed campaigns cannot be overwritten by spy requests
+PASS Counterintelligence spends sixty, adds twenty-five defense and expires exclusively
+PASS Protection, courts and stability change risks for an operation already underway
+PASS Counterintelligence rejects foreign cities, missing technology and insufficient money
+PASS Sovereignty changes cancel active missions and clear the former owner's protection
+PASS Captives remain held by the original state when their former target city is conquered
+PASS Hostile AI pays for its own operations while peaceful states and player control stay untouched
+PASS AI spies can sabotage the player without revealing attribution when undetected
+PASS Captured AI agents pay a real ransom to the defending player or are abandoned without funds
+PASS AI strengthens defense only after detected intrusion and pays its own protection cost
+PASS In-flight outcomes and captured decisions continue identically after reload
+PASS V14 migration preserves debt, army orders and production without inventing spies
+PASS Spy validation rejects invalid identities, ownership, status, chance, dates and rolls
+PASS Spy validation rejects invented effects, reversed capture decisions and resurrected agents
+319 specifications passed in 15,1s.

@@ -10,7 +10,8 @@ public static class SaveGame
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
-        if(s.Version is <1 or >14)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version is <1 or >15)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version<15){s.Spies=[];s.SpyOperations=[];s.NextSpyId=s.NextSpyOperationId=1;s.PendingSpyOperationId=null;foreach(var city in s.Cities)city.CounterIntelligenceUntil=0;}
         if(s.Version<14){s.Loans=[];s.NextLoanId=1;s.PendingLoanId=null;}
         if(s.Version<13)foreach(var unit in s.Units)MilitaryOrders.Clear(unit);
         if(s.Version<12)foreach(var city in s.Cities){city.ProductionQueue=[];city.RepeatProject=city.ProductionPaused=false;}
@@ -99,7 +100,8 @@ public static class SaveGame
         ProductionPlanning.Validate(s);
         MilitaryOrders.Validate(s);
         LoanSaveRules.Validate(s);
-        s.Version=14;
+        SpySaveRules.Validate(s);
+        s.Version=15;
         return s;
     }
     public static void Write(GameState state,string path)
@@ -108,7 +110,7 @@ public static class SaveGame
         string temp=path+".tmp";File.WriteAllText(temp,Serialize(state));
         if(File.Exists(path))
         {
-            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=13&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
+            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=14&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
             catch(JsonException){ /* An invalid old file may still be replaced by an explicit save. */ }
         }
         File.Move(temp,path,true);

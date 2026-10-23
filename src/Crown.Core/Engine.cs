@@ -212,6 +212,7 @@ public static partial class Engine
         ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         AuditCouncil.Tick(s);
         TreasuryLoans.Tick(s);
+        Espionage.Tick(s);
         foreach(string notice in TransitCouncil.Notices(s))s.Log(notice,"tranzyt");
         foreach(var unit in s.Units.Where(u=>u.Owner==0&&u.Destination!=null).OrderBy(u=>u.Id).ToArray())FollowOrder(s,unit);
         EscortOrders.Normalize(s);
@@ -250,6 +251,7 @@ public static partial class Engine
             }
             Markets.ManageAi(s,f.Id);
             EscortOrders.ManageAi(s,f.Id);
+            Espionage.ManageAi(s,f.Id);
             foreach(var r in s.Relations.Where(r=>r.A==f.Id||r.B==f.Id))
             {
                 int other=r.A==f.Id?r.B:r.A;if(!s.Cities.Any(c=>c.Owner==other))continue;

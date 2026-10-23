@@ -183,13 +183,13 @@ internal static class StageTwoSpecs
             foreach (var tile in json["Tiles"]!.AsArray()) { tile!.AsObject().Remove("Road"); tile.AsObject().Remove("RoadOwner"); }
             foreach (var unit in json["Units"]!.AsArray()) unit!.AsObject().Remove("Destination");
             string legacy = json.ToJsonString(); var migrated = SaveGame.Deserialize(legacy);
-            Check(migrated.Version == 14 && migrated.Tiles.All(t => !t.Road) && migrated.Units.All(u => u.Destination == null), "Legacy migration failed.");
+            Check(migrated.Version == 15 && migrated.Tiles.All(t => !t.Road) && migrated.Units.All(u => u.Destination == null), "Legacy migration failed.");
             var folder = Path.Combine(AppContext.BaseDirectory, "CrownSpecs-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(folder); string path = Path.Combine(folder, "legacy.crown");
             try
             {
                 File.WriteAllText(path, legacy); SaveGame.Write(migrated, path);
-                Check(File.ReadAllText(path + ".v1.bak") == legacy && SaveGame.Read(path).Version == 14, "Original v1 save was not backed up.");
+                Check(File.ReadAllText(path + ".v1.bak") == legacy && SaveGame.Read(path).Version == 15, "Original v1 save was not backed up.");
             }
             finally { foreach (string file in new[] { path, path + ".v1.bak", path + ".tmp" }) if (File.Exists(file)) File.Delete(file); Directory.Delete(folder); }
             migrated.Units[0].Destination = -1; bool rejected = false;

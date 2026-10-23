@@ -1,5 +1,18 @@
 # Zmiany
 
+## 0.15 — Służba cieni · 23 października 2026
+
+- Agenci po Piśmie, szkolenie za 60 złota, trzy miejsca na państwo i doświadczenie z operacji. Schwytani nadal zajmują miejsce; utraceni zostają w historii. Jeden agent prowadzi jedną operację.
+- Rozpoznanie za 55 przez trzy tury: odkrycie trzech heksów i datowany raport o mieście oraz skarbie. Nie tworzy stałego podglądu. Kradzież badań za 110 przez cztery tury kopiuje część rzeczywistej dostępnej technologii do nauki, z limitem 120 punktów i bez darmowego odkrycia. Sabotaż za 95 przez cztery tury odbiera do 60 rzeczywistych punktów pracy bez niszczenia budynków i kolejki.
+- Osiem tur odstępu siatki od poprzedniego rozpoczęcia w mieście danego państwa. Odwołanie zwalnia agenta, bez zwrotu i bez ominięcia odstępu. Zmiana właściciela celu przerywa misję; już poznane badania nie wypłacają ponownie nagrody.
+- Osobne losowania sukcesu i wykrycia, z zapisanym generatorem. Szanse zależą od stopnia agenta, sądu, Pisma, stabilności i kontrwywiadu przy rozstrzygnięciu. Sukces może ujawnić sprawcę. Wykrycie: zaufanie -15, krzywdy +25, prestiż -2; wykryta porażka oznacza schwytanie.
+- Kontrwywiad za 60 złota daje +25 obrony przez osiem tur i wpływa także na rozpoczęte operacje. Sąd daje +15, Pismo +5, wysoka stabilność +5. Ochrona wygasa na początku wskazanej tury i przy zmianie właściciela; aktywnej nie można przedłużać.
+- Kontekstowy dialog o schwytanym agencie: okup 100, pokojowe przeprosiny za 40 z kosztem prestiżu i poparcia albo trwała utrata agenta z politycznymi skutkami. Płatności trafiają do państwa przetrzymującego agenta. Istniejąca rada nie jest nadpisywana. Utrata miasta nie przenosi niewoli na inne państwo.
+- Wrogie AI od T20 finansuje własną kradzież badań lub sabotaż, reaguje ochroną na wykryte ingerencje i rozlicza niewolę swoich agentów. Niewykryte obce operacje nie zdradzają sprawcy w interfejsie; wykryte są dostępne w historii.
+- Panel w Dyplomacji: rekrutacja, formularz misji, bieżące ryzyko, terminy, wycofanie, raporty, ochrona miast i rozstrzygnięcia niewoli. Powiadomienia kierują do panelu; szczegóły pozostają w raporcie i kronice.
+- Format v15 i migracja v14 bez fikcyjnej starej działalności wywiadu. Długi, rozkazy i produkcja pozostają zachowane. Nadpisanie zachowuje `.v14.bak`. Walidacja obejmuje statusy, historię agentów, wyniki, terminy, nagrody i kontekst rady.
+- Osobne wydanie `wydanie-0.15/`; starsze paczki i zapisy zachowane. Osobna diagnostyka WPF szpiegostwa, uruchamiana kolejno po dotychczasowych sprawdzeniach, z wyłączonym autozapisem. Model używa abstrakcyjnych siatek, bez agentów poruszanych po heksach i podwójnych agentów. Oprawa nadal jest mapą 2D.
+
 ## 0.14 — Pieczęć i dług · 22 października 2026
 
 - Pożyczki 100, 200 i 300 złota finansowane przez zagraniczne skarbce, z rzeczywistym transferem kapitału. Moneta, pokój, traktat, zaufanie +10 i środki wierzyciela są sprawdzane przy podpisaniu. Dwie otwarte umowy, jedna na państwo; osiem tur odstępu między finansowaniami z tego samego źródła.

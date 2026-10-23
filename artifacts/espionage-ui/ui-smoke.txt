@@ -1,0 +1,23 @@
+PASS Intelligence training is disabled before Writing
+PASS Recruitment button pays for a ready named agent
+PASS Mission form and preview do not change money or random state
+PASS Recon launch button reserves the agent and charges its actual cost and deadline
+PASS Recall button returns an agent without refunding the paid mission
+PASS Third real turn delivers reconnaissance, explored terrain and agent experience
+PASS Report dialog displays a dated city snapshot
+PASS Desktop reload retains the intelligence snapshot and experience
+PASS Research theft grants science through turn processing without an automatic discovery
+PASS Desktop reload preserves a paid in-flight operation and reserved agent
+PASS Successful detected sabotage removes actual work and damages foreign trust
+PASS Failed detected operation opens a contextual captured-agent council
+PASS Desktop reload reopens the unanswered captive decision
+PASS Ransom choice transfers money once and releases the same agent
+PASS Public apology exchanges gold and prestige for an agent and better relations
+PASS Wartime captive dialogue disables the public peace agreement
+PASS Empty treasury keeps a free denial choice available
+PASS Denial permanently removes the agent from the usable roster
+PASS Protection button buys eight turns of counterintelligence
+PASS Hostile AI launches a paid operation which the target cannot inspect before detection
+PASS Counterintelligence exposes the captured AI spy and its paid ransom resolution
+PASS Compact intelligence panel keeps actions and return reachable through scrolling
+22 espionage desktop integration checks passed.

@@ -6,6 +6,9 @@ public enum Improvement { None, Farm, Mine, TradingPost }
 public enum UnitKind { Scout, Spearmen, Archer, Cavalry, Settler, Catapult }
 public enum MilitaryOrder { None, Fortify, Recover }
 public enum LoanStatus { Active, AwaitingCouncil, Repaid, Defaulted }
+public enum SpyStatus { Available, Deployed, Captured, Lost }
+public enum SpyMission { Reconnaissance, StealResearch, Sabotage }
+public enum SpyOutcome { Active, Succeeded, Failed, Captured, Cancelled }
 public enum CityFocus { Balanced, Agriculture, Industry, Scholarship }
 public enum Governance { Integrated, Autonomous, Military }
 public enum WarReason { Conquest, Redress, Liberation }
@@ -79,6 +82,7 @@ public sealed class City
     public int LastAdministrationTurn { get; set; }
     public int LastAuditTurn { get; set; } = -12;
     public int AuditProtectionUntil { get; set; }
+    public int CounterIntelligenceUntil { get; set; }
 }
 public sealed class Unit
 {
@@ -202,7 +206,7 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 14;
+    public int Version { get; set; } = 15;
     public int Seed { get; set; }
     public uint RandomState { get; set; }
     public int Width { get; set; } = 42;
@@ -241,6 +245,11 @@ public sealed class GameState
     public List<SovereignLoan> Loans { get; set; } = [];
     public int NextLoanId { get; set; } = 1;
     public int? PendingLoanId { get; set; }
+    public List<SpyAgent> Spies { get; set; } = [];
+    public List<SpyOperation> SpyOperations { get; set; } = [];
+    public int NextSpyId { get; set; } = 1;
+    public int NextSpyOperationId { get; set; } = 1;
+    public int? PendingSpyOperationId { get; set; }
     public int NextId { get; set; } = 1;
     internal int LogisticsRevision;
     internal Dictionary<int, SupplyMap> LogisticsCache = [];
@@ -359,6 +368,38 @@ public sealed class SovereignLoan
     public LoanStatus Status { get; set; }
     public int Paid { get; set; }
 }
+public sealed class SpyAgent
+{
+    public int Id { get; set; }
+    public int Owner { get; set; }
+    public string Name { get; set; } = "";
+    public int Experience { get; set; }
+    public SpyStatus Status { get; set; }
+}
+public sealed class SpyOperation
+{
+    public int Id { get; set; }
+    public int AgentId { get; set; }
+    public int Owner { get; set; }
+    public int CityId { get; set; }
+    public int TargetOwner { get; set; }
+    public SpyMission Mission { get; set; }
+    public int StartedTurn { get; set; }
+    public int DueTurn { get; set; }
+    public int? ResolvedTurn { get; set; }
+    public SpyOutcome Outcome { get; set; }
+    public int SuccessChance { get; set; }
+    public int DetectionChance { get; set; }
+    public int? SuccessRoll { get; set; }
+    public int? DetectionRoll { get; set; }
+    public bool Detected { get; set; }
+    public string? ResearchId { get; set; }
+    public double ResultValue { get; set; }
+    public string Report { get; set; } = "";
+    public int? CaptureChoice { get; set; }
+    public int? CaptureDecisionTurn { get; set; }
+}
+public sealed record SpyForecast(int SuccessChance, int DetectionChance, int Defense, string? ResearchId);
 public sealed record CombatPreview(bool Valid, string Reason, string Attacker, string Target,
     double AttackStrength = 0, double DefenseStrength = 0, double TargetHealth = 0,
     double DamageToTarget = 0, double DamageToAttacker = 0, bool CanCapture = false,

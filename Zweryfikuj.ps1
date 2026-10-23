@@ -16,3 +16,11 @@ if (-not $gameProcess.WaitForExit(60000)) {
 }
 if ($gameProcess.ExitCode -ne 0) { throw 'Test integracji WPF nie przeszedł. Sprawdź artifacts/ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $smokeDirectory 'ui-smoke.txt')
+$spySmokeDirectory = Join-Path $reportDirectory 'espionage-ui'
+$spyProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-espionage', ('"' + $spySmokeDirectory + '"')) -WindowStyle Hidden -PassThru
+if (-not $spyProcess.WaitForExit(60000)) {
+    Stop-Process -Id $spyProcess.Id -Force
+    throw 'Test szpiegostwa przekroczył limit 60 sekund.'
+}
+if ($spyProcess.ExitCode -ne 0) { throw 'Test szpiegostwa WPF nie przeszedł. Sprawdź artifacts/espionage-ui/ui-smoke.txt.' }
+Get-Content -LiteralPath (Join-Path $spySmokeDirectory 'ui-smoke.txt')
