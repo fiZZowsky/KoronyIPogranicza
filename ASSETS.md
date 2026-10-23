@@ -10,4 +10,4 @@ Pełny prompt:
 
 ## Mapa i interfejs
 
-Materiały terenu powstają proceduralnie w kodzie C# (`TerrainTexture.cs`): deterministyczny szum, model wysokości, cieniowanie i śnieg. Heksy, korony drzew, zabudowa i oznaczenia jednostek są rysowane w WPF. Fonty systemowe: Segoe UI i Georgia; nie są dołączane do dystrybucji. Nie wykorzystano zasobów, kodu, nazw państw ani dialogów z serii Civilization.
+Od 0.20 główna mapa korzysta z rzeczywistej sceny WPF 3D. Atlas terenu i ciągłe wysokości powstają w `Terrain3D.cs` z deterministycznego szumu i danych odkrytych pól. `SceneGeometry.cs`, `WorldScene3D.cs` oraz `WorldModels3D.cs` tworzą siatki terenu, wody, drzew, zabudowy, wojsk i karawan. Geometria oraz materiały są autorskim kodem C#; nie pobierano zewnętrznych modeli ani tekstur. To uproszczona oprawa proceduralna bez PBR i animacji. Etykiety i minimapa są elementami interfejsu 2D. Fonty systemowe: Segoe UI i Georgia; nie są dołączane do dystrybucji. Nie wykorzystano zasobów, kodu, nazw państw ani dialogów z serii Civilization.

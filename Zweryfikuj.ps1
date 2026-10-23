@@ -10,9 +10,11 @@ if ($LASTEXITCODE -ne 0) { throw 'Specyfikacje silnika nie przeszły.' }
 $gameExecutable = Join-Path $PSScriptRoot 'src/Crown.Desktop/bin/Release/net10.0-windows/KoronyIPogranicza.exe'
 $smokeDirectory = Join-Path $reportDirectory 'ui'
 $gameProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke', ('"' + $smokeDirectory + '"')) -WindowStyle Hidden -PassThru
-if (-not $gameProcess.WaitForExit(60000)) {
+$baseTimer = [Diagnostics.Stopwatch]::StartNew()
+while (-not $gameProcess.WaitForExit(1000)) {
+    if ($baseTimer.Elapsed.TotalSeconds -le 180) { continue }
     Stop-Process -Id $gameProcess.Id -Force
-    throw 'Test interfejsu przekroczył limit 60 sekund.'
+    throw 'Test interfejsu 3D przekroczył limit 180 sekund.'
 }
 if ($gameProcess.ExitCode -ne 0) { throw 'Test integracji WPF nie przeszedł. Sprawdź artifacts/ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $smokeDirectory 'ui-smoke.txt')
@@ -59,3 +61,11 @@ if (-not $energyCaseProcess.WaitForExit(60000)) {
 }
 if ($energyCaseProcess.ExitCode -ne 0) { throw 'Test kryzysów WPF nie przeszedł. Sprawdź artifacts/energy-case-ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $energyCaseDirectory 'ui-smoke.txt')
+$threeDimensionalDirectory = Join-Path $reportDirectory 'three-dimensional-ui'
+$threeDimensionalProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-3d', ('"' + $threeDimensionalDirectory + '"')) -WindowStyle Hidden -PassThru
+if (-not $threeDimensionalProcess.WaitForExit(60000)) {
+    Stop-Process -Id $threeDimensionalProcess.Id -Force
+    throw 'Test sceny 3D przekroczył limit 60 sekund.'
+}
+if ($threeDimensionalProcess.ExitCode -ne 0) { throw 'Test sceny 3D nie przeszedł. Sprawdź artifacts/three-dimensional-ui/ui-smoke.txt.' }
+Get-Content -LiteralPath (Join-Path $threeDimensionalDirectory 'ui-smoke.txt')

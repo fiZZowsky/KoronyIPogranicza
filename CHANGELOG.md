@@ -1,5 +1,15 @@
 # Zmiany
 
+## 0.20 — Świat w trzech wymiarach · 23 października 2026
+
+- Główna mapa zastąpiona rzeczywistą sceną WPF 3D w C#/.NET 10. Ciągłe wysokości terenu, wspólny atlas materiałów, woda, oświetlenie, przestrzenne lasy, pola, kopalnie, ruiny, drogi i granice.
+- Modele miast zmieniające się wraz z epoką i ludnością: od obozowisk przez fortyfikacje i zabudowę przemysłową po wieżowce oraz przyszłe habitaty. Przestrzenne formacje sześciu ról wojsk, kawaleria, artyleria, pojazdy i karawany.
+- Kamera perspektywiczna z obrotem, nachyleniem, przesuwaniem i zbliżeniem; sterowanie myszą, klawiaturą i przyciskami. Minimąpa pokazuje perspektywiczny obrys widoku.
+- Wybór pola i rozkazy przez trafienie promieniem w geometrię, połączone z prawdziwym ruchem, podglądem walki i potwierdzonym atakiem. Nakładki zasięgu, marszu, logistyki i ludności zachowane.
+- Mgła wojny ukrywa obce oddziały oraz nieodkrytą rzeźbę. Kamera i budowa sceny nie zmieniają stanu kampanii ani losowań. Zamrożone siatki grupowane materiałami; teren ponownie wykorzystywany przy aktualizacji obiektów.
+- Format zapisów pozostaje v19. Nie trzeba zaczynać od nowa. Osobne wydanie `wydanie-0.20/`, zachowane poprzednie paczki i zapisy.
+- 438 specyfikacji silnika i 327 sprawdzeń WPF, w tym 34 nowe sprawdzenia sceny 3D. Rzeczywiste zrzuty rozgrywki dla kilku epok. Jest to pierwsza wersja 3D z uproszczonymi modelami; PBR, animacje i bardziej szczegółowe zasoby pozostają do wykonania.
+
 ## 0.19 — Słowo rady pod napięciem · 23 października 2026
 
 - Historyczne odczyty faktycznego przydziału energii z początku fazy gospodarczej. Osiem ostatnich faz miasta, bez zamiany aktualnej prognozy w fikcyjną historię. Nowe źródła i zmiany sezonu nie zmieniają wcześniejszych danych.

@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional power diagnostic failure.
+   at Crown.Desktop.MainWindow.PowerSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\PowerSmoke.cs:line 42

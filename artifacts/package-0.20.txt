@@ -1,0 +1,10 @@
+Package: Korony-i-Pogranicza-0.20-Windows.zip
+Bytes: 3756318
+Entries: 14
+SHA256: 013A8FAE08A3660D9828D5CAA9C2AEBCC28143D8068511FCC938639B6A174606
+Every entry hash matches the published file. Includes EPOKI.md and VERIFICATION.md. No player saves, backups or temporary files.
+438 core specifications and 327 WPF checks passed. All seven source and published modes pass; intentional failures all exit 3.
+Published UI durations: 85.0 + 13.5 + 9.6 + 12.4 + 8.1 + 9.6 + 14.2 seconds, sequential.
+EXE, desktop DLL and core DLL hashes match the source Release build.
+Previous 0.19 ZIP and copied player save hashes remain unchanged.
+Commit title: feat: replace the world map with an interactive 3D renderer

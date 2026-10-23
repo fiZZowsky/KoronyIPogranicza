@@ -443,4 +443,4 @@ PASS A mid-pledge save retains evidence and follows the same future political ou
 PASS Malformed observations, impossible success and missing council contexts are rejected
 PASS Legacy campaigns neither accumulate energy evidence nor permit fabricated petitions
 PASS Live pledges cannot hide an observed phase or forge an earlier successful streak
-438 specifications passed in 20,7s.
+438 specifications passed in 23,5s.

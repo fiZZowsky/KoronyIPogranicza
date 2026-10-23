@@ -123,12 +123,22 @@ Obietnica zawiera zamknięty protokół usług i sześć przyszłych rozliczeń.
 
 Format v19 zachowuje źródło, koszt pomocy, decyzję, termin i dowody. Migracja v18 nie wytwarza retrospektywnych odczytów. Walidacja sprawdza chronologię, popyt wynikający z usług, pełne pokrycie, brak pominiętych faz aktywnej obietnicy oraz zgodność wyniku. To konflikt pracowników i usług w agregacie miejskim, bez fizycznej symulacji gospodarstw domowych, indywidualnych firm, cen energii lub losowych awarii. AI ponosi presję niedoboru i stosuje wcześniejsze heurystyki naprawy; nie ma dialogów gracza dotyczących obcych delegacji.
 
+## Renderer 3D od 0.20
+
+Warstwa symulacji Crown.Core pozostaje niezależna od prezentacji. MapView używa WPF Viewport3D, PerspectiveCamera i zamrożonych siatek grupowanych materiałami. Teren ma ciągłe wysokości i wspólny atlas UV; podział siatek ogranicza liczbę wierzchołków pojedynczego obiektu. Zmiana kamery aktualizuje projekcję i etykiety bez przebudowy geometrii. Zmiana obiektów może ponownie wykorzystać siatki terenu. Scena nie wywołuje generatora losowego kampanii.
+
+Ręczny test promienia trafia w rzeczywistą geometrię i przekazuje pole do tych samych akcji wyboru, marszu oraz walki. Nieodkryte pola używają neutralnej wysokości i koloru; niewidoczne obce oddziały są pomijane. Własne wojska pozostają widoczne. Nakładki strategiczne leżą nad terenem, a etykiety przechodzą test przesłonięcia. Minimąpa zachowuje funkcję płaskiego przeglądu z obrysem kamery.
+
+Miasta i wojska mają modele bryłowe zmieniające się wraz z epoką. To początek oprawy 3D, bez realistycznych zasobów, PBR, dynamicznych cieni, animacji lub zaawansowanego LOD. Nie deklarujemy docelowej wydajności na różnych GPU na podstawie jednego komputera. Format v19, reguły symulacji i historia decyzji pozostają zachowane.
+
+Podstawy techniczne: [Microsoft — WPF 3D overview](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/graphics-multimedia/3-d-graphics-overview), [Microsoft — WPF 3D performance](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/graphics-multimedia/maximize-wpf-3d-performance). Scena jest zaimplementowana w C#/.NET 10 i nie wymaga zewnętrznych pakietów.
+
 ## Kolejne etapy
 
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.
 2. **Głębsza symulacja:** wojskowe magazyny i konwoje zaopatrzeniowe, migracje międzynarodowe, wyczerpanie złóż, klasy społeczne prowincji, wielostronne sojusze i wojny koalicyjne. Podstawową wymianę żywności i wewnętrzne migracje wykonano w 0.3, uzasadnienia wojny i proste poselstwa w 0.4, dwustronny negocjowany pokój i ogłoszone cele w 0.5, ceny i regionalny popyt na trzy towary oraz kontrakty w 0.6, lądowe karawany handlowe w 0.7.
 3. **Dramaturgia:** długie wątki postaci, konflikty między prowincjami, sukcesja, dziedziczone instytucje, reakcje zagraniczne na konkretne obietnice, większa liczba zdarzeń zależnych od kontekstu.
-4. **Oprawa 3D:** niezależny renderer korzystający z istniejącego silnika C#, modele miast rozwijające się wraz z populacją, realistyczne materiały PBR, oświetlenie, woda, pogoda, animacje armii i pełna obsługa kamery. Przed wyborem docelowego silnika potrzebny jest osobny prototyp wydajności i potwierdzenie zgodności z .NET 10.
+4. **Rozwój oprawy 3D:** fundament sceny, modele epok, teren, woda, oświetlenie i kamera działają od 0.20. Kolejne kroki to bardziej szczegółowe modele, animacje, materiały PBR, cienie, pogoda i pomiary wydajności na różnych GPU. Ewentualna zmiana renderera wymaga porównania wydajności i zgodności z .NET 10.
 5. **Pełna produkcja:** redakcja treści, dźwięk, dostępność, lokalizacja, migracje wersji zapisów, rozbudowa AI, testy sprzętowe, kampanie dla pozostałych państw i dystrybucja.
 
 Nie ma podstaw, by na tym etapie deklarować jakość wyższą niż konkretna komercyjna gra. O tym zdecydują kompletność, testy z graczami i kolejne iteracje.

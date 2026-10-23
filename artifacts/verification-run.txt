@@ -1,5 +1,6 @@
   Trwa określanie projektów do przywrócenia...
-  Wszystkie projekty są aktualne na potrzeby przywrócenia.
+  Przywrócono element C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\Crown.Desktop.csproj (w 151 ms).
+  Projekty aktualne na potrzeby przywrócenia: 2 z 3.
   Crown.Core -> C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Core\bin\Release\net10.0\Crown.Core.dll
   Crown.Desktop -> C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\bin\Release\net10.0-windows\KoronyIPogranicza.dll
   Crown.Specs -> C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\tests\Crown.Specs\bin\Release\net10.0\Crown.Specs.dll
@@ -8,7 +9,7 @@ Kompilacja powiodła się.
     Ostrzeżenia: 0
     Liczba błędów: 0
 
-Czas, który upłynął: 00:00:01.31
+Czas, który upłynął: 00:00:05.87
 PASS Seed determinism and distinct worlds
 PASS Hex topology, symmetry, distance
 PASS Capital land connections across seeds
@@ -454,7 +455,7 @@ PASS A mid-pledge save retains evidence and follows the same future political ou
 PASS Malformed observations, impossible success and missing council contexts are rejected
 PASS Legacy campaigns neither accumulate energy evidence nor permit fabricated petitions
 PASS Live pledges cannot hide an observed phase or forge an earlier successful streak
-438 specifications passed in 20,7s.
+438 specifications passed in 23,5s.
 PASS New game opens the council
 PASS Council button applies the founding charter
 PASS Map order moves a selected unit
@@ -751,6 +752,42 @@ PASS Refusal records a real decision without fabricating a payment or promise
 PASS Turning off the named service cannot satisfy the pledge at zero demand
 PASS Failed pledge register explains the unmet phases rather than awarding a timer reward
 PASS An older pending council visibly prevents replacing its context with an energy hearing
-PASS Compact native layout: requested 1200x800, window 1200x800, root 1184x761, state Minimized
+PASS Compact native layout: requested 1200x800, window 1200x800, root 1187,2x768,8, state Normal
 PASS Energy case explanations and actions remain reachable in a compact scrolling window
 22 energy case desktop integration checks passed.
+PASS New game mounts one genuine Viewport3D with a perspective camera
+PASS Terrain and world objects contain actual depth-tested triangle meshes
+PASS Static terrain is frozen and split into bounded mesh batches
+PASS Mesh positions and smooth normals are finite and valid
+PASS Forests and the starting settlement are spatial geometry rather than map symbols
+PASS Own military formations are present in the 3D scene
+PASS Rendering a new campaign leaves simulation state and RNG untouched
+PASS A ray through the projected capital hits its actual scene geometry
+PASS Perspective minimap footprint includes the centred city
+PASS Camera rotation uses the WPF control without rebuilding the world
+PASS Zoom changes perspective projection through its actual control
+PASS Camera elevation is clamped above the world
+PASS Camera cannot orbit beneath the terrain
+PASS Near camera distance is bounded
+PASS Far camera distance is bounded
+PASS Pan retains a finite world camera and minimap footprint
+PASS Orbit, pan and zoom do not advance turns or modify the save
+PASS 3D screen selection reaches the real city and unit selection handler
+PASS Perspective picking identifies an adjacent ground surface
+PASS A 3D screen order moves the actual military unit and refreshes its geometry
+PASS Unexplored terrain elevation does not reveal the hidden terrain type
+PASS Fog hides unseen enemy formations and undiscovered cities
+PASS Grid, selection, movement range and logistics are terrain-following 3D overlays
+PASS Population overlays and projected city annotations remain available
+PASS Existing save format reloads exact gameplay into the 3D renderer
+PASS Ray picking resolves a visible hostile formation on the battlefield
+PASS A 3D hostile order opens the real battle preview before changing health
+PASS Confirmed 3D combat applies real damage and consumes the unit's actions
+PASS City architecture builds spatial models for era 6
+PASS City architecture builds spatial models for era 10
+PASS City architecture builds spatial models for era 15
+PASS City architecture builds spatial models for era 18
+PASS All six land roles have renderable spatial models, including cavalry and artillery
+PASS Compact window retains a usable 3D viewport and camera controls
+34 3D desktop integration checks passed.
+Elapsed 13,5s; render tier 2; final terrain 65376 triangles; objects 121914 triangles.
