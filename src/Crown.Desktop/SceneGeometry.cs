@@ -8,20 +8,33 @@ internal sealed class SceneMesh
 {
     private readonly MeshGeometry3D mesh = new();
     private readonly double uvX, uvZ;
+    internal Point3D ScaleOrigin;
+    internal double ModelScale = 1;
+    internal int TileId=-1;
+    internal readonly List<int> TileIds=[];
     public SceneMesh(double uvX = .36, double uvZ = .36) { this.uvX = uvX; this.uvZ = uvZ; }
     public int Triangles => mesh.TriangleIndices.Count / 3;
-    public void Triangle(Point3D a, Point3D b, Point3D c, Vector3D? na = null, Vector3D? nb = null, Vector3D? nc = null)
+    public void Triangle(Point3D a, Point3D b, Point3D c, Vector3D? na = null, Vector3D? nb = null, Vector3D? nc = null, Point? ta = null, Point? tb = null, Point? tc = null)
     {
         var normal = Vector3D.CrossProduct(b - a, c - a); if (normal.LengthSquared < 1e-18) return; normal.Normalize();
+        if(ModelScale!=1){a=ScaleOrigin+(a-ScaleOrigin)*ModelScale;b=ScaleOrigin+(b-ScaleOrigin)*ModelScale;c=ScaleOrigin+(c-ScaleOrigin)*ModelScale;}
         int start = mesh.Positions.Count;
-        foreach (var p in new[] { a, b, c }) { mesh.Positions.Add(p); mesh.TextureCoordinates.Add(new(p.X * uvX, p.Z * uvZ)); }
+        mesh.Positions.Add(a); mesh.Positions.Add(b); mesh.Positions.Add(c);
+        mesh.TextureCoordinates.Add(ta ?? new(a.X * uvX, a.Z * uvZ)); mesh.TextureCoordinates.Add(tb ?? new(b.X * uvX, b.Z * uvZ)); mesh.TextureCoordinates.Add(tc ?? new(c.X * uvX, c.Z * uvZ));
         mesh.Normals.Add(na ?? normal); mesh.Normals.Add(nb ?? normal); mesh.Normals.Add(nc ?? normal);
         mesh.TriangleIndices.Add(start); mesh.TriangleIndices.Add(start + 1); mesh.TriangleIndices.Add(start + 2);
+        TileIds.Add(TileId);
     }
     public void Quad(Point3D a, Point3D b, Point3D c, Point3D d, Vector3D outward)
     {
         if (Vector3D.DotProduct(Vector3D.CrossProduct(b - a, c - a), outward) >= 0) { Triangle(a, b, c); Triangle(a, c, d); }
         else { Triangle(a, c, b); Triangle(a, d, c); }
+    }
+    internal void FoliageCard(Point3D center, Vector3D right, Vector3D up)
+    {
+        var n = Vector3D.CrossProduct(right, up); n.Normalize();
+        var a = center - right - up; var b = center + right - up; var c = center + right + up; var d = center - right + up;
+        Triangle(a,b,c,n,n,n,new(0,1),new(1,1),new(1,0)); Triangle(a,c,d,n,n,n,new(0,1),new(1,0),new(0,0));
     }
     public void Box(double x, double y, double z, double width, double height, double depth)
     {
@@ -43,7 +56,7 @@ internal sealed class SceneMesh
             var r = new Point3D(x + Math.Cos(b) * topRadius, y + height, z + Math.Sin(b) * topRadius);
             var t = new Point3D(x + Math.Cos(a) * topRadius, y + height, z + Math.Sin(a) * topRadius);
             var na = new Vector3D(Math.Cos(a), (radius - topRadius) / Math.Max(height, .001), Math.Sin(a)); na.Normalize();
-            var nb = new Vector3D(Math.Cos(b), na.Y, Math.Sin(b)); nb.Normalize();
+            var nb = new Vector3D(Math.Cos(b), (radius - topRadius) / Math.Max(height, .001), Math.Sin(b)); nb.Normalize();
             void Side(Point3D v1,Point3D v2,Point3D v3,Vector3D n1,Vector3D n2,Vector3D n3)
             {
                 if(Vector3D.DotProduct(Vector3D.CrossProduct(v2-v1,v3-v1),n1+n2+n3)<0){(v2,v3)=(v3,v2);(n2,n3)=(n3,n2);}
@@ -84,6 +97,15 @@ internal sealed class SceneMesh
 
 internal sealed class SceneBatch
 {
+    private Point3D scaleOrigin;
+    private double modelScale=1;
+    internal int TileId=-1;
+    internal void Scaled(Point3D origin,double scale,Action build)
+    {
+        var previous=scaleOrigin;double previousScale=modelScale;scaleOrigin=origin;modelScale=scale;
+        try{build();}finally{scaleOrigin=previous;modelScale=previousScale;}
+    }
+    private SceneMesh Configure(SceneMesh mesh){mesh.ScaleOrigin=scaleOrigin;mesh.ModelScale=modelScale;mesh.TileId=TileId;return mesh;}
     private readonly Dictionary<string, SceneMesh> meshes = [];
     private readonly Dictionary<string, Material> materials = [];
     private readonly Dictionary<string, int> chunks = [];
@@ -96,9 +118,9 @@ internal sealed class SceneBatch
     public SceneMesh Mesh(string key, string color, bool emissive = false)
     {
         key = Slot(key);
-        if (meshes.TryGetValue(key, out var existing)) return existing;
+        if (meshes.TryGetValue(key, out var existing)) return Configure(existing);
         var brush = Ui.Brush(color); Material m = emissive ? new EmissiveMaterial(brush) : new DiffuseMaterial(brush); m.Freeze(); materials[key] = m;
-        var result = new SceneMesh(); meshes[key] = result; return result;
+        var result = new SceneMesh(); meshes[key] = result; return Configure(result);
     }
     public SceneMesh Terrain(Crown.Core.Terrain terrain, bool remembered)
     {
@@ -107,6 +129,13 @@ internal sealed class SceneBatch
         var brush = new ImageBrush(Terrain3D.Texture(terrain)) { TileMode = TileMode.Tile, Viewport = new Rect(0, 0, 1, 1), Opacity = 1 }; brush.Freeze();
         Material material = new DiffuseMaterial(brush); material.Freeze(); materials[key] = material;
         var result = new SceneMesh(); meshes[key] = result; return result;
+    }
+    public SceneMesh Foliage(bool spruce)
+    {
+        string key=Slot(spruce?"foliage-spruce":"foliage-oak");if(meshes.TryGetValue(key,out var existing))return Configure(existing);
+        var image=new System.Windows.Media.Imaging.BitmapImage(new Uri("pack://application:,,,/Assets/"+(spruce?"spruce":"oak")+"-foliage-0.21.png"));image.Freeze();
+        var brush=new ImageBrush(image){ViewportUnits=BrushMappingMode.Absolute,Viewport=new(0,0,1,1)};brush.Freeze();
+        var material=new DiffuseMaterial(brush);material.Freeze();materials[key]=material;var mesh=new SceneMesh();meshes[key]=mesh;return Configure(mesh);
     }
     public SceneMesh Landscape(Crown.Core.GameState state)
     {
@@ -128,7 +157,12 @@ internal sealed class SceneBatch
     public Model3DGroup Freeze()
     {
         var group = new Model3DGroup();
-        foreach (var pair in meshes.Where(p => p.Value.Triangles != 0)) group.Children.Add(new GeometryModel3D(pair.Value.Freeze(), materials[pair.Key]));
+        foreach (var pair in meshes.Where(p => p.Value.Triangles != 0))
+        {
+            var model = new GeometryModel3D(pair.Value.Freeze(), materials[pair.Key]);
+            model.SetValue(SceneSurface.KeyProperty, pair.Key);model.SetValue(SceneSurface.TileIdsProperty,pair.Value.TileIds.ToArray());
+            if(pair.Key.StartsWith("foliage"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
+        }
         group.Freeze(); return group;
     }
 }

@@ -40,7 +40,7 @@ internal static class Terrain3D
     }
     public static double Height(GameState s, double x, double z)
     {
-        int row = (int)Math.Round((z - 1) / 1.5); double sum = 0, weight = 0, known = 0;
+        int row = (int)Math.Round((z - 1) / 1.5); double sum = 0, weight = 0, known = 0, mountains=0;
         for (int y = row - 1; y <= row + 1; y++)
         {
             if (y < 0 || y >= s.Height) continue;
@@ -49,15 +49,16 @@ internal static class Terrain3D
             {
                 if (xx < 0 || xx >= s.Width) continue;
                 var t = s.Tiles[y * s.Width + xx]; var p = Center(t); double dx = p.X - x, dz = p.Y - z;
-                double w = Math.Max(0, 1 - (dx * dx + dz * dz) / 3.15); w *= w * w;
+                double w = Math.Max(0, 1 - (dx * dx + dz * dz) / 4.2); w *= w * w;
                 double h = !t.Explored ? .13 : t.Terrain switch
-                { Terrain.Ocean => -.65, Terrain.Coast => -.32, Terrain.Mountain => 2.45 + Noise(p.X, p.Y, s.Seed) * .9, Terrain.Hills => .95, Terrain.Forest => .27, Terrain.Marsh => .10, Terrain.Tundra => .45, _ => .22 };
+                { Terrain.Ocean => -.65, Terrain.Coast => -.32, Terrain.Mountain => 2.2 + Noise(p.X, p.Y, s.Seed) * .8, Terrain.Hills => .95, Terrain.Forest => .27, Terrain.Marsh => .10, Terrain.Tundra => .45, _ => .22 };
                 sum += h * w; weight += w; if (t.Explored) known += w;
+                if(t.Explored&&t.Terrain==Terrain.Mountain)mountains+=w;
             }
         }
         if (weight == 0) return -.65;
         double ripple = (Noise(x * 1.1, z * 1.1, s.Seed) - .5) * .17 + (Noise(x * 3.7, z * 3.7, s.Seed + 8) - .5) * .045;
-        return sum / weight + ripple * known / weight;
+        return sum / weight + ripple * known / weight + mountains/weight*(Noise(x*.55,z*.55,s.Seed+29)*1.2+Noise(x*1.8,z*1.8,s.Seed+93)*.4);
     }
     public static Point3D Ground(GameState s, double x, double z, double lift = 0) => new(x, Height(s, x, z) + lift, z);
     public static Vector3D Normal(GameState s, double x, double z)
@@ -107,7 +108,7 @@ internal static class Terrain3D
             }
             if (weight == 0) weight = 1;
             double grain = .89 + Noise(x * 4.7, z * 4.7, state.Seed + 71) * .15 + (Hash(ix, iz, state.Seed) - .5) * .07;
-            double altitude = Height(state, x, z), snow = Math.Clamp((altitude - 2.05) * 2.4, 0, 1);
+            double altitude = Height(state, x, z), snow = Math.Clamp((altitude - 3.1) * .7, 0, 1);
             int at = (iz * width + ix) * 4;
             pixels[at] = (byte)Math.Clamp((blue / weight * (1 - snow) + 220 * snow) * grain, 0, 255);
             pixels[at + 1] = (byte)Math.Clamp((green / weight * (1 - snow) + 225 * snow) * grain, 0, 255);

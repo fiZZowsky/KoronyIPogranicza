@@ -25,6 +25,15 @@ public sealed partial class MapView : Grid
     private readonly PerspectiveCamera camera = new() { FieldOfView = 52, NearPlaneDistance = .08, FarPlaneDistance = 180, UpDirection = new(0, 1, 0) };
     private readonly ModelVisual3D worldVisual = new(), overlaysVisual = new();
     private readonly Canvas annotations = new() { IsHitTestVisible = false };
+    private readonly Image photographicImage = new() { Stretch = Stretch.Fill, IsHitTestVisible = false };
+    private readonly TextBlock rendererStatus = new() { IsHitTestVisible = false, FontSize = 10, Foreground = Ui.Muted, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom, Margin = new(0, 0, 18, 58) };
+    private PhotographicRenderer? photographic;
+    private bool gpuPending, gpuAttempted;
+    private readonly System.Windows.Threading.DispatcherTimer animationTimer=new(System.Windows.Threading.DispatcherPriority.Background){Interval=TimeSpan.FromMilliseconds(100)};
+    private readonly System.Diagnostics.Stopwatch visualClock=System.Diagnostics.Stopwatch.StartNew();
+    private bool animateEnvironment=true;
+    internal PhotographicRenderer? Photographic => photographic;
+    internal string? GpuFailure { get; private set; }
     private WorldScene? scene;
     private int sceneSignature;
     private int terrainSignature;
@@ -46,7 +55,10 @@ public sealed partial class MapView : Grid
         ClipToBounds = true; Focusable = true;
         Background = new LinearGradientBrush((Color)ColorConverter.ConvertFromString("#A2BEC6"), (Color)ColorConverter.ConvertFromString("#344F55"), 90);
         viewport.Camera = camera; viewport.Children.Add(worldVisual); viewport.Children.Add(overlaysVisual);
-        Children.Add(viewport); Children.Add(annotations); AddCameraControls();
+        Children.Add(viewport); Children.Add(photographicImage); Children.Add(annotations); Children.Add(rendererStatus); AddCameraControls();
+        animationTimer.Tick+=(_,_)=>{if(animateEnvironment&&photographic!=null&&!gpuPending&&IsVisible)RenderGpuFrame(visualClock.Elapsed.TotalSeconds);};
+        Loaded+=(_,_)=>animationTimer.Start();
+        Unloaded += (_, _) => { animationTimer.Stop();photographic?.Dispose(); photographic = null; photographicImage.Source = null; gpuAttempted = false; };
         MouseDown += (_, e) =>
         {
             if (e.OriginalSource is Button) return;
@@ -100,7 +112,9 @@ public sealed partial class MapView : Grid
             ("↶", () => Orbit(-20, 0), "Obróć kamerę w lewo · Q"), ("↷", () => Orbit(20, 0), "Obróć kamerę w prawo · E"),
             ("+", () => Zoom(.8), "Przybliż · kółko myszy"), ("−", () => Zoom(1.25), "Oddal · kółko myszy"),
             ("Kąt +", () => Orbit(0, 8), "Wyższy kąt · Page Up"), ("Kąt −", () => Orbit(0, -8), "Niższy kąt · Page Down"),
-            ("Widok 3D", ResetCamera, "Przywróć widok nad wybranym polem")
+            ("Widok 3D", ResetCamera, "Przywróć widok nad wybranym polem"),
+            ("Krajobraz", LandscapeCamera, "Niska kamera krajobrazowa"),
+            ("Grafika", GraphicsMenu, "Jakość renderowania i efekty")
         })
         { var b = Ui.Button(label, action); b.ToolTip = tip; b.Margin = new(0, 0, 5, 0); b.Padding = new(9, 7, 9, 7); b.Focusable = false; panel.Children.Add(b); }
         Children.Add(panel);
@@ -110,15 +124,29 @@ public sealed partial class MapView : Grid
     {
         State = state; scene = null; hoverTile = -1; TrackedCaravanId = -1; PlannedRoad = [];
         SelectedTile = state.Cities.FirstOrDefault(c => c.Owner == 0)?.Tile ?? 0; SelectedUnit = -1;
-        distance = 13; yaw = -30; pitch = 48; target = Terrain3D.Center(state.Tiles[SelectedTile]); InvalidateVisual(); UpdateCamera();
+        distance = 13; yaw = -30; pitch = 48;camera.FieldOfView=52; target = Terrain3D.Center(state.Tiles[SelectedTile]); InvalidateVisual(); UpdateCamera();
     }
     public void Center(int id)
     {
         if (State == null || id < 0 || id >= State.Tiles.Count) return;
         target = Terrain3D.Center(State.Tiles[id]); EnsureScene(); UpdateCamera();
     }
-    public void ResetCamera() { distance = 13; yaw = -30; pitch = 48; if (SelectedTile >= 0) Center(SelectedTile); else UpdateCamera(); }
-    public void Orbit(double azimuth, double elevation) { yaw = ((yaw + azimuth) % 360 + 360) % 360; pitch = Math.Clamp(pitch + elevation, 28, 78); UpdateCamera(); }
+    public void ResetCamera() { distance = 13; yaw = -30; pitch = 48;camera.FieldOfView=52; if (SelectedTile >= 0) Center(SelectedTile); else UpdateCamera(); }
+    public void Orbit(double azimuth, double elevation) { yaw = ((yaw + azimuth) % 360 + 360) % 360; pitch = Math.Clamp(pitch + elevation, 15, 78); UpdateCamera(); }
+    internal void LandscapeCamera(){pitch=15;distance=7;yaw=20;camera.FieldOfView=80;if(SelectedTile>=0)Center(SelectedTile);else UpdateCamera();}
+    private void GraphicsMenu()
+    {
+        var menu=new ContextMenu();
+        void Option(string label,Action action){var item=new MenuItem{Header=label};item.Click+=(_,_)=>{action();RequestGpuFrame();};menu.Items.Add(item);}
+        Option("Jakość wysoka · cienie i odbicia",()=>{if(photographic is{} r){r.MaximumWidth=1600;r.Reflections=true;r.PostProcessing=true;r.Shadows=true;}});
+        Option("Jakość zrównoważona · mniej obciążenia",()=>{if(photographic is{} r){r.MaximumWidth=1100;r.Reflections=false;r.PostProcessing=true;r.Shadows=true;}});
+        Option("Cienie: włącz / wyłącz",()=>{if(photographic is{} r)r.Shadows=!r.Shadows;});
+        Option("Odbicia: włącz / wyłącz",()=>{if(photographic is{} r)r.Reflections=!r.Reflections;});
+        Option("Animowane otoczenie: włącz / wyłącz",()=>animateEnvironment=!animateEnvironment);
+        Option("Ponów inicjalizację Direct3D 11",()=>{photographic?.Dispose();photographic=null;gpuAttempted=false;GpuFailure=null;});
+        Option("Światło: poranek / południe",()=>{if(photographic is{} r)r.Sun=r.Sun.Y<.7?System.Numerics.Vector3.Normalize(new(-.3f,1.5f,-.2f)):System.Numerics.Vector3.Normalize(new(-.65f,.82f,-.35f));});
+        menu.IsOpen=true;
+    }
     public void Zoom(double factor) { if (!double.IsFinite(factor) || factor <= 0) return; distance = Math.Clamp(distance * factor, 5, 60); UpdateCamera(); }
     internal void PanPixels(double dx, double dy)
     {
@@ -134,8 +162,9 @@ public sealed partial class MapView : Grid
         double a = yaw * Math.PI / 180, p = pitch * Math.PI / 180, y = Math.Max(Terrain3D.SeaLevel, Terrain3D.Height(State, target.X, target.Y));
         var focus = new Point3D(target.X, y + .07, target.Y);
         camera.Position = focus + new Vector3D(Math.Sin(a) * Math.Cos(p) * distance, Math.Sin(p) * distance, Math.Cos(a) * Math.Cos(p) * distance);
+        var position=camera.Position;position.Y=Math.Max(position.Y,Math.Max(Terrain3D.SeaLevel,Terrain3D.Height(State,position.X,position.Z))+.3);camera.Position=position;
         camera.LookDirection = focus - camera.Position;
-        UpdateAnnotations(); CameraChanged?.Invoke();
+        UpdateAnnotations(); CameraChanged?.Invoke(); RequestGpuFrame();
     }
     private (Vector3D Forward, Vector3D Right, Vector3D Up) Basis()
     {
@@ -161,7 +190,10 @@ public sealed partial class MapView : Grid
         {
             if (result is RayMeshGeometry3DHitTestResult hit && hit.DistanceToRayOrigin < nearest)
             {
+                // Leaf cards include transparent holes; decorative canopies must not intercept orders.
+                if(hit.ModelHit is GeometryModel3D foliage&&SceneSurface.Key(foliage).StartsWith("foliage"))return HitTestResultBehavior.Continue;
                 int candidate = Terrain3D.TileAt(State, hit.PointHit.X, hit.PointHit.Z);
+                if(hit.ModelHit is GeometryModel3D model&&model.GetValue(SceneSurface.TileIdsProperty) is int[] ids&&hit.VertexIndex1/3<ids.Length&&ids[hit.VertexIndex1/3]>=0)candidate=ids[hit.VertexIndex1/3];
                 if (candidate >= 0) { tile = candidate; nearest = hit.DistanceToRayOrigin; }
             }
             return HitTestResultBehavior.Continue;
@@ -212,6 +244,36 @@ public sealed partial class MapView : Grid
     public new void InvalidateVisual()
     {
         if (State != null) { EnsureScene(); RebuildOverlays(); UpdateAnnotations(); }
+        RequestGpuFrame();
         base.InvalidateVisual();
+    }
+    private void RequestGpuFrame()
+    {
+        if (gpuPending || State == null || scene == null) return; gpuPending = true;
+        Dispatcher.BeginInvoke(new Action(() => { gpuPending = false; RenderGpuFrame(); }), System.Windows.Threading.DispatcherPriority.Render);
+    }
+    internal void RenderGpuFrame(double visualTime=0)
+    {
+        if (!IsLoaded || ActualWidth < 2 || ActualHeight < 2 || scene == null) return;
+        try
+        {
+            if (!gpuAttempted)
+            {
+                gpuAttempted = true;
+                if (Environment.GetCommandLineArgs().Contains("--no-gpu")) throw new InvalidOperationException("Tryb zgodności wybrany parametrem --no-gpu.");
+                photographic = new PhotographicRenderer(); GpuFailure = null;
+            }
+            if (photographic == null) return;
+            photographic.Scene(scene, overlaysVisual.Content);
+            photographic.Render(camera, (int)ActualWidth, (int)ActualHeight,visualTime);
+            photographicImage.Source = photographic.Image; viewport.Visibility = Visibility.Hidden;
+            rendererStatus.Text = "DIRECT3D 11 · CIENIE · MATERIAŁY · HDR";
+        }
+        catch (Exception ex)
+        {
+            GpuFailure = ex.ToString(); photographic?.Dispose(); photographic = null; photographicImage.Source = null; viewport.Visibility = Visibility.Visible;
+            rendererStatus.Text = "TRYB ZGODNOŚCI WPF · " + ex.Message.Split('\n')[0]; rendererStatus.ToolTip = ex.Message;
+            System.Diagnostics.Debug.WriteLine(GpuFailure);
+        }
     }
 }

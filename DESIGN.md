@@ -135,10 +135,18 @@ Podstawy techniczne: [Microsoft — WPF 3D overview](https://learn.microsoft.com
 
 ## Kolejne etapy
 
+Wersja 0.21 dodaje niezależny renderer Direct3D 11. C# tworzy i zwalnia urządzenie, bufory oraz tekstury; HLSL oblicza materiały GGX, cienie PCF, odbicia planarne, atmosferę i filmową prezentację HDR. Staging readback przekazuje gotowy obraz do WPF, dzięki czemu natywne panele, okna i diagnostyczne zrzuty pozostają zgodne. To rozwiązanie ponosi koszt synchronizacji GPU–CPU; pomiary pojedynczych klatek nie są gwarancją stałej liczby FPS. Przy błędzie inicjalizacji lub utracie urządzenia użytkownik widzi jawny tryb zgodności WPF.
+
+Geometria z WPF służy także trafianiu promieniem, a każdy trójkąt obiektu pamięta jego logiczne pole. Płaszczyzny liści są pomijane podczas wskazywania, aby ich przezroczyste otwory nie blokowały rozkazów. Nieodkryta rzeźba nadal nie korzysta z ukrytego rodzaju terenu. Dalekie pasmo poza siatką nie ma pól, gospodarki ani ukrytych obiektów. Czas otoczenia i ustawienia graficzne nie wchodzą do GameState. Native zasoby są zwalniane po odłączeniu widoku; zmiana rozmiaru zastępuje cele renderowania, a zmiana sceny usuwa nieużywane bufory.
+
+Tekstury AI mają fotograficzny wygląd, lecz nie są skanami ani kompletnymi zestawami map PBR. Parametry chropowatości i metalu są uproszczone; otoczenie nie ma pełnego oświetlenia globalnego. Jedna mapa cieni obejmuje otoczenie celu kamery. Odbicia świata dotyczą jednej płaszczyzny morza/jeziora; rzeki używają odbicia nieba. Korony poruszają się lekko, ale postacie nadal nie mają animowanego szkieletu. Ilustracja menu pozostaje celem artystycznym, którego ta wersja jeszcze nie osiąga. Zasoby i pełne prompty opisuje ASSETS.md.
+
+Dokumentacja API: [Microsoft — D3D11CreateDevice](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-d3d11createdevice), [Microsoft — Map](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-map). Natywne sygnatury odpowiadają d3d11.h z Windows SDK. Nie dołączamy obcych bibliotek ani silnika.
+
 1. **Balans i wygoda:** rozgrywki z ludźmi, pomiary tempa, tryb doradcy, komunikaty o zagrożonych trasach, dokładniejsza prezentacja skutków ekonomicznych i testy różnych skal DPI. Marsze, bilans utrzymania, podgląd bitwy i pełny zasięg wykonano w 0.2.
 2. **Głębsza symulacja:** wojskowe magazyny i konwoje zaopatrzeniowe, migracje międzynarodowe, wyczerpanie złóż, klasy społeczne prowincji, wielostronne sojusze i wojny koalicyjne. Podstawową wymianę żywności i wewnętrzne migracje wykonano w 0.3, uzasadnienia wojny i proste poselstwa w 0.4, dwustronny negocjowany pokój i ogłoszone cele w 0.5, ceny i regionalny popyt na trzy towary oraz kontrakty w 0.6, lądowe karawany handlowe w 0.7.
 3. **Dramaturgia:** długie wątki postaci, konflikty między prowincjami, sukcesja, dziedziczone instytucje, reakcje zagraniczne na konkretne obietnice, większa liczba zdarzeń zależnych od kontekstu.
-4. **Rozwój oprawy 3D:** fundament sceny, modele epok, teren, woda, oświetlenie i kamera działają od 0.20. Kolejne kroki to bardziej szczegółowe modele, animacje, materiały PBR, cienie, pogoda i pomiary wydajności na różnych GPU. Ewentualna zmiana renderera wymaga porównania wydajności i zgodności z .NET 10.
+4. **Rozwój oprawy 3D:** od 0.21 działają Direct3D 11, teksturowane materiały, cienie, HDR, odbicia i animowane otoczenie. Nadal potrzebne są szczegółowe modele, animacje postaci, pełniejsze oświetlenie, pogoda, LOD i testy różnych GPU, aby zbliżyć jakość do ilustracji menu.
 5. **Pełna produkcja:** redakcja treści, dźwięk, dostępność, lokalizacja, migracje wersji zapisów, rozbudowa AI, testy sprzętowe, kampanie dla pozostałych państw i dystrybucja.
 
 Nie ma podstaw, by na tym etapie deklarować jakość wyższą niż konkretna komercyjna gra. O tym zdecydują kompletność, testy z graczami i kolejne iteracje.

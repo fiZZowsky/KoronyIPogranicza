@@ -17,7 +17,7 @@ internal static partial class WorldScene3D
         {
             var center = Terrain3D.Center(tile);
             var mesh = reuseTerrain == null ? ground.Landscape(s) : null;
-            const int subdivisions = 3;
+            const int subdivisions = 5;
             for (int side = 0; mesh != null && side < 6; side++)
             {
                 double angle = (30 + 60 * side) * Math.PI / 180, next = angle + Math.PI / 3;
@@ -36,11 +36,13 @@ internal static partial class WorldScene3D
                 }
             }
             if (!tile.Explored) continue;
+            objects.TileId=-1;
             if (tile.River && tile.Passable)
             {
                 var neighbors = World.Neighbors(s, tile.Id).Where(n => n.Explored && n.River).ToArray();
-                if (neighbors.Length == 0) Ribbon(objects.Mesh("rivers", "#538E99"), s, new(center.X - .12, center.Y - .8), new(center.X + .12, center.Y + .8), .09, .018);
-                foreach (var n in neighbors.Where(n => n.Id > tile.Id)) Ribbon(objects.Mesh("rivers", "#538E99"), s, center, Terrain3D.Center(n), .09, .018);
+                var riverCenter=RiverCenter(s,tile);
+                if (neighbors.Length == 0) NaturalRiver(objects,s,new(riverCenter.X-.12,riverCenter.Y-.8),new(riverCenter.X+.12,riverCenter.Y+.8));
+                foreach (var n in neighbors.Where(n => n.Id > tile.Id)) NaturalRiver(objects,s,riverCenter,RiverCenter(s,n));
             }
             if (Navigation.RoadNode(s, tile.Id)) foreach (var n in World.Neighbors(s, tile.Id).Where(n => n.Explored && n.Id > tile.Id && Navigation.RoadNode(s, n.Id)))
                 Ribbon(objects.Mesh("roads", "#C6B794"), s, center, Terrain3D.Center(n), .055, .036);
@@ -54,6 +56,7 @@ internal static partial class WorldScene3D
                     Ribbon(objects.Mesh("border-" + tile.Owner, color), s, middle - tangent, middle + tangent, .022, .04);
                 }
             }
+            objects.TileId=tile.Id;
             if (tile.Improvement != Improvement.None) BuildImprovement(objects, s, tile);
             else if (tile.Terrain == Terrain.Forest && !s.Cities.Any(c => c.Tile == tile.Id))
             {
@@ -61,7 +64,7 @@ internal static partial class WorldScene3D
                 for (int i = 0; i < 10; i++)
                 {
                     double x = center.X + (rng.NextDouble() - .5) * 1.25, z = center.Y + (rng.NextDouble() - .5) * 1.25;
-                    Tree(objects, s, x, z, .45 + rng.NextDouble() * .35, i % 3 == 0); trees++;
+                    NaturalTree(objects, s, x, z, .65 + rng.NextDouble() * .5, i % 3 != 0); trees++;
                 }
             }
             if (tile.Ruin) Ruin(objects, s, center);
@@ -74,18 +77,19 @@ internal static partial class WorldScene3D
             Point3D Wave(double xx,double zz)=>new(xx,Terrain3D.SeaLevel+Math.Sin(xx*1.3+zz*.8)*.006,zz);
             water.Quad(Wave(x,z),Wave(x,z+2),Wave(x+2,z+2),Wave(x+2,z),new(0,1,0));
         }
-        var cities = s.Cities.Where(c => s.Tiles[c.Tile].Explored).OrderBy(c => c.Id).ToArray(); foreach (var city in cities) City(objects, s, city);
+        var cities = s.Cities.Where(c => s.Tiles[c.Tile].Explored).OrderBy(c => c.Id).ToArray(); foreach (var city in cities){objects.TileId=city.Tile;City(objects, s, city);}
         var units = s.Units.Where(u => u.Owner == 0 || visible.Contains(u.Tile)).Where(u => u.Owner == 0 || s.Tiles[u.Tile].Explored).OrderBy(u => u.Id).ToArray();
         var rendered = new List<int>();
         foreach (var group in units.GroupBy(u => u.Tile))
         {
-            int i = 0; foreach (var u in group.OrderByDescending(u => u.Id == selectedUnit).ThenBy(u => u.Id).Take(3)) { Unit(objects, s, u, i); rendered.Add(u.Id); i++; }
+            int i = 0; foreach (var u in group.OrderByDescending(u => u.Id == selectedUnit).ThenBy(u => u.Id).Take(3)) { objects.TileId=u.Tile;Unit(objects, s, u, i); rendered.Add(u.Id); i++; }
         }
         foreach (var cargo in s.Caravans.Where(Caravans.Active).Where(c => s.Tiles[c.Tile].Explored))
         {
             var contract = s.TradeContracts.First(t => t.Id == cargo.ContractId);
-            if (contract.Buyer == 0 || contract.Seller == 0) Wagon(objects, s, cargo.Tile);
+            if (contract.Buyer == 0 || contract.Seller == 0){objects.TileId=cargo.Tile;Wagon(objects, s, cargo.Tile);}
         }
+        if(reuseTerrain==null)DistantLandscape(ground,s);
         int terrainTriangles = reuseTerrain?.TerrainTriangles ?? ground.Triangles, objectTriangles = objects.Triangles;
         return new(reuseTerrain?.Terrain ?? ground.Freeze(), objects.Freeze(), terrainTriangles, objectTriangles, cities.Select(c => c.Id).ToArray(), rendered, trees);
     }
@@ -148,6 +152,7 @@ internal static partial class WorldScene3D
         roof.Quad(new(l, top, f), new(x, ridge, f), new(r, top, f), new(r, top, f), new(0, 0, -1));
         roof.Quad(new(l, top, b), new(r, top, b), new(x, ridge, b), new(x, ridge, b), new(0, 0, 1));
         batch.Mesh("doors", "#514737").Box(x, y, f - .004, width * .15, height * .58, .012);
+        BuildingDetails(batch,x,y,z,width,height,depth);
     }
     private static void BuildImprovement(SceneBatch batch, GameState s, Tile tile)
     {

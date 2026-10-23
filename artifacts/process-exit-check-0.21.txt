@@ -1,0 +1,8 @@
+--ui-smoke: exit 3; intentional failure report verified
+--ui-smoke-espionage: exit 3; intentional failure report verified
+--ui-smoke-custody: exit 3; intentional failure report verified
+--ui-smoke-epochs: exit 3; intentional failure report verified
+--ui-smoke-power: exit 3; intentional failure report verified
+--ui-smoke-energy-cases: exit 3; intentional failure report verified
+--ui-smoke-3d: exit 3; intentional failure report verified
+--ui-smoke-photographic: exit 3; intentional failure report verified

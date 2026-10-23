@@ -1,0 +1,12 @@
+Package: Korony-i-Pogranicza-0.21-Windows.zip
+Bytes: 12518745
+Entries: 14
+SHA256: A60CB1A9749E7D8C30D0194A01AD4790A78E9ACC30A4F753F02A120E692F64C8
+Every entry hash matches the published file. Includes EPOKI.md and VERIFICATION.md. Textures and HLSL are embedded. No player saves, backups or temporary files.
+438 core specifications and 348 final published WPF checks passed across eight modes. Source 3D/GPU rerun after final camera correction. Additional 34 compatibility checks passed.
+Published durations: 134.7 + 20.1 + 15.7 + 17.9 + 12.9 + 15.2 + 22.1 + 11.1 seconds, sequential.
+All eight intentional failures exit 3 and contain the expected diagnostic.
+EXE, desktop DLL and core DLL hashes match the final source Release build.
+Previous 0.20 ZIP and copied player save hashes remain unchanged.
+This release does not yet reach the photorealistic main-menu illustration.
+Commit title: feat: add Direct3D 11 rendering with shadows and natural materials

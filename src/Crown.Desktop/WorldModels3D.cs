@@ -16,16 +16,16 @@ internal static partial class WorldScene3D
         string color = s.Factions[city.Owner].Color; var random = new Random(city.Tile * 571 + 19);
         double y = Terrain3D.Height(s, p.X, p.Y);
         batch.Mesh("town-square", "#A79D7F").Cylinder(p.X, y - .035, p.Y, .23, .04, sides: 16);
-        int count = Math.Clamp(4 + city.Population, 6, 16);
+        int count = era<2?Math.Clamp(4+city.Population,6,14):Math.Clamp(10+city.Population*2,12,46);
         for (int i = 0; i < count; i++)
         {
-            double angle = i * Math.PI * 2 / count, radius = i % 2 == 0 ? .48 : .30;
+            double angle = i * 2.399963, radius = .24+Math.Sqrt((i+.5)/count)*.56;
             double x = p.X + Math.Cos(angle) * radius, z = p.Y + Math.Sin(angle) * radius, baseY = Terrain3D.Height(s, x, z);
             if (era == 0)
             {
                 batch.Mesh("tents", "#B1A080").Cylinder(x, baseY, z, .12, .20 + random.NextDouble() * .08, .012, 8);
             }
-            else if (era < 9) House(batch, x, baseY, z, .16 + random.NextDouble() * .07, .12 + random.NextDouble() * .10, .18 + random.NextDouble() * .08, era < 3 ? "#B0A07F" : "#C6B797");
+            else if (era < 9) House(batch, x, baseY, z, .12 + random.NextDouble() * .065, .13 + random.NextDouble() * .13, .13 + random.NextDouble() * .085, era < 3 ? "#B0A07F" : "#C6B797");
             else
             {
                 double height = .22 + random.NextDouble() * (era >= 12 ? .55 : .35);
@@ -63,9 +63,9 @@ internal static partial class WorldScene3D
             var stone = batch.Mesh("fortifications", "#A5A28C");
             for (int i = 0; i < 12; i++)
             {
-                double a = i * Math.PI / 6, x = p.X + Math.Cos(a) * .70, z = p.Y + Math.Sin(a) * .70;
+                double a = i * Math.PI / 6, x = p.X + Math.Cos(a) * .94, z = p.Y + Math.Sin(a) * .94;
                 stone.Cylinder(x, Terrain3D.Height(s, x, z), z, .075, .24, sides: 6);
-                var b = a + Math.PI / 6; stone.Tube(new(x, Terrain3D.Height(s, x, z) + .12, z), new(p.X + Math.Cos(b) * .70, Terrain3D.Height(s, p.X + Math.Cos(b) * .70, p.Y + Math.Sin(b) * .70) + .12, p.Y + Math.Sin(b) * .70), .055, 6);
+                var b = a + Math.PI / 6; stone.Tube(new(x, Terrain3D.Height(s, x, z) + .12, z), new(p.X + Math.Cos(b) * .94, Terrain3D.Height(s, p.X + Math.Cos(b) * .94, p.Y + Math.Sin(b) * .94) + .12, p.Y + Math.Sin(b) * .94), .055, 6);
             }
         }
         if (city.Buildings.Contains("coal_station") || city.Buildings.Contains("steel_mill"))
@@ -98,6 +98,11 @@ internal static partial class WorldScene3D
         body.Sphere(x, y + .43 * scale, z - .27 * scale, .055 * scale, .06 * scale, .095 * scale, 8, 4);
     }
     private static void Unit(SceneBatch batch, GameState s, Unit unit, int slot)
+    {
+        var p=Terrain3D.Center(s.Tiles[unit.Tile]);double x=p.X-.40+slot*.20,z=p.Y+.30;
+        batch.Scaled(new(x,Terrain3D.Height(s,x,z),z),.38,()=>UnitModel(batch,s,unit,slot));
+    }
+    private static void UnitModel(SceneBatch batch, GameState s, Unit unit, int slot)
     {
         var p = Terrain3D.Center(s.Tiles[unit.Tile]); double x = p.X - .40 + slot * .20, z = p.Y + .30, y = Terrain3D.Height(s, x, z);
         string color = s.Factions[unit.Owner].Color; int era = UnitModels.For(unit)?.Era ?? 4;

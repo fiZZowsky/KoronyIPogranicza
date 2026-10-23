@@ -1,5 +1,16 @@
 # Zmiany
 
+## 0.21 — Światło i materiały · 23 października 2026
+
+- Sprzętowy renderer Direct3D 11 napisany w C#/.NET 10 i HLSL. Interfejs pozostaje natywny WPF; symulacja Crown.Core i format zapisu v19 nie zostały zmienione. Jawny tryb zgodności WPF przy niedostępnym GPU i parametr `--no-gpu`.
+- Materiały z oświetleniem GGX, tekstury trawy, skał, kamienia i dachówek, mapa cieni 2048×2048 z filtracją PCF, wewnętrzne HDR, krzywa filmowa, przybliżona okluzja ekranowa i atmosfera. To początek bardziej realistycznej oprawy, bez deklaracji jakości fotorealistycznej ilustracji menu.
+- Nowe korony dębów i świerków: przestrzenne gałęzie oraz tekstury liści i igieł z kanałem alfa, także w przebiegu cieni. Wiatr i drobny ruch wody zależą od osobnego czasu wizualnego, bez wpływu na turę lub losowania kampanii.
+- Odbicia terenu i obiektów na płaszczyźnie jezior oraz morza, odbicia nieba i światła w rzekach. Rzeki meandrują, mają brzegi i omijają środek pola miasta. Gęstsza siatka terenu, urozmaicone grzbiety i dekoracyjne dalekie pasma poza planszą.
+- Gęstsza zabudowa z podmurówkami, oknami, belkami i kominami; teksturowane mury i dachówki. Bardziej spójna skala formacji wojsk.
+- Kamera krajobrazowa z szerokim obiektywem i nachyleniem do 15 stopni. Menu Grafika: jakość wysoka/zrównoważona, cienie, odbicia, animacja, wariant światła i ponowna inicjalizacja GPU.
+- Semantyczne przypisanie trójkątów modeli do pól. Wystający fragment miasta lub oddziału wskazuje właściwe pole; dekoracyjne karty liści nie przechwytują rozkazów przez przezroczyste otwory.
+- Ósmy tryb diagnostyki `--ui-smoke-photographic`: rzeczywiste obrazy GPU, zmiany pikseli po przełączaniu efektów, alfa liści, powtarzalność stałego czasu, zmiana rozdzielczości, pomiar klatek, wybór miasta i odczyt zapisu. Osobne wydanie `wydanie-0.21/`, zachowane poprzednie paczki i zapis gracza.
+
 ## 0.20 — Świat w trzech wymiarach · 23 października 2026
 
 - Główna mapa zastąpiona rzeczywistą sceną WPF 3D w C#/.NET 10. Ciągłe wysokości terenu, wspólny atlas materiałów, woda, oświetlenie, przestrzenne lasy, pola, kopalnie, ruiny, drogi i granice.

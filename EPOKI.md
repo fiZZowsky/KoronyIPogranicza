@@ -1,4 +1,4 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.20
+# Epoki i możliwe przyszłości — podręcznik wydania 0.21
 
 Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 nowe modele wojsk i pięć programów pozaziemskich. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
 
@@ -594,7 +594,7 @@ Programy są narodowymi przedsięwzięciami z trwałymi przychodami w aktualnej 
 
 Wysłanie statku pokoleniowego wymaga dodatkowo stabilności co najmniej 55 i daje zwycięstwo naukowe. Atlas świata pozostaje użytecznym projektem historycznym (+35 nauki, +25 kultury miasta) i nie kończy pełnej kampanii. Nowe zwycięstwo kulturowe wymaga epoki międzyplanetarnej, 300 000 kultury i 5000 prestiżu. Zjednoczenie nadal może zakończyć rozgrywkę wcześniej. Po zwycięstwie wybierz **Kontynuuj rozwój świata**, aby grać dalej do limitu; utraty ostatniego miasta lub końca limitu nie można w ten sposób ominąć.
 
-Od 0.20 mapa planetarna jest przestrzenną sceną 3D z kamerą perspektywiczną. Uproszczone modele miast i wojsk zmieniają się przy rozwoju. Programy reprezentują stałe placówki poza planetą i ich gospodarkę, bez osobnej mapy Księżyca lub Marsa, sterowalnych flot, bitew orbitalnych czy lotu szybszego od światła. Dalsza produkcja może rozwinąć te systemy w osobne teatry działań.
+Od 0.21 mapa planetarna jest przestrzenną sceną 3D z kamerą perspektywiczną. Uproszczone modele miast i wojsk zmieniają się przy rozwoju. Programy reprezentują stałe placówki poza planetą i ich gospodarkę, bez osobnej mapy Księżyca lub Marsa, sterowalnych flot, bitew orbitalnych czy lotu szybszego od światła. Dalsza produkcja może rozwinąć te systemy w osobne teatry działań.
 
 ## Kontekst i źródła inspiracji
 

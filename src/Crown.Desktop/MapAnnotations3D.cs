@@ -61,6 +61,7 @@ public sealed partial class MapView
             }
         }
         OverlayTriangles = batch.Triangles; overlaysVisual.Content = batch.Freeze();
+        RequestGpuFrame();
     }
     private void Route(SceneBatch batch, IReadOnlyList<int> route, string key, string color)
     {
