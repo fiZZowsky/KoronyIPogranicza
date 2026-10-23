@@ -128,10 +128,10 @@ internal static class StageSixteenSpecs
         test("V15 migration preserves captured people and old ransom decisions without invented custody", () =>
         {
             var s = StageFifteenSpecs.Ready(); s.Version = 15; var loaded = SaveGame.Deserialize(SaveGame.Serialize(s));
-            Assert(loaded.Version == 17 && loaded.Spies[0].Status == SpyStatus.Captured && loaded.PendingSpyOperationId == 1 && loaded.SpyOperations.All(o => o.CustodyChoice == null && o.InternedUntil == null), "Migration lost a captive.");
+            Assert(loaded.Version == 18 && loaded.Spies[0].Status == SpyStatus.Captured && loaded.PendingSpyOperationId == 1 && loaded.SpyOperations.All(o => o.CustodyChoice == null && o.InternedUntil == null), "Migration lost a captive.");
             Narrative.Resolve(s, 0); string legacy = SaveGame.Serialize(s); loaded = SaveGame.Deserialize(legacy); Assert(loaded.SpyOperations[0].CaptureChoice == 0 && loaded.Spies[0].Status == SpyStatus.Available, "Migration reopened a paid ransom.");
             string path = Path.Combine(Environment.CurrentDirectory, "artifacts", "migration-v15-test.crown");
-            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v15.bak") == legacy && SaveGame.Read(path).Version == 17, "V15 backup failed."); }
+            try { File.WriteAllText(path, legacy); SaveGame.Write(loaded, path); Assert(File.ReadAllText(path + ".v15.bak") == legacy && SaveGame.Read(path).Version == 18, "V15 backup failed."); }
             finally { File.Delete(path); File.Delete(path + ".v15.bak"); }
         });
         test("Custody validation rejects false context, missing decisions and invalid imprisonment dates", () =>

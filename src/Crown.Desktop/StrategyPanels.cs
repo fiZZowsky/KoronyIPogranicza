@@ -24,6 +24,7 @@ public sealed partial class MainWindow
             side.Children.Add(Ui.Label(connected ? "W sieci drogowej stolicy" : "Brak bezpiecznego połączenia ze stolicą", 11, connected ? Ui.Green : Ui.Gold));
             side.Children.Add(Ui.Button("Szlaki i bilans skarbu   →", () => { tab = "logistics"; RefreshSide(); }));
             side.Children.Add(Ui.Button($"Mieszkańcy · dobrobyt {city.Prosperity}%", () => ShowProvince(city)));
+            if(state.EpochCampaign)side.Children.Add(Ui.Button($"Zasilanie {Epochs.Energy(state,city).Coverage:P0} · zarządzaj energią",()=>ShowPowerManagement(city.Id)));
             Ui.Bar(side, $"Wzrost miasta: {city.Food:0} / {22 + city.Population * 12}", city.Food, 22 + city.Population * 12, Ui.Green);
             var project = Catalog.Project(city.Project);
             int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(1, y.Production));
@@ -39,7 +40,7 @@ public sealed partial class MainWindow
             if (city.Buildings.Count > 0)
             {
                 side.Children.Add(Ui.Eyebrow("INSTYTUCJE I BUDYNKI"));
-                side.Children.Add(Ui.Label(string.Join(" · ", city.Buildings.Select(id => Catalog.Project(id).Name)), 12, Ui.Muted));
+                side.Children.Add(Ui.Label(string.Join(" · ", city.Buildings.Select(id => Catalog.Project(id).Name+(city.SuspendedBuildings.Contains(id)?" [wyłączony]":""))), 12, Ui.Muted));
             }
         }
         else if (tile?.Explored == true)

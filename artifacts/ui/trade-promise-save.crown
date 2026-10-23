@@ -1,5 +1,5 @@
 {
-  "Version": 17,
+  "Version": 18,
   "EpochCampaign": false,
   "ContinueAfterVictory": false,
   "ClimatePressure": 0,
@@ -16570,7 +16570,11 @@
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
       "AuditProtectionUntil": 0,
-      "CounterIntelligenceUntil": 0
+      "CounterIntelligenceUntil": 0,
+      "PowerPriority": "Normal",
+      "LastPowerPriorityTurn": -1,
+      "SuspendedBuildings": [],
+      "LastOperationTurns": {}
     },
     {
       "Id": 4,
@@ -16665,7 +16669,11 @@
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
       "AuditProtectionUntil": 0,
-      "CounterIntelligenceUntil": 0
+      "CounterIntelligenceUntil": 0,
+      "PowerPriority": "Normal",
+      "LastPowerPriorityTurn": -1,
+      "SuspendedBuildings": [],
+      "LastOperationTurns": {}
     },
     {
       "Id": 7,
@@ -16758,7 +16766,11 @@
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
       "AuditProtectionUntil": 0,
-      "CounterIntelligenceUntil": 0
+      "CounterIntelligenceUntil": 0,
+      "PowerPriority": "Normal",
+      "LastPowerPriorityTurn": -1,
+      "SuspendedBuildings": [],
+      "LastOperationTurns": {}
     },
     {
       "Id": 10,
@@ -16851,7 +16863,11 @@
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
       "AuditProtectionUntil": 0,
-      "CounterIntelligenceUntil": 0
+      "CounterIntelligenceUntil": 0,
+      "PowerPriority": "Normal",
+      "LastPowerPriorityTurn": -1,
+      "SuspendedBuildings": [],
+      "LastOperationTurns": {}
     },
     {
       "Id": 13,
@@ -16946,7 +16962,11 @@
       "LastAdministrationTurn": 2,
       "LastAuditTurn": -12,
       "AuditProtectionUntil": 0,
-      "CounterIntelligenceUntil": 0
+      "CounterIntelligenceUntil": 0,
+      "PowerPriority": "Normal",
+      "LastPowerPriorityTurn": -1,
+      "SuspendedBuildings": [],
+      "LastOperationTurns": {}
     }
   ],
   "Units": [

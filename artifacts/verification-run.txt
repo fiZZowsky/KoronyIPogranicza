@@ -8,7 +8,7 @@ Kompilacja powiodła się.
     Ostrzeżenia: 0
     Liczba błędów: 0
 
-Czas, który upłynął: 00:00:01.36
+Czas, który upłynął: 00:00:10.53
 PASS Seed determinism and distinct worlds
 PASS Hex topology, symmetry, distance
 PASS Capital land connections across seeds
@@ -361,7 +361,7 @@ PASS Eighteen eras contain ninety unique technologies and all original discoveri
 PASS The full technology graph is reachable in order without cyclic prerequisites
 PASS A later era cannot be researched by accumulating unrelated technology counts
 PASS Every new discovery has an observable city bonus or usable project unlock
-PASS All 54 new buildings and 34 models have actual effects and valid prerequisites
+PASS All epoch buildings and 34 models have actual effects and valid prerequisites
 PASS Energy shortage reduces the actual yield of powered infrastructure
 PASS Energy is shared by connected domestic cities and an interdiction can cut it
 PASS Powered facilities retain full upkeep when energy is scarce
@@ -385,7 +385,7 @@ PASS Validation rejects impossible eras, milestones, climate values and mismatch
 PASS A real campaign researches every epoch, resolves its institutions and keeps deterministic saves
   extended development T200: AI eras 8,7,7; techs 38,33,35
   extended development T400: AI eras 15,11,13; techs 73,54,61
-  future reached after 473 turns; highest AI era 18; cities 13
+  future reached after 472 turns; highest AI era 18; cities 13
 PASS AI develops from prehistoric income into future eras without granted research or buildings
 PASS Army model forecasts remain pure and preserve modern movement metadata
 PASS V16 save overwrite creates a faithful backup with the old custody context
@@ -394,7 +394,38 @@ PASS Future or repeated era councils are rejected during load rather than trappi
 PASS Every new building can be ordered, completed once and used by a real city
 PASS Veteran material bonuses cannot turn a paid modernization into a downgrade
 PASS Modernization price uses the actual material-adjusted base strength
-378 specifications passed in 20,2s.
+PASS Equal power priorities retain proportional sharing and conserve generation
+PASS A critical city receives power before ordinary and reduced cities
+PASS Priority decisions change real science in both cities without generating power
+PASS A shortage within the highest priority is proportional rather than city-order dependent
+PASS Idle networks preserve unused capacity and zero-demand cities require no power
+PASS Power priority cannot bypass a disconnected road network
+PASS An occupied generator cannot connect two otherwise separated consumers
+PASS Power controls reject foreign cities, invalid priorities and repeat changes atomically
+PASS Suspending a factory removes its output, energy demand and emissions
+PASS A suspended generator loses supply and retains one quarter of its actual upkeep
+PASS Shutdown frees scarce power for another city's data centre
+PASS Restart costs gold once, requires the next turn and preserves production plans
+PASS Insufficient restart funds and unsupported buildings are rejected without mutation
+PASS Suspended service buildings keep physical housing but stop sanitation and supply
+PASS Suspending the required space facility blocks work without removing accumulated production
+PASS Prioritising the spaceport enables its real program at the expense of another city
+PASS A plant completed this phase powers other cities only from the next economic phase
+PASS Climate charges the same operating phase rather than plants finished or retired by AI later
+PASS Four renewable sources have usable technology unlocks and geographical descriptions
+PASS Hydropower requires a river belonging to the city owner during actual production
+PASS A queued renewable project waits for its geographic requirements without losing work
+PASS Solar generation follows winter and desert modifiers without consuming RNG
+PASS Wind uses winter, summer and local hills while repeated forecasts remain pure
+PASS AI retires redundant emitting capacity without causing shortages or restarting it repeatedly
+PASS AI marks its active space program as critical and can restart an inherited source
+PASS Sovereignty resets allocation orders but retains physically suspended facilities
+PASS V17 migration keeps the extended world and resets only newly introduced power directives
+PASS Power save reload retains operating costs, priorities and same-turn locks exactly
+PASS V17 overwrite retains a faithful backup of the player's previous campaign
+PASS Validation rejects unsupported shutdowns, future dates, undefined priorities and null registers
+PASS Legacy games and ended campaigns reject industrial commands atomically
+409 specifications passed in 22,8s.
 PASS New game opens the council
 PASS Council button applies the founding charter
 PASS Map order moves a selected unit
@@ -647,3 +678,27 @@ PASS Victory dialog allows further development of the future world
 PASS Legacy campaign expansion preserves its cities and treasury
 PASS Extensive future-era content remains reachable in a compact scrolling window
 38 epoch desktop integration checks passed.
+PASS World development exposes actual city power management
+PASS Shared energy shortage initially blocks the national orbital program
+PASS Power panel shows other consumers in the real road network
+PASS Priority button stores the actual city directive and turn lock
+PASS Prioritising the spaceport reduces another city's real research output
+PASS Same-turn priority alternatives are visibly unavailable
+PASS City priority enables the real program button without adding a power plant
+PASS Shutdown retains the physical building, treasury and accumulated production
+PASS Immediate restart is disabled until the next turn
+PASS Shutdown reallocates the released energy to the remaining consumer
+PASS Inactive required infrastructure blocks the orbital program despite ample power
+PASS Next-turn control offers a paid restart
+PASS Restart debits the displayed gold cost exactly once
+PASS Restart also locks further switching during its turn
+PASS Desktop save and reload preserve power allocation, payment and locks exactly
+PASS Reload does not bypass the same-turn operating lock
+PASS Retiring redundant coal reduces actual emissions while preserving full supply
+PASS Economic upkeep retains the coal plant's one-gold standby cost
+PASS Production browser includes the new geographical energy source
+PASS Renewable production button builds an actual generating facility
+PASS New renewable facilities share the same operating controls
+PASS Operating panel shows actual winter desert solar generation rather than nominal power
+PASS Long industrial controls remain reachable at 1200 by 800
+23 power desktop integration checks passed.

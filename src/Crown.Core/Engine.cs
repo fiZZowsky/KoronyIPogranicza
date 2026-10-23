@@ -168,6 +168,7 @@ public static partial class Engine
         WarCouncil.EnsureActive(s);
         s.InvalidateLogistics();
         Markets.Tick(s);
+        using var powerPhase = new PowerGrid.EconomicPhase(s);
         foreach(var f in s.Factions)
         {
             if(!s.Cities.Any(c=>c.Owner==f.Id))continue;
@@ -213,6 +214,7 @@ public static partial class Engine
             if(f.Stability<25){foreach(var c in s.Cities.Where(c=>c.Owner==f.Id))c.Unrest=Math.Min(90,c.Unrest+8);f.Gold=Math.Max(0,f.Gold-15);}
             Clamp(f);
         }
+        powerPhase.Dispose();
         foreach(var u in s.Units.ToArray())MilitaryOrders.FinishTurn(s,u);
         ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         AuditCouncil.Tick(s);
@@ -225,7 +227,7 @@ public static partial class Engine
         {
             var f=s.Factions[effect.Faction];f.Gold=Math.Max(0,f.Gold+effect.Gold);f.Stability+=effect.Stability;f.Commons+=effect.Commons;f.Nobles+=effect.Nobles;f.Scholars+=effect.Scholars;f.Prestige+=effect.Prestige;Clamp(f);s.Log(effect.Text,"konsekwencja");s.Deferred.Remove(effect);
         }
-        Epochs.Tick(s);Explore(s);CheckEnding(s);if(s.Ending==null)Narrative.Schedule(s);return Result.Ok($"Początek tury {s.Turn}. {s.Season}.");
+        Epochs.Tick(s,powerPhase.Emissions);Explore(s);CheckEnding(s);if(s.Ending==null)Narrative.Schedule(s);return Result.Ok($"Początek tury {s.Turn}. {s.Season}.");
     }
     private static void RunAi(GameState s)
     {

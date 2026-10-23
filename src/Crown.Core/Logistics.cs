@@ -69,6 +69,7 @@ public static class Logistics
         var marketGroups = new Dictionary<int, int>();
         foreach (var city in cities)
         {
+            if (blocked.Contains(city.Tile)) { marketGroups[city.Id] = city.Id; continue; }
             if (tileGroups.TryGetValue(city.Tile, out int existing)) { marketGroups[city.Id] = existing; continue; }
             var queue = new Queue<int>();
             queue.Enqueue(city.Tile);

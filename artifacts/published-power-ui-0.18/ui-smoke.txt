@@ -1,0 +1,24 @@
+PASS World development exposes actual city power management
+PASS Shared energy shortage initially blocks the national orbital program
+PASS Power panel shows other consumers in the real road network
+PASS Priority button stores the actual city directive and turn lock
+PASS Prioritising the spaceport reduces another city's real research output
+PASS Same-turn priority alternatives are visibly unavailable
+PASS City priority enables the real program button without adding a power plant
+PASS Shutdown retains the physical building, treasury and accumulated production
+PASS Immediate restart is disabled until the next turn
+PASS Shutdown reallocates the released energy to the remaining consumer
+PASS Inactive required infrastructure blocks the orbital program despite ample power
+PASS Next-turn control offers a paid restart
+PASS Restart debits the displayed gold cost exactly once
+PASS Restart also locks further switching during its turn
+PASS Desktop save and reload preserve power allocation, payment and locks exactly
+PASS Reload does not bypass the same-turn operating lock
+PASS Retiring redundant coal reduces actual emissions while preserving full supply
+PASS Economic upkeep retains the coal plant's one-gold standby cost
+PASS Production browser includes the new geographical energy source
+PASS Renewable production button builds an actual generating facility
+PASS New renewable facilities share the same operating controls
+PASS Operating panel shows actual winter desert solar generation rather than nominal power
+PASS Long industrial controls remain reachable at 1200 by 800
+23 power desktop integration checks passed.

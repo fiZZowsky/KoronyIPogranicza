@@ -1,6 +1,6 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.17
+# Epoki i możliwe przyszłości — podręcznik wydania 0.18
 
-Kampania obejmuje 18 głównych etapów, 90 technologii, 54 nowe budynki, 34 nowe modele wojsk i pięć programów pozaziemskich. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
+Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 nowe modele wojsk i pięć programów pozaziemskich. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
 
 Otwórz **Nauka → Epoki i rozwój świata**. Każdy etap ma cztery dziedziny i odkrycie zamykające dorobek. Badania następnego etapu wymagają tego zamknięcia. Dodatkowe wymagania technologii nadal obowiązują. Państwa rozwijają się oddzielnie i zachowują całą wcześniejszą wiedzę, miasta oraz instytucje.
 
@@ -9,7 +9,10 @@ Nowa kampania zaczyna się w paleolicie i ma limit 1600 tur. Kalendarz jest umow
 ## Zasady wspólne
 
 - Nowe technologie dają opisane premie miastom. Budynki są fizycznymi projektami produkcji, a nie nagrodą przy zmianie nazwy epoki. Mieszkania, opieka, obrona i zasięg działają w dotychczasowych systemach.
-- Energia jest lokalna dla bezpiecznej krajowej sieci drogowej. Suma produkcji energii zasilana jest także przez wybrane instytucje epok. Obiekt z popytem otrzymuje 25% + 75% × pokrycie energii swoich premii do żywności, produkcji, złota, nauki i kultury. Mieszkania i opieka pozostają, a utrzymanie jest płacone w całości. Energię współdzielą połączone miasta; wrogowie mogą odciąć połączenie.
+- Energia jest lokalna dla bezpiecznej krajowej sieci drogowej. Suma produkcji energii zasilana jest także przez wybrane instytucje epok. Obiekt z popytem otrzymuje 25% + 75% × pokrycie energii swoich premii do żywności, produkcji, złota, nauki i kultury. Mieszkania i opieka pozostają, a utrzymanie jest płacone w całości. Energię współdzielą połączone miasta; wrogowie mogą odciąć połączenie. W wersji 0.18 przydział uwzględnia pierwszeństwo, priorytet zwykły i ograniczony. Miasta o równym priorytecie dzielą moc proporcjonalnie do potrzeb. Dyspozycje znajdziesz także bezpośrednio w panelu wybranego miasta.
+- Zakłady energetyczne i wymagające energii można wyłączyć. Ustają ich premie, dostawy, opieka, energia i emisje; pozostają miejsca mieszkalne oraz 25% utrzymania obiektu. Ponowny rozruch kosztuje 5% kosztu budowy w złocie (w górę). Stan każdego obiektu i priorytet miasta zmienisz raz na turę. Zapis i wczytanie nie resetują tego ograniczenia. Wyłączona infrastruktura nie spełnia wymagań programu kosmicznego.
+- Wodna elektrownia wymaga własnej rzeki przy mieście; geotermalna dwóch własnych pól wzgórz lub gór, licząc pole miasta. Moc wiatru i słońca zależy od sezonu oraz opisanego terenu; wartości to umowne reguły gry, bez pogody losowej lub naukowej prognozy. Moc zaokrąglamy w dół. Panel pokazuje bieżącą moc oraz nominalny katalog.
+- Faza gospodarcza używa wspólnego planu energii i emisji z początku rozliczenia. Nowa elektrownia daje moc w następnej fazie; kolejność miast nie pozwala zasilić wcześniej ukończonego programu w tej samej turze. Kolejny sezon może zmienić prognozę.
 - Emisje i redukcje wszystkich państw zmieniają presję klimatyczną o ich sumę / 200 na turę, w zakresie 0–100. Presja ogranicza plony o 0,35% na punkt, maksymalnie 35%, przed utrzymaniem ludności. Redukcje wymagających energii obiektów również zależą od pokrycia; nie ma losowych katastrof klimatycznych.
 - Każda epoka ma własny dialog z trzema trwałymi kierunkami rozwoju. Koszty polityczne i złoto są widoczne w radzie. Premie procentowe wybranych instytucji sumują się; infrastruktura energetyczna, emisje i zasięg są podane osobno. Wolna odpowiedź pozostaje dostępna przy pustym skarbie. Nie można zmienić już przyjętej instytucji ani odebrać jej drugi raz.
 - Modele wojsk zachowują lądowe role piechoty, jazdy, zwiadu i artylerii, lecz mają własną siłę, ruch, zasięg i koszt. Utrzymanie nowego modelu to 1,4 + 0,6 × numer epoki od zera złota na turę. Jazda konna wymaga koni, czołgi i łaziki tego zasobu nie wymagają. Artyleria nie zdobywa miasta; jej dalszy ostrzał jest pośredni, z dotychczasowym sprawdzeniem przesłony dla dystansu dwóch pól.
@@ -310,6 +313,7 @@ Elektryfikacja i społeczeństwo masowe. Sieci energetyczne, silniki i radio zwi
 | Sieć elektroenergetyczna | 650 | Elektryczność | Energia +40 · Emisje +3 · Utrzymanie złota/turę +5 |
 | Zakłady silnikowe | 700 | Silnik spalinowy | produkcja +75 · Popyt energii +22 · Emisje +3 · Produkcja, wiedza i dochód tego obiektu zależą od miejskiego pokrycia energii: 25–100%. |
 | Szpital powszechny | 700 | Społeczeństwo masowe | Popyt energii +6 · Mieszkania +8 · Opieka +18 · Produkcja, wiedza i dochód tego obiektu zależą od miejskiego pokrycia energii: 25–100%. |
+| Elektrownia wodna | 900 | Elektryczność | Energia +45 · Utrzymanie złota/turę +3 · Wymaga własnej rzeki przy mieście. Stała moc, bez emisji. |
 
 | Model wojsk | Siła bazowa | Ruch | Zasięg | Produkcja | Technologia |
 |---|---:|---:|---:|---:|---|
@@ -372,6 +376,8 @@ Sieci cyfrowe i wiedza globalna. Komputery, ekologia i łączność pozwalają k
 | Centrum danych | 1200 | Informatyka | nauka +110 · Popyt energii +25 · Utrzymanie złota/turę +6 · Produkcja, wiedza i dochód tego obiektu zależą od miejskiego pokrycia energii: 25–100%. |
 | Fabryka półprzewodników | 1300 | Internet | produkcja +100 · złoto +25 · Popyt energii +28 · Produkcja, wiedza i dochód tego obiektu zależą od miejskiego pokrycia energii: 25–100%. |
 | Dzielnica recyklingu | 1100 | Ekologia | żywność +20 · złoto +25 · Popyt energii +8 · Emisje -5 · Produkcja, wiedza i dochód tego obiektu zależą od miejskiego pokrycia energii: 25–100%. |
+| Farma wiatrowa | 1250 | Ekologia | Energia +35 · Utrzymanie złota/turę +2 · Moc: latem ×0,8, zimą ×1,2; własne wzgórze przy mieście daje ×1,2. Pozostałe sezony ×1. |
+| Farma słoneczna | 1300 | Ekologia | Energia +42 · Utrzymanie złota/turę +2 · Moc zimą ×0,65; pustynne pole miasta daje ×1,25. Pozostałe sezony ×1. |
 
 | Model wojsk | Siła bazowa | Ruch | Zasięg | Produkcja | Technologia |
 |---|---:|---:|---:|---:|---|
@@ -403,6 +409,7 @@ Możliwa bliska przyszłość. Uczenie maszynowe, roboty i genomika mogą zmieni
 | Inteligentna sieć odnawialna | 1600 | Inteligentne materiały | Energia +110 · Emisje -4 · Utrzymanie złota/turę +8 |
 | Fabryka robotyczna | 1700 | Robotyka | produkcja +170 · Popyt energii +45 · Produkcja, wiedza i dochód tego obiektu zależą od miejskiego pokrycia energii: 25–100%. |
 | Klinika genomowa | 1700 | Genomika | żywność +45 · Popyt energii +20 · Opieka +25 · Produkcja, wiedza i dochód tego obiektu zależą od miejskiego pokrycia energii: 25–100%. |
+| Elektrownia geotermalna | 1800 | Inteligentne materiały | Energia +100 · Utrzymanie złota/turę +8 · Dwa własne pola wzgórz lub gór przy mieście. Stała moc, bez emisji. |
 
 | Model wojsk | Siła bazowa | Ruch | Zasięg | Produkcja | Technologia |
 |---|---:|---:|---:|---:|---|

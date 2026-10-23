@@ -156,11 +156,11 @@ internal static class StageElevenSpecs
         test("V10 migration preserves accepted transit and merchant promises without invented shortages",()=>
         {
             var s=Fresh();s.Relation(0,2).Trust=40;Engine.SendDemand(s,2,DemandKind.Transit);Step(s);Step(s);var node=JsonNode.Parse(SaveGame.Serialize(s))!;node["Version"]=10;string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 17&&TransitCouncil.Until(loaded,2)==TransitCouncil.Until(s,2)&&loaded.Cities.All(c=>c.Corruption==0&&c.HiddenGold==0)&&loaded.Audits.Count==0,"Migration invented losses or erased an accepted passage.");
+            Assert(loaded.Version == 18&&TransitCouncil.Until(loaded,2)==TransitCouncil.Until(s,2)&&loaded.Cities.All(c=>c.Corruption==0&&c.HiddenGold==0)&&loaded.Audits.Count==0,"Migration invented losses or erased an accepted passage.");
             var (promises,_,_)=StageEightSpecs.Loss();TradeCouncil.Present(promises,1);Narrative.Resolve(promises,1);node=JsonNode.Parse(SaveGame.Serialize(promises))!;node["Version"]=10;
             Assert(SaveGame.Deserialize(node.ToJsonString()).TradeCases[0].Status==TradeCaseStatus.Promised,"Migration erased a merchant promise.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v10-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v10.bak")==legacy&&SaveGame.Read(path).Version == 17,"V10 backup missing.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v10.bak")==legacy&&SaveGame.Read(path).Version == 18,"V10 backup missing.");}
             finally{File.Delete(path);File.Delete(path+".v10.bak");}
         });
         test("Save validation rejects corrupt ledgers, forged recovery, unknown cities and stale council context",()=>

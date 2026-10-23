@@ -1,0 +1,10 @@
+Package: Korony-i-Pogranicza-0.18-Windows.zip
+Bytes: 3704678
+Entries: 14
+SHA256: 22B442584B4D1A81A8DEE8D2809A1F3A3E512EA339B26A9900F123116B1EBDB1
+Every entry hash matches its published file. No saves, backups or temporary files. Includes EPOKI.md and VERIFICATION.md.
+409 core specifications and 271 WPF checks passed. Five source and published modes pass; intentional failures all exit 3.
+Published UI durations: 46.7 + 5.5 + 4.1 + 6.3 + 3.7 seconds, sequential.
+Published EXE, desktop DLL and core DLL match source Release binary hashes.
+The copied player save and the previous 0.17 ZIP have unchanged SHA256.
+Commit title: feat: add regional power priorities and industrial operating controls

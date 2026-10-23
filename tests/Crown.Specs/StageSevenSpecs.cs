@@ -129,9 +129,9 @@ internal static class StageSevenSpecs
         {
             var (s,buyer,seller)=Fixture();Sign(s,buyer,seller);Markets.Tick(s);var node=JsonNode.Parse(SaveGame.Serialize(s))!;
             node["Version"]=6;node.AsObject().Remove("Caravans");node.AsObject().Remove("NextCaravanId");string legacy=node.ToJsonString();var loaded=SaveGame.Deserialize(legacy);
-            Assert(loaded.Version == 17&&loaded.Caravans.Count==0&&loaded.TradeContracts.Single().LastPayment==s.TradeContracts.Single().LastPayment&&loaded.Player.Gold==s.Player.Gold,"Migration duplicated or erased payment.");
+            Assert(loaded.Version == 18&&loaded.Caravans.Count==0&&loaded.TradeContracts.Single().LastPayment==s.TradeContracts.Single().LastPayment&&loaded.Player.Gold==s.Player.Gold,"Migration duplicated or erased payment.");
             string path=Path.Combine(Environment.CurrentDirectory,"artifacts","migration-v6-test.crown");
-            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v6.bak")==legacy&&SaveGame.Read(path).Version == 17,"V6 backup missing.");}
+            try{File.WriteAllText(path,legacy);SaveGame.Write(loaded,path);Assert(File.ReadAllText(path+".v6.bak")==legacy&&SaveGame.Read(path).Version == 18,"V6 backup missing.");}
             finally{File.Delete(path);File.Delete(path+".v6.bak");}
         });
         test("Save validation rejects duplicate, unbacked and impossible caravan manifests",()=>

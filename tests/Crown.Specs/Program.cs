@@ -11,6 +11,7 @@ void Decide(GameState s)
 }
 
 if(args.Contains("--export-epochs")){EpochDocumentation.Write(args.Last());return;}
+if(args.Contains("--power")){StageEighteenSpecs.Run(Test);Console.WriteLine($"{passed} power specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--epochs")){StageSeventeenSpecs.Run(Test);Console.WriteLine($"{passed} epoch specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 Test("Seed determinism and distinct worlds",()=>
 {
@@ -143,4 +144,5 @@ StageFourteenSpecs.Run(Test);
 StageFifteenSpecs.Run(Test);
 StageSixteenSpecs.Run(Test);
 StageSeventeenSpecs.Run(Test);
+StageEighteenSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

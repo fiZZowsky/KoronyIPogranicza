@@ -44,11 +44,12 @@ public sealed partial class MainWindow
     {
         var p = Ui.Stack(Ui.Eyebrow("PLANETA I PRZYSZŁOŚĆ"), Ui.Label("Energia, klimat i kosmos", 30, Ui.Text, true),
             Ui.Label($"Presja klimatyczna {state.ClimatePressure:0.0}/100 · wpływ na plony -{state.ClimatePressure * .35:0.0}%\nEmisje państwa {Epochs.Emissions(state, 0):+0.##;-0.##;0} na turę", 16, Ui.Gold, true),
-            Ui.Label("Energia jest współdzielona przez miasta w bezpiecznej sieci drogowej. Obiekt wymagający energii otrzymuje 25–100% swoich premii żywności, pracy, złota, nauki i kultury. Utrzymanie płacisz w całości. Program kosmiczny wymaga 100% pokrycia. Emisje wszystkich państw zmieniają presję klimatyczną o ich sumę / 200 na turę; redukcje mogą odbudować klimat.", 13, Ui.Muted));
+            Ui.Label("Energia jest współdzielona przez miasta w bezpiecznej sieci drogowej. Obiekt wymagający energii otrzymuje 25–100% swoich premii żywności, pracy, złota, nauki i kultury. Utrzymanie płacisz w całości. Miasta mogą mieć różne priorytety. Wyłączone zakłady zachowują 25% utrzymania i miejsca mieszkalne; pozostałe efekty ustają. Rozruch kosztuje 5% kosztu budowy w złocie. Program kosmiczny wymaga 100% pokrycia i czynnej infrastruktury. Emisje wszystkich państw zmieniają presję klimatyczną o ich sumę / 200 na turę; redukcje mogą odbudować klimat.", 13, Ui.Muted));
         foreach (var c in state.Cities.Where(c => c.Owner == 0))
         {
             var energy = Epochs.Energy(state, c);
-            p.Children.Add(Ui.Label($"{c.Name} · sieć: {energy.Supply} energii / {energy.Demand} potrzeb · pokrycie {energy.Coverage:P0}", 15, energy.Coverage < 1 ? Ui.Red : Ui.Green));
+            p.Children.Add(Ui.Label($"{c.Name} · sieć: {energy.Supply} energii / {energy.Demand} potrzeb · zasilanie miasta {energy.Coverage:P0} · {PowerGrid.PriorityName(c.PowerPriority)}", 15, energy.Coverage < 1 ? Ui.Red : Ui.Green));
+            p.Children.Add(Ui.Button("Zarządzaj energią: " + c.Name, () => ShowPowerManagement(c.Id)));
             p.Children.Add(Ui.Button("Infrastruktura: " + c.Name, () => ShowProjects(c)));
         }
         p.Children.Add(Ui.Eyebrow("PROGRAMY POZAZIEMSKIE"));

@@ -1,8 +1,8 @@
 namespace Crown.Core;
 
-public sealed record EnergyReport(int Supply, int Demand)
+public sealed record EnergyReport(int Supply, int Demand, double? CityCoverage = null)
 {
-    public double Coverage => Demand == 0 ? 1 : Math.Min(1, (double)Supply / Demand);
+    public double Coverage => CityCoverage ?? (Demand == 0 ? 1 : Math.Min(1, (double)Supply / Demand));
 }
 public sealed record SpaceProgram(string Id, string Name, int Era, string Technology, int Cost, string? Previous, string Facility, string Effect);
 public static class Epochs
@@ -32,12 +32,14 @@ public static class Epochs
     public static string? ProjectError(GameState s, City c, Project p)
     {
         if (!s.EpochCampaign) return Content.LegacyProjects.Contains(p.Id) ? null : "Projekt wymaga rozszerzonej kampanii epok.";
+        string? site = PowerGrid.SiteError(s, c, p.Id); if (site != null) return site;
         var program = Programs.FirstOrDefault(x => x.Id == p.Id);
         if (program == null) return null;
         var f = s.Factions[c.Owner];
         if (f.SpaceMilestones.Contains(p.Id)) return "Państwo ukończyło już ten program.";
         if (program.Previous != null && !f.SpaceMilestones.Contains(program.Previous)) return "Najpierw ukończ program: " + Programs.First(x => x.Id == program.Previous).Name;
         if (!c.Buildings.Contains(program.Facility)) return "Potrzebna infrastruktura w tym mieście: " + Content.Project(program.Facility).Name;
+        if (!PowerGrid.Active(c, program.Facility)) return "Najpierw uruchom infrastrukturę programu: " + Content.Project(program.Facility).Name;
         if (Energy(s, c).Coverage < 1) return "Program wymaga pełnego pokrycia energii w sieci drogowej miasta.";
         if (p.Id == "ark_launch" && f.Stability < 55) return "Wysłanie statku pokoleniowego wymaga stabilności co najmniej 55.";
         return null;
@@ -45,15 +47,8 @@ public static class Epochs
     public static EnergyReport Energy(GameState s, City c)
     {
         if (!s.EpochCampaign) return new(0, 0);
-        var supplyMap = Logistics.For(s, c.Owner); var groups = supplyMap.MarketGroups; int group = groups.GetValueOrDefault(c.Id, c.Id);
-        var network = s.Cities.Where(x => x.Owner == c.Owner && !supplyMap.Interdicted.Contains(x.Tile) && groups.GetValueOrDefault(x.Id, x.Id) == group).ToArray();
-        int supply = 0, demand = 0;
-        foreach (var city in network)
-        {
-            foreach (var b in EpochCatalog.Buildings.Where(b => city.Buildings.Contains(b.Id))) { supply += b.Energy; demand += b.Demand; }
-            supply += EpochCouncils.Policy(s.Factions[c.Owner]).Energy;
-        }
-        return new(Math.Max(0, supply), demand);
+        var grid = PowerGrid.Plan(s, c); var allocation = grid.Cities.First(x => x.CityId == c.Id);
+        return new(grid.Supply, grid.Demand, allocation.Coverage);
     }
     public static Yields Bonus(GameState s, City c)
     {
@@ -64,7 +59,7 @@ public static class Epochs
             if (!Content.LegacyTechnologies.Contains(e.Technologies[n]) && f.Technologies.Contains(e.Technologies[n])) Add(EpochCatalog.TechBonus(e.Index, n));
         double power = .25 + .75 * Energy(s, c).Coverage;
         if(c.Buildings.Contains("atlas"))Add(new(0,0,0,35,25));
-        foreach (var b in EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id))) Add(new(b.Food, b.Production, b.Gold, b.Science, b.Culture), b.Demand > 0 ? power : 1);
+        foreach (var b in EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id))) Add(new(b.Food, b.Production, b.Gold, b.Science, b.Culture), b.Demand > 0 ? power : 1);
         if (c.Id == s.Cities.Where(x => x.Owner == c.Owner).Min(x => x.Id))
         {
             if (f.SpaceMilestones.Contains("orbital_station")) Add(new(0, 0, 20, 40, 0));
@@ -75,15 +70,15 @@ public static class Epochs
         return new(food, prod, gold, science, culture);
     }
     public static int Housing(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Housing) : 0;
-    public static int Sanitation(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Sanitation) : 0;
-    public static int Defense(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Defense) : 0;
-    public static int Supply(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Select(c => EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Supply)).DefaultIfEmpty(0).Max() + (s.Factions[owner].SpaceMilestones.Contains("orbital_station") ? 2 : 0);
-    public static double Upkeep(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Sum(c => EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Upkeep));
-    public static double Emissions(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Sum(c => EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Emissions * (b.Demand > 0 ? .25 + .75 * Energy(s,c).Coverage : 1)) + EpochCouncils.Policy(s.Factions[owner]).Emissions);
-    public static void Tick(GameState s)
+    public static int Sanitation(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Sanitation) : 0;
+    public static int Defense(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Defense) : 0;
+    public static int Supply(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Select(c => EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Supply)).DefaultIfEmpty(0).Max() + (s.Factions[owner].SpaceMilestones.Contains("orbital_station") ? 2 : 0);
+    public static double Upkeep(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Sum(c => EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Upkeep * (c.SuspendedBuildings.Contains(b.Id) ? .25 : 1)));
+    public static double Emissions(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Sum(c => EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Emissions * (b.Demand > 0 ? .25 + .75 * Energy(s,c).Coverage : 1)) + EpochCouncils.Policy(s.Factions[owner]).Emissions);
+    public static void Tick(GameState s, double? phaseEmissions = null)
     {
         if (!s.EpochCampaign) return;
-        double before = s.ClimatePressure; s.ClimatePressure = Math.Clamp(before + s.Factions.Sum(f => Emissions(s, f.Id)) / 200, 0, 100);
+        double before = s.ClimatePressure; s.ClimatePressure = Math.Clamp(before + (phaseEmissions ?? s.Factions.Sum(f => Emissions(s, f.Id))) / 200, 0, 100);
         if ((int)(before / 20) != (int)(s.ClimatePressure / 20)) s.Log($"Presja klimatyczna: {s.ClimatePressure:0.0}/100. Emisje wszystkich państw wpływają na plony całej planety.", "klimat");
     }
     public static int Year(int turn)
@@ -100,11 +95,12 @@ public static class Epochs
     internal static void ManageAi(GameState s, Faction f, City c)
     {
         if (!s.EpochCampaign) return;
+        PowerGrid.ManageAi(s, f, c);
         var available = Engine.AvailableProjects(s, c).ToArray();
         bool war = s.Relations.Any(r => (r.A == f.Id || r.B == f.Id) && r.War);
         int army = s.Units.Count(u => u.Owner == f.Id && u.Kind is not (UnitKind.Settler or UnitKind.Scout));
         var bestUnit = available.Where(p => UnitModels.All.Any(m => m.Id == p.Id)).OrderByDescending(p => UnitModels.All.First(m => m.Id == p.Id).Strength).FirstOrDefault();
-        var power = available.FirstOrDefault(p => EpochCatalog.Buildings.Any(b => b.Id == p.Id && b.Energy > 0));
+        var power = available.Where(p => EpochCatalog.Buildings.Any(b => b.Id == p.Id && b.Energy > 0)).OrderBy(p => EpochCatalog.Buildings.First(b => b.Id == p.Id).Emissions).ThenBy(p => p.Cost).FirstOrDefault();
         var program = available.FirstOrDefault(p => Programs.Any(x => x.Id == p.Id));
         var building = available.Where(p => p.Unit == null && p.Id is not ("treasury" or "festival") && !Programs.Any(x => x.Id == p.Id))
             .OrderByDescending(p => EpochCatalog.Buildings.FirstOrDefault(b => b.Id == p.Id)?.Science ?? (p.Id == "library" ? 8 : 0)).ThenBy(p => p.Cost).FirstOrDefault();
@@ -112,6 +108,7 @@ public static class Epochs
         else if (bestUnit != null && army < (war ? 3 : 1) * s.Cities.Count(x => x.Owner == f.Id) + 2) c.Project = bestUnit.Id;
         else if (program != null) c.Project = program.Id;
         else if (building != null && c.Project != "settler") c.Project = building.Id;
+        PowerGrid.UpdateAiPriority(s, f, c);
         foreach (var u in s.Units.Where(u => u.Owner == f.Id && u.Tile == c.Tile).ToArray())
         {
             var model = UnitModels.Upgrades(s, u).LastOrDefault(); if (model != null && UnitModels.UpgradeError(s, u, model.Id, f.Id) == null && f.Gold > UnitModels.UpgradeCost(s,u, model) + 200) Engine.UpgradeUnit(s, u.Id, model.Id, f.Id);

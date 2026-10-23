@@ -1,5 +1,17 @@
 # Zmiany
 
+## 0.18 — Energia pod kontrolą · 23 października 2026
+
+- Trzy priorytety zasilania miast. Najpierw wyższa grupa; w tej samej grupie podział proporcjonalny. Rzeczywiste zmiany nauki, pracy, dochodów i gotowości programu kosmicznego, bez tworzenia dodatkowej energii.
+- Wyłączanie zakładów epok z energią lub popytem: ustają efekty działania, energia, potrzeby i emisje; pozostają fizyczne miejsca mieszkalne oraz 25% utrzymania. Rozruch kosztuje 5% ceny budowy w złocie. Priorytet miasta i stan każdego obiektu można zmienić raz na turę. Kolejki i zgromadzona praca pozostają.
+- Cztery nowe obiekty: wodna elektrownia, farmy wiatrowe i słoneczne, elektrownia geotermalna. Teren ogranicza budowę wodnej i geotermalnej; wiatr i słońce mają sezonową i terenową moc. Łącznie 58 obiektów rozwoju epok i 76 trwałych projektów miejskich. Pełne wymagania i koszty w README i EPOKI.
+- Jeden plan zasilania i emisji dla całej fazy gospodarczej. Nowe źródło zasila od kolejnej fazy. Program kosmiczny wymaga czynnej infrastruktury. Wyłączenie zakładu może przesunąć ograniczoną moc do innych miast.
+- Naprawiona krajowa sieć drogowa przy zajętym mieście: blokowane miasto nie rozpoczyna przeszukiwania i nie łączy odciętych gałęzi. Priorytet nie omija blokady.
+- AI uwzględnia emisje źródeł, płaci rozruch potrzebnych przejętych zakładów, wygasza zbędną emitującą moc i nadaje pierwszeństwo wybranemu programowi kosmicznemu. Bez cyklicznego płatnego uruchamiania zbędnej elektrowni.
+- Panel dyspozycji z przydziałami całej sieci, bieżącą mocą zakładów, kosztami i ograniczeniami; dostęp z miasta i przeglądu świata. Oznaczenie wyłączonych obiektów w liście budynków, przewijanie w mniejszym oknie.
+- Format v18. Migracja v17 zachowuje epoki, klimat, instytucje, modele, programy i wcześniejsze systemy. Nowe dyspozycje domyślnie zwykłe, bez fikcyjnych wyłączeń. Kopia `.v17.bak`, walidacja stanów i dat, deterministyczne odtwarzanie.
+- Nowe specyfikacje gospodarki, geografii, AI i migracji; piąty, osobny tryb diagnostyki WPF. Osobne wydanie `wydanie-0.18/`, zachowane wcześniejsze wydania i zapisy.
+
 ## 0.17 — Od ognia do gwiazd · 23 października 2026
 
 - 18 głównych etapów: paleolit, neolit, brąz, żelazo, starożytność klasyczna, średniowiecze, renesans, oświecenie, rewolucja przemysłowa, nowoczesność, atom, informacja, automatyzacja, planeta, orbita, świat międzyplanetarny, Układ Słoneczny i spekulatywna epoka międzygwiezdna.

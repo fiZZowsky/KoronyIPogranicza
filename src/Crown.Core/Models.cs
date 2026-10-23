@@ -84,6 +84,10 @@ public sealed class City
     public int LastAuditTurn { get; set; } = -12;
     public int AuditProtectionUntil { get; set; }
     public int CounterIntelligenceUntil { get; set; }
+    public PowerPriority PowerPriority { get; set; } = PowerPriority.Normal;
+    public int LastPowerPriorityTurn { get; set; } = -1;
+    public HashSet<string> SuspendedBuildings { get; set; } = [];
+    public Dictionary<string, int> LastOperationTurns { get; set; } = [];
 }
 public sealed class Unit
 {
@@ -210,7 +214,8 @@ public sealed class DeferredEffect
 }
 public sealed class GameState
 {
-    public int Version { get; set; } = 17;
+    internal Dictionary<int, PowerNetwork>? PowerPhase { get; set; }
+    public int Version { get; set; } = 18;
     public bool EpochCampaign { get; set; }
     public bool ContinueAfterVictory { get; set; }
     public double ClimatePressure { get; set; }

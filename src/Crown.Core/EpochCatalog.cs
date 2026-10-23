@@ -103,7 +103,11 @@ public static class EpochCatalog
         new("biosphere_habitat", "Habitat biosferyczny", 16, "synthetic_ecologies", 5400, Food: 90, Housing: 70, Sanitation: 40, Demand: 110),
         new("stellar_collector", "Kolektor energii gwiazdowej", 17, "stellar_energy", 7000, Energy: 700, Emissions: -30, Upkeep: 40),
         new("civilization_archive", "Archiwum cywilizacji", 17, "distributed_civilization", 7200, Culture: 550, Science: 330, Demand: 180),
-        new("departure_yard", "Stocznia statków pokoleniowych", 17, "generation_ships", 7500, Production: 700, Science: 160, Demand: 240)
+        new("departure_yard", "Stocznia statków pokoleniowych", 17, "generation_ships", 7500, Production: 700, Science: 160, Demand: 240),
+        new("hydro_station", "Elektrownia wodna", 9, "electricity", 900, Energy: 45, Upkeep: 3),
+        new("wind_farm", "Farma wiatrowa", 11, "ecology", 1250, Energy: 35, Upkeep: 2),
+        new("solar_farm", "Farma słoneczna", 11, "ecology", 1300, Energy: 42, Upkeep: 2),
+        new("geothermal_station", "Elektrownia geotermalna", 12, "smart_materials", 1800, Energy: 100, Upkeep: 8)
     ];
     public static string Describe(Development b)
     {
@@ -111,6 +115,7 @@ public static class EpochCatalog
         foreach (var x in new[] { ("Energia", b.Energy), ("Popyt energii", b.Demand), ("Emisje", b.Emissions), ("Mieszkania", b.Housing), ("Opieka", b.Sanitation), ("Obrona", b.Defense), ("Zasięg dostaw", b.Supply), ("Utrzymanie złota/turę", b.Upkeep) })
             if (x.Item2 != 0) parts.Add($"{x.Item1} {x.Item2:+0;-0}");
         if (b.Demand > 0) parts.Add("Produkcja, wiedza i dochód tego obiektu zależą od miejskiego pokrycia energii: 25–100%.");
+        parts.Add(PowerGrid.SiteDescription(b.Id));
         return string.Join(" · ", parts.Where(p => p.Length > 0));
     }
 }

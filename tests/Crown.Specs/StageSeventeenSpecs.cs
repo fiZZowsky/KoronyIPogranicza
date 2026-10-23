@@ -57,9 +57,9 @@ internal static class StageSeventeenSpecs
                 Assert(before != after, "Discovery has no effect: " + t.Id);
             }
         });
-        test("All 54 new buildings and 34 models have actual effects and valid prerequisites", () =>
+        test("All epoch buildings and 34 models have actual effects and valid prerequisites", () =>
         {
-            Assert(EpochCatalog.Buildings.Length == 54 && UnitModels.All.Length == 34, "Missing content.");
+            Assert(EpochCatalog.Buildings.Length >= 54 && UnitModels.All.Length == 34, "Missing content.");
             foreach (var b in EpochCatalog.Buildings) Assert(Content.Projects.Any(p => p.Id == b.Id && p.Technology == b.Technology) && b.Cost > 0 && EpochCatalog.Describe(b).Length > 0 && EpochCatalog.EraOf(b.Technology) == b.Era, "Invalid building " + b.Id);
             foreach (var m in UnitModels.All) Assert(Content.Project(m.Id).Unit == m.Role && EpochCatalog.EraOf(m.Technology) == m.Era && m.Range >= 1 && m.Strength > 0, "Invalid model " + m.Id);
         });
@@ -168,7 +168,7 @@ internal static class StageSeventeenSpecs
         test("V16 migration preserves espionage and custody without inventing new era decisions", () =>
         {
             var s = StageSixteenSpecs.Ready(); Narrative.Resolve(s, 3); s.Version = 16; var loaded = SaveGame.Deserialize(SaveGame.Serialize(s));
-            Assert(loaded.Version == 17 && !loaded.EpochCampaign && loaded.MaxTurns == 320 && loaded.SpyOperations[0].InternedUntil == s.SpyOperations[0].InternedUntil && loaded.Spies[0].Status == SpyStatus.Captured && loaded.Factions.All(f => f.EpochChoices.Count == 0 && f.SpaceMilestones.Count == 0), "Migration lost custody or invented history.");
+            Assert(loaded.Version == 18 && !loaded.EpochCampaign && loaded.MaxTurns == 320 && loaded.SpyOperations[0].InternedUntil == s.SpyOperations[0].InternedUntil && loaded.Spies[0].Status == SpyStatus.Captured && loaded.Factions.All(f => f.EpochChoices.Count == 0 && f.SpaceMilestones.Count == 0), "Migration lost custody or invented history.");
         });
         test("Validation rejects impossible eras, milestones, climate values and mismatched models", () =>
         {
@@ -223,12 +223,13 @@ internal static class StageSeventeenSpecs
         test("Every new building can be ordered, completed once and used by a real city",()=>
         {
             var s=Fresh();s.Player.Technologies.UnionWith(Content.Technologies.Select(t=>t.Id));var c=s.Cities[0];c.ProductionPaused=false;
+            s.Tiles[c.Tile].River=true;foreach(var t in World.Neighbors(s,c.Tile).Where(t=>t.Owner==0).Take(2))t.Terrain=Terrain.Hills;
             foreach(var b in EpochCatalog.Buildings)
             {
                 Resolve(s);Assert(Engine.SetProject(s,c.Id,b.Id).Success,"Cannot order "+b.Id);c.Production=b.Cost;Step(s);
                 Assert(c.Buildings.Contains(b.Id)&&!Engine.AvailableProjects(s,c).Any(p=>p.Id==b.Id),"Building missing or repeatable: "+b.Id);
             }
-            Assert(c.Buildings.Count==54,"Not all epoch buildings survived production.");Valid(s);
+            Assert(c.Buildings.Count==EpochCatalog.Buildings.Length,"Not all epoch buildings survived production.");Valid(s);
         });
         test("Veteran material bonuses cannot turn a paid modernization into a downgrade",()=>
         {

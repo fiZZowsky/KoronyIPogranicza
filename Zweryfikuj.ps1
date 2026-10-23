@@ -41,3 +41,12 @@ if (-not $epochProcess.WaitForExit(60000)) {
 }
 if ($epochProcess.ExitCode -ne 0) { throw 'Test epok WPF nie przeszedł. Sprawdź artifacts/epoch-ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $epochDirectory 'ui-smoke.txt')
+
+$powerDirectory = Join-Path $reportDirectory 'power-ui'
+$powerProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-power', ('"' + $powerDirectory + '"')) -WindowStyle Hidden -PassThru
+if (-not $powerProcess.WaitForExit(60000)) {
+    Stop-Process -Id $powerProcess.Id -Force
+    throw 'Test energetyki przekroczył limit 60 sekund.'
+}
+if ($powerProcess.ExitCode -ne 0) { throw 'Test energetyki WPF nie przeszedł. Sprawdź artifacts/power-ui/ui-smoke.txt.' }
+Get-Content -LiteralPath (Join-Path $powerDirectory 'ui-smoke.txt')
