@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.23 — Rzeki i przeprawy · 27 października 2026
+
+- Rzeki korzystają ze wspólnej sieci próbkowanych odcinków i koryt wyciętych w polu wysokości. Sąsiednie odkryte pola łączą się w zakola z identycznymi punktami i poziomami wody na węzłach. Znane końcowe odcinki mogą dojść do odkrytego brzegu morza lub jeziora. Nieodkryte rzeki pozostają ukryte.
+- Woda ma współrzędne wzdłuż koryta, animowany wzór nurtu, przybrzeżną pianę i kolor zależny od rzeczywistej różnicy poziomu wody i dna. Żwirowe brzegi, kamienie i kępy trzcin są geometrią 3D. Drzewa omijają koryta.
+- Istniejące drogi tworzą przeprawy nad przecięciami z rzeką: pomosty z osobnych desek, przyczółki lub podpory, poręcze i dojazdy. Późniejsze warianty mają kamienne podpory i parapety. Historyczne miasto z drogą do wschodniego sąsiada otrzymuje dodatkową bramę, aby przeprawa nie kończyła się pełną kurtyną.
+- Pole wysokości unieważnia się również po zmianie odkrytej rzeki lub położenia znanego miasta. Geometria pozostaje powtarzalna i nie używa losowań kampanii. Reguły dróg, ruchu, gospodarki i format zapisu v19 pozostają zgodne.
+- Dziesiąty tryb diagnostyki `--ui-smoke-rivers`: ukryte odcinki, wycinanie koryta, powtarzalność po odczycie zapisu, ciągłość węzłów, przeprawa rzeczywistej drogi, wybór mostu, animacja, bufory GPU i mniejsze okno. Osobny katalog `wydanie-0.23/`, wcześniejsze paczki zachowane.
+- To wizualna reprezentacja istniejących flag rzek i dróg, bez hydrodynamiki, żeglugi ani osobnego systemu budowania mostów. Nadal nie osiąga fotorealizmu ilustracji menu. Wykorzystano dotychczasowe tekstury, bez nowych bitmap AI lub obcych modeli.
+
 ## 0.22 — Krajobraz i miasta · 27 października 2026
 
 - Wspólne, buforowane pole wysokości dla geometrii, kamery i materiału wody. Szerokie masywy z połączonymi grzbietami zastępują odrębne szczyty przypisane heksom. Gęstsza siatka terenu i ciągły, szczegółowy horyzont poza planszą.

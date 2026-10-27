@@ -132,23 +132,30 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     else if(kind>6.5&&kind<7.5){rough=.13;metal=.42;albedo=Decode(p.color.rgb)*.65;}
     if(kind>7.5&&kind<8.5)return float4(p.color.rgb*.9,alpha); // strategic overlays remain readable
     if(kind>8.5&&kind<9.5){float3 rock=Triplanar(p.world,n,float2(1,0),.15);albedo=Decode(lerp(rock*.7,float3(.82,.85,.85),smoothstep(7,13,p.world.y)*saturate(n.y+.4)));rough=.95;}
-    if(kind>9.5){albedo=Decode(Triplanar(p.world,n,float2(0,1),5))*.54;rough=.98;}
+    if(kind>9.5&&kind<10.5){albedo=Decode(Triplanar(p.world,n,float2(0,1),5))*.54;rough=.98;}
+    if(kind>10.5){albedo=Decode(Triplanar(p.world,n,float2(1,0),6))*p.color.rgb;rough=.96;}
     float visibility=Visibility(p,n);
     if(kind>.5&&kind<1.5)
     {
         float2 w=p.world.xz;
         float2 flow=float2(Noise(w*3.8+EyeTime.w*.025),Noise(w*4.1+23-EyeTime.w*.017))-.5;
         float ripple=Noise(w*8.3+EyeTime.w*.05)-.5;
+        if(p.surface.w>1.5)
+        {
+            float current=Noise(float2(p.uv.x*5,p.uv.y*8-EyeTime.w*.55))-.5;
+            flow=float2(current,Noise(float2(p.uv.x*9+7,p.uv.y*13-EyeTime.w*.8))-.5);ripple=current;
+        }
         n=normalize(float3(flow.x*.035,1,flow.y*.035));
         float fresnel=.025+.975*pow(1-saturate(dot(n,v)),5);float3 reflected=Sky(reflect(-v,n));
         if(p.surface.w<.5&&Settings.w>1.5)reflected=lerp(reflected,Reflection.Sample(TextureSampler,p.p.xy*Screen.xy+n.xz*.012).rgb,.78);
         float3 water=float3(.025,.10,.105)*(1+ripple*.06);
         if(VisualOptions.x>.5)
         {
-            float depth=p.surface.w>1.5?.16:max(0,.045-GroundHeight(w));
+            float depth=max(.005,p.world.y-GroundHeight(w));
             float3 bed=float3(.24,.22,.13)*exp(-depth*float3(4.8,3.0,2.2));
             water=lerp(bed,float3(.013,.066,.085),1-exp(-depth*3.4));
             float foam=(1-smoothstep(.005,.07,depth))*saturate(Noise(w*18+EyeTime.w*.08)*1.7-.5);
+            if(p.surface.w>1.5)foam=max(foam,pow(saturate(abs(p.uv.x-.5)*2),6)*smoothstep(-.15,.35,ripple)*.5);
             water=lerp(water,float3(.51,.59,.55),foam*.28);
         }
         float3 glint=Brdf(.02.xxx,n,v,sun,.22,.0)*float3(4.6,3.9,2.8)*visibility;

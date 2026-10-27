@@ -224,7 +224,7 @@ public sealed partial class MapView : Grid
     private int Signature()
     {
         var h = new HashCode(); h.Add(State.Seed); h.Add(State.Turn); h.Add(SelectedUnit);
-        foreach (var t in State.Tiles) { h.Add(t.Explored); h.Add(t.Terrain); h.Add(t.Owner); h.Add(t.Resource); h.Add(t.Improvement); h.Add(t.Road); h.Add(t.Ruin); h.Add(t.River); }
+        foreach (var t in State.Tiles) { h.Add(t.Explored); h.Add(t.Terrain); h.Add(t.Owner); h.Add(t.Resource); h.Add(t.Improvement); h.Add(t.Road); h.Add(t.RoadOwner); h.Add(t.Ruin); h.Add(t.River); }
         foreach (var f in State.Factions) h.Add(f.Era);
         foreach (var c in State.Cities) { h.Add(c.Id); h.Add(c.Tile); h.Add(c.Owner); h.Add(c.Population); foreach (var b in c.Buildings) h.Add(b); }
         foreach (var u in State.Units) { h.Add(u.Id); h.Add(u.Tile); h.Add(u.Owner); h.Add(u.Kind); h.Add(u.ModelId); }

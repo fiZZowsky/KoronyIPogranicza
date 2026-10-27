@@ -97,6 +97,7 @@ internal sealed class PhotographicRenderer : IDisposable
         if (emissive) return 8;
         if(key.StartsWith("distant-mountains"))return 9;
         if(key.StartsWith("streets"))return 10;
+        if(key.StartsWith("river-bank")||key.StartsWith("river-pebbles"))return 11;
         if (key.StartsWith("landscape")) return 0;
         if (key.StartsWith("sea") || key.StartsWith("rivers")) return 1;
         if (key.StartsWith("foliage")) return 5;

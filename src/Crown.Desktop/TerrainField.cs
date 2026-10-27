@@ -14,6 +14,7 @@ internal sealed class TerrainField
     internal double SpanX { get; }
     internal double SpanZ { get; }
     internal ReadOnlyMemory<float> Values => values;
+    internal RiverNetwork Rivers { get; }
     private readonly float[] values;
     private TerrainField(GameState s)
     {
@@ -50,6 +51,28 @@ internal sealed class TerrainField
             double ripple=((Terrain3D.Noise(x*1.1,z*1.1,s.Seed)-.5)*.12+(Terrain3D.Noise(x*3.7,z*3.7,s.Seed+8)-.5)*.028)*revealed/weight;
             values[iz*Width+ix]=(float)(sum/weight+mountainHeight+ripple);
         }
+        Rivers=RiverNetwork.Create(s,Sample);
+        CarveRivers();
+    }
+    private void CarveRivers()
+    {
+        var original=(float[])values.Clone();
+        foreach(var path in Rivers.Paths)for(int i=1;i<path.Samples.Count;i++)
+        {
+            var a=path.Samples[i-1];var b=path.Samples[i];double radius=Math.Max(a.HalfWidth,b.HalfWidth)+.22;
+            int minX=Math.Max(0,(int)Math.Floor((Math.Min(a.Position.X,b.Position.X)-radius-OriginX)/SpanX*(Width-1)));
+            int maxX=Math.Min(Width-1,(int)Math.Ceiling((Math.Max(a.Position.X,b.Position.X)+radius-OriginX)/SpanX*(Width-1)));
+            int minZ=Math.Max(0,(int)Math.Floor((Math.Min(a.Position.Y,b.Position.Y)-radius-OriginZ)/SpanZ*(Height-1)));
+            int maxZ=Math.Min(Height-1,(int)Math.Ceiling((Math.Max(a.Position.Y,b.Position.Y)+radius-OriginZ)/SpanZ*(Height-1)));
+            for(int z=minZ;z<=maxZ;z++)for(int x=minX;x<=maxX;x++)
+            {
+                var p=new System.Windows.Point(OriginX+x*SpanX/(Width-1),OriginZ+z*SpanZ/(Height-1));double distance=RiverNetwork.Distance(p,a.Position,b.Position,out double t);
+                if(distance>radius)continue;double width=a.HalfWidth+(b.HalfWidth-a.HalfWidth)*t,water=a.Water+(b.Water-a.Water)*t;
+                double bank=Math.Clamp(distance/width,0,1);bank=bank*bank*(3-2*bank);
+                double target=water-.15+bank*.14;double blend=Math.Clamp((distance-width)/.22,0,1);blend=blend*blend*(3-2*blend);
+                int index=z*Width+x;values[index]=Math.Min(values[index],(float)(target*(1-blend)+original[index]*blend));
+            }
+        }
     }
     internal double Sample(double x,double z)
     {
@@ -63,7 +86,8 @@ internal sealed class TerrainField
     internal static TerrainField Prepare(GameState s)
     {
         var hash=new HashCode();hash.Add(s.Seed);hash.Add(s.Width);hash.Add(s.Height);
-        foreach(var tile in s.Tiles){hash.Add(tile.Explored);if(tile.Explored)hash.Add(tile.Terrain);}
+        foreach(var tile in s.Tiles){hash.Add(tile.Explored);if(tile.Explored){hash.Add(tile.Terrain);hash.Add(tile.River);}}
+        foreach(var city in s.Cities.Where(c=>s.Tiles[c.Tile].Explored).OrderBy(c=>c.Tile))hash.Add(city.Tile);
         int stamp=hash.ToHashCode();var holder=cache.GetOrCreateValue(s);
         if(holder.Field==null||holder.Stamp!=stamp){holder.Field=new TerrainField(s);holder.Stamp=stamp;}
         return holder.Field;

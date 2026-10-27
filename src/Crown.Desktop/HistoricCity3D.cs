@@ -62,13 +62,15 @@ internal static partial class WorldScene3D
     private static void CityFortifications(SceneBatch batch,GameState s,Point center)
     {
         var stone=batch.Mesh("fortifications","#B6B0A0");
+        int tile=Terrain3D.TileAt(s,center.X,center.Y);
+        bool eastGate=tile>=0&&World.Neighbors(s,tile).Any(n=>n.Explored&&n.Road&&Terrain3D.Center(n).X>center.X+1&&Math.Abs(Terrain3D.Center(n).Y-center.Y)<.1);
         const int sides=16;
         for(int i=0;i<sides;i++)
         {
             double a=i*Math.PI*2/sides,b=(i+1)*Math.PI*2/sides;
             var p=new Point(center.X+Math.Cos(a)*.91,center.Y+Math.Sin(a)*.91);var q=new Point(center.X+Math.Cos(b)*.91,center.Y+Math.Sin(b)*.91);
             // Leave a real opening in the south curtain wall for the gateway.
-            if(i!=3&&i!=4)
+            if(i!=3&&i!=4&&(!eastGate||i!=0&&i!=15))
             {
                 double dx=q.X-p.X,dz=q.Y-p.Y,len=Math.Sqrt(dx*dx+dz*dz),mx=(p.X+q.X)/2,mz=(p.Y+q.Y)/2;
                 double baseY=Math.Min(Terrain3D.Height(s,p.X,p.Y),Terrain3D.Height(s,q.X,q.Y));
@@ -79,7 +81,7 @@ internal static partial class WorldScene3D
                     for(int m=0;m<4;m++)batch.Mesh("fortifications","#B6B0A0").Box(mx-len*.4+m*len*.27,baseY+.24,mz,.045,.045,.065);
                 });
             }
-            if(i%2==0)
+            if(i%2==0&&(!eastGate||i!=0))
             {
                 double ty=Terrain3D.Height(s,p.X,p.Y);stone=batch.Mesh("fortifications","#B6B0A0");stone.Cylinder(p.X,ty,p.Y,.068,.31,sides:12);
                 for(int m=0;m<6;m++){double t=m*Math.PI/3;stone.Box(p.X+Math.Cos(t)*.052,ty+.31,p.Y+Math.Sin(t)*.052,.032,.038,.032);}
@@ -90,6 +92,13 @@ internal static partial class WorldScene3D
         // Short wall shoulders connect the gateway to the adjacent curtain corners.
         batch.Mesh("fortifications","#B6B0A0").Box(gx-.24,gy,gz-.035,.19,.24,.065);
         batch.Mesh("fortifications","#B6B0A0").Box(gx+.24,gy,gz-.035,.19,.24,.065);
+        if(eastGate)
+        {
+            double ex=center.X+.87,ez=center.Y,ey=Terrain3D.Height(s,ex,ez);
+            batch.Rotated(new(ex,ey,ez),-Math.PI/2,()=>Gateway(batch,ex,ey,ez,.29,.32,.13));
+            batch.Mesh("fortifications","#B6B0A0").Box(ex-.035,ey,ez-.24,.065,.24,.19);
+            batch.Mesh("fortifications","#B6B0A0").Box(ex-.035,ey,ez+.24,.065,.24,.19);
+        }
     }
     private static void Gateway(SceneBatch batch,double x,double y,double z,double width,double height,double depth)
     {

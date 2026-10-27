@@ -15,6 +15,7 @@ internal static partial class WorldScene3D
         var field=TerrainField.Prepare(s);
         if(reuseTerrain!=null&&!ReferenceEquals(reuseTerrain.Field,field))reuseTerrain=null;
         var ground = new SceneBatch(); var objects = new SceneBatch(); var visible = Engine.Visible(s); int trees = 0;
+        RiverEnvironment(objects,s,field.Rivers);
         foreach (var tile in s.Tiles)
         {
             var center = Terrain3D.Center(tile);
@@ -39,15 +40,8 @@ internal static partial class WorldScene3D
             }
             if (!tile.Explored) continue;
             objects.TileId=-1;
-            if (tile.River && tile.Passable)
-            {
-                var neighbors = World.Neighbors(s, tile.Id).Where(n => n.Explored && n.River).ToArray();
-                var riverCenter=RiverCenter(s,tile);
-                if (neighbors.Length == 0) NaturalRiver(objects,s,new(riverCenter.X-.12,riverCenter.Y-.8),new(riverCenter.X+.12,riverCenter.Y+.8));
-                foreach (var n in neighbors.Where(n => n.Id > tile.Id)) NaturalRiver(objects,s,riverCenter,RiverCenter(s,n));
-            }
             if (Navigation.RoadNode(s, tile.Id)) foreach (var n in World.Neighbors(s, tile.Id).Where(n => n.Explored && n.Id > tile.Id && Navigation.RoadNode(s, n.Id)))
-                Ribbon(objects.Mesh("roads", "#C6B794"), s, center, Terrain3D.Center(n), .055, .036);
+                RoadLink(objects,s,tile,n,field.Rivers);
             if (tile.Owner >= 0)
             {
                 string color = s.Factions[tile.Owner].Color;
@@ -66,6 +60,7 @@ internal static partial class WorldScene3D
                 for (int i = 0; i < 10; i++)
                 {
                     double x = center.X + (rng.NextDouble() - .5) * 1.25, z = center.Y + (rng.NextDouble() - .5) * 1.25;
+                    if(field.Rivers.Distance(new(x,z))<.42)continue;
                     NaturalTree(objects, s, x, z, .65 + rng.NextDouble() * .5, i % 3 != 0); trees++;
                 }
             }

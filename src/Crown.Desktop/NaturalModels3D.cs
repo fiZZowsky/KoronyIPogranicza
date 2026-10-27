@@ -24,22 +24,6 @@ internal static partial class WorldScene3D
         }
         batch.Sea().Quad(new(-110,Terrain3D.SeaLevel-.014,-110),new(-110,Terrain3D.SeaLevel-.014,160),new(190,Terrain3D.SeaLevel-.014,160),new(190,Terrain3D.SeaLevel-.014,-110),new(0,1,0));
     }
-    private static System.Windows.Point RiverCenter(GameState s,Tile tile)
-    {
-        var p=Terrain3D.Center(tile);return s.Cities.Any(c=>c.Tile==tile.Id)?new(p.X+1.02,p.Y-.08):p;
-    }
-    private static void NaturalRiver(SceneBatch batch,GameState s,System.Windows.Point a,System.Windows.Point b)
-    {
-        var delta=b-a;if(delta.Length<.01)return;var side=new System.Windows.Vector(-delta.Y,delta.X);side.Normalize();
-        int steps=Math.Max(8,(int)Math.Ceiling(delta.Length/.10));
-        System.Windows.Point P(double t)=>a+delta*t+side*(Math.Sin(t*Math.PI)*.19+Math.Sin(t*Math.PI*3)*.035);
-        for(int i=0;i<steps;i++)
-        {
-            var p=P((double)i/steps);var q=P((i+1d)/steps);double width=.12+.025*Math.Sin(i*.6);
-            Ribbon(batch.Mesh("river-banks","#817C60"),s,p,q,width+.07,.022);
-            Ribbon(batch.Mesh("rivers","#467D7D"),s,p,q,width,.034);
-        }
-    }
     private static void NaturalTree(SceneBatch batch, GameState s, double x, double z, double height, bool broadleaf)
     {
         double y=Terrain3D.Height(s,x,z);var random=new Random(unchecked((int)(x*17291+z*31337)+s.Seed));

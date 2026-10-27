@@ -1,0 +1,10 @@
+PASS Known rivers produce sampled reaches and connected neighbors
+PASS River geometry uses only explored endpoints
+PASS Water elevations and normalized cross-sections remain finite
+PASS Changing a hidden river flag neither rebuilds nor reveals a channel
+PASS The real city road intersects its riverside channel
+PASS River water lies above a carved bed rather than a raised terrain ribbon
+PASS Changing a known river invalidates terrain and removes its channel
+System.IO.InvalidDataException: Uszkodzona mapa.
+   at Crown.Core.SaveGame.Deserialize(String json) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Core\SaveGame.cs:line 56
+   at Crown.Desktop.MainWindow.RiverSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\RiverSmoke.cs:line 53

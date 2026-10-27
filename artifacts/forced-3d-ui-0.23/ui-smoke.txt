@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional 3D diagnostic failure.
+   at Crown.Desktop.MainWindow.ThreeDimensionalSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\ThreeDimensionalSmoke.cs:line 50
