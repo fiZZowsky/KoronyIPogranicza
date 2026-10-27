@@ -144,6 +144,11 @@ public sealed partial class MapView : Grid
         Option("Odbicia: włącz / wyłącz",()=>{if(photographic is{} r)r.Reflections=!r.Reflections;});
         Option("Brzegi i głębokość wody: włącz / wyłącz",()=>{if(photographic is{} r)r.ShoreEffects=!r.ShoreEffects;});
         Option("Wygładzanie krawędzi: włącz / wyłącz",()=>{if(photographic is{} r)r.EdgeSmoothing=!r.EdgeSmoothing;});
+        Option("Barwy pór roku: włącz / wyłącz",()=>{if(photographic is{} r)r.SeasonalColors=!r.SeasonalColors;});
+        Option("Pogoda zgodna z porą roku",()=>{if(photographic is{} r)r.Weather=VisualWeather.Seasonal;});
+        Option("Pogoda: bez opadów",()=>{if(photographic is{} r)r.Weather=VisualWeather.Clear;});
+        Option("Pogoda: deszcz",()=>{if(photographic is{} r)r.Weather=VisualWeather.Rain;});
+        Option("Pogoda: śnieg",()=>{if(photographic is{} r)r.Weather=VisualWeather.Snow;});
         Option("Animowane otoczenie: włącz / wyłącz",()=>animateEnvironment=!animateEnvironment);
         Option("Ponów inicjalizację Direct3D 11",()=>{photographic?.Dispose();photographic=null;gpuAttempted=false;GpuFailure=null;});
         Option("Światło: poranek / południe",()=>{if(photographic is{} r)r.Sun=r.Sun.Y<.7?System.Numerics.Vector3.Normalize(new(-.3f,1.5f,-.2f)):System.Numerics.Vector3.Normalize(new(-.65f,.82f,-.35f));});

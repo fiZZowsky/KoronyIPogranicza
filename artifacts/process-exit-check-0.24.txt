@@ -1,0 +1,11 @@
+base: intentional failure confirmed; exit 3
+espionage: intentional failure confirmed; exit 3
+custody: intentional failure confirmed; exit 3
+epochs: intentional failure confirmed; exit 3
+power: intentional failure confirmed; exit 3
+energy-cases: intentional failure confirmed; exit 3
+3d: intentional failure confirmed; exit 3
+photographic: intentional failure confirmed; exit 3
+landscape: intentional failure confirmed; exit 3
+rivers: intentional failure confirmed; exit 3
+environment: intentional failure confirmed; exit 3

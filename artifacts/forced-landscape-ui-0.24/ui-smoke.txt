@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional landscape diagnostic failure.
+   at Crown.Desktop.MainWindow.LandscapeSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\LandscapeSmoke.cs:line 35

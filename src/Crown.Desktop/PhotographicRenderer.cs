@@ -18,10 +18,10 @@ internal static class SceneSurface
 
 // Hardware shading is independent of WPF geometry and simulation. A bounded staging
 // readback lets WPF compose native controls and capture the actual GPU frame reliably.
-internal sealed class PhotographicRenderer : IDisposable
+internal sealed partial class PhotographicRenderer : IDisposable
 {
     private readonly NativeGpu gpu;
-    private readonly nint worldVs, worldPs, shadowVs, shadowPs, fullVs, postPs, layout, constants;
+    private readonly nint worldVs, worldPs, shadowVs, shadowPs, fullVs, skyPs, postPs, layout, constants;
     private readonly nint raster, shadowRaster, sampler, shadowSampler, depthWrite, depthRead, opaque, alpha;
     private readonly nint surfacesTexture, surfacesView, leavesTexture, leavesView, pineTexture, pineView, shadowTexture, shadowView, shadowDepth;
     private nint landTexture, landView, hdrTexture, hdrTarget, hdrView, depthTexture, depthTarget, depthView, finalTexture, finalTarget, staging;
@@ -53,7 +53,7 @@ internal sealed class PhotographicRenderer : IDisposable
     [StructLayout(LayoutKind.Sequential)] private struct Frame
     {
         internal Matrix4x4 ViewProjection, LightProjection, InverseProjection;
-        internal Vector4 EyeTime, SunExposure, Screen, Settings, TerrainMap, VisualOptions;
+        internal Vector4 EyeTime, SunExposure, Screen, Settings, TerrainMap, VisualOptions,SeasonPalette,WeatherSettings;
     }
     private sealed record DrawMesh(nint Buffer, int Vertices, Vector3 Center, float Radius, float Kind, bool Transparent);
     public PhotographicRenderer()
@@ -65,7 +65,7 @@ internal sealed class PhotographicRenderer : IDisposable
             using var reader = new StreamReader(stream); string shader = reader.ReadToEnd();
             var program = gpu.Shader(shader, "WorldVS", true); worldVs = program.Shader; layout = gpu.InputLayout(program.Bytecode);
             worldPs = gpu.Shader(shader, "WorldPS", false).Shader; shadowVs = gpu.Shader(shader, "ShadowVS", true).Shader; shadowPs = gpu.Shader(shader, "ShadowPS", false).Shader;
-            fullVs = gpu.Shader(shader, "FullVS", true).Shader; postPs = gpu.Shader(shader, "PostPS", false).Shader;
+            fullVs = gpu.Shader(shader, "FullVS", true).Shader;skyPs=gpu.Shader(shader,"SkyPS",false).Shader; postPs = gpu.Shader(shader, "PostPS", false).Shader;
             constants = gpu.ConstantBuffer(Marshal.SizeOf<Frame>()); raster = gpu.Rasterizer(); shadowRaster = gpu.Rasterizer(true);
             sampler = gpu.Sampler(); shadowSampler = gpu.Sampler(true); depthWrite = gpu.DepthState(true); depthRead = gpu.DepthState(false); opaque = gpu.BlendState(false); alpha = gpu.BlendState(true);
             (surfacesTexture, surfacesView) = Upload(Asset("surface-atlas-0.21.png")); (leavesTexture, leavesView) = Upload(Asset("oak-foliage-0.21.png"));
@@ -124,6 +124,7 @@ internal sealed class PhotographicRenderer : IDisposable
     }
     internal void Scene(WorldScene scene, Model3D? overlay)
     {
+        SeasonIndex=scene.Season;visualSeed=scene.Seed;
         world.Clear(); overlays.Clear(); overlayMeshes.Clear(); var retained = new HashSet<MeshGeometry3D>(ReferenceEqualityComparer.Instance);
         if (!ReferenceEquals(scene.Terrain, lastTerrain))
         {
@@ -168,6 +169,7 @@ internal sealed class PhotographicRenderer : IDisposable
         var lp = Matrix4x4.CreateLookAt(target + Sun * 65, target, Vector3.UnitY) * Matrix4x4.CreateOrthographic(extent, extent, .1f, 150);
         var frame = new Frame { ViewProjection = vp, LightProjection = lp, InverseProjection = inverse, EyeTime = new(eye, (float)time), SunExposure = new(Sun, Exposure), Screen = new(1f / w, 1f / h, 1f / ShadowSize, Shadows ? 1 : 0), Settings = new(PostProcessing ? 1 : 0, MaterialDetail ? 1 : 0, .006f, Reflections?2:0) };
         frame.TerrainMap=new((float)field!.OriginX,(float)field.OriginZ,(float)field.SpanX,(float)field.SpanZ);frame.VisualOptions=new(ShoreEffects?1:0,EdgeSmoothing?1:0,0,0);
+        var environment=Environment;frame.SeasonPalette=new(environment.SnowCover,environment.Autumn,environment.Wetness,environment.Spring);frame.WeatherSettings=new(environment.Rain,environment.Snowfall,environment.Fog,environment.Light);frame.Settings.Z*=environment.Fog;frame.SunExposure.W*=environment.Light;
         gpu.Update(constants, frame); gpu.Constants(constants); gpu.Samplers(sampler, shadowSampler); gpu.Layout(layout); gpu.Blend(opaque); gpu.Depth(depthWrite);
         gpu.Resources(landView, surfacesView, leavesView, 0, 0, 0,pineView,0,elevationView);
         if (Shadows)
@@ -184,12 +186,15 @@ internal sealed class PhotographicRenderer : IDisposable
             foreach(var mesh in world.Where(m=>!m.Transparent&&m.Kind!=1))gpu.Draw(mesh.Buffer,mesh.Vertices);
             gpu.Update(constants,frame);
         }
-        gpu.Targets(hdrTarget, depthTarget); gpu.Clear(hdrTarget, .42f, .52f, .61f); gpu.ClearDepth(depthTarget); gpu.SetViewport(w, h); gpu.Raster(raster); gpu.Shaders(worldVs, worldPs);
+        gpu.Targets(hdrTarget, depthTarget); gpu.Clear(hdrTarget, .42f, .52f, .61f); gpu.ClearDepth(depthTarget); gpu.SetViewport(w, h); gpu.Raster(raster);
+        gpu.Depth(depthRead);gpu.Layout(0);gpu.Shaders(fullVs,skyPs);gpu.Triangle();
+        gpu.Depth(depthWrite);gpu.Layout(layout);gpu.Shaders(worldVs,worldPs);
         gpu.Resources(landView, surfacesView, leavesView, shadowView, 0, 0,pineView,Reflections?reflectionView:0,elevationView);
         foreach (var mesh in world.Where(m => !m.Transparent)) gpu.Draw(mesh.Buffer, mesh.Vertices);
         gpu.Blend(alpha); gpu.Depth(depthRead);
         foreach (var mesh in world.Where(m => m.Transparent).OrderByDescending(m => Vector3.DistanceSquared(m.Center, eye))) gpu.Draw(mesh.Buffer, mesh.Vertices);
         foreach (var mesh in overlays) gpu.Draw(mesh.Buffer, mesh.Vertices);
+        RenderWeather(eye,target,time,environment);
         gpu.Targets(finalTarget, 0); gpu.Resources(landView, surfacesView, leavesView, shadowView, hdrView, depthView,pineView,0,elevationView); gpu.Shaders(fullVs, postPs); gpu.Layout(0); gpu.Blend(opaque); gpu.Triangle();
         gpu.Targets(0, 0); gpu.Resources(0, 0, 0, 0, 0, 0,0,0,0); gpu.Copy(staging, finalTexture);
         var mapped = gpu.Map(staging);

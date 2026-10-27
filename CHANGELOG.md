@@ -1,5 +1,15 @@
 # Zmiany
 
+## 0.24 — Pory roku i pogoda · 27 października 2026
+
+- Cztery widoczne warianty pór roku zgodne z turą kampanii: wiosenna zieleń, letnie materiały, jesienne korony drzew liściastych i zimowy śnieg. Drzewa iglaste zachowują zieleń jesienią. Zimą śnieg pojawia się na terenie, koronach, dachach i poziomych powierzchniach budowli. Pustynne materiały otrzymują znacznie mniej śniegu.
+- Deszcz i opad śniegu jako przestrzenne cząstki Direct3D testowane względem głębokości terenu i budynków. Nurt, wiatr i opady korzystają z osobnego czasu wizualnego. Zachmurzenie, mgiełka, ekspozycja i mokre powierzchnie reagują na wybrany wariant pogody.
+- Niebo renderowane do sceny HDR przed geometrią i opadami, dzięki czemu końcowa obróbka nie usuwa cząstek widocznych na jego tle. Neutralny materiał mgły wojny odróżniony od znanych skał i tundry przy nakładaniu detali oraz sezonowych barw.
+- Menu Grafika: osobny przełącznik sezonowych materiałów oraz pogoda zgodna z porą roku, brak opadów, deszcz i śnieg. Tryb automatyczny pokazuje spokojną wiosnę i lato, lżejszy deszcz jesienią i śnieg zimą. Ustawienia dotyczą bieżącego widoku.
+- Pora roku aktualizuje parametry shadera bez przebudowy terenu. Bufory opadów są zastępowane i zwalniane. Cząstki nie uczestniczą w wybieraniu pól. Reguły gospodarki, losowania kampanii i format v19 pozostają zgodne.
+- Jedenasty tryb `--ui-smoke-environment`: cztery rzeczywiste obrazy GPU, stały czas, opady, powtarzane przełączanie i liczba zasobów natywnych, wybór miasta, wczytanie zimowego zapisu oraz mniejsze okno. Osobne wydanie `wydanie-0.24/`, zachowane starsze paczki i zapisy.
+- To oprawa sezonów istniejącej kampanii, bez nowej symulacji meteorologicznej, powodzi, zamarzania wód lub fizycznego narastania pokrywy. Nie dodano nowych bitmap ani modeli zewnętrznych. Grafika nadal nie osiąga fotorealizmu ilustracji menu.
+
 ## 0.23 — Rzeki i przeprawy · 27 października 2026
 
 - Rzeki korzystają ze wspólnej sieci próbkowanych odcinków i koryt wyciętych w polu wysokości. Sąsiednie odkryte pola łączą się w zakola z identycznymi punktami i poziomami wody na węzłach. Znane końcowe odcinki mogą dojść do odkrytego brzegu morza lub jeziora. Nieodkryte rzeki pozostają ukryte.

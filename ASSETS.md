@@ -10,6 +10,8 @@ Pełny prompt:
 
 ## Mapa i interfejs
 
+Wydanie 0.24 realizuje sezonowe barwy i śnieg w shaderze oraz deszcz i płatki jako proceduralną geometrię Direct3D. Niebo również powstaje w shaderze. Ponownie wykorzystano atlas i tekstury roślin 0.21; nie generowano ani nie pobierano bitmap, fontów lub modeli. Zrzuty czterech pór roku przedstawiają rzeczywisty program na przygotowanej mapie diagnostycznej, z przyznaną wiedzą i ustawionymi turami sezonów.
+
 Wydanie 0.23 dodaje proceduralne koryta, siatki wody z mapowaniem nurtu, żwirowe brzegi, trzciny, kamienie, mosty i dodatkową bramę miejską. Wszystkie te elementy powstają z kodu projektu. Ponownie wykorzystano atlas i tekstury roślin z 0.21; nie generowano nowych bitmap ani nie pobierano modeli. Scenariusz diagnostyczny rzek ma ręcznie przygotowane odkryte odcinki i drogę, a jego zrzuty pochodzą z rzeczywistego programu.
 
 Wydanie 0.22 rozwija geometrię terenu i historycznych miast oraz shader wody. Grzbiety, ciągły daleki horyzont, parcele, stragany, kurtyny i brama łukowa powstają z kodu projektu. Nie wygenerowano nowych bitmap i nie pobrano modeli ani tekstur z Internetu. Renderer nadal używa trzech poniższych zasobów 0.21 pod ich pierwotnymi nazwami. Zrzuty diagnostyczne są obrazami rzeczywistego programu, z przygotowanym jeziorem i odsłoniętą mapą; nie są ilustracjami AI.

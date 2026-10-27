@@ -6,7 +6,7 @@ using System.Windows.Media.Media3D;
 namespace Crown.Desktop;
 
 internal sealed record WorldScene(Model3DGroup Terrain, Model3DGroup Objects, int TerrainTriangles, int ObjectTriangles,
-    IReadOnlyList<int> CityIds, IReadOnlyList<int> UnitIds, int TreeCount, TerrainField Field);
+    IReadOnlyList<int> CityIds, IReadOnlyList<int> UnitIds, int TreeCount, TerrainField Field,int Season,int Seed);
 
 internal static partial class WorldScene3D
 {
@@ -88,7 +88,7 @@ internal static partial class WorldScene3D
         }
         if(reuseTerrain==null)DistantLandscape(ground,s);
         int terrainTriangles = reuseTerrain?.TerrainTriangles ?? ground.Triangles, objectTriangles = objects.Triangles;
-        return new(reuseTerrain?.Terrain ?? ground.Freeze(), objects.Freeze(), terrainTriangles, objectTriangles, cities.Select(c => c.Id).ToArray(), rendered, trees,field);
+        return new(reuseTerrain?.Terrain ?? ground.Freeze(), objects.Freeze(), terrainTriangles, objectTriangles, cities.Select(c => c.Id).ToArray(), rendered, trees,field,(s.Turn-1)%4,s.Seed);
     }
     public static void Ribbon(SceneMesh mesh, GameState s, Point start, Point end, double width, double lift)
     {

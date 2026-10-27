@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional epoch diagnostic failure.
+   at Crown.Desktop.MainWindow.EpochSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\EpochSmoke.cs:line 38

@@ -9,6 +9,8 @@ cbuffer Frame : register(b0)
     float4 Settings; // x: postprocess, y: material detail, z: atmospheric density
     float4 TerrainMap; // origin x/z, span x/z of the shared visual height field
     float4 VisualOptions; // shore bathymetry, edge smoothing
+    float4 SeasonPalette; // snow cover, deciduous autumn, wet surfaces, spring green
+    float4 WeatherSettings; // rain, snowfall, fog multiplier, light multiplier
 };
 Texture2D Land : register(t0);
 Texture2D Surfaces : register(t1);
@@ -25,7 +27,7 @@ struct Vertex { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD; float4 c
 struct Pixel { float4 p:SV_POSITION; float3 world:WORLD; float3 n:NORMAL; float2 uv:TEXCOORD; float4 color:COLOR; float4 surface:SURFACE; float4 light:LIGHT; };
 Pixel WorldVS(Vertex v)
 {
-    if(v.surface.x>4.5&&v.surface.x<5.5)v.p.xz+=float2(sin(v.p.z*2+EyeTime.w*.7),cos(v.p.x*2+EyeTime.w*.6))*.012;
+    if(v.surface.x>4.5&&v.surface.x<5.5)v.p.xz+=float2(sin(v.p.z*2+EyeTime.w*.7),cos(v.p.x*2+EyeTime.w*.6))*(.012+WeatherSettings.x*.008);
     Pixel o; o.world=v.p; o.n=v.n; o.uv=v.uv; o.color=v.color; o.surface=v.surface;
     o.p=mul(float4(v.p,1),ViewProjection);o.light=mul(float4(v.p,1),LightProjection);return o;
 }
@@ -75,7 +77,9 @@ float3 Sky(float3 d)
     float h=saturate(d.y*.65+.25);float3 sky=lerp(float3(.65,.72,.75),float3(.20,.39,.58),h);
     float sun=pow(saturate(dot(d,normalize(SunExposure.xyz))),75);sky+=float3(1.5,1.05,.55)*sun;
     float cloud=Noise(d.xz/max(.15,d.y+.3)*3)+Noise(d.xz/max(.15,d.y+.3)*9)*.22;
-    return lerp(sky,float3(.82,.82,.78),smoothstep(.59,.77,cloud)*saturate(d.y+.25)*.6);
+    float cover=saturate(WeatherSettings.x*.65+WeatherSettings.y*.4);
+    sky=lerp(sky,float3(.43,.50,.54),cover);
+    return lerp(sky,float3(.74,.77,.77),smoothstep(.59-cover*.18,.77,cloud)*saturate(d.y+.25)*(.6+cover*.2));
 }
 float3 Brdf(float3 albedo,float3 n,float3 v,float3 l,float rough,float metal)
 {
@@ -91,6 +95,13 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     float kind=p.surface.x,rough=p.surface.y,metal=p.surface.z;
     if(Settings.w>.5&&Settings.w<1.5)clip(p.world.y-.055);
     float3 n=normalize(p.n);if(!front && kind>4.5 && kind<5.5)n=-n;float3 v=normalize(EyeTime.xyz-p.world),sun=normalize(SunExposure.xyz);
+    if(kind>11.5)
+    {
+        float2 uv=p.uv*2-1;float opacity;
+        if(kind>12.5)opacity=(1-smoothstep(.35,1,dot(uv,uv)))*p.color.a;
+        else opacity=(1-smoothstep(.25,1,abs(uv.x)))*(1-abs(uv.y))*p.color.a;
+        clip(opacity-.012);return float4(p.color.rgb,opacity);
+    }
     float3 albedo=Decode(p.color.rgb);float alpha=p.color.a;float ao=1;
     if(kind<.5)
     {
@@ -100,11 +111,17 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         float slope=1-saturate(n.y);float stone=saturate(slope*3.6+smoothstep(.95,2.15,p.world.y)*.4);
         float snow=smoothstep(3.1,4.4,p.world.y)*saturate(n.y*1.5-.3);
         float3 detail=lerp(grass,rock,stone);
-        float known=step(.065,abs(region.g-region.b));
+        float known=step(.02,abs(region.g-region.b));
         float3 base=region*(.55+detail*.9);base=lerp(base,lerp(float3(.27,.28,.25),float3(.64,.65,.62),rock.r),stone*.72);
         base=lerp(base,float3(.84,.86,.86),snow);base=lerp(region,base,known*Settings.y);
         float wet=(1-smoothstep(.05,.19,p.world.y))*VisualOptions.x*known;
         base=lerp(base,float3(.27,.25,.18)+rock*.15,wet*.7);
+        float arid=smoothstep(.025,.085,region.r-region.g);
+        base=lerp(base,base*float3(.97,.87,.69),SeasonPalette.y*.3*known);
+        base=lerp(base,base*float3(.94,1.04,.92),SeasonPalette.w*.22*known);
+        float winter=SeasonPalette.x*(1-arid*.92)*known*saturate(n.y*1.3-.15);
+        winter*=.85+Noise(p.world.xz*5)*.15;
+        base=lerp(base,float3(.78,.84,.87),winter);
         albedo=Decode(base);rough=.93;
         float height=dot(detail,float3(.299,.587,.114));float3 dp1=ddx(p.world),dp2=ddy(p.world);
         float3 r1=cross(dp2,n),r2=cross(n,dp1);float det=dot(dp1,r1);
@@ -123,6 +140,13 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     {
         float4 leaves=p.surface.w>.5?Pine.Sample(TextureSampler,p.uv):Foliage.Sample(TextureSampler,p.uv);clip(leaves.a-.44);alpha=1;
         albedo=Decode(leaves.rgb)*p.color.rgb;rough=.86;ao=.88;
+        if(p.surface.w<.5)
+        {
+            float luminance=dot(leaves.rgb,float3(.299,.587,.114));
+            albedo=lerp(albedo,Decode(float3(.84,.42,.13)*(luminance+.25)),SeasonPalette.y*.88);
+            albedo*=lerp(float3(1,1,1),float3(.88,1.06,.90),SeasonPalette.w*.3);
+        }
+        albedo=lerp(albedo,Decode(float3(.77,.83,.85)),SeasonPalette.x*saturate(p.n.y*.6+.4)*.65);
         n=normalize(lerp(n,float3(0,1,0),.45));
     }
     else if(kind>5.5&&kind<6.5)
@@ -134,6 +158,15 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     if(kind>8.5&&kind<9.5){float3 rock=Triplanar(p.world,n,float2(1,0),.15);albedo=Decode(lerp(rock*.7,float3(.82,.85,.85),smoothstep(7,13,p.world.y)*saturate(n.y+.4)));rough=.95;}
     if(kind>9.5&&kind<10.5){albedo=Decode(Triplanar(p.world,n,float2(0,1),5))*.54;rough=.98;}
     if(kind>10.5){albedo=Decode(Triplanar(p.world,n,float2(1,0),6))*p.color.rgb;rough=.96;}
+    if((kind>1.5&&kind<3.5)||(kind>5.5&&kind<6.5)||(kind>8.5&&kind<11.5))
+    {
+        float settled=SeasonPalette.x*smoothstep(.35,.8,n.y)*(.83+Noise(p.world.xz*13)*.17);
+        albedo=lerp(albedo,Decode(float3(.80,.85,.87)),settled);
+    }
+    if(kind<.5||(kind>1.5&&kind<4.5)||(kind>9.5&&kind<11.5))
+    {
+        albedo*=1-SeasonPalette.z*.16;rough=lerp(rough,.35,SeasonPalette.z*.65);
+    }
     float visibility=Visibility(p,n);
     if(kind>.5&&kind<1.5)
     {
@@ -175,14 +208,14 @@ FullPixel FullVS(uint id:SV_VertexID)
     FullPixel o;o.uv=float2((id<<1)&2,id&2);o.p=float4(o.uv*float2(2,-2)+float2(-1,1),0,1);return o;
 }
 float3 Film(float3 x){return saturate((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14));}
+float4 SkyPS(FullPixel p):SV_TARGET
+{
+    float4 far=mul(float4(p.uv*float2(2,-2)+float2(-1,1),1,1),InverseProjection);
+    return float4(Sky(normalize(far.xyz/far.w-EyeTime.xyz)),1);
+}
 float4 PostPS(FullPixel p):SV_TARGET
 {
     float3 color=Hdr.SampleLevel(TextureSampler,p.uv,0).rgb;float depth=SceneDepth.SampleLevel(TextureSampler,p.uv,0);
-    if(depth>.99999)
-    {
-        float4 far=mul(float4(p.uv*float2(2,-2)+float2(-1,1),1,1),InverseProjection);
-        color=Sky(normalize(far.xyz/far.w-EyeTime.xyz));
-    }
     if(Settings.x>.5)
     {
         float occlusion=0;

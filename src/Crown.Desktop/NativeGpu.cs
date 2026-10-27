@@ -14,6 +14,7 @@ internal sealed unsafe class NativeGpu : IDisposable
     internal readonly nint Device, Context;
     internal readonly uint FeatureLevel;
     private readonly HashSet<nint> owned = [];
+    internal int LiveResources=>owned.Count;
     private bool disposed;
     private static readonly Dictionary<string, byte[]> shaderCache = [];
     internal static void Check(int result, string operation) { if (result < 0) throw new InvalidOperationException($"Direct3D 11: {operation} (0x{result:X8}).", Marshal.GetExceptionForHR(result)); }

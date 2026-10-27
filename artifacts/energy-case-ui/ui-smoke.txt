@@ -18,6 +18,6 @@ PASS Refusal records a real decision without fabricating a payment or promise
 PASS Turning off the named service cannot satisfy the pledge at zero demand
 PASS Failed pledge register explains the unmet phases rather than awarding a timer reward
 PASS An older pending council visibly prevents replacing its context with an energy hearing
-PASS Compact native layout: requested 1200x800, window 1200x800, root 1184x761, state Normal
+PASS Compact native layout: requested 1200x800, window 1200x800, root 1187,2x768,8, state Normal
 PASS Energy case explanations and actions remain reachable in a compact scrolling window
 22 energy case desktop integration checks passed.
