@@ -6,7 +6,7 @@ using System.Windows.Media.Media3D;
 namespace Crown.Desktop;
 
 internal sealed record WorldScene(Model3DGroup Terrain, Model3DGroup Objects, int TerrainTriangles, int ObjectTriangles,
-    IReadOnlyList<int> CityIds, IReadOnlyList<int> UnitIds, int TreeCount, TerrainField Field,int Season,int Seed);
+    IReadOnlyList<int> CityIds, IReadOnlyList<int> UnitIds, int TreeCount, TerrainField Field,int Season,int Seed, int MapWidth, Model3DGroup CoarseTrees);
 
 internal static partial class WorldScene3D
 {
@@ -14,7 +14,7 @@ internal static partial class WorldScene3D
     {
         var field=TerrainField.Prepare(s);
         if(reuseTerrain!=null&&!ReferenceEquals(reuseTerrain.Field,field))reuseTerrain=null;
-        var ground = new SceneBatch(); var objects = new SceneBatch(); var visible = Engine.Visible(s); int trees = 0;
+        var ground = new SceneBatch(); var objects = new SceneBatch(); var coarseTrees = new SceneBatch(); var visible = Engine.Visible(s); int trees = 0;
         RiverEnvironment(objects,s,field.Rivers);
         foreach (var tile in s.Tiles)
         {
@@ -61,7 +61,8 @@ internal static partial class WorldScene3D
                 {
                     double x = center.X + (rng.NextDouble() - .5) * 1.25, z = center.Y + (rng.NextDouble() - .5) * 1.25;
                     if(field.Rivers.Distance(new(x,z))<.42||tile.Resource!=Resource.None&&(ResourceAnchor(s,tile)-new Point(x,z)).Length<.62)continue;
-                    NaturalTree(objects, s, x, z, .65 + rng.NextDouble() * .5, i % 3 != 0); trees++;
+                    double height=.65+rng.NextDouble()*.5;NaturalTree(objects,s,x,z,height,i%3!=0);
+                    coarseTrees.TileId=tile.Id;CoarseTree(coarseTrees,s,x,z,height,i%3!=0);trees++;
                 }
             }
             GroundPlants(objects,s,tile);
@@ -89,7 +90,7 @@ internal static partial class WorldScene3D
         }
         if(reuseTerrain==null)DistantLandscape(ground,s);
         int terrainTriangles = reuseTerrain?.TerrainTriangles ?? ground.Triangles, objectTriangles = objects.Triangles;
-        return new(reuseTerrain?.Terrain ?? ground.Freeze(), objects.Freeze(), terrainTriangles, objectTriangles, cities.Select(c => c.Id).ToArray(), rendered, trees,field,(s.Turn-1)%4,s.Seed);
+        return new(reuseTerrain?.Terrain ?? ground.Freeze(), objects.Freeze(), terrainTriangles, objectTriangles, cities.Select(c => c.Id).ToArray(), rendered, trees,field,(s.Turn-1)%4,s.Seed,s.Width,coarseTrees.Freeze());
     }
     public static void Ribbon(SceneMesh mesh, GameState s, Point start, Point end, double width, double lift)
     {

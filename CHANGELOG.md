@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.26 — Płynniejsza mapa 3D · 27 października 2026
+
+- Przestrzenne partie GPU zamiast materiałowych partii obejmujących całą mapę. Identyfikatory pól utrzymują obiekty w spójnych sektorach; teren dzielony jest według położenia trójkątów. Bufory są buforowane i zwalniane po zastąpieniu geometrii.
+- Konserwatywne testowanie obwiedni względem sześciu płaszczyzn widoku. Główny obraz, cienie i lustrzana kamera odbić korzystają z osobnych macierzy. Margines uwzględnia wiatr i błędy numeryczne. Wyłączenie pomijania daje ścieżkę porównawczą.
+- Dwa poziomy szczegółów drzew oraz ograniczenie odległych źdźbeł i dzikich kwiatów. Wariant daleki zachowuje pnie i teksturowane korony, a bliski dotychczasową geometrię. Modele zasobów, wojsk i zabudowy zachowują szczegóły. WPF i testowanie trafień używają pełnej geometrii.
+- Niezmieniona scena i nakładki nie wymagają ponownego uzgadniania wszystkich buforów przy każdej animowanej klatce. Obrót i zoom nie przebudowują świata. Statystyki w menu Grafika pokazują czas klatki, trójkąty i partie dla trzech przebiegów.
+- Trzynasty tryb --ui-smoke-rendering: porównania rzeczywistych pikseli z pełną ścieżką, bliski i niski widok, mniejsze okno, liczba wysłanych trójkątów, warianty drzew, brak narastania zasobów, zachowanie wyboru pól, stanu kampanii oraz RNG. Pomiary wydajności są próbkami bieżącego komputera, bez gwarancji FPS.
+- Osobne wydanie-0.26, zachowane wcześniejsze paczki i zapis v19. Poziomy roślinności przełączają się skokowo. Nie dodano strumieniowania, uproszczenia terenu, animacji postaci ani nowych bitmap.
+
 ## 0.25 — Ludzie, przyroda i czytelne zasoby · 27 października 2026
 
 - Profilowana geometria ludzi: kończyny, dłonie, buty, szczegóły twarzy, hełmy, płaszcze i wyposażenie. Rozbudowane konie z kopytami, uszami, oczami, pyskiem, grzywą i ogonem; warianty umaszczenia oraz siodła kawalerii. Poprawiona skala formacji, położenie w mieście i kierunek ustawienia względem celu marszu.

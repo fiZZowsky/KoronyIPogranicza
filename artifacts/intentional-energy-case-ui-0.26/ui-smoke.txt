@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional energy case diagnostic failure.
+   at Crown.Desktop.MainWindow.EnergyCaseSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\EnergyCaseSmoke.cs:line 43

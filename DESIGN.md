@@ -1,5 +1,17 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Widoczność i szczegóły renderowania — 0.26
+
+SpatialRendering grupuje trójkąty każdego materiału w sektory 8×8 jednostek świata. Dla modeli posiadających TileIds sektor wynika ze środka logicznego pola, dzięki czemu bliski i daleki wariant drzewa korzystają z identycznego kryterium. Pozostałe trójkąty przypisuje ich środek geometryczny. Każda partia ma rzeczywistą obwiednię AABB, własny bufor oraz ten sam materiał i UV. WPF zachowuje oryginalną geometrię dla wyświetlania w trybie zgodności i trafiania promieniem.
+
+RenderFrustum wyprowadza płaszczyzny z kolumn macierzy używanej z wektorami wierszowymi oraz przedziału głębokości Direct3D 0..w. Test obwiedni używa jej środka i promienia projekcji na normalną płaszczyzny, z marginesem 0,10 na deformację wiatru i precyzję. Oddzielne bryły dla głównej kamery, światła i odbicia chronią cienie rzucane spoza kadru oraz geometrię widoczną tylko w wodzie. Nie jest to odrzucanie obiektów zasłoniętych przez inne obiekty.
+
+WorldScene przechowuje dodatkową grupę CoarseTrees wyłącznie dla GPU. Nie wchodzi ona do WPF, nakładek ani wybierania pól. Daleki pień ma sześć boków, a korona trzy karty z dotychczasowej tekstury alfa. Sektor wybiera szczegółowe drzewa przy dystansie od kamery poniżej 25 i uproszczone od 25. Drobna trawa i kompletne dzikie kwiaty są pomijane od 18; rośliny barwierskie, uprawy i złoża zachowują modele. Odległość uwzględnia wysokość kamery i próbkę terenu w środku sektora. Warianty mają skokowe przejście, bez histerezy lub przenikania.
+
+Scene pomija ponowne uzgadnianie zasobów, jeżeli referencje niezmiennego WorldScene i modelu nakładek są identyczne. MeshCache zawiera tablice partii i zwalnia każdy bufor porzuconej geometrii. Kamera wybiera gotowe partie, nie zmienia GameState i nie uruchamia WorldScene.Build. RenderStatistics rozdziela trójkąty i wywołania rysowania świata w mapie, cieniach i odbiciach; nie wlicza nakładek, pogody i pełnoekranowych przebiegów. Wszystkie ustawienia są lokalne dla widoku.
+
+To optymalizacja liczby wysłanych trójkątów oraz powtórnej obsługi zasobów. Pełna geometria i warianty pozostają w pamięci, a liczba buforów rośnie przez podział przestrzenny. Brak doczytywania, LOD terenu i miast, kompresji siatek oraz automatycznego dostosowania do budżetu klatki. Krótkie próbki czasów nie zastępują profilu pamięci, różnych GPU i długiej kampanii.
+
 ## Modele i czytelność zasobów — 0.25
 
 LivingModels3D i ResourceModels3D budują lokalną geometrię niezależną od Crown.Core. SceneMesh.Hull łączy profilowane pierścienie z wygładzonymi normalnymi i zamknięciami; trójkąty dziedziczą identyfikator pola oraz skalę i obrót partii. Ludzie zachowują warianty historyczne, współczesne i przyszłe. Konie korzystają ze wspólnego modelu dla zasobu i kawalerii. To statyczne pozy, bez szkieletu lub systemu zachowania zwierząt.

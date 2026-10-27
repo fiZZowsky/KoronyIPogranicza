@@ -54,6 +54,16 @@ internal static partial class WorldScene3D
             }
         }
     }
+    private static void CoarseTree(SceneBatch batch,GameState s,double x,double z,double height,bool broadleaf)
+    {
+        double y=Terrain3D.Height(s,x,z);bool birch=broadleaf&&Math.Abs((int)(x*17+z*23))%4==0;
+        batch.Mesh(birch?"lod-bark-birch":broadleaf?"lod-bark-oak":"lod-bark-spruce",birch?"#C7C6AD":"#89785E").Cylinder(x,y,z,height*.026,height*.84,height*.006,6);
+        for(int card=0;card<3;card++)
+        {
+            double angle=card*Math.PI/3,spread=height*(broadleaf?.39:.31);
+            batch.Foliage(!broadleaf,"lod-").FoliageCard(new(x,y+height*(broadleaf?.67:.59),z),new(Math.Cos(angle)*spread,0,Math.Sin(angle)*spread),new(0,height*(broadleaf?.37:.49),0));
+        }
+    }
     private static void BuildingDetails(SceneBatch batch,double x,double y,double z,double width,double height,double depth)
     {
         var frames=batch.Mesh("window-frames","#A29175");var panes=batch.Mesh("window-glass","#455B5B");

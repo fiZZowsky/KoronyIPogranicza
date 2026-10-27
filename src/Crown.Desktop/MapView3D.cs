@@ -27,6 +27,9 @@ public sealed partial class MapView : Grid
     private readonly Canvas annotations = new() { IsHitTestVisible = false };
     private readonly Image photographicImage = new() { Stretch = Stretch.Fill, IsHitTestVisible = false };
     private readonly TextBlock rendererStatus = new() { IsHitTestVisible = false, FontSize = 10, Foreground = Ui.Muted, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom, Margin = new(0, 0, 18, 58) };
+    internal readonly TextBlock RenderStatisticsText=new(){IsHitTestVisible=false,FontSize=11,Foreground=Ui.Text,Background=Ui.Brush("#E2192D31"),Padding=new(10),HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Top,Margin=new(16,108,0,0),Visibility=Visibility.Collapsed};
+    internal bool ShowRenderStatistics {get;private set;}
+    internal ContextMenu? ActiveGraphicsMenu {get;private set;}
     private PhotographicRenderer? photographic;
     private bool gpuPending, gpuAttempted;
     private readonly System.Windows.Threading.DispatcherTimer animationTimer=new(System.Windows.Threading.DispatcherPriority.Background){Interval=TimeSpan.FromMilliseconds(100)};
@@ -55,7 +58,7 @@ public sealed partial class MapView : Grid
         ClipToBounds = true; Focusable = true;
         Background = new LinearGradientBrush((Color)ColorConverter.ConvertFromString("#A2BEC6"), (Color)ColorConverter.ConvertFromString("#344F55"), 90);
         viewport.Camera = camera; viewport.Children.Add(worldVisual); viewport.Children.Add(overlaysVisual);
-        Children.Add(viewport); Children.Add(photographicImage); Children.Add(annotations); Children.Add(rendererStatus); AddCameraControls();
+        Children.Add(viewport); Children.Add(photographicImage); Children.Add(annotations); Children.Add(rendererStatus);Children.Add(RenderStatisticsText); AddCameraControls();
         animationTimer.Tick+=(_,_)=>{if(animateEnvironment&&photographic!=null&&!gpuPending&&IsVisible)RenderGpuFrame(visualClock.Elapsed.TotalSeconds);};
         Loaded+=(_,_)=>animationTimer.Start();
         Unloaded += (_, _) => { animationTimer.Stop();photographic?.Dispose(); photographic = null; photographicImage.Source = null; gpuAttempted = false; };
@@ -136,7 +139,7 @@ public sealed partial class MapView : Grid
     internal void LandscapeCamera(){pitch=15;distance=7;yaw=20;camera.FieldOfView=80;if(SelectedTile>=0)Center(SelectedTile);else UpdateCamera();}
     private void GraphicsMenu()
     {
-        var menu=new ContextMenu();
+        var menu=new ContextMenu();ActiveGraphicsMenu=menu;
         void Option(string label,Action action){var item=new MenuItem{Header=label};item.Click+=(_,_)=>{action();RequestGpuFrame();};menu.Items.Add(item);}
         Option("Jakość wysoka · cienie i odbicia",()=>{if(photographic is{} r){r.MaximumWidth=1600;r.Reflections=true;r.PostProcessing=true;r.Shadows=true;}});
         Option("Jakość zrównoważona · mniej obciążenia",()=>{if(photographic is{} r){r.MaximumWidth=1100;r.Reflections=false;r.PostProcessing=true;r.Shadows=true;}});
@@ -144,6 +147,9 @@ public sealed partial class MapView : Grid
         Option("Odbicia: włącz / wyłącz",()=>{if(photographic is{} r)r.Reflections=!r.Reflections;});
         Option("Brzegi i głębokość wody: włącz / wyłącz",()=>{if(photographic is{} r)r.ShoreEffects=!r.ShoreEffects;});
         Option("Wygładzanie krawędzi: włącz / wyłącz",()=>{if(photographic is{} r)r.EdgeSmoothing=!r.EdgeSmoothing;});
+        Option("Automatyczne szczegóły otoczenia: włącz / wyłącz",()=>{if(photographic is{} r)r.AutomaticDetail=!r.AutomaticDetail;});
+        Option("Pomijanie geometrii poza kadrem: włącz / wyłącz",()=>{if(photographic is{} r)r.VisibilityCulling=!r.VisibilityCulling;});
+        Option("Statystyki renderowania: włącz / wyłącz",()=>ShowRenderStatistics=!ShowRenderStatistics);
         Option("Barwy pór roku: włącz / wyłącz",()=>{if(photographic is{} r)r.SeasonalColors=!r.SeasonalColors;});
         Option("Pogoda zgodna z porą roku",()=>{if(photographic is{} r)r.Weather=VisualWeather.Seasonal;});
         Option("Pogoda: bez opadów",()=>{if(photographic is{} r)r.Weather=VisualWeather.Clear;});
@@ -275,11 +281,14 @@ public sealed partial class MapView : Grid
             photographic.Render(camera, (int)ActualWidth, (int)ActualHeight,visualTime);
             photographicImage.Source = photographic.Image; viewport.Visibility = Visibility.Hidden;
             rendererStatus.Text = "DIRECT3D 11 · CIENIE · MATERIAŁY · HDR";
+            var stats=photographic.Statistics;RenderStatisticsText.Visibility=ShowRenderStatistics?Visibility.Visible:Visibility.Collapsed;
+            RenderStatisticsText.Text=$"RENDEROWANIE · {photographic.LastFrameMilliseconds:0.0} ms\nMapa: {stats.MainTriangles:N0} / {stats.InputTriangles:N0} trójkątów\nCienie: {stats.ShadowTriangles:N0} · odbicia: {stats.ReflectionTriangles:N0}\nPartie mapy: {stats.MainDraws} · poza kadrem: {stats.CulledBatches}\nUproszczone korony: {stats.CoarseTreeDraws} partii";
         }
         catch (Exception ex)
         {
             GpuFailure = ex.ToString(); photographic?.Dispose(); photographic = null; photographicImage.Source = null; viewport.Visibility = Visibility.Visible;
             rendererStatus.Text = "TRYB ZGODNOŚCI WPF · " + ex.Message.Split('\n')[0]; rendererStatus.ToolTip = ex.Message;
+            RenderStatisticsText.Visibility=ShowRenderStatistics?Visibility.Visible:Visibility.Collapsed;RenderStatisticsText.Text="TRYB ZGODNOŚCI WPF\nStatystyki Direct3D są niedostępne.";
             System.Diagnostics.Debug.WriteLine(GpuFailure);
         }
     }

@@ -1,4 +1,4 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.25
+# Epoki i możliwe przyszłości — podręcznik wydania 0.26
 
 Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 nowe modele wojsk i pięć programów pozaziemskich. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
 

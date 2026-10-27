@@ -1,0 +1,27 @@
+# Weryfikacja wydania 0.26
+
+Data: 27 października 2026 r. Windows, .NET SDK 10.0.401, .NET 10 Desktop, sprzętowy Direct3D 11 feature level 11_0. Wersja pliku 0.26.0.0. Kod reguł Crown.Core i format zapisu v19 nie były edytowane.
+
+- Końcowa kompilacja Release: sukces, zero ostrzeżeń i błędów. EXE, KoronyIPogranicza.dll oraz Crown.Core.dll w wydaniu mają SHA256 zgodne z końcowym katalogiem kompilacji źródłowej.
+- Pełny Zweryfikuj.ps1 przeszedł 438 specyfikacji silnika w 21,1 s i 461 kontroli interfejsu w trzynastu trybach: łącznie 899. Raport: artifacts/verification-run-0.26.txt. Limity: podstawowy 180 s, pozostałe 60 s; procesy działały kolejno.
+- Podział UI: 170 podstawowych, 22 wywiadu, 18 jeńców, 38 epok, 23 energetyki, 22 kryzysów, 34 sceny 3D, 21 obrazu GPU, 18 krajobrazu, 19 rzek, 22 środowiska, 27 modeli i 27 renderowania. Dotychczasowe kontrole zachowują rozkazy, geometrię trafień, mgłę wojny, odczyt v19 i wszystkie etapy kampanii.
+- Nowe 27 kontroli sprawdza rzeczywiste piksele GPU. W bliskim widoku, przy niskiej kamerze krajobrazowej i po zmianie proporcji okna obraz z pomijaniem geometrii jest identyczny z pełną ścieżką w tej samej kompilacji i stałym czasie wizualnym. Porównanie dotyczy samego obrazu GPU, bez interfejsu i jego zmiennego tekstu statystyk.
+- Testy płaszczyzn obejmują obiekt z przodu, za kamerą, poza boczną i daleką płaszczyzną oraz obwiednie przecinające krawędź i płaszczyznę bliską. Obiekt przecinający krawędź pozostaje, także gdy środek wypada poza widokiem. Cienie i odbicia korzystają z własnych brył widoczności.
+- W źródłowym scenariuszu testowym bliski widok wysyła 182 697 z 733 824 trójkątów świata, cienie 452 843 z 731 076, a odbicia 228 180 z 731 076. Odległy widok z automatycznymi szczegółami ma 280 523 zamiast 662 180 trójkątów i 73 partie uproszczonych drzew. Liczby nie obejmują opadów i nakładek strategicznych.
+- Próbka porównawcza tej samej kompilacji: mediana 42,2 ms dla pełnej ścieżki i 32,6 ms dla pomijania geometrii, po dziesięć klatek każdej. Inne ustawienia i czas wizualny są stałe; automatyczne szczegóły wyłączono w obu próbkach, aby porównać samą widoczność. Oddzielna próbka dotychczasowego scenariusza GPU: mediana 25,2 ms, maksimum 30,6 ms przy 1165×758. To pomiary bieżącej sceny i komputera, bez gwarancji FPS.
+- Obrót kamery przez 24 klatki zachowuje ten sam teren, liczbę budów sceny, 1552 buforowane partie przestrzenne, licznik uzgadniania sceny oraz liczbę posiadanych zasobów natywnych. To kontrola uchwytów, nie pełny profil pamięci VRAM.
+- Dalekie drzewa mają mniej niż jedną czwartą trójkątów szczegółowych wariantów. Przybliżenie przywraca szczegóły. Nowa roślinność daleka nie powstaje na ukrytych polach. Modele zasobów, nazwa Żelazo i wybór logicznego pola miasta pozostają dostępne. Kamera, przełączniki i panel statystyk zachowują dokładny stan kampanii oraz RNG.
+- Obejrzano rzeczywiste bliskie i dalekie obrazy oraz układ statystyk. Scenariusz jest przygotowany: odsłonięta okolica, zagęszczone lasy, przyznane technologie i wstrzymana produkcja. Nie zastępuje naturalnie rozegranej wielogodzinnej kampanii.
+- Bieżący autosave.crown skopiowano z osobnego 0.25 do 0.26 wyłącznie przy braku pliku docelowego. Diagnostyka nie wykonuje autozapisu. EPOKI.md wygenerowano z katalogu gry, a ASSETS.md opisuje kodowe warianty drzew i wykorzystanie dotychczasowych tekstur 0.21. Nie generowano ani nie pobierano nowych bitmap lub modeli.
+
+Optymalizacja działa w Direct3D. WPF nadal wyświetla pełne modele i używa ich do wybierania pól. Wszystkie siatki pozostają w pamięci, a podział zwiększa liczbę buforów. Nie dodano doczytywania, odrzucania zasłoniętych obiektów, LOD terenu i miast ani automatycznego budżetu klatki. Zmiana poziomu roślinności jest skokowa. Modele nadal są proceduralne i bez animacji szkieletowej; wydanie nie osiąga fotorealizmu ilustracji menu. Potrzebne są testy różnych GPU, rozdzielczości i długich sesji.
+
+## Gotowe wydanie
+
+- Opublikowana paczka przeszła osobno wszystkie 461 kontroli UI w trzynastu trybach. Nowe 27 kontroli renderowania trwało 15,3 s. Raport: artifacts/published-verification-run-0.26.txt i katalogi artifacts/published-*-ui-0.26/.
+- Dodatkowy --ui-smoke-3d --no-gpu przeszedł 34 kontrole w 25,2 s. Wymuszone błędy wszystkich trzynastu trybów zwróciły kod 3 oraz raport celowej awarii; artifacts/process-exit-check-0.26.txt.
+- Końcowa opublikowana próbka tej samej kompilacji: mediana pełnej ścieżki 43,6 ms, z pomijaniem geometrii 35,1 ms. Liczby wysłanych trójkątów bliskiego i dalekiego widoku są identyczne ze źródłowymi powyżej. Oddzielny scenariusz GPU: mediana 24,1 ms, maksimum 46,7 ms przy 1165×758. Są to krótkie próbki na bieżącym komputerze.
+- Autosave.crown z 0.25 i kopia w 0.26 zachowują SHA256 FDE20C05CA9832CB14A93E958BF6FC18278958CE818C43F59279829CF165A8FB. Starsze ZIP-y 0.25, 0.24, 0.23 i 0.22 zachowują dotychczasowe SHA256.
+- ZIP zawiera 14 plików pod wydanie-0.26/, bez kampanii, kopii i plików tymczasowych. Każdy wpis porównano przez SHA256 z wydaniem. Metadane: artifacts/package-0.26.txt. Skrypt odtworzenia pakowania: artifacts/package-release-0.26.ps1.
+
+Czasy procesów: podstawowy 153,8 s; wywiad 22,7 s; jeńcy 17,9 s; epoki 19,7 s; energetyka 13,4 s; kryzysy 17,5 s; 3D 27,4 s; GPU 14,6 s; krajobraz 9,8 s; rzeki 6,8 s; środowisko 15,8 s; modele 11,3 s; renderowanie 15,3 s. Szczegóły: artifacts/published-durations-0.26.txt.

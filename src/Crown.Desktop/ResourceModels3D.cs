@@ -67,15 +67,15 @@ internal static partial class WorldScene3D
     }
     private static void FlowerPlant(SceneBatch batch,GameState s,Point p,double height,bool dye)
     {
-        double y=Terrain3D.Height(s,p.X,p.Y);batch.Mesh("plant-stems","#6D8251").Tube(new(p.X,y,p.Y),new(p.X,y+height,p.Y),.0028,4);
-        Blade(batch,new(p.X,y+height*.25,p.Y),.046,height*.35,"plant-leaves","#788E53",.9);
+        double y=Terrain3D.Height(s,p.X,p.Y);batch.Mesh(dye?"plant-stems":"wild-stems","#6D8251").Tube(new(p.X,y,p.Y),new(p.X,y+height,p.Y),.0028,4);
+        Blade(batch,new(p.X,y+height*.25,p.Y),.046,height*.35,dye?"plant-leaves":"wild-leaves","#788E53",.9);
         var petals=batch.Mesh(dye?"dye-petals":"wild-petals",dye?"#A77BAA":"#DCCBA0");var center=new Point3D(p.X,y+height,p.Y);
         for(int i=0;i<5;i++)
         {
             double a=i*Math.PI*2/5;var along=new Vector3D(Math.Cos(a)*.024,.002,Math.Sin(a)*.024);var across=new Vector3D(-Math.Sin(a)*.008,0,Math.Cos(a)*.008);
             petals.Quad(center,center+along*.6+across,center+along,center+along*.6-across,new(0,1,0));
         }
-        batch.Mesh("flower-centers","#D4BC68").Sphere(p.X,y+height+.004,p.Y,.006,.004,.006,6,3);
+        batch.Mesh(dye?"flower-centers":"wild-centers","#D4BC68").Sphere(p.X,y+height+.004,p.Y,.006,.004,.006,6,3);
     }
     private static void Blade(SceneBatch batch,Point3D root,double width,double height,string key,string color,double angle)
     {

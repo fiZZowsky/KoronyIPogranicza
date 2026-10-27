@@ -167,9 +167,9 @@ internal sealed class SceneBatch
         Material material = new DiffuseMaterial(brush); material.Freeze(); materials[key] = material;
         var result = new SceneMesh(); meshes[key] = result; return result;
     }
-    public SceneMesh Foliage(bool spruce)
+    public SceneMesh Foliage(bool spruce,string prefix="")
     {
-        string key=Slot(spruce?"foliage-spruce":"foliage-oak");if(meshes.TryGetValue(key,out var existing))return Configure(existing);
+        string key=Slot(prefix+(spruce?"foliage-spruce":"foliage-oak"));if(meshes.TryGetValue(key,out var existing))return Configure(existing);
         var image=new System.Windows.Media.Imaging.BitmapImage(new Uri("pack://application:,,,/Assets/"+(spruce?"spruce":"oak")+"-foliage-0.21.png"));image.Freeze();
         var brush=new ImageBrush(image){ViewportUnits=BrushMappingMode.Absolute,Viewport=new(0,0,1,1)};brush.Freeze();
         var material=new DiffuseMaterial(brush);material.Freeze();materials[key]=material;var mesh=new SceneMesh();meshes[key]=mesh;return Configure(mesh);
@@ -198,7 +198,7 @@ internal sealed class SceneBatch
         {
             var model = new GeometryModel3D(pair.Value.Freeze(), materials[pair.Key]);
             model.SetValue(SceneSurface.KeyProperty, pair.Key);model.SetValue(SceneSurface.TileIdsProperty,pair.Value.TileIds.ToArray());
-            if(pair.Key.StartsWith("foliage"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
+            if(pair.Key.Contains("foliage"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
         }
         group.Freeze(); return group;
     }

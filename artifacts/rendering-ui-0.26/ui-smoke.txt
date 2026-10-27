@@ -1,0 +1,31 @@
+PASS Spatial rendering initializes on the actual Direct3D device: 
+PASS A box in front of the camera remains visible
+PASS A box behind the camera is rejected
+PASS A box beyond a side plane is rejected
+PASS A box crossing the edge stays visible even with its center outside
+PASS A box crossing the near plane is kept conservatively
+PASS A box beyond the far plane is rejected
+PASS Coarse trees retain geometry with fewer than one quarter of the detailed triangles
+PASS Material meshes are partitioned into cached spatial batches
+PASS Main, reflected and shadow frusta preserve every rendered pixel at fixed time
+PASS A close camera submits fewer than half the uncropped world triangles
+PASS Shadows and reflections cull using their own view volumes
+PASS Disabling automatic detail selects only detailed tree geometry
+PASS The low landscape camera preserves the exact reference image including reflections
+PASS The real graphics menu opens live rendering statistics
+PASS Orbiting changes visibility without rebuilding simulation geometry
+PASS Camera motion reuses buffers and does not accumulate native resources or scene uploads
+PASS The real detail control selects coarse trees in the distant overview
+PASS Distant tree and small-plant detail reduces submitted geometry
+PASS Approaching the map restores nearby tree detail
+PASS Visibility and tree detail do not change logical city picking
+PASS Resource names remain readable with rendering optimizations enabled
+PASS The real culling control restores the reference path
+PASS Rendering optimizations, statistics and camera changes preserve campaign state and RNG
+PASS Unknown forest geography creates no coarse tree models
+PASS Statistics fit the compact map without blocking its controls
+PASS Resizing preserves every reference pixel with the new camera aspect ratio
+SAME-BUILD SAMPLE: reference 42,2ms; spatial culling 32,6ms; ten fixed-time frames each, median; not an FPS guarantee.
+NEAR TRIANGLES: main 182697/733824; shadows 452843/731076; reflections 228180/731076.
+FAR TRIANGLES: detail 280523/662180; coarse tree batches 73; cached spatial batches 1552.
+27 rendering desktop integration checks passed.
