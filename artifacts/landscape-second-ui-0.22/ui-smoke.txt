@@ -1,0 +1,24 @@
+PASS Default game map initializes the hardware renderer: Direct3D 11
+PASS Hardware feature level 11_0 renders an actual frame
+PASS World meshes and a 2048px shadow map are resident on the GPU
+PASS GPU image contains a nonempty lit scene with a broad tonal range
+PASS oak-foliage-0.21.png has real transparent gaps and opaque leaves
+PASS spruce-foliage-0.21.png has real transparent gaps and opaque leaves
+PASS Fixed visual time renders deterministically without random simulation changes
+PASS Visual time animates water and leaves without advancing a turn
+PASS Disabling shadow mapping changes actual pixels
+PASS Photographic terrain detail changes actual surface pixels
+PASS The visible lake changes when planar scene reflections are disabled
+PASS Ambient occlusion and highlight processing affect the rendered image
+PASS Exposure controls operate on the HDR scene
+PASS Changing sunlight repositions real world shading
+PASS GPU presentation retains real geometry picking and city selection (hit 639, city 639)
+PASS Rendering, lighting and visual settings leave the campaign and RNG untouched
+PASS Low camera remains above hills and mountains instead of entering the terrain
+FRAME SAMPLE: median 24,8ms, maximum 31,9ms; 1168x765; this machine only, not a frame-rate guarantee.
+PASS Resize recreates GPU targets at the compact client's size
+PASS Balanced rendering bounds the GPU output resolution
+PASS Existing v19 save reloads into the new GPU renderer without migration
+PASS Graphics and landscape camera controls remain available
+21 photographic desktop integration checks passed.
+Elapsed 10,3s; Direct3D feature level 0xB000; fixed-time diagnostic.

@@ -33,4 +33,4 @@ PASS City architecture builds spatial models for era 18
 PASS All six land roles have renderable spatial models, including cavalry and artillery
 PASS Compact window retains a usable 3D viewport and camera controls
 34 3D desktop integration checks passed.
-Elapsed 21,2s; render tier 2; final terrain 178850 triangles; objects 177120 triangles.
+Elapsed 22,9s; render tier 2; final terrain 262034 triangles; objects 177258 triangles.

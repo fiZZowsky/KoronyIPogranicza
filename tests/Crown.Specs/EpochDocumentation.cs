@@ -7,7 +7,7 @@ internal static class EpochDocumentation
     {
         var text = new StringBuilder();
         void Line(string value = "") => text.AppendLine(value);
-        Line("# Epoki i możliwe przyszłości — podręcznik wydania 0.21"); Line();
+        Line("# Epoki i możliwe przyszłości — podręcznik wydania 0.22"); Line();
         Line("Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 nowe modele wojsk i pięć programów pozaziemskich. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii."); Line();
         Line("Otwórz **Nauka → Epoki i rozwój świata**. Każdy etap ma cztery dziedziny i odkrycie zamykające dorobek. Badania następnego etapu wymagają tego zamknięcia. Dodatkowe wymagania technologii nadal obowiązują. Państwa rozwijają się oddzielnie i zachowują całą wcześniejszą wiedzę, miasta oraz instytucje."); Line();
         Line("Nowa kampania zaczyna się w paleolicie i ma limit 1600 tur. Kalendarz jest umowny: stopniowo zwalnia i uwzględnia najbardziej zaawansowane państwo; jego skala sięga roku 5000. Tempo wiedzy nie jest historycznym rozkładem dat. Stare kampanie zachowują zasady i limit 320 tur do wybrania **Rozszerz kampanię do 18 epok i 1600 tur**. Wtedy uznajemy zamknięcia epok poprzedzających posiadany już dorobek, zachowując miasta, środki, wywiad, długi, jednostki i plany."); Line();

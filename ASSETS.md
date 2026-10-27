@@ -10,6 +10,8 @@ Pełny prompt:
 
 ## Mapa i interfejs
 
+Wydanie 0.22 rozwija geometrię terenu i historycznych miast oraz shader wody. Grzbiety, ciągły daleki horyzont, parcele, stragany, kurtyny i brama łukowa powstają z kodu projektu. Nie wygenerowano nowych bitmap i nie pobrano modeli ani tekstur z Internetu. Renderer nadal używa trzech poniższych zasobów 0.21 pod ich pierwotnymi nazwami. Zrzuty diagnostyczne są obrazami rzeczywistego programu, z przygotowanym jeziorem i odsłoniętą mapą; nie są ilustracjami AI.
+
 Od 0.21 scenę renderuje Direct3D 11 poprzez autorski kod C# i HLSL. WPF zachowuje geometrię dla trafiania promieniem i trybu zgodności. Materiały wykorzystują opisane poniżej tekstury AI. Geometria terenu, drzew, zabudowy i jednostek powstaje proceduralnie. Etykiety i minimapa są elementami interfejsu 2D. Fonty systemowe Segoe UI i Georgia nie są dołączane do dystrybucji. Nie wykorzystano zasobów, kodu, nazw państw ani dialogów z serii Civilization.
 
 ## Tekstury wydania 0.21

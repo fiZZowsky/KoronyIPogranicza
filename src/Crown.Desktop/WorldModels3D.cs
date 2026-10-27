@@ -13,6 +13,7 @@ internal static partial class WorldScene3D
     private static void City(SceneBatch batch, GameState s, City city)
     {
         var p = Terrain3D.Center(s.Tiles[city.Tile]); int era = s.EpochCampaign ? s.Factions[city.Owner].Era : 4;
+        if(era>=2&&era<9){HistoricCity(batch,s,city,era);return;}
         string color = s.Factions[city.Owner].Color; var random = new Random(city.Tile * 571 + 19);
         double y = Terrain3D.Height(s, p.X, p.Y);
         batch.Mesh("town-square", "#A79D7F").Cylinder(p.X, y - .035, p.Y, .23, .04, sides: 16);
@@ -68,6 +69,12 @@ internal static partial class WorldScene3D
                 var b = a + Math.PI / 6; stone.Tube(new(x, Terrain3D.Height(s, x, z) + .12, z), new(p.X + Math.Cos(b) * .94, Terrain3D.Height(s, p.X + Math.Cos(b) * .94, p.Y + Math.Sin(b) * .94) + .12, p.Y + Math.Sin(b) * .94), .055, 6);
             }
         }
+        CityIndustry(batch,s,city);
+        Flag(batch, p.X - .1, y + (era >= 9 ? .60 : .32), p.Y, color, .36);
+    }
+    private static void CityIndustry(SceneBatch batch,GameState s,City city)
+    {
+        var p=Terrain3D.Center(s.Tiles[city.Tile]);double y=Terrain3D.Height(s,p.X,p.Y);
         if (city.Buildings.Contains("coal_station") || city.Buildings.Contains("steel_mill"))
         {
             House(batch, p.X + .45, Terrain3D.Height(s, p.X + .45, p.Y - .48), p.Y - .48, .28, .19, .25, "#9C8270");
@@ -77,7 +84,6 @@ internal static partial class WorldScene3D
             batch.Mesh("power-domes", "#C3C9BA").Sphere(p.X - .45, Terrain3D.Height(s, p.X - .45, p.Y - .38) + .12, p.Y - .38, .16, .22, .16, 12, 6);
         if (city.Buildings.Contains("solar_farm") || city.Buildings.Contains("smart_grid"))
             for (int i = 0; i < 3; i++) batch.Mesh("solar-panels", "#345766").Box(p.X - .45 + i * .15, y + .08, p.Y + .55, .12, .025, .14);
-        Flag(batch, p.X - .1, y + (era >= 9 ? .60 : .32), p.Y, color, .36);
     }
     private static void Person(SceneBatch batch, double x, double y, double z, string color, bool modern, bool robot = false)
     {

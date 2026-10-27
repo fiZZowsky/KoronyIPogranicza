@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional custody diagnostic failure.
+   at Crown.Desktop.MainWindow.CustodySmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\CustodySmoke.cs:line 53

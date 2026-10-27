@@ -10,6 +10,7 @@ internal sealed class SceneMesh
     private readonly double uvX, uvZ;
     internal Point3D ScaleOrigin;
     internal double ModelScale = 1;
+    internal double ModelYaw;
     internal int TileId=-1;
     internal readonly List<int> TileIds=[];
     public SceneMesh(double uvX = .36, double uvZ = .36) { this.uvX = uvX; this.uvZ = uvZ; }
@@ -18,6 +19,13 @@ internal sealed class SceneMesh
     {
         var normal = Vector3D.CrossProduct(b - a, c - a); if (normal.LengthSquared < 1e-18) return; normal.Normalize();
         if(ModelScale!=1){a=ScaleOrigin+(a-ScaleOrigin)*ModelScale;b=ScaleOrigin+(b-ScaleOrigin)*ModelScale;c=ScaleOrigin+(c-ScaleOrigin)*ModelScale;}
+        if(ModelYaw!=0)
+        {
+            double co=Math.Cos(ModelYaw),si=Math.Sin(ModelYaw);
+            Point3D P(Point3D p){var q=p-ScaleOrigin;return new(ScaleOrigin.X+q.X*co-q.Z*si,p.Y,ScaleOrigin.Z+q.X*si+q.Z*co);}
+            Vector3D N(Vector3D n)=>new(n.X*co-n.Z*si,n.Y,n.X*si+n.Z*co);
+            a=P(a);b=P(b);c=P(c);normal=N(normal);if(na.HasValue)na=N(na.Value);if(nb.HasValue)nb=N(nb.Value);if(nc.HasValue)nc=N(nc.Value);
+        }
         int start = mesh.Positions.Count;
         mesh.Positions.Add(a); mesh.Positions.Add(b); mesh.Positions.Add(c);
         mesh.TextureCoordinates.Add(ta ?? new(a.X * uvX, a.Z * uvZ)); mesh.TextureCoordinates.Add(tb ?? new(b.X * uvX, b.Z * uvZ)); mesh.TextureCoordinates.Add(tc ?? new(c.X * uvX, c.Z * uvZ));
@@ -99,13 +107,19 @@ internal sealed class SceneBatch
 {
     private Point3D scaleOrigin;
     private double modelScale=1;
+    private double modelYaw;
     internal int TileId=-1;
     internal void Scaled(Point3D origin,double scale,Action build)
     {
         var previous=scaleOrigin;double previousScale=modelScale;scaleOrigin=origin;modelScale=scale;
         try{build();}finally{scaleOrigin=previous;modelScale=previousScale;}
     }
-    private SceneMesh Configure(SceneMesh mesh){mesh.ScaleOrigin=scaleOrigin;mesh.ModelScale=modelScale;mesh.TileId=TileId;return mesh;}
+    internal void Rotated(Point3D origin,double radians,Action build)
+    {
+        var previous=scaleOrigin;double previousYaw=modelYaw;scaleOrigin=origin;modelYaw=radians;
+        try{build();}finally{scaleOrigin=previous;modelYaw=previousYaw;}
+    }
+    private SceneMesh Configure(SceneMesh mesh){mesh.ScaleOrigin=scaleOrigin;mesh.ModelScale=modelScale;mesh.ModelYaw=modelYaw;mesh.TileId=TileId;return mesh;}
     private readonly Dictionary<string, SceneMesh> meshes = [];
     private readonly Dictionary<string, Material> materials = [];
     private readonly Dictionary<string, int> chunks = [];

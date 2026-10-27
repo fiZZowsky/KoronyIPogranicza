@@ -142,6 +142,8 @@ public sealed partial class MapView : Grid
         Option("Jakość zrównoważona · mniej obciążenia",()=>{if(photographic is{} r){r.MaximumWidth=1100;r.Reflections=false;r.PostProcessing=true;r.Shadows=true;}});
         Option("Cienie: włącz / wyłącz",()=>{if(photographic is{} r)r.Shadows=!r.Shadows;});
         Option("Odbicia: włącz / wyłącz",()=>{if(photographic is{} r)r.Reflections=!r.Reflections;});
+        Option("Brzegi i głębokość wody: włącz / wyłącz",()=>{if(photographic is{} r)r.ShoreEffects=!r.ShoreEffects;});
+        Option("Wygładzanie krawędzi: włącz / wyłącz",()=>{if(photographic is{} r)r.EdgeSmoothing=!r.EdgeSmoothing;});
         Option("Animowane otoczenie: włącz / wyłącz",()=>animateEnvironment=!animateEnvironment);
         Option("Ponów inicjalizację Direct3D 11",()=>{photographic?.Dispose();photographic=null;gpuAttempted=false;GpuFailure=null;});
         Option("Światło: poranek / południe",()=>{if(photographic is{} r)r.Sun=r.Sun.Y<.7?System.Numerics.Vector3.Normalize(new(-.3f,1.5f,-.2f)):System.Numerics.Vector3.Normalize(new(-.65f,.82f,-.35f));});

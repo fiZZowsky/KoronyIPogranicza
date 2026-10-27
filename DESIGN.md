@@ -150,3 +150,15 @@ Dokumentacja API: [Microsoft — D3D11CreateDevice](https://learn.microsoft.com/
 5. **Pełna produkcja:** redakcja treści, dźwięk, dostępność, lokalizacja, migracje wersji zapisów, rozbudowa AI, testy sprzętowe, kampanie dla pozostałych państw i dystrybucja.
 
 Nie ma podstaw, by na tym etapie deklarować jakość wyższą niż konkretna komercyjna gra. O tym zdecydują kompletność, testy z graczami i kolejne iteracje.
+
+## Pole wysokości i historyczna zabudowa 0.22
+
+TerrainField przechowuje niezmienną regularną siatkę wysokości, około ośmiu próbek na jednostkę świata. Przygotowanie uwzględnia ziarno, rozmiary i wyłącznie odkryte typy pól. Łagodna interpolacja podstawowego terenu oraz szerokie masywy z zakłóconymi grzbietami dają ciągłą powierzchnię. Udział wody wygasza podnoszenie dna przy górach. WorldScene3D.Build wywołuje Prepare przed próbkowaniem. Prepare porównuje znacznik odkrytej geografii i przebudowuje pole po zmianie; Current służy później do tanich odczytów. Każda przyszła ścieżka zmieniająca odkryty teren musi najpierw wywołać Prepare. Pole jest powiązane słabo z GameState, bez zapisywania go w kampanii. Ta sama instancja steruje trójkątami, kamerą i teksturą R32_FLOAT dla GPU. Zmiana instancji unieważnia możliwość ponownego użycia poprzedniego terenu i zastępuje zasób GPU.
+
+Shader przelicza współrzędne świata na środki texeli i próbuje teksturę na poziomie mip 0. Przybliżona głębokość od stałego poziomu morza steruje absorpcją koloru, dnem płycizny i pianą. Wilgotny materiał występuje blisko poziomu wody. Rzeki mają umowną głębokość. Nie symulujemy erozji, przepływu, falowania siatki ani przypływów. Wygładzanie krawędzi to ograniczone mieszanie czterech sąsiadów na podstawie kontrastu, bez historii klatek, TAA lub wielopróbkowania. Przełączniki należą do renderera, nie reguł kampanii.
+
+HistoricCity3D obsługuje indeksy epok 2–8. Deterministyczna lista nieprzecinających się parcel omija dwie ulice i centrum. Wzrost wybiera dłuższy początek tej samej listy. Główne powierzchnie ulic podążają za polem wysokości. Ratusz, stragany i belki są dekoracją, bez nowych reguł ekonomicznych. Mury zależą od rzeczywistego budynku walls; łuk ma geometrię wewnętrznej i zewnętrznej powierzchni oraz rzeczywisty prześwit. SceneBatch.Rotated obraca pozycje i normalne, zachowując semantyczne pole trójkątów. Wygląd przemysłu jest współdzielony ze starszym modelem miasta, także dla odziedziczonej infrastruktury.
+
+Dalekie pasmo ma 192 odcinki i 16 pierścieni z wyliczanymi normalnymi, bez heksów rozgrywki. Wygląd pozostaje proceduralny; dalsze prace nad modelami, animacjami, LOD, rzekami i oświetleniem są potrzebne do realizacji celu artystycznego menu.
+
+Dokumentacja shadera: [Microsoft — SampleLevel](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-samplelevel), [Microsoft — GetDimensions](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-to-getdimensions).

@@ -6,18 +6,20 @@ using System.Windows.Media.Media3D;
 namespace Crown.Desktop;
 
 internal sealed record WorldScene(Model3DGroup Terrain, Model3DGroup Objects, int TerrainTriangles, int ObjectTriangles,
-    IReadOnlyList<int> CityIds, IReadOnlyList<int> UnitIds, int TreeCount);
+    IReadOnlyList<int> CityIds, IReadOnlyList<int> UnitIds, int TreeCount, TerrainField Field);
 
 internal static partial class WorldScene3D
 {
     public static WorldScene Build(GameState s, int selectedUnit = -1, WorldScene? reuseTerrain = null)
     {
+        var field=TerrainField.Prepare(s);
+        if(reuseTerrain!=null&&!ReferenceEquals(reuseTerrain.Field,field))reuseTerrain=null;
         var ground = new SceneBatch(); var objects = new SceneBatch(); var visible = Engine.Visible(s); int trees = 0;
         foreach (var tile in s.Tiles)
         {
             var center = Terrain3D.Center(tile);
             var mesh = reuseTerrain == null ? ground.Landscape(s) : null;
-            const int subdivisions = 5;
+            const int subdivisions = 6;
             for (int side = 0; mesh != null && side < 6; side++)
             {
                 double angle = (30 + 60 * side) * Math.PI / 180, next = angle + Math.PI / 3;
@@ -91,7 +93,7 @@ internal static partial class WorldScene3D
         }
         if(reuseTerrain==null)DistantLandscape(ground,s);
         int terrainTriangles = reuseTerrain?.TerrainTriangles ?? ground.Triangles, objectTriangles = objects.Triangles;
-        return new(reuseTerrain?.Terrain ?? ground.Freeze(), objects.Freeze(), terrainTriangles, objectTriangles, cities.Select(c => c.Id).ToArray(), rendered, trees);
+        return new(reuseTerrain?.Terrain ?? ground.Freeze(), objects.Freeze(), terrainTriangles, objectTriangles, cities.Select(c => c.Id).ToArray(), rendered, trees,field);
     }
     public static void Ribbon(SceneMesh mesh, GameState s, Point start, Point end, double width, double lift)
     {

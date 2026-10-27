@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.22 — Krajobraz i miasta · 27 października 2026
+
+- Wspólne, buforowane pole wysokości dla geometrii, kamery i materiału wody. Szerokie masywy z połączonymi grzbietami zastępują odrębne szczyty przypisane heksom. Gęstsza siatka terenu i ciągły, szczegółowy horyzont poza planszą.
+- Kolor jezior i morza zależny od przybliżonej głębokości, widoczne płycizny, drobna piana oraz wilgotne brzegi. Osobny przełącznik efektów brzegowych. Uproszczony filtr kontrastu wygładza krawędzie; można go wyłączyć w menu Grafika.
+- Miasta etapów 3–9 mają rozdzielone parcele, dwie główne ulice, plac, stragany i ratusz. Wzrost dodaje domy bez zmiany wcześniejszych parcel. Warianty późniejsze otrzymują belkowanie i wieżę. Wybudowane mury tworzą kurtyny, baszty i przestrzenną bramę z rzeczywistym otworem. Zachowano wizualizację infrastruktury przemysłowej.
+- Obrót części modeli zachowuje normalne i przypisanie trójkątów do właściwych pól. Nieodkryty rodzaj terenu nie wpływa na pole wysokości. Oprawa i kamera nie zmieniają stanu kampanii ani jej generatora losowego.
+- Dziewiąty tryb diagnostyki `--ui-smoke-landscape`: pamięć podręczna wysokości, ukryta geografia, stabilne parcele, wybór bramy, rzeczywiste zmiany pikseli po przełączeniu efektów i zasoby GPU podczas ruchu kamery. Osobne wydanie `wydanie-0.22/`, zachowane wcześniejsze paczki i zapis v19.
+- Modele nadal są proceduralne, a oprawa nie osiąga fotorealizmu ilustracji menu. Nie dodano nowych tekstur AI ani zewnętrznych modeli; wykorzystano materiały wydania 0.21.
+
 ## 0.21 — Światło i materiały · 23 października 2026
 
 - Sprzętowy renderer Direct3D 11 napisany w C#/.NET 10 i HLSL. Interfejs pozostaje natywny WPF; symulacja Crown.Core i format zapisu v19 nie zostały zmienione. Jawny tryb zgodności WPF przy niedostępnym GPU i parametr `--no-gpu`.

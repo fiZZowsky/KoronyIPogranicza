@@ -26,6 +26,8 @@ internal sealed class PhotographicRenderer : IDisposable
     private readonly nint surfacesTexture, surfacesView, leavesTexture, leavesView, pineTexture, pineView, shadowTexture, shadowView, shadowDepth;
     private nint landTexture, landView, hdrTexture, hdrTarget, hdrView, depthTexture, depthTarget, depthView, finalTexture, finalTarget, staging;
     private nint reflectionTexture,reflectionTarget,reflectionView,reflectionDepthTexture,reflectionDepth;
+    private nint elevationTexture,elevationView;
+    private TerrainField? field;
     private readonly Dictionary<MeshGeometry3D, DrawMesh> meshCache = new(ReferenceEqualityComparer.Instance);
     private readonly List<DrawMesh> world = [], overlays = [];
     private Model3DGroup? lastTerrain;
@@ -42,6 +44,8 @@ internal sealed class PhotographicRenderer : IDisposable
     internal bool MaterialDetail { get; set; } = true;
     internal bool PostProcessing { get; set; } = true;
     internal bool Reflections { get; set; } = true;
+    internal bool ShoreEffects { get; set; } = true;
+    internal bool EdgeSmoothing { get; set; } = true;
     internal int MaximumWidth { get; set; } = 1600;
     internal float Exposure { get; set; } = .87f;
     internal Vector3 Sun { get; set; } = Vector3.Normalize(new(-.65f, .82f, -.35f));
@@ -49,7 +53,7 @@ internal sealed class PhotographicRenderer : IDisposable
     [StructLayout(LayoutKind.Sequential)] private struct Frame
     {
         internal Matrix4x4 ViewProjection, LightProjection, InverseProjection;
-        internal Vector4 EyeTime, SunExposure, Screen, Settings;
+        internal Vector4 EyeTime, SunExposure, Screen, Settings, TerrainMap, VisualOptions;
     }
     private sealed record DrawMesh(nint Buffer, int Vertices, Vector3 Center, float Radius, float Kind, bool Transparent);
     public PhotographicRenderer()
@@ -92,6 +96,7 @@ internal sealed class PhotographicRenderer : IDisposable
     {
         if (emissive) return 8;
         if(key.StartsWith("distant-mountains"))return 9;
+        if(key.StartsWith("streets"))return 10;
         if (key.StartsWith("landscape")) return 0;
         if (key.StartsWith("sea") || key.StartsWith("rivers")) return 1;
         if (key.StartsWith("foliage")) return 5;
@@ -124,6 +129,11 @@ internal sealed class PhotographicRenderer : IDisposable
             gpu.Free(landView); gpu.Free(landTexture); var atlas = Models(scene.Terrain).Select(m => ReadMaterial(m.Material).Texture).First(t => t != null)!;
             (landTexture, landView) = Upload(atlas); lastTerrain = scene.Terrain;
         }
+        if(!ReferenceEquals(field,scene.Field))
+        {
+            gpu.Free(elevationView);gpu.Free(elevationTexture);field=scene.Field;
+            elevationTexture=gpu.Texture(field.Width,field.Height,41,8,MemoryMarshal.AsBytes(field.Values.Span).ToArray());elevationView=gpu.View(elevationTexture,7);
+        }
         foreach (var model in Models(scene.Terrain).Concat(Models(scene.Objects))) { world.Add(Convert(model)); retained.Add((MeshGeometry3D)model.Geometry); }
         if (overlay != null) foreach (var model in Models(overlay)) { overlays.Add(Convert(model)); var mesh = (MeshGeometry3D)model.Geometry; retained.Add(mesh); overlayMeshes.Add(mesh); }
         foreach (var mesh in meshCache.Keys.Where(m => !retained.Contains(m)).ToArray()) { gpu.Free(meshCache[mesh].Buffer); meshCache.Remove(mesh); }
@@ -131,7 +141,7 @@ internal sealed class PhotographicRenderer : IDisposable
     private void Resize(int w, int h)
     {
         if (width == w && height == h) return;
-        gpu.Targets(0, 0); gpu.Resources(0, 0, 0, 0, 0, 0,0,0);
+        gpu.Targets(0, 0); gpu.Resources(0, 0, 0, 0, 0, 0,0,0,0);
         foreach (var resource in new[] { hdrTarget, hdrView, hdrTexture, depthTarget, depthView, depthTexture, finalTarget, finalTexture, staging,reflectionTarget,reflectionView,reflectionTexture,reflectionDepth,reflectionDepthTexture }) gpu.Free(resource);
         width = w; height = h;
         hdrTexture = gpu.Texture(w, h, 10, 0x28); hdrTarget = gpu.View(hdrTexture, 9); hdrView = gpu.View(hdrTexture, 7);
@@ -156,8 +166,9 @@ internal sealed class PhotographicRenderer : IDisposable
         float extent = Math.Clamp(direction.Length() * 1.55f, 16, 100);
         var lp = Matrix4x4.CreateLookAt(target + Sun * 65, target, Vector3.UnitY) * Matrix4x4.CreateOrthographic(extent, extent, .1f, 150);
         var frame = new Frame { ViewProjection = vp, LightProjection = lp, InverseProjection = inverse, EyeTime = new(eye, (float)time), SunExposure = new(Sun, Exposure), Screen = new(1f / w, 1f / h, 1f / ShadowSize, Shadows ? 1 : 0), Settings = new(PostProcessing ? 1 : 0, MaterialDetail ? 1 : 0, .006f, Reflections?2:0) };
+        frame.TerrainMap=new((float)field!.OriginX,(float)field.OriginZ,(float)field.SpanX,(float)field.SpanZ);frame.VisualOptions=new(ShoreEffects?1:0,EdgeSmoothing?1:0,0,0);
         gpu.Update(constants, frame); gpu.Constants(constants); gpu.Samplers(sampler, shadowSampler); gpu.Layout(layout); gpu.Blend(opaque); gpu.Depth(depthWrite);
-        gpu.Resources(landView, surfacesView, leavesView, 0, 0, 0,pineView);
+        gpu.Resources(landView, surfacesView, leavesView, 0, 0, 0,pineView,0,elevationView);
         if (Shadows)
         {
             gpu.Targets(0, shadowDepth); gpu.ClearDepth(shadowDepth); gpu.SetViewport(ShadowSize, ShadowSize); gpu.Raster(shadowRaster); gpu.Shaders(shadowVs, shadowPs);
@@ -168,18 +179,18 @@ internal sealed class PhotographicRenderer : IDisposable
             var mirrored=frame;mirrored.ViewProjection=Matrix4x4.CreateReflection(new Plane(Vector3.UnitY,-(float)Terrain3D.SeaLevel))*vp;
             mirrored.EyeTime.Y=2*(float)Terrain3D.SeaLevel-eye.Y;mirrored.Settings.W=1;gpu.Update(constants,mirrored);
             gpu.Targets(reflectionTarget,reflectionDepth);gpu.Clear(reflectionTarget,.49f,.59f,.65f);gpu.ClearDepth(reflectionDepth);gpu.SetViewport(Math.Max(1,w/2),Math.Max(1,h/2));gpu.Raster(raster);gpu.Shaders(worldVs,worldPs);
-            gpu.Resources(landView,surfacesView,leavesView,shadowView,0,0,pineView,0);
+            gpu.Resources(landView,surfacesView,leavesView,shadowView,0,0,pineView,0,elevationView);
             foreach(var mesh in world.Where(m=>!m.Transparent&&m.Kind!=1))gpu.Draw(mesh.Buffer,mesh.Vertices);
             gpu.Update(constants,frame);
         }
         gpu.Targets(hdrTarget, depthTarget); gpu.Clear(hdrTarget, .42f, .52f, .61f); gpu.ClearDepth(depthTarget); gpu.SetViewport(w, h); gpu.Raster(raster); gpu.Shaders(worldVs, worldPs);
-        gpu.Resources(landView, surfacesView, leavesView, shadowView, 0, 0,pineView,Reflections?reflectionView:0);
+        gpu.Resources(landView, surfacesView, leavesView, shadowView, 0, 0,pineView,Reflections?reflectionView:0,elevationView);
         foreach (var mesh in world.Where(m => !m.Transparent)) gpu.Draw(mesh.Buffer, mesh.Vertices);
         gpu.Blend(alpha); gpu.Depth(depthRead);
         foreach (var mesh in world.Where(m => m.Transparent).OrderByDescending(m => Vector3.DistanceSquared(m.Center, eye))) gpu.Draw(mesh.Buffer, mesh.Vertices);
         foreach (var mesh in overlays) gpu.Draw(mesh.Buffer, mesh.Vertices);
-        gpu.Targets(finalTarget, 0); gpu.Resources(landView, surfacesView, leavesView, shadowView, hdrView, depthView,pineView,0); gpu.Shaders(fullVs, postPs); gpu.Layout(0); gpu.Blend(opaque); gpu.Triangle();
-        gpu.Targets(0, 0); gpu.Resources(0, 0, 0, 0, 0, 0,0,0); gpu.Copy(staging, finalTexture);
+        gpu.Targets(finalTarget, 0); gpu.Resources(landView, surfacesView, leavesView, shadowView, hdrView, depthView,pineView,0,elevationView); gpu.Shaders(fullVs, postPs); gpu.Layout(0); gpu.Blend(opaque); gpu.Triangle();
+        gpu.Targets(0, 0); gpu.Resources(0, 0, 0, 0, 0, 0,0,0,0); gpu.Copy(staging, finalTexture);
         var mapped = gpu.Map(staging);
         try { Image!.WritePixels(new Int32Rect(0, 0, w, h), mapped.Pointer, checked((int)mapped.Pitch * h), (int)mapped.Pitch); }
         finally { gpu.Unmap(staging); }

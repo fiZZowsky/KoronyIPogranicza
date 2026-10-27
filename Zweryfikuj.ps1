@@ -69,11 +69,20 @@ if (-not $threeDimensionalProcess.WaitForExit(60000)) {
 }
 if ($threeDimensionalProcess.ExitCode -ne 0) { throw 'Test sceny 3D nie przeszedł. Sprawdź artifacts/three-dimensional-ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $threeDimensionalDirectory 'ui-smoke.txt')
-$photographicDirectory = Join-Path $reportDirectory 'photographic-ui-0.21'
+$photographicDirectory = Join-Path $reportDirectory 'photographic-ui-0.22'
 $photographicProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-photographic', ('"' + $photographicDirectory + '"')) -WindowStyle Hidden -PassThru
 if (-not $photographicProcess.WaitForExit(60000)) {
     Stop-Process -Id $photographicProcess.Id -Force
     throw 'Test oprawy GPU przekroczył limit 60 sekund.'
 }
-if ($photographicProcess.ExitCode -ne 0) { throw 'Test oprawy GPU nie przeszedł. Sprawdź artifacts/photographic-ui-0.21/ui-smoke.txt.' }
+if ($photographicProcess.ExitCode -ne 0) { throw 'Test oprawy GPU nie przeszedł. Sprawdź artifacts/photographic-ui-0.22/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $photographicDirectory 'ui-smoke.txt')
+
+$landscapeDirectory = Join-Path $reportDirectory 'landscape-ui-0.22'
+$landscapeProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-landscape', ('"' + $landscapeDirectory + '"')) -WindowStyle Hidden -PassThru
+if (-not $landscapeProcess.WaitForExit(60000)) {
+    Stop-Process -Id $landscapeProcess.Id -Force
+    throw 'Test krajobrazu przekroczył limit 60 sekund.'
+}
+if ($landscapeProcess.ExitCode -ne 0) { throw 'Test krajobrazu nie przeszedł. Sprawdź artifacts/landscape-ui-0.22/ui-smoke.txt.' }
+Get-Content -LiteralPath (Join-Path $landscapeDirectory 'ui-smoke.txt')

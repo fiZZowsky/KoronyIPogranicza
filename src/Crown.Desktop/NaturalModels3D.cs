@@ -7,17 +7,20 @@ internal static partial class WorldScene3D
 {
     private static void DistantLandscape(SceneBatch batch,GameState s)
     {
-        // Decorative horizon lies outside the playable grid and reveals no hidden tiles.
-        double cx=s.Width*Math.Sqrt(3)/2,cz=s.Height*.75,radius=Math.Sqrt(cx*cx+cz*cz)+20;
-        Point3D P(int i,int ring)
+        // A continuous radial surface outside the playable world, with smooth normals.
+        double cx=s.Width*Math.Sqrt(3)/2,cz=s.Height*.75,radius=Math.Sqrt(cx*cx+cz*cz)+12;
+        double H(double x,double z)
         {
-            double a=i*Math.PI*2/144,r=radius+ring*17;
-            double height=ring==0?-1:4+Terrain3D.Noise(i*.55,ring*17,s.Seed+932)*11+Math.Sin(a*13)*2;
-            return new(cx+Math.Cos(a)*r,height,cz+Math.Sin(a)*r);
+            double r=Math.Sqrt((x-cx)*(x-cx)+(z-cz)*(z-cz));double t=Math.Clamp((r-radius)/12,0,1);t=t*t*(3-2*t);
+            double ridge=1-Math.Abs(Terrain3D.Noise(x*.075,z*.075,s.Seed+932)*2-1);ridge*=ridge;
+            return -.8+t*(2.8+ridge*11+Terrain3D.Noise(x*.22,z*.22,s.Seed+1932)*2);
         }
-        for(int ring=0;ring<2;ring++)for(int i=0;i<144;i++)
+        Point3D P(int i,int ring){double a=i*Math.PI*2/192,r=radius+ring*3.2;double x=cx+Math.Cos(a)*r,z=cz+Math.Sin(a)*r;return new(x,H(x,z),z);}
+        Vector3D N(Point3D p){var n=new Vector3D(H(p.X-.2,p.Z)-H(p.X+.2,p.Z),.4,H(p.X,p.Z-.2)-H(p.X,p.Z+.2));n.Normalize();return n;}
+        for(int ring=0;ring<16;ring++)for(int i=0;i<192;i++)
         {
-            var mesh=batch.Mesh("distant-mountains","#8E9895");mesh.Quad(P(i,ring),P(i,ring+1),P((i+1)%144,ring+1),P((i+1)%144,ring),new(0,1,0));
+            var mesh=batch.Mesh("distant-mountains","#8E9895");var a=P(i,ring);var b=P(i,ring+1);var c=P((i+1)%192,ring+1);var d=P((i+1)%192,ring);
+            mesh.Triangle(a,c,b,N(a),N(c),N(b));mesh.Triangle(a,d,c,N(a),N(d),N(c));
         }
         batch.Sea().Quad(new(-110,Terrain3D.SeaLevel-.014,-110),new(-110,Terrain3D.SeaLevel-.014,160),new(190,Terrain3D.SeaLevel-.014,160),new(190,Terrain3D.SeaLevel-.014,-110),new(0,1,0));
     }
