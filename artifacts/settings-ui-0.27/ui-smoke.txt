@@ -1,0 +1,45 @@
+PASS The main menu has an actual settings entry
+PASS Settings exposes five separate sections
+PASS Esc from main-menu settings discards an unapplied draft
+PASS Apply writes a real preferences file that reloads correctly
+PASS Borderless display mode changes the actual game window
+PASS Windowed mode restores a resizable decorated window
+PASS A second apply uses the newly edited draft rather than stale controls
+PASS Master and interface volumes combine in the actual audio player
+PASS Mute reaches the actual audio player's effective volume
+PASS Interface feedback generates a valid PCM WAV asset
+PASS Duplicate shortcuts are rejected without replacing an existing action
+PASS Custom global and camera shortcuts are persisted
+PASS Esc cancels key capture while keeping settings open
+PASS Starting a campaign applies saved render quality and brightness
+PASS Starting a campaign applies interface preferences
+PASS The footer displays the player's current shortcut rather than the default key
+PASS Esc opens the complete in-game pause menu
+PASS Pause suspends automatic environment rendering and map interaction
+PASS Camera shortcuts, global actions and map orders are blocked behind pause
+PASS Cancelling the native save-path selection preserves pause and campaign
+PASS Pause save writes and reloads the exact campaign even with autosave disabled
+PASS A failed manual save stays in pause and preserves the previous valid save
+PASS Pause opens the same settings screen
+PASS Esc from pause settings returns to pause
+PASS Esc from pause resumes the actual campaign
+PASS The rebound next-unit shortcut selects a real player unit
+PASS The rebound camera shortcut changes the actual camera
+PASS The previous camera key no longer triggers its old action
+PASS Settings, pauses, saves, selection and camera changes preserve campaign state and RNG
+PASS The end-turn preference opens a real confirmation without advancing time
+PASS Cancelling end-turn confirmation does not advance the campaign
+PASS Returning to main menu retains an unsaved campaign in memory
+PASS Returning from main menu restores the campaign and applied preferences
+PASS Loading a campaign keeps player preferences independent of its save
+PASS Disabling autosave prevents a real diagnostic autosave write
+PASS Enabling autosave writes the actual campaign to its isolated save directory
+PASS Accepting end-turn confirmation advances exactly one turn
+PASS Corrupt preferences fall back safely without overwriting their source
+PASS Invalid preference ranges and bindings normalize to usable values
+PASS Apply and return controls stay visible in the compact settings window
+PASS Restore defaults prepares a draft without silently changing active settings
+PASS Applying restored defaults resets every section together
+PASS Esc closes an ordinary dialog before opening pause
+PASS A subsequent Esc opens pause after a normal dialog closes
+44 settings desktop integration checks passed.

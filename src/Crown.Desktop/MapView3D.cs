@@ -59,22 +59,22 @@ public sealed partial class MapView : Grid
         Background = new LinearGradientBrush((Color)ColorConverter.ConvertFromString("#A2BEC6"), (Color)ColorConverter.ConvertFromString("#344F55"), 90);
         viewport.Camera = camera; viewport.Children.Add(worldVisual); viewport.Children.Add(overlaysVisual);
         Children.Add(viewport); Children.Add(photographicImage); Children.Add(annotations); Children.Add(rendererStatus);Children.Add(RenderStatisticsText); AddCameraControls();
-        animationTimer.Tick+=(_,_)=>{if(animateEnvironment&&photographic!=null&&!gpuPending&&IsVisible)RenderGpuFrame(visualClock.Elapsed.TotalSeconds);};
+        animationTimer.Tick+=(_,_)=>{if(!suspended&&animateEnvironment&&photographic!=null&&!gpuPending&&IsVisible)RenderGpuFrame(visualClock.Elapsed.TotalSeconds);};
         Loaded+=(_,_)=>animationTimer.Start();
         Unloaded += (_, _) => { animationTimer.Stop();photographic?.Dispose(); photographic = null; photographicImage.Source = null; gpuAttempted = false; };
         MouseDown += (_, e) =>
         {
-            if (e.OriginalSource is Button) return;
+            if (suspended || e.OriginalSource is Button) return;
             Focus(); heldButton = e.ChangedButton; down = last = e.GetPosition(this); dragging = true; moved = false;
             orbiting = heldButton is MouseButton.Middle or MouseButton.Right || Keyboard.Modifiers.HasFlag(ModifierKeys.Shift); CaptureMouse(); e.Handled = true;
         };
         MouseMove += (_, e) =>
         {
-            var point = e.GetPosition(this);
+            if(suspended)return;var point = e.GetPosition(this);
             if (dragging)
             {
                 if ((point - down).Length > 4) moved = true;
-                if (moved) { var delta = point - last; if (orbiting) Orbit(delta.X * .35, delta.Y * .23); else PanPixels(delta.X, delta.Y); }
+                if (moved) { var delta = point - last; if (orbiting) Orbit(delta.X * .35*preferences.OrbitSensitivity, delta.Y * .23*preferences.OrbitSensitivity*(preferences.InvertOrbitY?-1:1)); else PanPixels(delta.X, delta.Y); }
                 last = point;
             }
             else if (State != null && Environment.TickCount64 - lastHover >= 70)
@@ -85,26 +85,15 @@ public sealed partial class MapView : Grid
         };
         MouseUp += (_, e) =>
         {
-            if (!dragging || e.ChangedButton != heldButton) return;
+            if (suspended || !dragging || e.ChangedButton != heldButton) return;
             dragging = false; ReleaseMouseCapture();
             if (!moved) { if (heldButton == MouseButton.Left) SelectScreen(e.GetPosition(this)); else if (heldButton == MouseButton.Right) OrderScreen(e.GetPosition(this)); }
             e.Handled = true;
         };
         LostMouseCapture += (_, _) => dragging = false;
         MouseLeave += (_, _) => { if (!dragging && hoverTile != -1) { hoverTile = -1; RebuildOverlays(); UpdateAnnotations(); } };
-        MouseWheel += (_, e) => { Zoom(e.Delta > 0 ? .86 : 1.16); e.Handled = true; };
-        KeyDown += (_, e) =>
-        {
-            switch (e.Key)
-            {
-                case Key.Q: Orbit(-12, 0); break; case Key.E: Orbit(12, 0); break;
-                case Key.PageUp: Orbit(0, 7); break; case Key.PageDown: Orbit(0, -7); break;
-                case Key.W: PanPixels(0, 55); break; case Key.S: PanPixels(0, -55); break;
-                case Key.A: PanPixels(55, 0); break; case Key.D: PanPixels(-55, 0); break;
-                default: return;
-            }
-            e.Handled = true;
-        };
+        MouseWheel += (_, e) => { if(suspended)return;Zoom(Math.Pow(e.Delta > 0 ? .86 : 1.16,preferences.ZoomSensitivity)); e.Handled = true; };
+        KeyDown += (_,e)=>{if(CameraKey(e.Key))e.Handled=true;};
         SizeChanged += (_, _) => UpdateCamera(); Loaded += (_, _) => UpdateCamera();
     }
     private void AddCameraControls()
@@ -140,7 +129,7 @@ public sealed partial class MapView : Grid
     private void GraphicsMenu()
     {
         var menu=new ContextMenu();ActiveGraphicsMenu=menu;
-        void Option(string label,Action action){var item=new MenuItem{Header=label};item.Click+=(_,_)=>{action();RequestGpuFrame();};menu.Items.Add(item);}
+        void Option(string label,Action action){var item=new MenuItem{Header=label};item.Click+=(_,_)=>{action();PersistGraphicsMenu();RequestGpuFrame();};menu.Items.Add(item);}
         Option("Jakość wysoka · cienie i odbicia",()=>{if(photographic is{} r){r.MaximumWidth=1600;r.Reflections=true;r.PostProcessing=true;r.Shadows=true;}});
         Option("Jakość zrównoważona · mniej obciążenia",()=>{if(photographic is{} r){r.MaximumWidth=1100;r.Reflections=false;r.PostProcessing=true;r.Shadows=true;}});
         Option("Cienie: włącz / wyłącz",()=>{if(photographic is{} r)r.Shadows=!r.Shadows;});
@@ -163,7 +152,7 @@ public sealed partial class MapView : Grid
     public void Zoom(double factor) { if (!double.IsFinite(factor) || factor <= 0) return; distance = Math.Clamp(distance * factor, 2.5, 60); UpdateCamera(); }
     internal void PanPixels(double dx, double dy)
     {
-        double angle = yaw * Math.PI / 180, scale = distance * 2 * Math.Tan(camera.FieldOfView * Math.PI / 360) / Math.Max(1, ActualWidth);
+        double angle = yaw * Math.PI / 180, scale = preferences.PanSpeed * distance * 2 * Math.Tan(camera.FieldOfView * Math.PI / 360) / Math.Max(1, ActualWidth);
         target.X += (-dx * Math.Cos(angle) - dy * Math.Sin(angle)) * scale;
         target.Y += (dx * Math.Sin(angle) - dy * Math.Cos(angle)) * scale;
         if (State != null) { target.X = Math.Clamp(target.X, -1, State.Width * Math.Sqrt(3) + 2); target.Y = Math.Clamp(target.Y, -1, State.Height * 1.5 + 2); }
@@ -213,8 +202,8 @@ public sealed partial class MapView : Grid
         }, new RayHitTestParameters(camera.Position, Ray(point)));
         return tile;
     }
-    internal bool SelectScreen(Point point) { int id = Pick(point); if (id < 0) return false; SelectTile?.Invoke(id); return true; }
-    internal bool OrderScreen(Point point) { int id = Pick(point); if (id < 0) return false; OrderUnit?.Invoke(id); return true; }
+    internal bool SelectScreen(Point point) { if(suspended)return false;int id = Pick(point); if (id < 0) return false; SelectTile?.Invoke(id); return true; }
+    internal bool OrderScreen(Point point) { if(suspended)return false;int id = Pick(point); if (id < 0) return false; OrderUnit?.Invoke(id); return true; }
     internal Point[] Footprint
     {
         get
@@ -274,7 +263,7 @@ public sealed partial class MapView : Grid
             {
                 gpuAttempted = true;
                 if (Environment.GetCommandLineArgs().Contains("--no-gpu")) throw new InvalidOperationException("Tryb zgodności wybrany parametrem --no-gpu.");
-                photographic = new PhotographicRenderer(); GpuFailure = null;
+                photographic = new PhotographicRenderer();ApplyRendererPreferences(); GpuFailure = null;
             }
             if (photographic == null) return;
             photographic.Scene(scene, overlaysVisual.Content);

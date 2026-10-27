@@ -1,5 +1,17 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Ustawienia i przepływ menu — 0.27
+
+GamePreferences przechowuje wyłącznie lokalne preferencje, poza GameState i zapisem v19. Obraz, dźwięk, sterowanie, interfejs i rozgrywka współdzielą jeden model. PreferencesStore waliduje zakresy i unikalne klawisze, odczytuje wersję 1 oraz atomowo podmienia settings.json przez plik tymczasowy. Nieprawidłowy dokument zostaje zachowany; użytkownik otrzymuje domyślne ustawienia i informację. Wydanie jest przenośne: plik leży przy EXE i nie trafia do ZIP-a.
+
+SettingsPanels tworzy kopię roboczą, rozdzieloną od aktywnych preferencji. Przełączanie sekcji zachowuje kopię; Zastosuj zapisuje ją przed wdrożeniem i odświeża kontrolki. Błąd zapisu nie wdraża nowych wartości. Domyślne także wymagają zastosowania. Obraz jest stosowany do istniejącego renderera i jego ponownej inicjalizacji. Szybkie menu Grafika przekazuje zmiany z powrotem do modelu preferencji. Okno bez ramek jest maksymalizowanym oknem WPF, bez zmiany fizycznej rozdzielczości monitora.
+
+Stany nakładek None, General, Pause i Settings określają zachowanie Esc. Przechwytywanie klawisza ma pierwszeństwo; dalej ustawienia wracają do miejsca otwarcia, zwykły dialog zamyka się, a mapa otwiera menu gry. MapView blokuje wejście, zatrzymuje wizualny zegar i automatyczne klatki pod nakładką. Jawne renderowanie nadal umożliwia podgląd grafiki i diagnostykę. Potwierdzenie końca tury uruchamia rzeczywiste EndTurn dopiero po akceptacji. Powtarzane zdarzenia klawiszy nie wielokrotnie otwierają menu lub nie przesuwają tury.
+
+Skróty globalne są obsługiwane w PreviewKeyDown okna, a kamera w MapView z tym samym słownikiem. Pola tekstowe, listy, suwaki i otwarte nakładki blokują skróty kampanii. Esc jest zarezerwowany, a konflikty nie odbierają klawisza drugiej akcji. Stopka prezentuje aktywne przypisania. Czułość wpływa na rzeczywiste przeciąganie i kółko myszy. InterfaceAudio stosuje iloczyn głośności głównej i interfejsu oraz wyciszenie, korzystając z jednego MediaPlayer i krótkiego proceduralnego WAV. Nie ma muzyki ani dźwięków świata.
+
+Menu gry używa istniejącej ścieżki SaveGame.Write i natywnego wyboru pliku. Anulowanie i błąd pozostawiają menu otwarte. Wyłączony autozapis nie blokuje zapisu ręcznego. Nieudany autozapis zatrzymuje wyjście do menu, a poprawne wyjście zachowuje GameState w pamięci do powrotu; po zamknięciu procesu wymagany jest plik kampanii. Diagnostyka startuje z domyślnymi preferencjami, ma osobną ścieżkę ustawień i zapisów przy raporcie oraz bezgłośny odtwarzacz. Tylko dedykowany test tymczasowo włącza autozapis w swoim izolowanym katalogu.
+
 ## Widoczność i szczegóły renderowania — 0.26
 
 SpatialRendering grupuje trójkąty każdego materiału w sektory 8×8 jednostek świata. Dla modeli posiadających TileIds sektor wynika ze środka logicznego pola, dzięki czemu bliski i daleki wariant drzewa korzystają z identycznego kryterium. Pozostałe trójkąty przypisuje ich środek geometryczny. Każda partia ma rzeczywistą obwiednię AABB, własny bufor oraz ten sam materiał i UV. WPF zachowuje oryginalną geometrię dla wyświetlania w trybie zgodności i trafiania promieniem.

@@ -10,6 +10,8 @@ Pełny prompt:
 
 ## Mapa i interfejs
 
+Wydanie 0.27 dodaje natywne panele WPF ustawień i menu gry. Nie dodano nowych bitmap, modeli ani fontów. InterfaceAudio generuje krótki monofoniczny sygnał PCM 22 050 Hz z sinusoidy i obwiedni, zapisując odtwarzalną pamięć podręczną WAV przy pierwszym odtworzeniu. Nie jest to nagranie zewnętrzne ani utwór muzyczny. Odtwarzanie używa MediaPlayer WPF; diagnostyka pozostaje bezgłośna. Zrzuty nowych paneli pochodzą z rzeczywistego programu.
+
 Wydanie 0.26 dodaje z kodu projektu uproszczone warianty pni i koron drzew do dalekiego widoku. Wykorzystują te same tekstury 0.21 i nie wchodzą do geometrii WPF używanej przy wybieraniu pól. Podział partii GPU i kontrola widoczności nie tworzą nowych zasobów graficznych. Nie generowano ani nie pobierano bitmap, modeli lub fontów. Zrzuty --ui-smoke-rendering pochodzą z rzeczywistego renderera na odsłoniętym scenariuszu diagnostycznym z zagęszczonym pasem lasów i przyznanymi technologiami. Statystyki są odczytem bieżącej klatki, nie ilustracją wyników.
 
 Wydanie 0.25 dodaje autorską geometrię proceduralną ludzi, koni, pni, korzeni, traw, kłosów, kwiatów, rud i kryształów. Sześć piktogramów zasobów to oryginalne ścieżki wektorowe WPF w ResourcePresentation.cs, bez zależności od znaków specjalnego fontu. Materiały korzystają z dotychczasowego atlasu i roślinności 0.21 oraz szumu w shaderze; nie pobierano modeli ani nie generowano nowych bitmap. Zrzuty --ui-smoke-models pochodzą z rzeczywistego renderera na przygotowanej mapie diagnostycznej z odsłoniętymi zasobami i przyznanymi technologiami. Modele postaci mają statyczne pozy.

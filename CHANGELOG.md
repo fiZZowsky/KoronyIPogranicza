@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.27 — Ustawienia i menu gry · 27 października 2026
+
+- Ustawienia w menu głównym i menu gry pod Esc. Pięć sekcji: Obraz, Dźwięk, Sterowanie, Interfejs i Rozgrywka. Robocze zmiany, Zastosuj, powrót bez stosowania oraz przywracanie domyślnych. Przewijane sekcje i stale dostępne przyciski.
+- Menu gry: powrót do rozgrywki, ręczny zapis, ustawienia i wyjście do menu głównego. Zachowana kampania w pamięci pozwala wrócić bez wczytywania. Pod menu blokowane są rozkazy, skróty i kamera; automatyczne animowanie otoczenia jest zatrzymane. Esc respektuje zwykłe dialogi oraz przechwytywanie klawisza.
+- Trzy profile grafiki, tryb okna lub pełny ekran bez ramek, jasność i działające efekty renderera. Preferencje obejmują szybkie menu Grafika i są stosowane przy nowej grze, wczytaniu oraz ponownej inicjalizacji GPU. Interfejs ma domyślne nakładki i statystyki.
+- Regulowane sygnały przycisków, wyciszenie i odsłuch; proceduralny PCM bez nowych zależności. Muzyka i dźwięki świata nadal wymagają produkcji. Czułość myszy, odwracanie obrotu, szybkość kamery oraz edytowalne klawisze z wykrywaniem konfliktów. Podpowiedzi przycisków uwzględniają zmienione skróty.
+- Opcjonalne potwierdzenie końca tury i wyłączanie autozapisu; zapis ręczny pozostaje dostępny. Preferencje mają osobny settings.json, walidację i atomową podmianę. Błąd zapisu lub odczytu jest widoczny, a uszkodzony plik nie jest automatycznie nadpisywany.
+- Czternasty tryb --ui-smoke-settings obejmuje rzeczywiste panele, zapis ustawień, okno, skróty, dźwięk, blokadę mapy, zapis kampanii, autozapis, powroty i mniejsze okno. Diagnostyka izoluje ustawienia oraz zapisy od katalogu gracza. Osobne wydanie-0.27, zachowane wcześniejsze paczki i format v19.
+
 ## 0.26 — Płynniejsza mapa 3D · 27 października 2026
 
 - Przestrzenne partie GPU zamiast materiałowych partii obejmujących całą mapę. Identyfikatory pól utrzymują obiekty w spójnych sektorach; teren dzielony jest według położenia trójkątów. Bufory są buforowane i zwalniane po zastąpieniu geometrii.

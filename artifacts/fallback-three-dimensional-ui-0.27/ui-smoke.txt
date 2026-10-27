@@ -1,0 +1,36 @@
+PASS New game mounts one genuine Viewport3D with a perspective camera
+PASS Terrain and world objects contain actual depth-tested triangle meshes
+PASS Static terrain is frozen and split into bounded mesh batches
+PASS Mesh positions and smooth normals are finite and valid
+PASS Forests and the starting settlement are spatial geometry rather than map symbols
+PASS Own military formations are present in the 3D scene
+PASS Rendering a new campaign leaves simulation state and RNG untouched
+PASS A ray through the projected capital hits its actual scene geometry
+PASS Perspective minimap footprint includes the centred city
+PASS Camera rotation uses the WPF control without rebuilding the world
+PASS Zoom changes perspective projection through its actual control
+PASS Camera elevation is clamped above the world
+PASS Camera cannot orbit beneath the terrain
+PASS Near camera distance is bounded
+PASS Far camera distance is bounded
+PASS Pan retains a finite world camera and minimap footprint
+PASS Orbit, pan and zoom do not advance turns or modify the save
+PASS 3D screen selection reaches the real city and unit selection handler
+PASS Perspective picking identifies an adjacent ground surface
+PASS A 3D screen order moves the actual military unit and refreshes its geometry
+PASS Unexplored terrain elevation does not reveal the hidden terrain type
+PASS Fog hides unseen enemy formations and undiscovered cities
+PASS Grid, selection, movement range and logistics are terrain-following 3D overlays
+PASS Population overlays and projected city annotations remain available
+PASS Existing save format reloads exact gameplay into the 3D renderer
+PASS Ray picking resolves a visible hostile formation on the battlefield
+PASS A 3D hostile order opens the real battle preview before changing health
+PASS Confirmed 3D combat applies real damage and consumes the unit's actions
+PASS City architecture builds spatial models for era 6
+PASS City architecture builds spatial models for era 10
+PASS City architecture builds spatial models for era 15
+PASS City architecture builds spatial models for era 18
+PASS All six land roles have renderable spatial models, including cavalry and artillery
+PASS Compact window retains a usable 3D viewport and camera controls
+34 3D desktop integration checks passed.
+Elapsed 23,7s; render tier 2; final terrain 262034 triangles; objects 304396 triangles.

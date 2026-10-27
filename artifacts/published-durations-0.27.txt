@@ -1,0 +1,5 @@
+three-dimensional: 34 checks; exit 0; 24,8s
+photographic: 21 checks; exit 0; 13,4s
+rendering: 27 checks; exit 0; 15,1s
+settings: 44 checks; exit 0; 12,4s
+WPF fallback: 34 checks; exit 0; 24,5s

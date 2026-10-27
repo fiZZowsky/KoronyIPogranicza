@@ -3,3 +3,6 @@ obj/
 .vs/
 saves/
 *.user
+settings.json
+settings.json.tmp
+cache/

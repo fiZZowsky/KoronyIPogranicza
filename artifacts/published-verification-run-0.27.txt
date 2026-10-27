@@ -1,0 +1,7 @@
+Selected published diagnostics completed successfully in sequential runs.
+three-dimensional: 34 checks; exit 0; 24,8s
+photographic: 21 checks; exit 0; 13,4s
+rendering: 27 checks; exit 0; 15,1s
+settings: 44 checks; exit 0; 12,4s
+WPF fallback: 34 checks; exit 0; 24,5s
+14 intentional failure checks returned exit 3; see process-exit-check-0.27.txt.
