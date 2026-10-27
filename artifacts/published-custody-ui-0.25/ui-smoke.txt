@@ -1,0 +1,19 @@
+PASS A real fourth turn opens the player's foreign-agent decision instead of auto-paying ransom
+PASS Foreign-agent council shows the actual captive, country and four decisions
+PASS Desktop reload reopens the same unanswered foreign-agent case
+PASS Insolvent sender and missing exchange partner disable only the unavailable choices
+PASS Free release returns the agent and applies political and diplomatic consequences
+PASS Ransom button transfers the actual foreign gold and releases the same person
+PASS Internment button binds the agent until the exact deadline and reduces trust
+PASS Agency lists the interned captive and prevents reversing the decision
+PASS Desktop reload retains the internment deadline and custody history
+PASS A real end turn automatically returns the interned agent at the deadline
+PASS Report identifies the finished internment instead of a lost agent
+PASS When both sides capture agents the foreign-captive council preserves the exchange opportunity
+PASS Foreign-captive dialogue enables exchange when that country holds our agent
+PASS Exchange button returns exactly the two linked people with no gold transfer
+PASS Desktop reload retains reciprocal prisoner exchange links
+PASS Own-captive dialogue allows wartime exchange even when both treasuries are empty
+PASS Own-captive exchange uses the same free atomic release
+PASS Compact council keeps every choice reachable through scrolling
+18 custody desktop integration checks passed.

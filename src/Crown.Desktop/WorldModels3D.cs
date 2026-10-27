@@ -85,32 +85,16 @@ internal static partial class WorldScene3D
         if (city.Buildings.Contains("solar_farm") || city.Buildings.Contains("smart_grid"))
             for (int i = 0; i < 3; i++) batch.Mesh("solar-panels", "#345766").Box(p.X - .45 + i * .15, y + .08, p.Y + .55, .12, .025, .14);
     }
-    private static void Person(SceneBatch batch, double x, double y, double z, string color, bool modern, bool robot = false)
-    {
-        var legs = batch.Mesh(robot ? "robot-legs" : "boots", robot ? "#778C92" : "#454C44");
-        legs.Box(x - .035, y, z, .045, .15, .055); legs.Box(x + .035, y, z, .045, .15, .055);
-        batch.Mesh("uniform-" + color, color).Box(x, y + .14, z, .13, .16, .09);
-        batch.Mesh(robot ? "robot-heads" : "skin", robot ? "#B0C2C1" : "#C8AA85").Sphere(x, y + .36, z, .055, .066, .052, 8, 5);
-        batch.Mesh(modern ? "helmets-modern" : "helmets", modern ? "#59695B" : "#929B94").Sphere(x, y + .39, z, .061, .04, .059, 8, 4);
-        batch.Mesh("arms-" + color, color).Tube(new(x - .075, y + .27, z), new(x - .09, y + .16, z - .01), .022);
-        batch.Mesh("arms-" + color, color).Tube(new(x + .075, y + .27, z), new(x + .09, y + .19, z - .045), .022);
-    }
-    private static void Horse(SceneBatch batch, double x, double y, double z, double scale = 1)
-    {
-        var body = batch.Mesh("horses", "#80654B");
-        body.Sphere(x, y + .23 * scale, z, .11 * scale, .11 * scale, .23 * scale, 8, 4);
-        for (int i = -1; i <= 1; i += 2) for (int j = -1; j <= 1; j += 2) body.Box(x + i * .07 * scale, y, z + j * .14 * scale, .035 * scale, .22 * scale, .04 * scale);
-        body.Tube(new(x, y + .23 * scale, z - .12 * scale), new(x, y + .43 * scale, z - .22 * scale), .065 * scale);
-        body.Sphere(x, y + .43 * scale, z - .27 * scale, .055 * scale, .06 * scale, .095 * scale, 8, 4);
-    }
     private static void Unit(SceneBatch batch, GameState s, Unit unit, int slot)
     {
-        var p=Terrain3D.Center(s.Tiles[unit.Tile]);double x=p.X-.40+slot*.20,z=p.Y+.30;
-        batch.Scaled(new(x,Terrain3D.Height(s,x,z),z),.38,()=>UnitModel(batch,s,unit,slot));
+        var p=UnitAnchor(s,unit,slot);double x=p.X,z=p.Y;
+        var origin=new Point3D(x,Terrain3D.Height(s,x,z),z);double yaw=Math.PI;
+        if(unit.Destination is int destination){var goal=Terrain3D.Center(s.Tiles[destination]);var start=Terrain3D.Center(s.Tiles[unit.Tile]);yaw=Math.Atan2(goal.X-start.X,start.Y-goal.Y);}
+        batch.Scaled(origin,.52,()=>batch.Rotated(origin,yaw,()=>UnitModel(batch,s,unit,slot)));
     }
     private static void UnitModel(SceneBatch batch, GameState s, Unit unit, int slot)
     {
-        var p = Terrain3D.Center(s.Tiles[unit.Tile]); double x = p.X - .40 + slot * .20, z = p.Y + .30, y = Terrain3D.Height(s, x, z);
+        var p = UnitAnchor(s,unit,slot); double x = p.X, z = p.Y, y = Terrain3D.Height(s, x, z);
         string color = s.Factions[unit.Owner].Color; int era = UnitModels.For(unit)?.Era ?? 4;
         if (unit.Kind == UnitKind.Cavalry && era >= 9)
         {
@@ -118,7 +102,7 @@ internal static partial class WorldScene3D
         }
         if (unit.Kind == UnitKind.Cavalry)
         {
-            Horse(batch, x, y, z); Person(batch, x, y + .24, z, color, false); Flag(batch, x + .15, y, z, color, .68); return;
+            Horse(batch, x, y, z,1,tack:true); Person(batch, x, y + .24, z, color, false); Flag(batch, x + .15, y, z, color, .68); return;
         }
         if (unit.Kind == UnitKind.Catapult)
         {
@@ -135,11 +119,23 @@ internal static partial class WorldScene3D
         }
         for (int i = 0; i < (unit.Kind == UnitKind.Scout ? 1 : 3); i++)
         {
-            double xx = x + (i - 1) * .15, zz = z + (i % 2) * .13, yy = Terrain3D.Height(s, xx, zz);
+            double xx = x + (unit.Kind==UnitKind.Scout?0:(i - 1) * .15), zz = z + (i % 2) * .13, yy = Terrain3D.Height(s, xx, zz);
             Person(batch, xx, yy, zz, color, era >= 8, era >= 12);
             if (era >= 6) batch.Mesh("weapons", "#4C5755").Tube(new(xx + .09, yy + .20, zz), new(xx + .09, yy + .31, zz - .22), .014);
-            else if (unit.Kind == UnitKind.Archer) batch.Mesh("bows", "#BBA278").Tube(new(xx + .1, yy + .08, zz - .02), new(xx + .13, yy + .36, zz - .04), .013);
-            else if (unit.Kind == UnitKind.Spearmen) { batch.Mesh("spear-shafts", "#9C855E").Tube(new(xx + .11, yy, zz), new(xx + .11, yy + .62, zz), .009); batch.Mesh("spear-heads", "#B0B6AE").Cylinder(xx + .11, yy + .6, zz, .028, .08, 0, 6); }
+            else if (unit.Kind == UnitKind.Archer)
+            {
+                Point3D Bow(double t)=>new(xx+.105,yy+.22+Math.Sin(t)*.155,zz-.06-Math.Cos(t)*.06);
+                var bow=batch.Mesh("bows-wood","#A48F69");for(int j=0;j<8;j++)bow.Tube(Bow(-1.25+j*2.5/8),Bow(-1.25+(j+1)*2.5/8),.006,5);
+                batch.Mesh("bow-strings","#D7CAA3").Tube(Bow(-1.25),Bow(1.25),.0018,4);
+                batch.Mesh("quiver-leather","#7C6B50").Cylinder(xx-.035,yy+.18,zz+.07,.019,.14,sides:8);
+            }
+            else if (unit.Kind == UnitKind.Spearmen)
+            {
+                batch.Mesh("spear-shafts-wood", "#9C855E").Tube(new(xx + .11, yy, zz), new(xx + .11, yy + .62, zz), .007);
+                batch.Mesh("spear-heads", "#B0B6AE").Cylinder(xx + .11, yy + .6, zz, .021, .07, 0, 6);
+                batch.Mesh("shields-wood","#8B7756").Sphere(xx-.10,yy+.205,zz-.05,.060,.078,.012,12,6);
+                batch.Mesh("shield-boss","#A9A891").Sphere(xx-.10,yy+.205,zz-.065,.016,.017,.010,8,4);
+            }
         }
         if (unit.Kind != UnitKind.Scout) Flag(batch, x - .20, y, z + .14, color, .56);
     }

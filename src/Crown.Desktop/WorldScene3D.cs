@@ -60,10 +60,11 @@ internal static partial class WorldScene3D
                 for (int i = 0; i < 10; i++)
                 {
                     double x = center.X + (rng.NextDouble() - .5) * 1.25, z = center.Y + (rng.NextDouble() - .5) * 1.25;
-                    if(field.Rivers.Distance(new(x,z))<.42)continue;
+                    if(field.Rivers.Distance(new(x,z))<.42||tile.Resource!=Resource.None&&(ResourceAnchor(s,tile)-new Point(x,z)).Length<.62)continue;
                     NaturalTree(objects, s, x, z, .65 + rng.NextDouble() * .5, i % 3 != 0); trees++;
                 }
             }
+            GroundPlants(objects,s,tile);
             if (tile.Ruin) Ruin(objects, s, center);
             if (tile.Resource != Resource.None && tile.Passable && !s.Cities.Any(c => c.Tile == tile.Id)) ResourceModel(objects, s, tile);
         }
@@ -119,27 +120,6 @@ internal static partial class WorldScene3D
             mesh.Triangle(Terrain3D.Ground(s, c.X, c.Y, lift), Terrain3D.Ground(s, c.X + Math.Cos(b) * .96, c.Y + Math.Sin(b) * .96, lift), Terrain3D.Ground(s, c.X + Math.Cos(a) * .96, c.Y + Math.Sin(a) * .96, lift));
         }
     }
-    private static void Tree(SceneBatch batch, GameState s, double x, double z, double height, bool broadleaf)
-    {
-        double y = Terrain3D.Height(s, x, z);
-        var shadow=batch.Mesh("contact-shadows","#45101C15",true);
-        for(int i=0;i<10;i++)
-        {
-            double a=i*Math.PI/5,b=(i+1)*Math.PI/5;
-            shadow.Triangle(Terrain3D.Ground(s,x+.08,z+.05,.035),Terrain3D.Ground(s,x+.08+Math.Cos(b)*height*.31,z+.05+Math.Sin(b)*height*.23,.035),Terrain3D.Ground(s,x+.08+Math.Cos(a)*height*.31,z+.05+Math.Sin(a)*height*.23,.035));
-        }
-        batch.Mesh("bark", "#69533C").Cylinder(x, y, z, .027, height * .6, sides: 6);
-        if (broadleaf)
-        {
-            batch.Mesh("leaves-olive", "#657947").Sphere(x, y + height * .7, z, height * .28, height * .35, height * .27, 12, 8);
-            batch.Mesh("leaves-light", "#7C8C50").Sphere(x - .04, y + height * .85, z - .035, height * .20, height * .22, height * .20, 10, 7);
-        }
-        else
-        {
-            batch.Mesh("pine-dark", "#3C5E3C").Cylinder(x, y + height * .18, z, height * .29, height * .63, 0, 12);
-            batch.Mesh("pine-light", "#577246").Cylinder(x, y + height * .45, z, height * .22, height * .55, 0, 12);
-        }
-    }
     private static void House(SceneBatch batch, double x, double y, double z, double width, double height, double depth, string wall = "#C6B797")
     {
         batch.Mesh("walls-" + wall, wall).Box(x, y, z, width, height, depth);
@@ -172,13 +152,5 @@ internal static partial class WorldScene3D
     {
         double y = Terrain3D.Height(s, p.X, p.Y); var stone = batch.Mesh("ruins", "#A29E87");
         stone.Cylinder(p.X - .16, y, p.Y, .055, .32); stone.Cylinder(p.X + .16, y, p.Y, .055, .22); stone.Box(p.X, y + .25, p.Y, .4, .07, .11);
-    }
-    private static void ResourceModel(SceneBatch batch, GameState s, Tile tile)
-    {
-        var p = Terrain3D.Center(tile); double x = p.X + .52, z = p.Y + .18, y = Terrain3D.Height(s, x, z);
-        if (tile.Resource == Resource.Grain)
-            for (int i = 0; i < 4; i++) { batch.Mesh("wheat", "#D5BC73").Cylinder(x + i * .04, y, z, .012, .18, sides: 5); batch.Mesh("wheat", "#D5BC73").Sphere(x + i * .04, y + .18, z, .022, .055, .022, 6, 4); }
-        else if (tile.Resource == Resource.Horses) Horse(batch, x, y, z, .55);
-        else batch.Mesh("resource-" + tile.Resource, tile.Resource == Resource.Iron ? "#747F82" : tile.Resource == Resource.Salt ? "#DDD7BB" : tile.Resource == Resource.Dyes ? "#92738C" : "#AAA997").Sphere(x, y + .055, z, .13, .12, .11, 8, 4);
     }
 }

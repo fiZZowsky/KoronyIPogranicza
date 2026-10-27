@@ -10,6 +10,8 @@ Pełny prompt:
 
 ## Mapa i interfejs
 
+Wydanie 0.25 dodaje autorską geometrię proceduralną ludzi, koni, pni, korzeni, traw, kłosów, kwiatów, rud i kryształów. Sześć piktogramów zasobów to oryginalne ścieżki wektorowe WPF w ResourcePresentation.cs, bez zależności od znaków specjalnego fontu. Materiały korzystają z dotychczasowego atlasu i roślinności 0.21 oraz szumu w shaderze; nie pobierano modeli ani nie generowano nowych bitmap. Zrzuty --ui-smoke-models pochodzą z rzeczywistego renderera na przygotowanej mapie diagnostycznej z odsłoniętymi zasobami i przyznanymi technologiami. Modele postaci mają statyczne pozy.
+
 Wydanie 0.24 realizuje sezonowe barwy i śnieg w shaderze oraz deszcz i płatki jako proceduralną geometrię Direct3D. Niebo również powstaje w shaderze. Ponownie wykorzystano atlas i tekstury roślin 0.21; nie generowano ani nie pobierano bitmap, fontów lub modeli. Zrzuty czterech pór roku przedstawiają rzeczywisty program na przygotowanej mapie diagnostycznej, z przyznaną wiedzą i ustawionymi turami sezonów.
 
 Wydanie 0.23 dodaje proceduralne koryta, siatki wody z mapowaniem nurtu, żwirowe brzegi, trzciny, kamienie, mosty i dodatkową bramę miejską. Wszystkie te elementy powstają z kodu projektu. Ponownie wykorzystano atlas i tekstury roślin z 0.21; nie generowano nowych bitmap ani nie pobierano modeli. Scenariusz diagnostyczny rzek ma ręcznie przygotowane odkryte odcinki i drogę, a jego zrzuty pochodzą z rzeczywistego programu.

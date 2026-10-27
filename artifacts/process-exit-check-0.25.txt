@@ -1,0 +1,12 @@
+--ui-smoke: exit 3; intentional failure reported
+--ui-smoke-espionage: exit 3; intentional failure reported
+--ui-smoke-custody: exit 3; intentional failure reported
+--ui-smoke-epochs: exit 3; intentional failure reported
+--ui-smoke-power: exit 3; intentional failure reported
+--ui-smoke-energy-cases: exit 3; intentional failure reported
+--ui-smoke-3d: exit 3; intentional failure reported
+--ui-smoke-photographic: exit 3; intentional failure reported
+--ui-smoke-landscape: exit 3; intentional failure reported
+--ui-smoke-rivers: exit 3; intentional failure reported
+--ui-smoke-environment: exit 3; intentional failure reported
+--ui-smoke-models: exit 3; intentional failure reported

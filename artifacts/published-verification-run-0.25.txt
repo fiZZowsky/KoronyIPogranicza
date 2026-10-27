@@ -1,0 +1,13 @@
+base: 170 checks; exit 0; 154,1s
+espionage: 22 checks; exit 0; 22,4s
+custody: 18 checks; exit 0; 16,4s
+epoch: 38 checks; exit 0; 20,1s
+power: 23 checks; exit 0; 12,8s
+energy-case: 22 checks; exit 0; 16,2s
+three-dimensional: 34 checks; exit 0; 25,2s
+photographic: 21 checks; exit 0; 13,5s
+landscape: 18 checks; exit 0; 9,0s
+river: 19 checks; exit 0; 7,2s
+environment: 22 checks; exit 0; 16,8s
+models: 27 checks; exit 0; 12,2s
+WPF fallback: 34 checks; exit 0; 25,3s

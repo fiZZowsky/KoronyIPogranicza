@@ -86,11 +86,11 @@ public sealed partial class MapView
     {
         if (State == null || ActualWidth <= 0 || ActualHeight <= 0) return;
         annotations.Children.Clear(); var visible = Engine.Visible(State); var occupied = new List<Rect>();
-        void Label(Point3D anchor, string text, Brush color, bool important = false, double size = 11)
+        void Label(Point3D anchor, string text, Brush color, bool important = false, double size = 11, Resource resource=Resource.None,int resourceTile=-1)
         {
             var point = Project(anchor);
             if (point == null || point.Value.X < 15 || point.Value.Y < 15 || point.Value.X > ActualWidth - 15 || point.Value.Y > ActualHeight - 75 || TerrainOccludes(anchor)) return;
-            var label = new Border { Child = Ui.Label(text, size, color), Padding = new(6, 2, 6, 2), Background = Ui.Brush(important ? "#ED192D31" : "#C71B3033"), BorderBrush = important ? Ui.Gold : Ui.Brush("#66768476"), BorderThickness = new(important ? 1 : .5), CornerRadius = new(3) };
+            var label = new Border { Child = resource==Resource.None?Ui.Label(text, size, color):ResourcePresentation.Label(resource,size),Tag=resource==Resource.None?null:new ResourceMarker(resourceTile,resource), Padding = new(6, 2, 6, 2), Background = Ui.Brush(important ? "#ED192D31" : "#E51B3033"), BorderBrush = important ? Ui.Gold : Ui.Brush("#66768476"), BorderThickness = new(important ? 1 : .5), CornerRadius = new(3) };
             label.Measure(new(double.PositiveInfinity, double.PositiveInfinity));
             var rect = new Rect(point.Value.X - label.DesiredSize.Width / 2, point.Value.Y - label.DesiredSize.Height, label.DesiredSize.Width, label.DesiredSize.Height);
             if (!important && occupied.Any(r => r.IntersectsWith(rect))) return;
@@ -105,13 +105,13 @@ public sealed partial class MapView
         if (selected != null)
         {
             var p = Terrain3D.Center(State.Tiles[selected.Tile]); string order = selected.EscortCaravanId != null ? " · eskorta" : selected.Order == MilitaryOrder.Fortify ? " · umocnienia" : selected.Order == MilitaryOrder.Recover ? " · leczenie" : "";
-            Label(Terrain3D.Ground(State, p.X - .42, p.Y + .30, .72), UnitModels.Name(selected) + $" · {selected.Health:0}%" + order, Ui.Gold, true);
+            var anchor=WorldScene3D.UnitAnchor(State,selected,0); Label(Terrain3D.Ground(State, anchor.X, anchor.Y, .48), UnitModels.Name(selected) + $" · {selected.Health:0}%" + order, Ui.Gold, true);
         }
-        if (ShowResources && distance < 26)
-            foreach (var tile in State.Tiles.Where(t => t.Explored && t.Resource != Resource.None))
+        if (ShowResources)
+            foreach (var tile in State.Tiles.Where(t => t.Explored && t.Resource != Resource.None).OrderByDescending(t=>t.Id==SelectedTile).ThenBy(t=>(Terrain3D.Center(t)-target).LengthSquared))
             {
-                var p = Terrain3D.Center(tile); string code = tile.Resource switch { Resource.Grain => "Zboże", Resource.Iron => "Fe", Resource.Horses => "Konie", Resource.Stone => "Kamień", Resource.Salt => "Sól", _ => "Barwniki" };
-                Label(Terrain3D.Ground(State, p.X + .52, p.Y + .18, .23), code, Ui.Brush("#EDDBB5"), false, 9);
+                var p = WorldScene3D.ResourceAnchor(State,tile);
+                Label(Terrain3D.Ground(State,p.X,p.Y,.42),Crown.Core.Content.ResourceName(tile.Resource),Ui.Brush(ResourcePresentation.Color(tile.Resource)),tile.Id==SelectedTile,11,tile.Resource,tile.Id);
             }
         foreach (var group in State.Units.Where(u => u.Owner == 0 || visible.Contains(u.Tile)).GroupBy(u => u.Tile).Where(g => g.Count() > 1))
         {
@@ -120,7 +120,7 @@ public sealed partial class MapView
         if (hoverTile >= 0 && State.Tiles[hoverTile].Explored)
         {
             var tile = State.Tiles[hoverTile]; var p = Terrain3D.Center(tile);
-            Label(Terrain3D.Ground(State, p.X, p.Y, .12), Crown.Core.Content.TerrainName(tile.Terrain) + $" · {tile.X}, {tile.Y}", Ui.Text);
+            Label(Terrain3D.Ground(State, p.X, p.Y, .12), Crown.Core.Content.TerrainName(tile.Terrain)+(tile.Resource==Resource.None?"":" · "+Crown.Core.Content.ResourceName(tile.Resource)) + $" · {tile.X}, {tile.Y}", Ui.Text);
         }
     }
 }

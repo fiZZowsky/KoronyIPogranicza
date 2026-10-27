@@ -77,7 +77,7 @@ public sealed partial class MapView : Grid
             else if (State != null && Environment.TickCount64 - lastHover >= 70)
             {
                 lastHover = Environment.TickCount64; int id = Pick(point);
-                if (hoverTile != id) { hoverTile = id; RebuildOverlays(); UpdateAnnotations(); }
+                if (hoverTile != id) { hoverTile = id; ToolTip=id>=0&&State.Tiles[id].Explored&&State.Tiles[id].Resource!=Resource.None?ResourcePresentation.Tooltip(State.Tiles[id].Resource):null; RebuildOverlays(); UpdateAnnotations(); }
             }
         };
         MouseUp += (_, e) =>
@@ -154,7 +154,7 @@ public sealed partial class MapView : Grid
         Option("Światło: poranek / południe",()=>{if(photographic is{} r)r.Sun=r.Sun.Y<.7?System.Numerics.Vector3.Normalize(new(-.3f,1.5f,-.2f)):System.Numerics.Vector3.Normalize(new(-.65f,.82f,-.35f));});
         menu.IsOpen=true;
     }
-    public void Zoom(double factor) { if (!double.IsFinite(factor) || factor <= 0) return; distance = Math.Clamp(distance * factor, 5, 60); UpdateCamera(); }
+    public void Zoom(double factor) { if (!double.IsFinite(factor) || factor <= 0) return; distance = Math.Clamp(distance * factor, 2.5, 60); UpdateCamera(); }
     internal void PanPixels(double dx, double dy)
     {
         double angle = yaw * Math.PI / 180, scale = distance * 2 * Math.Tan(camera.FieldOfView * Math.PI / 360) / Math.Max(1, ActualWidth);

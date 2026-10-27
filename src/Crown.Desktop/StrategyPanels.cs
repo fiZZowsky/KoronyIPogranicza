@@ -48,6 +48,7 @@ public sealed partial class MainWindow
             TitlePanel("ZIEMIE DOLINY", city?.Name ?? Catalog.TerrainName(tile.Terrain),
                 $"{(tile.Owner < 0 ? "Ziemia niczyja" : state.Factions[tile.Owner].Name)} · ({tile.X}, {tile.Y})");
             side.Children.Add(Ui.Label($"Zasób: {Catalog.ResourceName(tile.Resource)}{(tile.River ? " · rzeka" : "")}", 13, Ui.Gold));
+            if(tile.Resource!=Resource.None)side.Children.Add(Ui.Card(Ui.Stack(ResourcePresentation.Label(tile.Resource,17),Ui.Label(ResourcePresentation.Description(tile.Resource),12,Ui.Muted),Ui.Label("Premia zasobu: "+ResourcePresentation.Bonus(tile.Resource),12,Ui.Gold))));
             var y = Engine.TileYields(tile, state.Player);
             side.Children.Add(Ui.Label($"Potencjał: {y.Food:0} żywności · {y.Production:0} produkcji · {y.Gold:0} złota", 12, Ui.Muted));
             Ui.Gap(side);

@@ -28,6 +28,7 @@ struct Pixel { float4 p:SV_POSITION; float3 world:WORLD; float3 n:NORMAL; float2
 Pixel WorldVS(Vertex v)
 {
     if(v.surface.x>4.5&&v.surface.x<5.5)v.p.xz+=float2(sin(v.p.z*2+EyeTime.w*.7),cos(v.p.x*2+EyeTime.w*.6))*(.012+WeatherSettings.x*.008);
+    if(v.surface.x>13.5&&v.surface.x<14.5)v.p.xz+=float2(sin(v.p.z*3+EyeTime.w*.9),cos(v.p.x*3+EyeTime.w*.8))*.005*saturate(v.uv.y)*saturate(v.uv.y);
     Pixel o; o.world=v.p; o.n=v.n; o.uv=v.uv; o.color=v.color; o.surface=v.surface;
     o.p=mul(float4(v.p,1),ViewProjection);o.light=mul(float4(v.p,1),LightProjection);return o;
 }
@@ -94,8 +95,8 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
 {
     float kind=p.surface.x,rough=p.surface.y,metal=p.surface.z;
     if(Settings.w>.5&&Settings.w<1.5)clip(p.world.y-.055);
-    float3 n=normalize(p.n);if(!front && kind>4.5 && kind<5.5)n=-n;float3 v=normalize(EyeTime.xyz-p.world),sun=normalize(SunExposure.xyz);
-    if(kind>11.5)
+    float3 n=normalize(p.n);if(!front && ((kind>4.5 && kind<5.5)||(kind>13.5&&kind<14.5)))n=-n;float3 v=normalize(EyeTime.xyz-p.world),sun=normalize(SunExposure.xyz);
+    if(kind>11.5&&kind<13.5)
     {
         float2 uv=p.uv*2-1;float opacity;
         if(kind>12.5)opacity=(1-smoothstep(.35,1,dot(uv,uv)))*p.color.a;
@@ -157,7 +158,25 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     if(kind>7.5&&kind<8.5)return float4(p.color.rgb*.9,alpha); // strategic overlays remain readable
     if(kind>8.5&&kind<9.5){float3 rock=Triplanar(p.world,n,float2(1,0),.15);albedo=Decode(lerp(rock*.7,float3(.82,.85,.85),smoothstep(7,13,p.world.y)*saturate(n.y+.4)));rough=.95;}
     if(kind>9.5&&kind<10.5){albedo=Decode(Triplanar(p.world,n,float2(0,1),5))*.54;rough=.98;}
-    if(kind>10.5){albedo=Decode(Triplanar(p.world,n,float2(1,0),6))*p.color.rgb;rough=.96;}
+    if(kind>10.5&&kind<11.5){albedo=Decode(Triplanar(p.world,n,float2(1,0),6))*p.color.rgb;rough=.96;}
+    if(kind>13.5&&kind<14.5)
+    {
+        n=normalize(lerp(n,float3(0,1,0),.45));albedo*=1+Noise(p.world.xz*25)*.12;
+        albedo=lerp(albedo,albedo*float3(1.1,.84,.62),SeasonPalette.y*.5);
+        albedo=lerp(albedo,Decode(float3(.77,.83,.85)),SeasonPalette.x*.75);rough=.92;
+    }
+    if(kind>14.5&&kind<17.5)
+    {
+        float3 stone=Triplanar(p.world,n,float2(1,0),5);albedo=Decode(stone)*p.color.rgb;rough=.88;
+        if(kind>15.5&&kind<16.5)
+        {
+            float vein=smoothstep(.58,.73,Noise(p.world.xz*24+p.world.y*7));albedo=lerp(albedo*.65,Decode(float3(.39,.22,.12)),vein*.55);metal=.12;rough=.74;
+        }
+        if(kind>16.5){albedo=Decode(p.color.rgb)*(.88+Noise(p.world.xz*95)*.12);rough=.34;metal=.02;}
+        albedo=lerp(albedo,Decode(float3(.80,.85,.87)),SeasonPalette.x*smoothstep(.4,.85,n.y)*.85);
+    }
+    if(kind>18.5){albedo=Decode(p.color.rgb);rough=.48;metal=.62;}
+    if(kind>17.5&&kind<18.5){albedo=Decode(p.color.rgb)*(.88+Noise(p.world.xz*float2(160,24)+p.world.y*37)*.19);rough=.96;}
     if((kind>1.5&&kind<3.5)||(kind>5.5&&kind<6.5)||(kind>8.5&&kind<11.5))
     {
         float settled=SeasonPalette.x*smoothstep(.35,.8,n.y)*(.83+Noise(p.world.xz*13)*.17);

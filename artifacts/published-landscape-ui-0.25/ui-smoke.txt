@@ -1,0 +1,19 @@
+PASS Unchanged explored geography reuses one immutable height field
+PASS The shared height texture contains only finite samples
+PASS Changing an unexplored terrain type does not affect the visual field
+PASS The known coast center remains below the visible water plane
+PASS Changing explored geography invalidates the field and updates elevation
+PASS Preparing and invalidating visual fields does not change gameplay or RNG
+PASS Town growth adds stable residential lots without rearranging existing homes
+PASS Residential footprints are separated and leave the two streets unobstructed
+PASS The new terrain and city render on the actual Direct3D device: 
+PASS Geometry, camera and the GPU use the same prepared geography
+PASS The town contains street surfaces and the archway's real 3D geometry
+PASS The distant horizon has a continuous, detailed mountain surface
+PASS Depth-aware shores and shallow water change actual rendered pixels
+PASS Edge smoothing changes the rendered silhouette pixels
+PASS The gateway points to its city's logical tile, including the wall edge
+PASS Repeated camera movement does not accumulate additional GPU meshes
+PASS Camera movement, shore shading and city rendering leave the exact save unchanged
+PASS The detailed environment remains available in the compact window
+18 landscape desktop integration checks passed.

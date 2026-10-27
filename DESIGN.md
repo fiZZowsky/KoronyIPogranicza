@@ -1,5 +1,15 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Modele i czytelność zasobów — 0.25
+
+LivingModels3D i ResourceModels3D budują lokalną geometrię niezależną od Crown.Core. SceneMesh.Hull łączy profilowane pierścienie z wygładzonymi normalnymi i zamknięciami; trójkąty dziedziczą identyfikator pola oraz skalę i obrót partii. Ludzie zachowują warianty historyczne, współczesne i przyszłe. Konie korzystają ze wspólnego modelu dla zasobu i kawalerii. To statyczne pozy, bez szkieletu lub systemu zachowania zwierząt.
+
+ResourceAnchor jest wspólnym miejscem modelu i etykiety; szuka dostępnego punktu poza korytem, a las zostawia wokół niego prześwit. UnitAnchor rozdziela formacje na polu i odsuwa je od ulicy miasta. Wybór korzysta z rzeczywistych trójkątów i ich identyfikatorów, także po obrocie. Proceduralne warianty używają osobnego Random z ziarnem świata i pola; nie dotykają RNG kampanii.
+
+ResourcePresentation współdzieli nazwy Content.ResourceName, oryginalne ścieżki piktogramów, opisy i bonusy między mapą, podpowiedzią, kartą pola oraz legendą. Bonus jest różnicą Engine.TileYields dla identycznego bazowego pola z zasobem i bez niego, zamiast kopią liczb ekonomii. ResourceMarker identyfikuje etykietę pola; priorytet wybranego zasobu i odległości od celu kamery porządkuje rozwiązywanie kolizji. Nieodkryte pola nie tworzą etykiet ani modeli zasobów. Legenda objaśnia katalog, bez wskazywania ukrytych położeń.
+
+Shader rozróżnia drobną roślinność, skały, rudę, sól, sierść i metal. Zakres identyfikatorów opadów jest ograniczony do ich własnych materiałów. Nowa geometria trafia także do WPF, z prostszym materiałem zgodności. Kamera może zejść do odległości 2,5. Zmiany nie ingerują w reguły Crown.Core, gospodarkę, zapis v19 ani przebieg tury.
+
 ## Tożsamość
 
 Strategia o ciągłości państwa. Rozwój ma wynikać z geografii, instytucji i decyzji podejmowanych wobec konkretnych ludzi. Nie chodzi o odtworzenie reguł, interfejsu czy treści innej gry. W fikcyjnej Dolinie Veyru ścierają się wspólnoty rolnicze, rody zbrojne, uczeni i kupcy. Ich interesy stanowią podstawę dialogów.

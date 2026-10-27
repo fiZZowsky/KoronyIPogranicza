@@ -89,6 +89,29 @@ internal sealed class SceneMesh
             Smooth(a, b, c); Smooth(a, c, d);
         }
     }
+    internal void Hull(double x,double y,double z,(double Height,double RadiusX,double RadiusZ,double OffsetZ)[] sections,int sides=10)
+    {
+        Point3D P(int row,int side){var ring=sections[row];double a=side*Math.PI*2/sides;return new(x+Math.Cos(a)*ring.RadiusX,y+ring.Height,z+ring.OffsetZ+Math.Sin(a)*ring.RadiusZ);}
+        Vector3D N(int row,int side)
+        {
+            var ring=sections[row];var low=sections[Math.Max(0,row-1)];var high=sections[Math.Min(sections.Length-1,row+1)];double a=side*Math.PI*2/sides;
+            var vertical=new Vector3D((high.RadiusX-low.RadiusX)*Math.Cos(a),high.Height-low.Height,(high.RadiusZ-low.RadiusZ)*Math.Sin(a)+high.OffsetZ-low.OffsetZ);
+            var around=new Vector3D(-ring.RadiusX*Math.Sin(a),0,ring.RadiusZ*Math.Cos(a));var n=Vector3D.CrossProduct(vertical,around);n.Normalize();return n;
+        }
+        void Tri(Point3D a,Point3D b,Point3D c,Vector3D na,Vector3D nb,Vector3D nc)
+        {
+            if(Vector3D.DotProduct(Vector3D.CrossProduct(b-a,c-a),na+nb+nc)<0){(b,c)=(c,b);(nb,nc)=(nc,nb);}Triangle(a,b,c,na,nb,nc);
+        }
+        for(int row=0;row<sections.Length-1;row++)for(int side=0;side<sides;side++)
+        {
+            int next=(side+1)%sides;Tri(P(row,side),P(row+1,side),P(row+1,next),N(row,side),N(row+1,side),N(row+1,next));Tri(P(row,side),P(row+1,next),P(row,next),N(row,side),N(row+1,next),N(row,next));
+        }
+        for(int side=0;side<sides;side++)
+        {
+            var first=sections[0];var last=sections[^1];Tri(new(x,y+first.Height,z+first.OffsetZ),P(0,side),P(0,(side+1)%sides),new(0,-1,0),new(0,-1,0),new(0,-1,0));
+            Tri(new(x,y+last.Height,z+last.OffsetZ),P(sections.Length-1,side),P(sections.Length-1,(side+1)%sides),new(0,1,0),new(0,1,0),new(0,1,0));
+        }
+    }
     public void Tube(Point3D start, Point3D end, double radius, int sides = 8)
     {
         var direction = end - start; if (direction.LengthSquared < 1e-12) return; direction.Normalize();

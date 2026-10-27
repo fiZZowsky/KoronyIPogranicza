@@ -27,12 +27,20 @@ internal static partial class WorldScene3D
     private static void NaturalTree(SceneBatch batch, GameState s, double x, double z, double height, bool broadleaf)
     {
         double y=Terrain3D.Height(s,x,z);var random=new Random(unchecked((int)(x*17291+z*31337)+s.Seed));
-        var bark=batch.Mesh("bark", "#A99B81");bark.Cylinder(x,y,z,height*.024,height*.75,height*.009,7);
+        bool birch=broadleaf&&Math.Abs((int)(x*17+z*23))%4==0;
+        string barkKey=birch?"bark-birch":broadleaf?"bark-oak":"bark-spruce";var bark=batch.Mesh(barkKey,birch?"#C7C6AD":"#89785E");
+        bark.Hull(x,y,z,[(0,height*.038,height*.034,0),(height*.13,height*.025,height*.024,0),(height*.52,height*.016,height*.015,height*.018),(height*.92,height*.005,height*.005,height*.025)],9);
+        for(int root=0;root<(broadleaf?5:3);root++)
+        {
+            double angle=root*Math.PI*2/(broadleaf?5:3);double rx=x+Math.Cos(angle)*height*.13,rz=z+Math.Sin(angle)*height*.13;
+            bark.Tube(new(rx,Terrain3D.Height(s,rx,rz)+.005,rz),new(x,y+height*.10,z),height*.012,5);
+        }
+        if(birch)for(int mark=1;mark<5;mark++)batch.Mesh("bark-birch-marks","#615D4F").Tube(new(x-height*.024,y+mark*height*.13,z-.014),new(x+height*.014,y+mark*height*.13+.008,z-.014),height*.003,4);
         // Individually oriented branch sprays retain volume from every camera direction.
         for(int branch=0;branch<9;branch++)
         {
             double angle=branch*2.399963+random.NextDouble()*.7, level=(branch+1)/10d;
-            double radius=broadleaf ? height*(.19+Math.Sin(level*Math.PI)*.21) : height*(1-level)*.35;
+            double radius=broadleaf ? height*(birch?.15+Math.Sin(level*Math.PI)*.16:.17+Math.Sin(level*Math.PI)*.26) : height*(1-level)*.35;
             double bx=x+Math.Cos(angle)*radius,bz=z+Math.Sin(angle)*radius,by=y+height*(.32+level*.62);
             bark.Tube(new(x,y+height*(.25+level*.5),z),new(bx,by,bz),height*(.012-level*.006),5);
             for(int leaf=0;leaf<4;leaf++)

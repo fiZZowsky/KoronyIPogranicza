@@ -1,5 +1,13 @@
 # Zmiany
 
+## 0.25 — Ludzie, przyroda i czytelne zasoby · 27 października 2026
+
+- Profilowana geometria ludzi: kończyny, dłonie, buty, szczegóły twarzy, hełmy, płaszcze i wyposażenie. Rozbudowane konie z kopytami, uszami, oczami, pyskiem, grzywą i ogonem; warianty umaszczenia oraz siodła kawalerii. Poprawiona skala formacji, położenie w mieście i kierunek ustawienia względem celu marszu.
+- Zwężane pnie i korzenie, warianty kory, trawy oraz kwiaty. Każdy z sześciu zasobów otrzymuje własną reprezentację: kłosy, ruda, konie, skały, kryształy i rośliny barwierskie. Polana wokół zasobu poprawia widoczność modeli. Materiały rud, soli, sierści i metalu mają osobne parametry shadera.
+- Pełne polskie nazwy i autorskie wektorowe piktogramy zastępują skróty typu Fe. Legenda, podpowiedzi i karta wybranego pola objaśniają zastosowanie i rzeczywistą premię. Najważniejsze oznaczenie wybranego zasobu ma pierwszeństwo przy kolizjach etykiet. Nieodkryte położenia pozostają ukryte.
+- Bliższe przybliżenie kamery, do odległości 2,5. Kliknięcie w zasób nadal wskazuje jego logiczne pole. Dwunasty tryb diagnostyczny --ui-smoke-models sprawdza geometrię, oznaczenia, legendę, mniejsze okno, wybieranie i niezmienność kampanii oraz RNG.
+- Osobny katalog wydanie-0.25, zachowany format v19 i wcześniejsze paczki. Modele są proceduralne i mają statyczne pozy; ta wersja nie dodaje animacji szkieletowej ani nowych systemów fauny. Nadal wymaga dalszej pracy do jakości fotorealistycznej.
+
 ## 0.24 — Pory roku i pogoda · 27 października 2026
 
 - Cztery widoczne warianty pór roku zgodne z turą kampanii: wiosenna zieleń, letnie materiały, jesienne korony drzew liściastych i zimowy śnieg. Drzewa iglaste zachowują zieleń jesienią. Zimą śnieg pojawia się na terenie, koronach, dachach i poziomych powierzchniach budowli. Pustynne materiały otrzymują znacznie mniej śniegu.

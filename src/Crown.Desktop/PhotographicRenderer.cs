@@ -98,6 +98,12 @@ internal sealed partial class PhotographicRenderer : IDisposable
         if(key.StartsWith("distant-mountains"))return 9;
         if(key.StartsWith("streets"))return 10;
         if(key.StartsWith("river-bank")||key.StartsWith("river-pebbles"))return 11;
+        if(key.StartsWith("ground-grass")||key.StartsWith("crop-leaves")||key.StartsWith("plant-leaves"))return 14;
+        if(key.StartsWith("stone-outcrop")||key.StartsWith("salt-bed"))return 15;
+        if(key.StartsWith("iron-ore"))return 16;
+        if(key.StartsWith("salt-crystals"))return 17;
+        if(key.StartsWith("horse-coat-")||key.StartsWith("horse-mane-tail"))return 18;
+        if(key.StartsWith("helmets")||key.StartsWith("spear-heads")||key.StartsWith("shield-boss")||key.StartsWith("weapons")||key.StartsWith("gun-metal"))return 19;
         if (key.StartsWith("landscape")) return 0;
         if (key.StartsWith("sea") || key.StartsWith("rivers")) return 1;
         if (key.StartsWith("foliage")) return 5;

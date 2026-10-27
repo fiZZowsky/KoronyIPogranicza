@@ -1,0 +1,28 @@
+PASS The new living models render on the actual Direct3D device: 
+PASS Human formations contain shaped bodies, facial details, hands and boots
+PASS Horses have actual hoof, mane, tail and eye geometry
+PASS Forests, grass tufts and smaller leaves have distinct spatial geometry
+PASS All six resource types have their own recognizable model components
+PASS New resource and living meshes remain bounded with finite unit normals
+PASS Dyes are represented by flowering plants rather than the former colored sphere
+PASS Actual map badge shows the full resource name and icon: Zboże
+PASS Selected resource explains its identity and actual field bonus: Zboże
+PASS Actual map badge shows the full resource name and icon: Żelazo
+PASS Selected resource explains its identity and actual field bonus: Żelazo
+PASS Actual map badge shows the full resource name and icon: Konie
+PASS Selected resource explains its identity and actual field bonus: Konie
+PASS Actual map badge shows the full resource name and icon: Kamień
+PASS Selected resource explains its identity and actual field bonus: Kamień
+PASS Actual map badge shows the full resource name and icon: Sól
+PASS Selected resource explains its identity and actual field bonus: Sól
+PASS Actual map badge shows the full resource name and icon: Barwniki
+PASS Selected resource explains its identity and actual field bonus: Barwniki
+PASS The map never substitutes a chemical abbreviation for the iron resource name
+PASS The resources toggle hides badges while keeping the real world models
+PASS The real legend button opens names and pictograms for every resource
+PASS Picking a horse resource model resolves its actual logical tile
+PASS The camera can approach closely enough to inspect the new models
+PASS Resource labels, legend, new models and camera inspection preserve gameplay and RNG
+PASS An undiscovered iron deposit never gains a revealing map badge
+PASS The resource legend remains scrollable in the compact window
+27 models desktop integration checks passed.

@@ -64,7 +64,7 @@ public sealed partial class MainWindow
             var rotated = map.Project(Terrain3D.Ground(s, center.X + 1, center.Y, .1)); ClickCamera("+");
             Check(map.CameraDistance < 13 && rotated != map.Project(Terrain3D.Ground(s, center.X + 1, center.Y, .1)), "Zoom changes perspective projection through its actual control");
             map.Orbit(360, 1000); Check(map.CameraPitch == 78, "Camera elevation is clamped above the world"); map.Orbit(0, -1000); Check(map.CameraPitch == 15, "Camera cannot orbit beneath the terrain");
-            map.Zoom(.00001); Check(map.CameraDistance == 5, "Near camera distance is bounded"); map.Zoom(100000); Check(map.CameraDistance == 60, "Far camera distance is bounded");
+            map.Zoom(.00001); Check(map.CameraDistance == 2.5, "Near camera distance is bounded"); map.Zoom(100000); Check(map.CameraDistance == 60, "Far camera distance is bounded");
             map.ResetCamera(); map.PanPixels(80, 30); Check(!map.Camera.LookDirection.Equals(new Vector3D()) && map.Footprint.All(p => double.IsFinite(p.X) && double.IsFinite(p.Y)), "Pan retains a finite world camera and minimap footprint"); map.Center(capital.Tile);
             Check(SaveGame.Serialize(state) == original, "Orbit, pan and zoom do not advance turns or modify the save");
             var destination = World.Neighbors(s, capital.Tile).First(t => t.Passable && !s.Units.Any(u => u.Owner != 0 && u.Tile == t.Id)); destination.Explored = true; destination.Terrain = Terrain.Grassland; destination.Resource = Resource.None; destination.Ruin = false; destination.Improvement = Improvement.None; s.InvalidateLogistics(); Refresh();
