@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional military AI diagnostic failure.
+   at Crown.Desktop.MainWindow.MilitaryAiSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\MilitaryAiSmoke.cs:line 21

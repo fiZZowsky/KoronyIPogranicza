@@ -1,0 +1,5 @@
+three-dimensional: 34 checks; exit 0; 28,1s
+district: 32 checks; exit 0; 11,8s
+military-ai: 16 checks; exit 0; 6,4s
+WPF fallback: 34 checks; exit 0; 26,2s
+WPF military assessment: 16 checks; exit 0; 5,5s

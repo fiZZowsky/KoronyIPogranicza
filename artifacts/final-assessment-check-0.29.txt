@@ -1,0 +1,2 @@
+published final fixture: 16 checks; exit 0; 6,9s
+fallback final fixture: 16 checks; exit 0; 5,4s

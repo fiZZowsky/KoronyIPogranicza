@@ -9,6 +9,7 @@ public sealed partial class MainWindow
     {
         var p = Ui.Stack(Ui.Eyebrow("DOWÓDZTWO MARCHII"), Ui.Label("Wojsko i stałe rozkazy", 30, Ui.Text, true),
             Ui.Label("Wybierz oddział, aby obejrzeć jego pozycję i wydać rozkaz. Tab pomija okopujące się oddziały, rekonwalescentów i eskorty. Nadal można je wybrać na mapie lub tutaj.", 13, Ui.Muted));
+        p.Children.Add(Ui.Button("Ocena sytuacji wojskowej",ShowMilitaryAssessment));
         foreach (var unit in state.Units.Where(u => u.Owner == 0).OrderBy(u => u.Id))
         {
             var tile = state.Tiles[unit.Tile];

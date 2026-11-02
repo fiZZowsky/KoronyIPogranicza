@@ -1,0 +1,30 @@
+PASS Military sight matches the player's existing map visibility
+PASS Threat assessment counts only currently observed wartime combat troops
+PASS AI observation does not depend on the player's explored flags
+PASS Military plans are read only deterministic and consume no campaign RNG
+PASS Settlers scouts and convoy escorts never receive field army assignments
+PASS Wartime city security reserves infantry before ranged field troops
+PASS A threatened city receives defenders before an offensive army is released
+PASS An isolated weak force assembles instead of declaring an unsupported assault
+PASS A combined healthy field force can advance while preserving a garrison
+PASS An all-ranged army does not plan to capture a city by itself
+PASS Strategic objectives discard cities whose approaches cannot be reached
+PASS Player assessment never names an unexplored hostile city objective
+PASS Recruitment fills a missing capture role instead of always buying strongest cavalry
+PASS Wartime recruitment includes siege support once infantry is available
+PASS Recruitment accounts for units already being produced by another city
+PASS Recruitment stops an unaffordable peaceful arms buildup
+PASS Recruitment chooses a legal contemporary model for the missing role
+PASS AI preserves invested production on a legal project without an emergency
+PASS A completed civilian project permits real AI recruitment without locking the next automatic project
+PASS A free production boundary permits expansion without abandoning an invested project
+PASS Emergency military replanning pays the existing twenty percent work loss
+PASS Tactical ranged fire prioritizes a kill rather than list insertion order
+PASS Tactical melee refuses a preview that would kill its attacker
+PASS Ranged fire followed by infantry captures a weakened city through real combat
+PASS An injured supplied army uses the existing recovery order without free healing
+PASS A damaged unsupplied army spends ordinary movement retreating toward supplies
+PASS The AI executor cannot issue orders to the player's army
+PASS Existing v20 saves reproduce the same plans and future military turns
+PASS A prepared combined army can complete an actual multi-turn offensive while retaining city security
+29 military AI specifications passed in 1,4s.

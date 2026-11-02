@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.29 — Dowodzenie i ocena zagrożeń · 2 listopada 2026
+
+- Planowanie wojenne pełnej kampanii: garnizony, obrona miast, zbiórka i wspólny osiągalny cel. Priorytet zagrożonego miasta, odzyskania własnej osady i ogłoszonego celu wojny. Ocena sił uwzględnia zdrowie, wsparcie dystansowe i rolę zdolną zdobyć miasto.
+- Wybór ataków z prawdziwego podglądu walki, dobicie celu, unikanie samobójczych wymian, ostrzał przed piechotą, ruch do pozycji, odwrót do dostaw i normalna rekonwalescencja. Eskorty nie są przejmowane przez armię polową.
+- Rekrutacja według brakujących ról i legalnych modeli, z uwzględnieniem produkcji innych miast i kosztów utrzymania. Zachowanie rozpoczętej pracy, wybór przy ukończeniu projektu i koszt awaryjnej zmiany. Osobna kontrola potwierdza, że ochrona produkcji nie blokuje osadników.
+- Panel Ocena sytuacji wojskowej z miasta i przeglądu armii: widoczne zagrożenia, lokalne siły, dostawy, gotowość i konkretne przejścia do produkcji, miasta oraz oddziałów. Raport nie ujawnia niewidocznych wojsk ani nie automatyzuje działań gracza.
+- 31 nowych specyfikacji, w tym rzeczywista wieloturowa ofensywa oraz deterministyczna kontynuacja zapisu. Szesnasty tryb --ui-smoke-military-ai sprawdza 16 zachowań rzeczywistego interfejsu. Osobne wydanie-0.29, bez zmiany zapisu v20.
+- Nowe decyzje AI dotyczą pełnej kampanii; dawny wariant pozostaje do czasu rozszerzenia. Planowanie strategiczne nadal zna geografię i pozycje miast. Brak trwałej pamięci planów, flot, religii oraz deklaracji przewagi nad komercyjną strategią.
+
 ## 0.28 — Dzielnice i plan miasta · 2 listopada 2026
 
 - Pięć przestrzennych dzielnic: ogrody, rzemiosło, uczeni, kupcy i forum. Rzeczywista rezerwacja pola, wymagania technologiczne i populacyjne, premie sąsiedztwa, dochód, mieszkania oraz utrzymanie w gospodarce.

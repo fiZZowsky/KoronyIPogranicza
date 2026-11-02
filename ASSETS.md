@@ -10,6 +10,8 @@ Pełny prompt:
 
 ## Mapa i interfejs
 
+Wydanie 0.29 dodaje natywny panel WPF oceny zagrożeń wojskowych. Nie powstają nowe bitmapy, modele, fonty ani dźwięki; oprawa 3D korzysta z dotychczasowych zasobów. Zrzuty --ui-smoke-military-ai pochodzą z rzeczywistego programu na przygotowanym scenariuszu z jednostkami ustawionymi tak, aby sprawdzić przewagę, widoczność i brak dostaw. To diagnostyka interfejsu, nie naturalnie rozegrana kampania.
+
 Wydanie 0.28 dodaje autorską proceduralną geometrię pięciu dzielnic, rusztowań i ruin w DistrictModels3D.cs. Wykorzystuje istniejące materiały i tekstury 0.21. Nie pobierano modeli ani nie generowano nowych bitmap. Podświetlenia i nazwy są elementami WPF. Zrzuty --ui-smoke-districts pochodzą z rzeczywistego programu na przygotowanej mapie z przyznanymi technologiami i środkami; część postępu jest ustawiana w scenariuszu dla kontroli ukończenia, pięciu modeli i grabieży. Oddzielne kontrole sprawdzają rzeczywisty postęp po końcu tury. Są to testy mechanik i wyglądu, nie zapis naturalnie rozegranej kampanii.
 
 Wydanie 0.27 dodaje natywne panele WPF ustawień i menu gry. Nie dodano nowych bitmap, modeli ani fontów. InterfaceAudio generuje krótki monofoniczny sygnał PCM 22 050 Hz z sinusoidy i obwiedni, zapisując odtwarzalną pamięć podręczną WAV przy pierwszym odtworzeniu. Nie jest to nagranie zewnętrzne ani utwór muzyczny. Odtwarzanie używa MediaPlayer WPF; diagnostyka pozostaje bezgłośna. Zrzuty nowych paneli pochodzą z rzeczywistego programu.

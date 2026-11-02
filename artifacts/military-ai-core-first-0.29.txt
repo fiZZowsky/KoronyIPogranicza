@@ -1,0 +1,29 @@
+PASS Military sight matches the player's existing map visibility
+PASS Threat assessment counts only currently observed wartime combat troops
+PASS AI observation does not depend on the player's explored flags
+PASS Military plans are read only deterministic and consume no campaign RNG
+PASS Settlers scouts and convoy escorts never receive field army assignments
+PASS Wartime city security reserves infantry before ranged field troops
+PASS A threatened city receives defenders before an offensive army is released
+PASS An isolated weak force assembles instead of declaring an unsupported assault
+PASS A combined healthy field force can advance while preserving a garrison
+PASS An all-ranged army does not plan to capture a city by itself
+PASS Strategic objectives discard cities whose approaches cannot be reached
+PASS Player assessment never names an unexplored hostile city objective
+PASS Recruitment fills a missing capture role instead of always buying strongest cavalry
+PASS Wartime recruitment includes siege support once infantry is available
+FAIL Recruitment accounts for units already being produced by another city: System.Exception: Duplicate siege pipeline ignored
+   at StageTwentyOneSpecs.Assert(Boolean condition, String message) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\tests\Crown.Specs\StageTwentyOneSpecs.cs:line 6
+   at StageTwentyOneSpecs.<>c.<Run>b__5_14() in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\tests\Crown.Specs\StageTwentyOneSpecs.cs:line 54
+   at Program.<>c__DisplayClass0_0.<<Main>$>g__Test|1(String name, Action action) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\tests\Crown.Specs\Program.cs:line 6
+PASS Recruitment stops an unaffordable peaceful arms buildup
+PASS Recruitment chooses a legal contemporary model for the missing role
+PASS AI preserves invested production on a legal project without an emergency
+PASS Tactical ranged fire prioritizes a kill rather than list insertion order
+PASS Tactical melee refuses a preview that would kill its attacker
+PASS Ranged fire followed by infantry captures a weakened city through real combat
+PASS An injured supplied army uses the existing recovery order without free healing
+PASS A damaged unsupplied army spends ordinary movement retreating toward supplies
+PASS The AI executor cannot issue orders to the player's army
+PASS Existing v20 saves reproduce the same plans and future military turns
+24 military AI specifications passed in 1,1s.

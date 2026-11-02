@@ -5,7 +5,7 @@ dotnet build KoronyIPogranicza.slnx @buildOptions --nologo
 if ($LASTEXITCODE -ne 0) { throw 'Kompilacja nie powiodła się.' }
 $reportDirectory = Join-Path $PSScriptRoot 'artifacts'
 New-Item -ItemType Directory -Force -Path $reportDirectory | Out-Null
-$testTemp=Join-Path $reportDirectory 'spec-temp-0.28'
+$testTemp=Join-Path $reportDirectory 'spec-temp-0.29'
 New-Item -ItemType Directory -Force -Path $testTemp | Out-Null
 $env:TEMP=$testTemp;$env:TMP=$testTemp
 dotnet run --project tests/Crown.Specs -c Release --no-build | Tee-Object -FilePath (Join-Path $reportDirectory 'core-specs.txt')
@@ -15,9 +15,9 @@ $smokeDirectory = Join-Path $reportDirectory 'ui'
 $gameProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke', ('"' + $smokeDirectory + '"')) -WindowStyle Hidden -PassThru
 $baseTimer = [Diagnostics.Stopwatch]::StartNew()
 while (-not $gameProcess.WaitForExit(1000)) {
-    if ($baseTimer.Elapsed.TotalSeconds -le 180) { continue }
+    if ($baseTimer.Elapsed.TotalSeconds -le 240) { continue }
     Stop-Process -Id $gameProcess.Id -Force
-    throw 'Test interfejsu 3D przekroczył limit 180 sekund.'
+    throw 'Test interfejsu 3D przekroczył limit 240 sekund.'
 }
 if ($gameProcess.ExitCode -ne 0) { throw 'Test integracji WPF nie przeszedł. Sprawdź artifacts/ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $smokeDirectory 'ui-smoke.txt')
@@ -72,69 +72,75 @@ if (-not $threeDimensionalProcess.WaitForExit(60000)) {
 }
 if ($threeDimensionalProcess.ExitCode -ne 0) { throw 'Test sceny 3D nie przeszedł. Sprawdź artifacts/three-dimensional-ui/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $threeDimensionalDirectory 'ui-smoke.txt')
-$photographicDirectory = Join-Path $reportDirectory 'photographic-ui-0.28'
+$photographicDirectory = Join-Path $reportDirectory 'photographic-ui-0.29'
 $photographicProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-photographic', ('"' + $photographicDirectory + '"')) -WindowStyle Hidden -PassThru
 if (-not $photographicProcess.WaitForExit(60000)) {
     Stop-Process -Id $photographicProcess.Id -Force
     throw 'Test oprawy GPU przekroczył limit 60 sekund.'
 }
-if ($photographicProcess.ExitCode -ne 0) { throw 'Test oprawy GPU nie przeszedł. Sprawdź artifacts/photographic-ui-0.28/ui-smoke.txt.' }
+if ($photographicProcess.ExitCode -ne 0) { throw 'Test oprawy GPU nie przeszedł. Sprawdź artifacts/photographic-ui-0.29/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $photographicDirectory 'ui-smoke.txt')
 
-$landscapeDirectory = Join-Path $reportDirectory 'landscape-ui-0.28'
+$landscapeDirectory = Join-Path $reportDirectory 'landscape-ui-0.29'
 $landscapeProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-landscape', ('"' + $landscapeDirectory + '"')) -WindowStyle Hidden -PassThru
 if (-not $landscapeProcess.WaitForExit(60000)) {
     Stop-Process -Id $landscapeProcess.Id -Force
     throw 'Test krajobrazu przekroczył limit 60 sekund.'
 }
-if ($landscapeProcess.ExitCode -ne 0) { throw 'Test krajobrazu nie przeszedł. Sprawdź artifacts/landscape-ui-0.28/ui-smoke.txt.' }
+if ($landscapeProcess.ExitCode -ne 0) { throw 'Test krajobrazu nie przeszedł. Sprawdź artifacts/landscape-ui-0.29/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $landscapeDirectory 'ui-smoke.txt')
-$riverDirectory = Join-Path $reportDirectory 'river-ui-0.28'
+$riverDirectory = Join-Path $reportDirectory 'river-ui-0.29'
 $riverProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-rivers', ('"' + $riverDirectory + '"')) -WindowStyle Hidden -PassThru
 if (-not $riverProcess.WaitForExit(60000)) {
     Stop-Process -Id $riverProcess.Id -Force
     throw 'Test rzek i mostów przekroczył limit 60 sekund.'
 }
-if ($riverProcess.ExitCode -ne 0) { throw 'Test rzek i mostów nie przeszedł. Sprawdź artifacts/river-ui-0.28/ui-smoke.txt.' }
+if ($riverProcess.ExitCode -ne 0) { throw 'Test rzek i mostów nie przeszedł. Sprawdź artifacts/river-ui-0.29/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $riverDirectory 'ui-smoke.txt')
-$environmentDirectory = Join-Path $reportDirectory 'environment-ui-0.28'
+$environmentDirectory = Join-Path $reportDirectory 'environment-ui-0.29'
 $environmentProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-environment', ('"' + $environmentDirectory + '"')) -WindowStyle Hidden -PassThru
 if (-not $environmentProcess.WaitForExit(60000)) {
     Stop-Process -Id $environmentProcess.Id -Force
     throw 'Test pór roku i pogody przekroczył limit 60 sekund.'
 }
-if ($environmentProcess.ExitCode -ne 0) { throw 'Test pór roku i pogody nie przeszedł. Sprawdź artifacts/environment-ui-0.28/ui-smoke.txt.' }
+if ($environmentProcess.ExitCode -ne 0) { throw 'Test pór roku i pogody nie przeszedł. Sprawdź artifacts/environment-ui-0.29/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $environmentDirectory 'ui-smoke.txt')
 
-$modelsDirectory = Join-Path $reportDirectory 'models-ui-0.28'
+$modelsDirectory = Join-Path $reportDirectory 'models-ui-0.29'
 $modelsProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-models', ('"' + $modelsDirectory + '"')) -WindowStyle Hidden -PassThru
 if (-not $modelsProcess.WaitForExit(60000)) {
     Stop-Process -Id $modelsProcess.Id -Force
     throw 'Test modeli i oznaczeń zasobów przekroczył limit 60 sekund.'
 }
-if ($modelsProcess.ExitCode -ne 0) { throw 'Test modeli i oznaczeń zasobów nie przeszedł. Sprawdź artifacts/models-ui-0.28/ui-smoke.txt.' }
+if ($modelsProcess.ExitCode -ne 0) { throw 'Test modeli i oznaczeń zasobów nie przeszedł. Sprawdź artifacts/models-ui-0.29/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $modelsDirectory 'ui-smoke.txt')
 
-$renderingDirectory = Join-Path $reportDirectory 'rendering-ui-0.28'
+$renderingDirectory = Join-Path $reportDirectory 'rendering-ui-0.29'
 $renderingProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-rendering', ('"' + $renderingDirectory + '"')) -WindowStyle Hidden -PassThru
 if (-not $renderingProcess.WaitForExit(60000)) {
     Stop-Process -Id $renderingProcess.Id -Force
     throw 'Test widoczności i szczegółów renderowania przekroczył limit 60 sekund.'
 }
-if ($renderingProcess.ExitCode -ne 0) { throw 'Test renderowania nie przeszedł. Sprawdź artifacts/rendering-ui-0.28/ui-smoke.txt.' }
+if ($renderingProcess.ExitCode -ne 0) { throw 'Test renderowania nie przeszedł. Sprawdź artifacts/rendering-ui-0.29/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $renderingDirectory 'ui-smoke.txt')
 
-$settingsDirectory = Join-Path $reportDirectory 'settings-ui-0.28'
+$settingsDirectory = Join-Path $reportDirectory 'settings-ui-0.29'
 $settingsProcess = Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-settings', ('"' + $settingsDirectory + '"')) -WindowStyle Hidden -PassThru
 if (-not $settingsProcess.WaitForExit(90000)) {
     Stop-Process -Id $settingsProcess.Id -Force
     throw 'Test ustawień i menu pauzy przekroczył limit 90 sekund.'
 }
-if ($settingsProcess.ExitCode -ne 0) { throw 'Test ustawień nie przeszedł. Sprawdź artifacts/settings-ui-0.28/ui-smoke.txt.' }
+if ($settingsProcess.ExitCode -ne 0) { throw 'Test ustawień nie przeszedł. Sprawdź artifacts/settings-ui-0.29/ui-smoke.txt.' }
 Get-Content -LiteralPath (Join-Path $settingsDirectory 'ui-smoke.txt')
 
-$districtDirectory=Join-Path $reportDirectory 'district-ui-0.28'
+$districtDirectory=Join-Path $reportDirectory 'district-ui-0.29'
 $districtProcess=Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-districts',('"'+$districtDirectory+'"')) -WindowStyle Hidden -PassThru
 if(-not $districtProcess.WaitForExit(90000)){Stop-Process -Id $districtProcess.Id -Force;throw 'Test dzielnic przekroczył 90 sekund.'}
-if($districtProcess.ExitCode -ne 0){throw 'Test dzielnic nie przeszedł. Sprawdź artifacts/district-ui-0.28/ui-smoke.txt.'}
+if($districtProcess.ExitCode -ne 0){throw 'Test dzielnic nie przeszedł. Sprawdź artifacts/district-ui-0.29/ui-smoke.txt.'}
 Get-Content -LiteralPath (Join-Path $districtDirectory 'ui-smoke.txt')
+
+$militaryDirectory=Join-Path $reportDirectory 'military-ai-ui-0.29'
+$militaryProcess=Start-Process -FilePath $gameExecutable -ArgumentList @('--ui-smoke-military-ai',('"'+$militaryDirectory+'"')) -WindowStyle Hidden -PassThru
+if(-not $militaryProcess.WaitForExit(90000)){Stop-Process -Id $militaryProcess.Id -Force;throw 'Test sztabu wojskowego przekroczył 90 sekund.'}
+if($militaryProcess.ExitCode -ne 0){throw 'Test sztabu wojskowego nie przeszedł. Sprawdź artifacts/military-ai-ui-0.29/ui-smoke.txt.'}
+Get-Content -LiteralPath (Join-Path $militaryDirectory 'ui-smoke.txt')

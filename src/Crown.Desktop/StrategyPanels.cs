@@ -25,6 +25,7 @@ public sealed partial class MainWindow
             side.Children.Add(Ui.Button("Szlaki i bilans skarbu   →", () => { tab = "logistics"; RefreshSide(); }));
             side.Children.Add(Ui.Button($"Mieszkańcy · dobrobyt {city.Prosperity}%", () => ShowProvince(city)));
             side.Children.Add(Ui.Button("Dzielnice i plan miasta",()=>ShowDistrictPlan(city)));
+            side.Children.Add(Ui.Button("Ocena sytuacji wojskowej",ShowMilitaryAssessment));
             if(state.EpochCampaign)side.Children.Add(Ui.Button($"Zasilanie {Epochs.Energy(state,city).Coverage:P0} · zarządzaj energią",()=>ShowPowerManagement(city.Id)));
             Ui.Bar(side, $"Wzrost miasta: {city.Food:0} / {22 + city.Population * 12}", city.Food, 22 + city.Population * 12, Ui.Green);
             var project = Catalog.Project(city.Project);

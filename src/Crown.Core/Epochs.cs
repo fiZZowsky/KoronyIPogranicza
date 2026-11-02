@@ -97,15 +97,13 @@ public static class Epochs
         if (!s.EpochCampaign) return;
         PowerGrid.ManageAi(s, f, c);
         var available = Engine.AvailableProjects(s, c).ToArray();
-        bool war = s.Relations.Any(r => (r.A == f.Id || r.B == f.Id) && r.War);
-        int army = s.Units.Count(u => u.Owner == f.Id && u.Kind is not (UnitKind.Settler or UnitKind.Scout));
-        var bestUnit = available.Where(p => UnitModels.All.Any(m => m.Id == p.Id)).OrderByDescending(p => UnitModels.All.First(m => m.Id == p.Id).Strength).FirstOrDefault();
+        var bestUnit = MilitaryStrategy.Recruitment(s,c);
         var power = available.Where(p => EpochCatalog.Buildings.Any(b => b.Id == p.Id && b.Energy > 0)).OrderBy(p => EpochCatalog.Buildings.First(b => b.Id == p.Id).Emissions).ThenBy(p => p.Cost).FirstOrDefault();
         var program = available.FirstOrDefault(p => Programs.Any(x => x.Id == p.Id));
         var building = available.Where(p => p.Unit == null && p.Id is not ("treasury" or "festival") && !Programs.Any(x => x.Id == p.Id))
             .OrderByDescending(p => EpochCatalog.Buildings.FirstOrDefault(b => b.Id == p.Id)?.Science ?? (p.Id == "library" ? 8 : 0)).ThenBy(p => p.Cost).FirstOrDefault();
         if (power != null && Energy(s, c).Supply <= Energy(s, c).Demand) c.Project = power.Id;
-        else if (bestUnit != null && army < (war ? 3 : 1) * s.Cities.Count(x => x.Owner == f.Id) + 2) c.Project = bestUnit.Id;
+        else if (bestUnit != null && c.Project != "settler") c.Project = bestUnit.Id;
         else if (program != null) c.Project = program.Id;
         else if (building != null && c.Project != "settler") c.Project = building.Id;
         PowerGrid.UpdateAiPriority(s, f, c);

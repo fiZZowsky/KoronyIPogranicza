@@ -164,6 +164,7 @@ public static partial class Engine
     }
     public static Result EndTurn(GameState s)
     {
+        var completedProjects=new HashSet<int>();
         if(s.Ending!=null)return Result.Fail("Kampania dobiegła końca. Rozpocznij nową historię.");
         if(s.PendingEvent!=null)return Result.Fail("Najpierw odpowiedz na sprawę przedstawioną radzie.");
         WarCouncil.EnsureActive(s);
@@ -198,6 +199,7 @@ public static partial class Engine
                 if(p!=null)c.Production+=Math.Max(0,y.Production*modifier-districtWork);
                 if(p!=null&&c.Production>=p.Cost)
                 {
+                    completedProjects.Add(c.Id);
                     c.Production-=p.Cost;
                     if(p.Unit!=null){var u=AddUnit(s,f.Id,c.Tile,p.Unit.Value,UnitModels.All.FirstOrDefault(m=>m.Id==p.Id)?.Id);if(c.Buildings.Contains("barracks"))u.Experience=2;if(p.Unit==UnitKind.Settler)c.Population--;}
                     else if(p.Id=="treasury")f.Gold+=60;
@@ -218,7 +220,7 @@ public static partial class Engine
         }
         powerPhase.Dispose();
         foreach(var u in s.Units.ToArray())MilitaryOrders.FinishTurn(s,u);
-        ProvincialPolitics.Tick(s);RunAi(s);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
+        ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         AuditCouncil.Tick(s);
         EnergyCouncil.Observe(s,powerPhase.Readings);
         TreasuryLoans.Tick(s);
@@ -232,7 +234,7 @@ public static partial class Engine
         }
         Epochs.Tick(s,powerPhase.Emissions);Explore(s);CheckEnding(s);if(s.Ending==null)Narrative.Schedule(s);return Result.Ok($"Początek tury {s.Turn}. {s.Season}.");
     }
-    private static void RunAi(GameState s)
+    private static void RunAi(GameState s,IReadOnlySet<int> completedProjects)
     {
         foreach(var f in s.Factions.Skip(1))
         {
@@ -247,17 +249,26 @@ public static partial class Engine
             }
             foreach(var city in cities)
             {
+                string previousProject=city.Project;
+                bool committed=s.EpochCampaign&&city.Production>0&&!completedProjects.Contains(city.Id);
                 int military=s.Units.Count(u=>u.Owner==f.Id&&u.Kind!=UnitKind.Scout&&u.Kind!=UnitKind.Settler);
                 var possible=AvailableProjects(s,city).ToArray();bool war=s.Relations.Any(r=>(r.A==f.Id||r.B==f.Id)&&r.War);
-                if(s.Turn>12&&cities.Length<4&&!s.Units.Any(u=>u.Owner==f.Id&&u.Kind==UnitKind.Settler)&&city.Population>=4&&s.Turn%7==0)city.Project="settler";
-                else if(military<(war?cities.Length*3+2:cities.Length+2)&&city.Project!="settler")city.Project=possible.Any(p=>p.Id=="cavalry")?"cavalry":possible.Any(p=>p.Id=="archer")&&s.Next(2)==0?"archer":"spearmen";
-                else if(city.Project!="settler"&&Content.Project(city.Project).Unit!=null&&military>=cities.Length*3+2)city.Project=possible.FirstOrDefault(p=>p.Unit==null)?.Id??"spearmen";
+                if(s.Turn>12&&cities.Length<4&&!s.Units.Any(u=>u.Owner==f.Id&&u.Kind==UnitKind.Settler)&&city.Population>=4&&
+                    (s.EpochCampaign?!war&&!committed&&!cities.Any(c=>c.Project=="settler"):s.Turn%7==0))city.Project="settler";
+                else if(!s.EpochCampaign&&military<(war?cities.Length*3+2:cities.Length+2)&&city.Project!="settler")city.Project=possible.Any(p=>p.Id=="cavalry")?"cavalry":possible.Any(p=>p.Id=="archer")&&s.Next(2)==0?"archer":"spearmen";
+                else if(!s.EpochCampaign&&city.Project!="settler"&&Content.Project(city.Project).Unit!=null&&military>=cities.Length*3+2)city.Project=possible.FirstOrDefault(p=>p.Unit==null)?.Id??"spearmen";
                 if(f.Gold>120)
                 {
                     var tile=WorkedTiles(s,city).FirstOrDefault(t=>t.Improvement==Improvement.None);
                     if(tile!=null&&f.Technologies.Contains("agriculture")){tile.Improvement=tile.Terrain==Terrain.Hills&&f.Technologies.Contains("mining")?Improvement.Mine:Improvement.Farm;f.Gold-=35;}
                 }
                 Regions.ManageAi(s,city);Epochs.ManageAi(s,f,city);
+                if(s.EpochCampaign)
+                {
+                    bool urgent=MilitaryStrategy.Threats(s,f.Id).Any(t=>t.CityId==city.Id&&t.EnemyPower>t.DefensePower);
+                    if(committed&&ProductionPlanning.ProjectError(s,city,previousProject)==null&&(!urgent||Content.Project(previousProject).Unit is UnitKind role&&role is not (UnitKind.Scout or UnitKind.Settler)))city.Project=previousProject;
+                    if(city.Project!=previousProject){if(!completedProjects.Contains(city.Id))city.Production*=.8;city.RepeatProject=false;}
+                }
             }
             Markets.ManageAi(s,f.Id);
             EscortOrders.ManageAi(s,f.Id);
@@ -278,8 +289,10 @@ public static partial class Engine
                 if(r.War&&other==0&&s.Turn%5==0)PeaceCouncil.MaybeOffer(s,f.Id,other);
                 else if(r.War&&other>0&&f.WarWeariness>65&&s.Turn%10==0)PeaceCouncil.AiArmistice(s,r);
             }
+            if(s.EpochCampaign)RunMilitaryAi(s,f.Id);
             foreach(var u in s.Units.Where(u=>u.Owner==f.Id).ToArray())
             {
+                if(s.EpochCampaign&&MilitaryStrategy.Combatant(u))continue;
                 if(u.EscortCaravanId!=null)continue;
                 if(Districts.Pillage(s,u.Id,f.Id).Success)continue;
                 if(u.Kind!=UnitKind.Settler&&Supplied(s,u)&&(u.Health<45||u.Order==MilitaryOrder.Recover))
