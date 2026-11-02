@@ -1,5 +1,7 @@
 {
-  "Version": 19,
+  "Version": 20,
+  "Districts": [],
+  "NextDistrictId": 1,
   "EpochCampaign": true,
   "ContinueAfterVictory": false,
   "ClimatePressure": 0.28500000000000003,
@@ -16600,7 +16602,9 @@
             "data_centre"
           ]
         }
-      ]
+      ],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     },
     {
       "Id": 4,
@@ -16717,7 +16721,9 @@
           "Allocated": 0,
           "Services": []
         }
-      ]
+      ],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     },
     {
       "Id": 7,
@@ -16834,7 +16840,9 @@
           "Allocated": 0,
           "Services": []
         }
-      ]
+      ],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     },
     {
       "Id": 10,
@@ -16951,7 +16959,9 @@
           "Allocated": 0,
           "Services": []
         }
-      ]
+      ],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     }
   ],
   "Units": [],

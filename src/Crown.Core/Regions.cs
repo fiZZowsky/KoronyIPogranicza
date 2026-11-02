@@ -12,7 +12,7 @@ public static class Regions
         CityFocus.Agriculture => "Rolnictwo", CityFocus.Industry => "Rzemiosło",
         CityFocus.Scholarship => "Nauka", _ => "Równowaga"
     };
-    public static int Housing(GameState s, City c) => 6 + Epochs.Housing(s,c) + (c.Buildings.Contains("housing") ? 5 : 0) +
+    public static int Housing(GameState s, City c) => 6 + Districts.Housing(s,c) + Epochs.Housing(s,c) + (c.Buildings.Contains("housing") ? 5 : 0) +
         (c.Buildings.Contains("aqueduct") ? 2 : 0) + (c.Buildings.Contains("parliament") ? 3 : 0) +
         (s.Factions[c.Owner].Technologies.Contains("civilservice") ? 2 : 0) +
         (c.Charters.Contains("housing_rights") || c.Charters.Contains("guild_housing") ? 2 : 0);

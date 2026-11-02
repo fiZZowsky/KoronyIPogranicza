@@ -18,6 +18,9 @@ public sealed partial class MapView : Grid
     public bool ShowPopulation { get; set; }
     public int TrackedCaravanId { get; set; } = -1;
     public IReadOnlyList<int> PlannedRoad { get; set; } = [];
+    internal IReadOnlyList<int> DistrictSites {get;set;}=[];
+    internal string DistrictPlanningText {get;set;}="";
+    private readonly TextBlock districtPlanningHint=new(){IsHitTestVisible=false,FontSize=13,Foreground=Ui.Gold,Background=Ui.Brush("#ED192D31"),Padding=new(12),HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,Margin=new(0,0,18,76),Visibility=Visibility.Collapsed};
     public Action<int>? SelectTile;
     public Action<int>? OrderUnit;
     public Action? CameraChanged;
@@ -58,7 +61,7 @@ public sealed partial class MapView : Grid
         ClipToBounds = true; Focusable = true;
         Background = new LinearGradientBrush((Color)ColorConverter.ConvertFromString("#A2BEC6"), (Color)ColorConverter.ConvertFromString("#344F55"), 90);
         viewport.Camera = camera; viewport.Children.Add(worldVisual); viewport.Children.Add(overlaysVisual);
-        Children.Add(viewport); Children.Add(photographicImage); Children.Add(annotations); Children.Add(rendererStatus);Children.Add(RenderStatisticsText); AddCameraControls();
+        Children.Add(viewport); Children.Add(photographicImage); Children.Add(annotations); Children.Add(rendererStatus);Children.Add(RenderStatisticsText);Children.Add(districtPlanningHint); AddCameraControls();
         animationTimer.Tick+=(_,_)=>{if(!suspended&&animateEnvironment&&photographic!=null&&!gpuPending&&IsVisible)RenderGpuFrame(visualClock.Elapsed.TotalSeconds);};
         Loaded+=(_,_)=>animationTimer.Start();
         Unloaded += (_, _) => { animationTimer.Stop();photographic?.Dispose(); photographic = null; photographicImage.Source = null; gpuAttempted = false; };
@@ -229,6 +232,7 @@ public sealed partial class MapView : Grid
         foreach (var c in State.Cities) { h.Add(c.Id); h.Add(c.Tile); h.Add(c.Owner); h.Add(c.Population); foreach (var b in c.Buildings) h.Add(b); }
         foreach (var u in State.Units) { h.Add(u.Id); h.Add(u.Tile); h.Add(u.Owner); h.Add(u.Kind); h.Add(u.ModelId); }
         foreach (var c in State.Caravans) { h.Add(c.Id); h.Add(c.Tile); h.Add(c.Status); }
+        foreach(var d in State.Districts){h.Add(d.Id);h.Add(d.CityId);h.Add(d.Tile);h.Add(d.Kind);h.Add(d.Status);h.Add(d.Work);}
         return h.ToHashCode();
     }
     private void EnsureScene()
@@ -245,6 +249,7 @@ public sealed partial class MapView : Grid
     }
     public new void InvalidateVisual()
     {
+        districtPlanningHint.Text=DistrictPlanningText;districtPlanningHint.Visibility=DistrictPlanningText.Length==0?Visibility.Collapsed:Visibility.Visible;
         if (State != null) { EnsureScene(); RebuildOverlays(); UpdateAnnotations(); }
         RequestGpuFrame();
         base.InvalidateVisual();

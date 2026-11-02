@@ -41,6 +41,7 @@ public sealed partial class MapView
             if (hoverTile >= 0 && State.Tiles[hoverTile].Explored && hoverTile != unit.Tile) Route(batch, Navigation.Route(State, unit, hoverTile), "preview", "#BCD8DB");
         }
         Route(batch, PlannedRoad, "planned-road", "#EABF77");
+        foreach(int id in DistrictSites)WorldScene3D.HexOutline(batch.Mesh("district-candidate","#7ED9A0",true),State,State.Tiles[id],.04,.075);
         var cargo = State.Caravans.FirstOrDefault(c => c.Id == TrackedCaravanId && Caravans.Active(c));
         if (cargo != null)
         {
@@ -113,6 +114,11 @@ public sealed partial class MapView
                 var p = WorldScene3D.ResourceAnchor(State,tile);
                 Label(Terrain3D.Ground(State,p.X,p.Y,.42),Crown.Core.Content.ResourceName(tile.Resource),Ui.Brush(ResourcePresentation.Color(tile.Resource)),tile.Id==SelectedTile,11,tile.Resource,tile.Id);
             }
+        foreach(var d in State.Districts.Where(d=>State.Tiles[d.Tile].Explored&&(State.Cities.Any(c=>c.Id==d.CityId&&c.Owner==0)||visible.Contains(d.Tile))).OrderByDescending(d=>d.Tile==SelectedTile))
+        {
+            if(distance>=28&&d.Tile!=SelectedTile)continue;var anchor=WorldScene3D.DistrictAnchor(State,d);
+            Label(Terrain3D.Ground(State,anchor.X,anchor.Y,.6),Districts.Type(d.Kind).Name+(d.Status==DistrictStatus.Active?"":" · "+MainWindow.DistrictStatusText(d)),Ui.Gold,d.Tile==SelectedTile,11);
+        }
         foreach (var group in State.Units.Where(u => u.Owner == 0 || visible.Contains(u.Tile)).GroupBy(u => u.Tile).Where(g => g.Count() > 1))
         {
             var p = Terrain3D.Center(State.Tiles[group.Key]); Label(Terrain3D.Ground(State, p.X - .50, p.Y + .40, .49), $"Oddziały: {group.Count()}", Ui.Gold);

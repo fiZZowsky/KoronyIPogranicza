@@ -24,15 +24,17 @@ public sealed partial class MainWindow
             side.Children.Add(Ui.Label(connected ? "W sieci drogowej stolicy" : "Brak bezpiecznego połączenia ze stolicą", 11, connected ? Ui.Green : Ui.Gold));
             side.Children.Add(Ui.Button("Szlaki i bilans skarbu   →", () => { tab = "logistics"; RefreshSide(); }));
             side.Children.Add(Ui.Button($"Mieszkańcy · dobrobyt {city.Prosperity}%", () => ShowProvince(city)));
+            side.Children.Add(Ui.Button("Dzielnice i plan miasta",()=>ShowDistrictPlan(city)));
             if(state.EpochCampaign)side.Children.Add(Ui.Button($"Zasilanie {Epochs.Energy(state,city).Coverage:P0} · zarządzaj energią",()=>ShowPowerManagement(city.Id)));
             Ui.Bar(side, $"Wzrost miasta: {city.Food:0} / {22 + city.Population * 12}", city.Food, 22 + city.Population * 12, Ui.Green);
             var project = Catalog.Project(city.Project);
-            int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(1, y.Production));
+            double districtWork=Districts.Allocation(state,city,y.Production);int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(1, y.Production-districtWork));
             var work = Ui.Stack(Ui.Eyebrow("W REALIZACJI"), Ui.Label(project.Name, 22, Ui.Text, true), Ui.Label(project.Description, 12, Ui.Muted));
             Ui.Gap(work, 10);
             string? productionBlock=ProductionPlanning.CurrentBlock(state,city);
-            Ui.Bar(work, $"{city.Production:0} / {project.Cost} produkcji · "+(productionBlock==null?$"ok. {turns} tur":"POSTÓJ"), city.Production, project.Cost);
+            Ui.Bar(work, $"{city.Production:0} / {project.Cost} produkcji · "+(productionBlock!=null?"POSTÓJ":districtWork>=y.Production&&districtWork>0?"praca skierowana do dzielnicy":$"ok. {turns} tur"), city.Production, project.Cost);
             if(productionBlock!=null)work.Children.Add(Ui.Label(productionBlock,12,Ui.Red));
+            if(Districts.Construction(state,city)!=null)work.Children.Add(Ui.Label($"Dzielnica: {districtWork:0.##} produkcji/turę · na ten projekt {Math.Max(0,y.Production-districtWork):0.##}.",12,Ui.Gold));
             work.Children.Add(Ui.Label($"Oczekujące zlecenia: {city.ProductionQueue.Count}/8"+(city.RepeatProject?" · obecny projekt powtarzany":""),12,Ui.Muted));
             work.Children.Add(Ui.Button("Plan produkcji: "+city.Name,()=>ShowProductionQueue(city)));
             work.Children.Add(Ui.Button("Wybierz projekt   →", () => ShowProjects(city)));
@@ -50,7 +52,9 @@ public sealed partial class MainWindow
             side.Children.Add(Ui.Label($"Zasób: {Catalog.ResourceName(tile.Resource)}{(tile.River ? " · rzeka" : "")}", 13, Ui.Gold));
             if(tile.Resource!=Resource.None)side.Children.Add(Ui.Card(Ui.Stack(ResourcePresentation.Label(tile.Resource,17),Ui.Label(ResourcePresentation.Description(tile.Resource),12,Ui.Muted),Ui.Label("Premia zasobu: "+ResourcePresentation.Bonus(tile.Resource),12,Ui.Gold))));
             var y = Engine.TileYields(tile, state.Player);
-            side.Children.Add(Ui.Label($"Potencjał: {y.Food:0} żywności · {y.Production:0} produkcji · {y.Gold:0} złota", 12, Ui.Muted));
+            var knownDistrict=Districts.At(state,tile.Id) is{} district&&DistrictKnown(district)?district:null;
+            if(knownDistrict!=null)DistrictFieldPanel(knownDistrict);
+            side.Children.Add(Ui.Label((knownDistrict==null?"Potencjał:":"Teren nieuprawiany:")+$" {y.Food:0} żywności · {y.Production:0} produkcji · {y.Gold:0} złota", 12, Ui.Muted));
             Ui.Gap(side);
             if (tile.Passable && city == null)
             {
@@ -60,7 +64,7 @@ public sealed partial class MainWindow
             }
             if (tile.Owner == 0 && city == null && tile.Passable)
             {
-                if (tile.Improvement == Improvement.None)
+                if (tile.Improvement == Improvement.None&&Districts.At(state,tile.Id)==null)
                 {
                     side.Children.Add(Ui.Eyebrow("ZAGOSPODAROWANIE"));
                     side.Children.Add(Ui.Button("Farma · 35 złota", () => Do(Engine.Improve(state, tile.Id, Improvement.Farm))));

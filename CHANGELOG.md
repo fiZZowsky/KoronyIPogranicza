@@ -1,5 +1,15 @@
 # Zmiany
 
+## 0.28 — Dzielnice i plan miasta · 2 listopada 2026
+
+- Pięć przestrzennych dzielnic: ogrody, rzemiosło, uczeni, kupcy i forum. Rzeczywista rezerwacja pola, wymagania technologiczne i populacyjne, premie sąsiedztwa, dochód, mieszkania oraz utrzymanie w gospodarce.
+- Podział produkcji 0/25/50/100% między dzielnicę a zwykły projekt, jedna zmiana na turę, zwrot niewykorzystanej pracy do projektu przy ukończeniu. Budowa nie powiela produkcji.
+- Rozmowa o finansowaniu publicznym lub cechowym: odmienna opłata przygotowania, trwały udział dochodu, utrzymanie i poparcie stronnictw. Podgląd lokalizacji oraz utraconego potencjału pola przed decyzją.
+- Grabież podczas wojny, jednorazowy łup, blokada dochodu, tańsze utrzymanie ruin, płatna pracą odbudowa i dziedziczenie dzielnic po zdobyciu miasta. AI buduje za własne środki i może plądrować.
+- Plan miasta, wskazywanie miejsca na mapie, podział pracy, postęp, anulowanie i odbudowa w interfejsie. Osobne proceduralne modele 3D pięciu typów, rusztowania oraz ruiny, pełne nazwy i poprawne wybieranie pól. Brak ujawniania ukrytej budowy przeciwnika.
+- Zapis v20 przechowuje dzielnice i nakład pracy; odczyt v1–v19. Nadpisanie v19 zachowuje dokładną kopię .v19.bak. Nowy piętnasty tryb --ui-smoke-districts, 21 specyfikacji silnika i 32 kontrole interfejsu. Osobne wydanie-0.28.
+- To rozwój planowania miast, bez nowych flot, religii, rozbudowy wewnętrznej dzielnic lub deklaracji ukończenia gry.
+
 ## 0.27 — Ustawienia i menu gry · 27 października 2026
 
 - Ustawienia w menu głównym i menu gry pod Esc. Pięć sekcji: Obraz, Dźwięk, Sterowanie, Interfejs i Rozgrywka. Robocze zmiany, Zastosuj, powrót bez stosowania oraz przywracanie domyślnych. Przewijane sekcje i stale dostępne przyciski.

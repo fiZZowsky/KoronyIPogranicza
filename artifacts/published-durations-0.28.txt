@@ -1,0 +1,4 @@
+three-dimensional: 34 checks; exit 0; 28,7s
+settings: 44 checks; exit 0; 13,1s
+district: 32 checks; exit 0; 12,3s
+WPF fallback: 34 checks; exit 0; 26,0s

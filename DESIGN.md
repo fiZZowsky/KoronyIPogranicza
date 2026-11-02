@@ -1,5 +1,19 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Przestrzenne dzielnice — 0.28
+
+Districts w Crown.Core jest jedynym źródłem legalności, kosztów, sąsiedztwa i postępu. Rekord wiąże typ, pole, finansowanie i pracę z identyfikatorem miasta; właściciel wynika z miasta, także po podboju. City przechowuje udział produkcji i turę ostatniej zmiany. Engine.WorkedTiles wyklucza pola dzielnic. Dochód dzielnic wchodzi do produkcji miasta przed istniejącymi mnożnikami oraz korupcją; utrzymanie do kosztów administracji, a ogrody do mieszkań. W fazie produkcji BuildPhase odbiera wyłącznie rzeczywiście wykorzystaną pracę. Ukończenie odblokowuje dochód od następnej fazy, bez wstecznego przeliczania.
+
+Publiczne przygotowanie kosztuje 30 złota, cechowe 10. Cech zachowuje 15% dochodu w zamian za połowę utrzymania; decyzja pozostaje niezmienna. Nie jest to nowy dług ani kontrakt z terminem. Dialog pokazuje oba warianty, społeczne skutki i potencjał zajmowanego pola. Rozpoczęcie jest atomowe przy braku pieniędzy, technologii lub legalnego pola. Anulowanie nie refunduje wydatków. Spadek populacji nie burzy dzielnic. Drogi mogą współistnieć; inne ulepszenia i zakładanie miasta na tym polu są zabronione.
+
+Building i Repairing blokują kolejny projekt dzielnicy w mieście, lecz współdzielą produkcję ze zwykłą kolejką. Block zatrzymuje budowę i dochód przy utracie terenu lub obcym oddziale. Pillaged zachowuje pole i rekord, płaci jedną czwartą utrzymania, nie daje mieszkań ani dochodu. Odbudowa kosztuje połowę pierwotnej pracy. Grabież wymaga wojny, gotowego oddziału na polu i czynnej dzielnicy; po grabieży nie można ponownie pobrać łupu bez ukończonej odbudowy. AI w pełnej kampanii używa tych samych reguł i kosztów, oceniając położenie, utratę potencjału i własne priorytety. Starsze kampanie zachowują dawny sposób decyzji AI.
+
+Zapis v20 waliduje unikalne ID, pole, typ na miasto, legalny promień, status, skończoną pracę poniżej kosztu, finansowanie i daty. Starsze formaty zaczynają bez dopisanych dzielnic, z udziałem 25%; nadpisanie zachowuje odpowiednią kopię .v1.bak–.v19.bak. Dotychczasowe zapisy i starsze wydania pozostają osobno.
+
+DistrictPanels używa reguł silnika do podglądu oraz zatwierdzenia. Tryb wskazywania miejsca nie zmienia stanu i blokuje koniec tury; Esc go anuluje. Modele zachowują TileId dla trafienia promieniem. WorldScene rysuje dzielnicę gracza lub obecnie widoczną obcą dzielnicę; nie usuwa lasu na ukrytym polu z powodu nieznanej budowy. Logi budowy, ukończenia i grabieży mają analogiczne ograniczenie widoczności. Nie ma jeszcze zapamiętywania ostatniej znanej obcej zabudowy. Las pozostaje typem terenu w regułach ruchu, chociaż model ustępuje zabudowie.
+
+Ograniczenia: pięć ról bez wewnętrznych budynków i drzew ulepszeń, brak relokacji i rozbiórki ukończonych obiektów, proste heurystyki AI oraz bazowe skalowanie epokowe. Testy deterministycznej kontynuacji i przygotowane scenariusze UI nie zastępują wielogodzinnych sesji balansu. Dalszy rozwój gry wymaga przede wszystkim lepszej AI operacyjnej, flot i konfliktów morskich, większej różnorodności państw oraz treści zależnych od decyzji. Żaden z tych brakujących systemów nie jest deklarowany jako wykonany w 0.28.
+
 ## Ustawienia i przepływ menu — 0.27
 
 GamePreferences przechowuje wyłącznie lokalne preferencje, poza GameState i zapisem v19. Obraz, dźwięk, sterowanie, interfejs i rozgrywka współdzielą jeden model. PreferencesStore waliduje zakresy i unikalne klawisze, odczytuje wersję 1 oraz atomowo podmienia settings.json przez plik tymczasowy. Nieprawidłowy dokument zostaje zachowany; użytkownik otrzymuje domyślne ustawienia i informację. Wydanie jest przenośne: plik leży przy EXE i nie trafia do ZIP-a.

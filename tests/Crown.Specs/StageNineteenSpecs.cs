@@ -157,12 +157,12 @@ internal static class StageNineteenSpecs
         test("V18 migration preserves power directives without inventing old outages or promises", () =>
         {
             var s = Ready(); s.PendingEvent = null; s.PendingEnergyCaseId = null; s.Cities[0].Buildings.Add("atomic_reactor"); Engine.SetBuildingOperation(s, s.Cities[0].Id, "atomic_reactor", true); Engine.SetPowerPriority(s, s.Cities[0].Id, PowerPriority.Critical); s.Version = 18;
-            var loaded = SaveGame.Deserialize(SaveGame.Serialize(s)); Assert(loaded.Version == 19 && loaded.EnergyCases.Count == 0 && loaded.LastEnergyPhase == 0 && loaded.Cities.All(c => c.EnergyHistory.Count == 0) && loaded.Cities[0].SuspendedBuildings.Contains("atomic_reactor") && loaded.Cities[0].PowerPriority == PowerPriority.Critical, "Migration erased directives or invented historical shortages."); Valid(loaded);
+            var loaded = SaveGame.Deserialize(SaveGame.Serialize(s)); Assert(loaded.Version == SaveGame.CurrentVersion && loaded.EnergyCases.Count == 0 && loaded.LastEnergyPhase == 0 && loaded.Cities.All(c => c.EnergyHistory.Count == 0) && loaded.Cities[0].SuspendedBuildings.Contains("atomic_reactor") && loaded.Cities[0].PowerPriority == PowerPriority.Critical, "Migration erased directives or invented historical shortages."); Valid(loaded);
         });
         test("V18 overwrite retains an exact backup before introducing the new save format", () =>
         {
             var s = Fresh(); s.Version = 18; string old = SaveGame.Serialize(s); string path = Path.Combine(Environment.CurrentDirectory, "artifacts", "migration-v18-test.crown");
-            try { File.WriteAllText(path, old); SaveGame.Write(SaveGame.Deserialize(old), path); Assert(File.ReadAllText(path + ".v18.bak") == old && SaveGame.Read(path).Version == 19, "V18 backup lost."); }
+            try { File.WriteAllText(path, old); SaveGame.Write(SaveGame.Deserialize(old), path); Assert(File.ReadAllText(path + ".v18.bak") == old && SaveGame.Read(path).Version == SaveGame.CurrentVersion, "V18 backup lost."); }
             finally { File.Delete(path); File.Delete(path + ".v18.bak"); }
         });
         test("A mid-pledge save retains evidence and follows the same future political outcome", () =>

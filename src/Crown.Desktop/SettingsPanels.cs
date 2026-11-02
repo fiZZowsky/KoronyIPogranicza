@@ -151,7 +151,7 @@ public sealed partial class MainWindow
         }
         if(e.Key==Key.Escape)
         {
-            e.Handled=true;if(e.IsRepeat)return;if(overlayScreen==OverlayScreen.Settings)LeaveSettings();else if(overlay!=null)CloseModal();else if(InCampaign)ShowPause();return;
+            e.Handled=true;if(e.IsRepeat)return;if(overlayScreen==OverlayScreen.Settings)LeaveSettings();else if(overlay!=null)CloseModal();else if(districtPlacement!=null)CancelDistrictPlacement();else if(InCampaign)ShowPause();return;
         }
         if(!InCampaign||overlay!=null||busy||e.OriginalSource is TextBox or ComboBox or Slider||modifiers!=ModifierKeys.None)return;
         var pair=preferences.Bindings.FirstOrDefault(p=>p.Value==e.Key);if(!preferences.Bindings.ContainsValue(e.Key))return;

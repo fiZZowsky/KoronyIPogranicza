@@ -25,7 +25,7 @@ public static partial class Engine
         switch(t.Improvement) {case Improvement.Farm:food+=f.Technologies.Contains("agriculture")?3:2;break;case Improvement.Mine:prod+=3;break;case Improvement.TradingPost:gold+=4;break;}
         return new(food,prod,gold,0,0);
     }
-    public static IEnumerable<Tile> WorkedTiles(GameState s,City c) => s.Tiles.Where(t=>t.Owner==c.Owner && t.Passable && World.Distance(t,s.Tiles[c.Tile])<=2 && t.Id!=c.Tile)
+    public static IEnumerable<Tile> WorkedTiles(GameState s,City c) => s.Tiles.Where(t=>t.Owner==c.Owner && t.Passable && World.Distance(t,s.Tiles[c.Tile])<=2 && t.Id!=c.Tile && Districts.At(s,t.Id)==null)
         .OrderByDescending(t=> {var y=TileYields(t,s.Factions[c.Owner]); return y.Food*1.1+y.Production+y.Gold*.7;}).Take(c.Population+1);
     public static Yields CityYields(GameState s,City c)
     {
@@ -41,6 +41,7 @@ public static partial class Engine
             case "workshop":prod+=6;break;case "bank":gold+=9;break;case "university":science+=12;break;case "archive":culture+=10;science+=3;break;case "factory":prod+=14;break;case "parliament":culture+=12;break;
         }
         var development=Epochs.Bonus(s,c);food+=development.Food;prod+=development.Production;gold+=development.Gold;science+=development.Science;culture+=development.Culture;
+        var districts=Districts.Yields(s,c);food+=districts.Food;prod+=districts.Production;gold+=districts.Gold;science+=districts.Science;culture+=districts.Culture;
 
         if(s.Tiles[c.Tile].River && f.Technologies.Contains("irrigation")) food+=2;
         if(f.Technologies.Contains("medicine")) food*=1.25;
@@ -99,7 +100,7 @@ public static partial class Engine
         if(id<0||id>=s.Tiles.Count||s.Ending!=null) return Result.Fail("Nieprawidłowe pole."); var t=s.Tiles[id]; var f=s.Player;
         string tech=improvement==Improvement.Farm?"agriculture":improvement==Improvement.Mine?"mining":"trade";
         int cost=improvement==Improvement.Farm?35:improvement==Improvement.Mine?45:55;
-        if(improvement==Improvement.None||t.Owner!=0||!t.Passable||t.Improvement!=Improvement.None||s.Cities.Any(c=>c.Tile==id)) return Result.Fail("Ulepszenie wymaga wolnego pola we własnych granicach.");
+        if(improvement==Improvement.None||t.Owner!=0||!t.Passable||t.Improvement!=Improvement.None||Districts.At(s,id)!=null||s.Cities.Any(c=>c.Tile==id)) return Result.Fail("Ulepszenie wymaga wolnego pola we własnych granicach.");
         if(!f.Technologies.Contains(tech)) return Result.Fail($"Wymagana technologia: {Content.Tech(tech).Name}.");
         if(f.Gold<cost) return Result.Fail("Za mało złota.");
         f.Gold-=cost; t.Improvement=improvement; return Result.Ok("Ulepszono pole. Korzysta z niego pobliskie miasto, jeśli mieszkańcy je uprawiają.");
@@ -139,7 +140,7 @@ public static partial class Engine
     public static Result FoundCity(GameState s,int unitId)
     {
         var u=s.Units.FirstOrDefault(u=>u.Id==unitId);if(s.Ending!=null||u==null||u.Kind!=UnitKind.Settler||u.Actions<1)return Result.Fail("Potrzebni są osadnicy z punktem ruchu.");
-        var t=s.Tiles[u.Tile];if(!t.Passable||(t.Owner>=0&&t.Owner!=u.Owner)||s.Cities.Any(c=>World.Distance(t,s.Tiles[c.Tile])<4))return Result.Fail("Miasto musi leżeć przynajmniej 4 pola od innych miast, na wolnej ziemi lub we własnych granicach.");
+        var t=s.Tiles[u.Tile];if(!t.Passable||Districts.At(s,t.Id)!=null||(t.Owner>=0&&t.Owner!=u.Owner)||s.Cities.Any(c=>World.Distance(t,s.Tiles[c.Tile])<4))return Result.Fail("Miasto musi leżeć przynajmniej 4 pola od innych miast, na wolnej ziemi lub we własnych granicach.");
         int n=s.Cities.Count(c=>c.Owner==u.Owner);string[] names=["Brzegowo","Kamieniec","Złote Łąki","Ostrowiec","Nowa Przystań","Srebrna Dolina"];
         string name=u.Owner==0?names[(n-1+names.Length)%names.Length]:$"{s.Factions[u.Owner].Name.Split(' ')[0]} — {n+1}";
         AddCity(s,u.Owner,t.Id,name);s.Units.Remove(u);s.Factions[u.Owner].Prestige+=8;s.Log($"Założono {name}. Nowe miasto zwiększa wpływy i koszty administracji.","miasto");Explore(s);return Result.Ok($"Założono {name}.");
@@ -193,7 +194,8 @@ public static partial class Engine
                 c.Health=Math.Min(100,c.Health+7);
                 if(f.SpaceMilestones.Contains(c.Project))ProductionPlanning.Next(s,c);
                 var p=ProductionPlanning.CurrentBlock(s,c)==null?AvailableProjects(s,c).FirstOrDefault(p=>p.Id==c.Project):null;
-                if(p!=null)c.Production+=y.Production*modifier;
+                double districtWork=Districts.BuildPhase(s,c,y.Production*modifier);
+                if(p!=null)c.Production+=Math.Max(0,y.Production*modifier-districtWork);
                 if(p!=null&&c.Production>=p.Cost)
                 {
                     c.Production-=p.Cost;
@@ -234,7 +236,7 @@ public static partial class Engine
     {
         foreach(var f in s.Factions.Skip(1))
         {
-            var cities=s.Cities.Where(c=>c.Owner==f.Id).ToArray();if(cities.Length==0)continue;EpochCouncils.ManageAi(s,f);
+            var cities=s.Cities.Where(c=>c.Owner==f.Id).ToArray();if(cities.Length==0)continue;EpochCouncils.ManageAi(s,f);Districts.ManageAi(s,f);
             var choices=Epochs.ResearchOptions(s,f).ToArray();
             if(choices.Length>0&&(s.Turn%4==0||f.Research==""))f.Research=choices[s.Next(choices.Length)].Id;
             if(f.Gold>130&&f.Technologies.Contains("pottery"))
@@ -279,13 +281,14 @@ public static partial class Engine
             foreach(var u in s.Units.Where(u=>u.Owner==f.Id).ToArray())
             {
                 if(u.EscortCaravanId!=null)continue;
+                if(Districts.Pillage(s,u.Id,f.Id).Success)continue;
                 if(u.Kind!=UnitKind.Settler&&Supplied(s,u)&&(u.Health<45||u.Order==MilitaryOrder.Recover))
                 {if(u.Order!=MilitaryOrder.Recover)SetMilitaryOrder(s,u.Id,MilitaryOrder.Recover,f.Id);continue;}
                 if(u.Health<50&&!Supplied(s,u)&&u.Kind is not (UnitKind.Settler or UnitKind.Scout))
                 {AiStep(s,u,cities.OrderBy(c=>World.Distance(s.Tiles[u.Tile],s.Tiles[c.Tile])).First().Tile);continue;}
                 if(u.Kind==UnitKind.Settler)
                 {
-                    var site=s.Tiles.Where(t=>t.Passable&&(t.Owner<0||t.Owner==f.Id)&&s.Cities.All(c=>World.Distance(t,s.Tiles[c.Tile])>=4)&&cities.Any(c=>World.Distance(t,s.Tiles[c.Tile])<9)).OrderByDescending(t=>TileYields(t,f).Food+TileYields(t,f).Production*.5-World.Distance(t,s.Tiles[u.Tile])*.8).FirstOrDefault();
+                    var site=s.Tiles.Where(t=>t.Passable&&Districts.At(s,t.Id)==null&&(t.Owner<0||t.Owner==f.Id)&&s.Cities.All(c=>World.Distance(t,s.Tiles[c.Tile])>=4)&&cities.Any(c=>World.Distance(t,s.Tiles[c.Tile])<9)).OrderByDescending(t=>TileYields(t,f).Food+TileYields(t,f).Production*.5-World.Distance(t,s.Tiles[u.Tile])*.8).FirstOrDefault();
                     if(site!=null){if(u.Tile==site.Id)FoundCity(s,u.Id);else AiStep(s,u,site.Id);}continue;
                 }
                 var enemy=s.Units.Where(e=>AtWar(s,u.Owner,e.Owner)&&World.Distance(s.Tiles[u.Tile],s.Tiles[e.Tile])<=UnitModels.Range(u)).OrderBy(e=>e.Health).FirstOrDefault();

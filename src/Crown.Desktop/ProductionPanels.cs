@@ -19,6 +19,7 @@ public sealed partial class MainWindow
         {double offset=Scroller()?.VerticalOffset??0;Do(result);if(result.Success){TryAutoSave(false);ShowProductionQueue(city,selectedProject,repeating,offset);}}
         p.Children.Add(Ui.Button(city.ProductionPaused?"Wznów produkcję":"Wstrzymaj produkcję",()=>Apply(Engine.SetProductionPaused(state,city.Id,!city.ProductionPaused))));
         if(ProductionPlanning.Repeatable(active))p.Children.Add(Ui.Button(city.RepeatProject?"Nie powtarzaj obecnego projektu":"Powtarzaj obecny projekt",()=>Apply(Engine.SetProjectRepeat(state,city.Id,!city.RepeatProject))));
+        p.Children.Add(Ui.Button("Dzielnice i podział pracy",()=>ShowDistrictPlan(city)));
         Ui.Gap(p,10);
         var projects=Crown.Core.Content.Projects;
         var selection=Ui.Combo(projects.Select(project=>$"{project.Name} · {project.Cost} produkcji").ToArray(),Math.Max(0,Array.FindIndex(projects,p=>p.Id==selectedProject)));

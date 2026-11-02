@@ -5,12 +5,14 @@ namespace Crown.Core;
 
 public static class SaveGame
 {
+    public const int CurrentVersion=20;
     private static readonly JsonSerializerOptions Options=new(){WriteIndented=true,IgnoreReadOnlyProperties=true,Converters={new JsonStringEnumConverter()}};
     public static string Serialize(GameState state)=>JsonSerializer.Serialize(state,Options);
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
-        if(s.Version is <1 or >19)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version is <1 or >CurrentVersion)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version<20){s.Districts=[];s.NextDistrictId=1;foreach(var c in s.Cities){c.DistrictShare=25;c.LastDistrictPolicyTurn=-1;}}
         if(s.Version<19){s.EnergyCases=[];s.NextEnergyCaseId=1;s.PendingEnergyCaseId=null;s.LastEnergyPhase=0;foreach(var c in s.Cities)c.EnergyHistory=[];}
         if(s.Version<18)foreach(var c in s.Cities){c.PowerPriority=PowerPriority.Normal;c.LastPowerPriorityTurn=-1;c.SuspendedBuildings=[];c.LastOperationTurns=[];}
         if(s.Version<17){s.EpochCampaign=s.ContinueAfterVictory=false;s.ClimatePressure=0;foreach(var f in s.Factions){f.EpochChoices=[];f.SpaceMilestones=[];}foreach(var u in s.Units)u.ModelId=null;}
@@ -112,7 +114,8 @@ public static class SaveGame
         EpochSaveRules.Validate(s);
         PowerGrid.Validate(s);
         EnergySaveRules.Validate(s);
-        s.Version=19;
+        Districts.Validate(s);
+        s.Version=CurrentVersion;
         return s;
     }
     public static void Write(GameState state,string path)
@@ -121,7 +124,7 @@ public static class SaveGame
         string temp=path+".tmp";File.WriteAllText(temp,Serialize(state));
         if(File.Exists(path))
         {
-            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number is >=1 and <=18&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
+            try{using var previous=JsonDocument.Parse(File.ReadAllText(path));if(previous.RootElement.TryGetProperty("Version",out var version)&&version.TryGetInt32(out int number)&&number>=1&&number<CurrentVersion&&!File.Exists(path+$".v{number}.bak"))File.Copy(path,path+$".v{number}.bak",false);}
             catch(JsonException){ /* An invalid old file may still be replaced by an explicit save. */ }
         }
         File.Move(temp,path,true);

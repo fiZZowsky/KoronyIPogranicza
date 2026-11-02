@@ -53,6 +53,8 @@ internal static partial class WorldScene3D
                 }
             }
             objects.TileId=tile.Id;
+            var district=Districts.At(s,tile.Id);if(district!=null&&!s.Cities.Any(c=>c.Id==district.CityId&&c.Owner==0)&&!visible.Contains(tile.Id))district=null;
+            if(district!=null){DistrictModel(objects,s,district);continue;}
             if (tile.Improvement != Improvement.None) BuildImprovement(objects, s, tile);
             else if (tile.Terrain == Terrain.Forest && !s.Cities.Any(c => c.Tile == tile.Id))
             {

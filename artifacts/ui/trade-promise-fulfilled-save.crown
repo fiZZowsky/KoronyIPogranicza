@@ -1,5 +1,7 @@
 {
-  "Version": 19,
+  "Version": 20,
+  "Districts": [],
+  "NextDistrictId": 1,
   "EpochCampaign": false,
   "ContinueAfterVictory": false,
   "ClimatePressure": 0,
@@ -16576,7 +16578,9 @@
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
       "LastOperationTurns": {},
-      "EnergyHistory": []
+      "EnergyHistory": [],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     },
     {
       "Id": 4,
@@ -16676,7 +16680,9 @@
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
       "LastOperationTurns": {},
-      "EnergyHistory": []
+      "EnergyHistory": [],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     },
     {
       "Id": 7,
@@ -16774,7 +16780,9 @@
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
       "LastOperationTurns": {},
-      "EnergyHistory": []
+      "EnergyHistory": [],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     },
     {
       "Id": 10,
@@ -16872,7 +16880,9 @@
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
       "LastOperationTurns": {},
-      "EnergyHistory": []
+      "EnergyHistory": [],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     },
     {
       "Id": 13,
@@ -16973,7 +16983,9 @@
       "LastPowerPriorityTurn": -1,
       "SuspendedBuildings": [],
       "LastOperationTurns": {},
-      "EnergyHistory": []
+      "EnergyHistory": [],
+      "DistrictShare": 25,
+      "LastDistrictPolicyTurn": -1
     }
   ],
   "Units": [

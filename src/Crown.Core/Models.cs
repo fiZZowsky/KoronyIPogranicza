@@ -89,6 +89,8 @@ public sealed class City
     public HashSet<string> SuspendedBuildings { get; set; } = [];
     public Dictionary<string, int> LastOperationTurns { get; set; } = [];
     public List<EnergyReading> EnergyHistory { get; set; } = [];
+    public int DistrictShare {get;set;}=25;
+    public int LastDistrictPolicyTurn {get;set;}=-1;
 }
 public sealed class Unit
 {
@@ -216,7 +218,9 @@ public sealed class DeferredEffect
 public sealed class GameState
 {
     internal Dictionary<int, PowerNetwork>? PowerPhase { get; set; }
-    public int Version { get; set; } = 19;
+    public int Version { get; set; } = SaveGame.CurrentVersion;
+    public List<District> Districts {get;set;}=[];
+    public int NextDistrictId {get;set;}=1;
     public bool EpochCampaign { get; set; }
     public bool ContinueAfterVictory { get; set; }
     public double ClimatePressure { get; set; }
