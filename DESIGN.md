@@ -1,5 +1,27 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Morski teatr działań — 0.30
+
+UnitKind.Ship jest dopisany na końcu enum; Navy.Models trzyma dziewięć UnitModel tej roli. UnitModels.All zachowuje dotychczasowy katalog lądowy, a Catalog łączy oba. Content generuje wszystkie projekty i opisuje odblokowania w technologiach; panel epok oraz generator podręcznika korzystają z Catalog. Port jest dodatkowym zwykłym projektem seaport, bez energii i bez nowego rekordu dzielnicy.
+
+Navy.ProjectError jest wspólną kontrolą miejsca portu, pełnej kampanii, gotowego portu, blokady i wodowania. Engine.AvailableProjects oraz ProductionPlanning.ProjectError korzystają z niej przez Epochs.ProjectError. Shipbuilding rozlicza zwykły projekt; dopiero ukończenie tworzy jednostkę na LaunchTile. Blokada lub brak berthu zatrzymuje naliczanie pracy. Własność wodowania, obce jednostki, oceaniczność i odkrycie gracza są sprawdzane przed ukończeniem. Nie ma darmowego zakupu przez panel.
+
+Navigation.CanEnter używa Navy.TerrainAllowed. Galery dopuszczają Coast, modele od indeksu epoki 6 także Ocean. Koszt morskiego pola pozostaje 1, bo na legalnych polach wody nie ma dróg. Wspólny Route i OrderMove zachowują trwałe cele wodne. Piechota pozostaje na lądzie. Model technologiczny statku określa zdolność oceaniczną; przyszła wiedza właściciela nie przekształca dawnych galer bez modernizacji.
+
+Combat traktuje okręt jako ostrzał, nigdy zdobywanie miasta. Galery nie atakują lądu, a piechota i jazda nie mogą atakować okrętu na wodzie. Jednostki dystansowe mogą odpowiadać z brzegu. Obrażenia, zużycie akcji, doświadczenie, prestiż i bilans wojny pozostają wspólne. Nie ma reakcyjnego ognia floty, uzbrojenia podwodnego, min ani osobnej symulacji trafień.
+
+Navy.Supply liczy osiągalne pola wodne z własnych nieblokowanych portów, z zasięgiem 8 + połowa indeksu epoki w dół. Wrogi okręt na polu przerywa trasę; nieprzekraczalne pokojowe granice i ocean dla galery są wykluczone. Każdy port jest niezależnym źródłem. Engine.Supplied wybiera wodny lub lądowy analizator według domeny jednostki. Lądowa logistyka nie używa okrętów jako eskort lub blokad dróg. Dalsza optymalizacja wielokrotnych morskich analiz może być potrzebna przy większych mapach i flotach.
+
+Wrogi okręt w odległości 1 od miasta z portem oznacza blokadę. Akcje okrętu nie mają znaczenia dla samej obecności. Port traci 2 żywności i 4 złota, wodowanie oraz status źródła dostaw; dochód miasta jest dodatkowo mnożony przez 0,75 przed korupcją. Utrzymanie portu 2 złota plus bazowa administracja jest stałe. Stan jest wyliczany, bez ręcznie przełączanego znacznika. Zmiana wojny, ruch, zniszczenie okrętu lub transfer miasta natychmiast zmieniają wynik. To blokada portu, nie zerwanie istniejących traktatów lub lądowych kontraktów.
+
+Navy.AiProject wybiera legalny port lub współczesny okręt przy odpowiednich środkach, z limitem floty i uwzględnieniem zamówień innych miast. RunNavalAi działa osobno od planowania lądowego, respektuje widoczność w ataku, szuka dojścia do wrogiego portu lub własnego miejsca odpoczynku i opłaca modernizację. Znajomość pozycji miast jest dotychczasowym uproszczeniem AI. Nie ma pamięci patroli, koordynacji desantu ani wieloturowego planu operacji floty.
+
+Zapis v21 nie dodaje osobnej listy flot: statki używają istniejących jednostek, porty listy budynków, a rejsy Destination. Starsze formaty nie mogą udawać, że zawierają nową domenę. Navy.Validate sprawdza pełną kampanię, model morski, właściwy akwen, brak eskorty lądowej i umocnień oraz nadbrzeżne położenie portu. Migracja poprzednich zapisów nie dodaje okrętów lub portów; SaveGame.Write zachowuje .v20.bak przy nadpisaniu v20.
+
+NavalModels3D buduje rodziny kadłubów, żagli, wioseł, kominów i nadbudówek oraz portowy pomost. Kadłub jest zakotwiczony przy SeaLevel, a semantyczne TileId pozostaje na jego polu wody. Portowy model wybiera wyłącznie znane sąsiednie pole wody i pojawia się dla własnego lub obecnie widocznego obcego portu. Nakładki i trasy wodne są podniesione nad morze; geometria nie ujawnia ukrytych jednostek. Model jest statyczny, bez bujania na falach, animacji załóg lub fotogrametrii.
+
+Zakres tej wersji obejmuje porty i wojenne okręty. Transport wojsk, desant, fracht morski, lotniskowce, okręty podwodne i żegluga rzeczna wymagają dalszych osobnych reguł. Akweny nie rozróżniają mórz i jezior w legalności portu. Przyszłe okręty nadal operują na planetarnych wodach, bez osobnej mapy kosmicznej.
+
 ## Dowodzenie wojskowe — 0.29
 
 MilitaryStrategy tworzy jednorazowy MilitaryPlan z CityThreat i ArmyAssignment. Nie dodaje pól do GameState; v20 pozostaje bieżącym formatem. Planowanie nie używa RNG i nie zmienia zapisywanego stanu. Sight powtarza zakresy istniejącej widoczności: miasta 3, zwiadowcy 4, pozostałe oddziały 2. Ocena lokalnego zagrożenia obejmuje wyłącznie widoczne wojenne oddziały bojowe do pięciu pól miasta. Obrońcy do trzech pól nie obejmują konwojowych eskort. Jednostka może wystąpić w ocenach dwóch bliskich miast, więc nie sumujemy ich jako globalnej armii.

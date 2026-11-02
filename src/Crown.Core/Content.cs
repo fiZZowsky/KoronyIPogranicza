@@ -58,7 +58,8 @@ public static class Content
         new("archer", "Łucznicy", 50, "bronze", "Atak na odległość 2 pól. Nie zdobywają miast.", UnitKind.Archer),
         new("cavalry", "Kawaleria", 85, "riding", "3 punkty ruchu. Wymaga koni.", UnitKind.Cavalry),
         new("catapult", "Katapulta", 100, "engineering", "Atak na 2 pola, premia przeciw miastom.", UnitKind.Catapult),
-        new("settler", "Osadnicy", 100, "agriculture", "Zakładają miasto. Rekrutacja kosztuje 1 mieszkańca.", UnitKind.Settler)
+        new("settler", "Osadnicy", 100, "agriculture", "Zakładają miasto. Rekrutacja kosztuje 1 mieszkańca.", UnitKind.Settler),
+        new(Navy.Port, "Port morski", 120, "pottery", "Miasto przy akwenie: +2 żywności, +4 złota, 2 złota utrzymania. Wodowanie, modernizacja i dostawy floty. Wroga flota może nałożyć blokadę.")
     ];
     public static readonly HashSet<string> LegacyTechnologies;
     public static readonly HashSet<string> LegacyProjects;
@@ -68,14 +69,17 @@ public static class Content
         LegacyTechnologies = Technologies.Select(t => t.Id).ToHashSet();
         LegacyProjects = Projects.Select(p => p.Id).ToHashSet();
         Technologies = EpochCatalog.Technologies(Technologies);
+        foreach(var group in Navy.Models.GroupBy(m=>m.Technology))
+        {int index=Array.FindIndex(Technologies,t=>t.Id==group.Key);Technologies[index]=Technologies[index] with {Description=Technologies[index].Description+" Flota: "+string.Join(", ",group.Select(m=>m.Name))+"."};}
+        int pottery=Array.FindIndex(Technologies,t=>t.Id=="pottery");Technologies[pottery]=Technologies[pottery] with {Description=Technologies[pottery].Description+" Port morski w mieście przy akwenie."};
         Projects = Projects.Concat(EpochCatalog.Buildings.Select(b => new Project(b.Id, b.Name, b.Cost, b.Technology, EpochCatalog.Describe(b))))
-            .Concat(UnitModels.All.Select(m => new Project(m.Id, m.Name, m.Cost, m.Technology, $"Siła {m.Strength} · ruch {m.Moves} · zasięg {m.Range}. Lądowa rola: {UnitName(m.Role)}. Modernizacja zachowuje zdrowie i doświadczenie.", m.Role)))
+            .Concat(UnitModels.Catalog.Select(m => new Project(m.Id, m.Name, m.Cost, m.Technology, $"Siła {m.Strength} · ruch {m.Moves} · zasięg {m.Range}. Rola: {UnitName(m.Role)}. "+(m.Role==UnitKind.Ship?(m.Era<6?"Wymaga portu. Pływa po wybrzeżu; walczy z okrętami.":"Wymaga portu. Pływa po oceanach i ostrzeliwuje wybrzeże."):"Modernizacja zachowuje zdrowie i doświadczenie."), m.Role)))
             .Concat(Epochs.Programs.Select(p => new Project(p.Id, p.Name, p.Cost, p.Technology, p.Effect))).ToArray();
     }
     public static Technology Tech(string id) => Technologies.First(t => t.Id == id);
     public static Project Project(string id) => Projects.First(p => p.Id == id);
     public static string TerrainName(Terrain t) => t switch { Terrain.Ocean => "Ocean", Terrain.Coast => "Wybrzeże", Terrain.Grassland => "Łąki", Terrain.Forest => "Las", Terrain.Hills => "Wzgórza", Terrain.Mountain => "Góry", Terrain.Desert => "Pustynia", Terrain.Marsh => "Mokradła", _ => "Tundra" };
     public static string ResourceName(Resource r) => r switch { Resource.Grain => "Zboże", Resource.Iron => "Żelazo", Resource.Horses => "Konie", Resource.Stone => "Kamień", Resource.Salt => "Sól", Resource.Dyes => "Barwniki", _ => "Brak" };
-    public static string UnitName(UnitKind k) => k switch { UnitKind.Scout => "Zwiadowca", UnitKind.Spearmen => "Włócznicy", UnitKind.Archer => "Łucznicy", UnitKind.Cavalry => "Kawaleria", UnitKind.Catapult => "Katapulta", _ => "Osadnicy" };
+    public static string UnitName(UnitKind k) => k switch { UnitKind.Scout => "Zwiadowca", UnitKind.Spearmen => "Włócznicy", UnitKind.Archer => "Łucznicy", UnitKind.Cavalry => "Kawaleria", UnitKind.Catapult => "Katapulta", UnitKind.Ship => "Okręt", _ => "Osadnicy" };
     public static string Era(int era) => EpochCatalog.All[Math.Clamp(era,0,EpochCatalog.All.Length-1)].Name;
 }

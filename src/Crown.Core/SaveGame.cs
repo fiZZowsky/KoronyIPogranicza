@@ -5,7 +5,7 @@ namespace Crown.Core;
 
 public static class SaveGame
 {
-    public const int CurrentVersion=20;
+    public const int CurrentVersion=21;
     private static readonly JsonSerializerOptions Options=new(){WriteIndented=true,IgnoreReadOnlyProperties=true,Converters={new JsonStringEnumConverter()}};
     public static string Serialize(GameState state)=>JsonSerializer.Serialize(state,Options);
     public static GameState Deserialize(string json)
@@ -65,7 +65,7 @@ public static class SaveGame
             c.Charters==null||c.Charters.Any(id=>!Regions.CharterIds.Contains(id))||c.ResolvedIssues==null||c.ResolvedIssues.Any(id=>!ProvincialEvents.IsLocal(id))))throw new InvalidDataException("Uszkodzone dane prowincji.");
         if(s.Units.Any(u=>!ValidOwner(u.Owner)||!ValidTile(u.Tile)||u.Health<=0||u.Health>100||!double.IsFinite(u.Health)||!Enum.IsDefined(u.Kind)||
             !double.IsFinite(u.Actions)||u.Actions<0||u.Actions>u.MaxActions||u.Actions*2!=Math.Floor(u.Actions*2)||
-            u.Destination is int target&&(!ValidTile(target)||!s.Tiles[target].Passable||u.Owner==0&&!s.Tiles[target].Explored)))throw new InvalidDataException("Uszkodzone jednostki lub rozkazy.");
+            u.Destination is int target&&(!ValidTile(target)||!Navy.TerrainAllowed(s,u,s.Tiles[target])||u.Owner==0&&!s.Tiles[target].Explored)))throw new InvalidDataException("Uszkodzone jednostki lub rozkazy.");
         var ids=s.Cities.Select(c=>c.Id).Concat(s.Units.Select(u=>u.Id)).ToArray();if(ids.Distinct().Count()!=ids.Length||ids.Any(i=>i<=0||i>=s.NextId))throw new InvalidDataException("Uszkodzone identyfikatory.");
         if(s.Relations.Count!=6||s.Relations.Any(r=>!ValidOwner(r.A)||!ValidOwner(r.B)||r.A>=r.B)||s.Relations.Select(r=>(r.A,r.B)).Distinct().Count()!=6)throw new InvalidDataException("Uszkodzone relacje.");
         if(s.PendingEvent!=null&&!Narrative.All.Any(e=>e.Id==s.PendingEvent)||s.SeenEvents.Any(id=>!Narrative.All.Any(e=>e.Id==id))||s.Deferred.Any(e=>!ValidOwner(e.Faction)||!double.IsFinite(e.Gold)))throw new InvalidDataException("Uszkodzona historia.");
@@ -115,6 +115,7 @@ public static class SaveGame
         PowerGrid.Validate(s);
         EnergySaveRules.Validate(s);
         Districts.Validate(s);
+        Navy.Validate(s);
         s.Version=CurrentVersion;
         return s;
     }

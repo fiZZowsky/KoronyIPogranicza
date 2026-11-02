@@ -76,6 +76,7 @@ internal static partial class WorldScene3D
     }
     internal static Point UnitAnchor(GameState s,Unit unit,int slot)
     {
+        if(Navy.IsShip(unit)){var center=Terrain3D.Center(s.Tiles[unit.Tile]);return new(center.X-.26+slot*.26,center.Y+.05);}
         var p=Terrain3D.Center(s.Tiles[unit.Tile]);return s.Cities.Any(c=>c.Tile==unit.Tile)?new(p.X,p.Y+.30+slot*.20):new(p.X-.34+slot*.29,p.Y+.28);
     }
 }

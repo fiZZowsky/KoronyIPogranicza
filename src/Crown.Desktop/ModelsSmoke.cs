@@ -34,7 +34,7 @@ public sealed partial class MainWindow
             var resources=Enum.GetValues<Resource>().Where(r=>r!=Resource.None).ToArray();var deposits=new List<Tile>();
             for(int i=0;i<resources.Length;i++){var tile=s.Tiles[(capital.Y+1+(i/3)*2)*s.Width+capital.X+1+i%3];tile.Resource=resources[i];tile.Owner=0;deposits.Add(tile);}
             foreach(var tile in s.Tiles.Where(t=>World.Distance(t,capital)==4&&t.X<capital.X+1))tile.Terrain=Terrain.Forest;
-            s.Units.Clear();foreach(var role in Enum.GetValues<UnitKind>())
+            s.Units.Clear();foreach(var role in Enum.GetValues<UnitKind>().Where(k=>k!=UnitKind.Ship))
             {
                 var tile=s.Tiles[(capital.Y-1)*s.Width+capital.X+1+(int)role%3];var model=UnitModels.All.LastOrDefault(m=>m.Role==role&&m.Era<=5);Engine.AddUnit(s,0,tile.Id,role,model?.Id);
             }

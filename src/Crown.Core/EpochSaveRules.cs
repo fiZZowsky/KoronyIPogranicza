@@ -18,7 +18,7 @@ internal static class EpochSaveRules
                 if (p == null || !f.Technologies.Contains(p.Technology) || p.Previous != null && !f.SpaceMilestones.Contains(p.Previous)) throw new InvalidDataException("Nieprawidłowa kolejność programów kosmicznych.");
             }
         }
-        if (s.Units.Any(u => u.ModelId != null && (!s.EpochCampaign || !UnitModels.All.Any(m => m.Id == u.ModelId && m.Role == u.Kind))) ||
+        if (s.Units.Any(u => u.ModelId != null && (!s.EpochCampaign || !UnitModels.Catalog.Any(m => m.Id == u.ModelId && m.Role == u.Kind))) ||
             s.Cities.Any(c => c.Buildings.Any(id => Epochs.Programs.Any(p => p.Id == id)))) throw new InvalidDataException("Nieprawidłowy model wojsk lub miejsce programu kosmicznego.");
     }
 }

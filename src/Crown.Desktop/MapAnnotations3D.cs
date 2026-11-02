@@ -15,10 +15,13 @@ public sealed partial class MapView
         if (State == null) return;
         var batch = new SceneBatch(); var visible = Engine.Visible(State);
         var supply = ShowSupply ? Logistics.For(State, 0) : null;
+        var vessel=State.Units.FirstOrDefault(u=>u.Id==SelectedUnit&&u.Owner==0&&Navy.IsShip(u));
+        var seaSupply=ShowSupply&&vessel!=null?Navy.Supply(State,vessel).Costs:null;
         foreach (var tile in State.Tiles.Where(t => t.Explored))
         {
             if (!visible.Contains(tile.Id)) WorldScene3D.HexFill(batch.Mesh("remembered", "#480F2530", true), State, tile, .022);
             if (ShowGrid) WorldScene3D.HexOutline(batch.Mesh("grid", "#829DA89B", true), State, tile, .012, .047);
+            if(seaSupply!=null&&Navy.Water(tile))WorldScene3D.HexFill(batch.Mesh(seaSupply.ContainsKey(tile.Id)?"naval-supplied":"naval-unsupplied",seaSupply.ContainsKey(tile.Id)?"#60349A78":"#70B85E51",true),State,tile,.065);
             if (supply != null && tile.Passable)
             {
                 bool blocked = supply.Interdicted.Contains(tile.Id), supplied = supply.Costs.GetValueOrDefault(tile.Id, double.PositiveInfinity) <= Logistics.Range(State, 0);
@@ -70,7 +73,7 @@ public sealed partial class MapView
         for (int i = 1; i < route.Count; i++)
         {
             var a = State.Tiles[route[i - 1]]; var b = State.Tiles[route[i]];
-            if (a.Explored && b.Explored) WorldScene3D.Ribbon(mesh, State, Terrain3D.Center(a), Terrain3D.Center(b), .038, .14);
+            if (a.Explored && b.Explored) WorldScene3D.Ribbon(mesh, State, Terrain3D.Center(a), Terrain3D.Center(b), .038, .14,Navy.Water(a)&&Navy.Water(b));
         }
     }
     private bool TerrainOccludes(Point3D point)
@@ -106,7 +109,7 @@ public sealed partial class MapView
         if (selected != null)
         {
             var p = Terrain3D.Center(State.Tiles[selected.Tile]); string order = selected.EscortCaravanId != null ? " · eskorta" : selected.Order == MilitaryOrder.Fortify ? " · umocnienia" : selected.Order == MilitaryOrder.Recover ? " · leczenie" : "";
-            var anchor=WorldScene3D.UnitAnchor(State,selected,0); Label(Terrain3D.Ground(State, anchor.X, anchor.Y, .48), UnitModels.Name(selected) + $" · {selected.Health:0}%" + order, Ui.Gold, true);
+            var anchor=WorldScene3D.UnitAnchor(State,selected,0); Label(Navy.IsShip(selected)?new Point3D(anchor.X,Terrain3D.SeaLevel+.95,anchor.Y):Terrain3D.Ground(State, anchor.X, anchor.Y, .48), UnitModels.Name(selected) + $" · {selected.Health:0}%" + order, Ui.Gold, true);
         }
         if (ShowResources)
             foreach (var tile in State.Tiles.Where(t => t.Explored && t.Resource != Resource.None).OrderByDescending(t=>t.Id==SelectedTile).ThenBy(t=>(Terrain3D.Center(t)-target).LengthSquared))

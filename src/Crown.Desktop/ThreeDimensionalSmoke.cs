@@ -98,7 +98,7 @@ public sealed partial class MainWindow
                 await Capture("3d-era-" + (era + 1));
             }
             Start(EpochFixture(9)); var home = state.Cities[0]; state.Units.Clear();
-            foreach (var role in Enum.GetValues<UnitKind>())
+            foreach (var role in Enum.GetValues<UnitKind>().Where(k=>k!=UnitKind.Ship))
             {
                 var tile = World.Neighbors(state, home.Tile).Where(t => t.Passable).ElementAtOrDefault((int)role % 4) ?? state.Tiles[home.Tile];
                 var model = UnitModels.All.Where(m => m.Role == role && m.Era <= 9).LastOrDefault(); Engine.AddUnit(state, 0, tile.Id, role, model?.Id);

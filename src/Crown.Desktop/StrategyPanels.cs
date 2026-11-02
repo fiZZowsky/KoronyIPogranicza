@@ -26,6 +26,7 @@ public sealed partial class MainWindow
             side.Children.Add(Ui.Button($"Mieszkańcy · dobrobyt {city.Prosperity}%", () => ShowProvince(city)));
             side.Children.Add(Ui.Button("Dzielnice i plan miasta",()=>ShowDistrictPlan(city)));
             side.Children.Add(Ui.Button("Ocena sytuacji wojskowej",ShowMilitaryAssessment));
+            side.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));
             if(state.EpochCampaign)side.Children.Add(Ui.Button($"Zasilanie {Epochs.Energy(state,city).Coverage:P0} · zarządzaj energią",()=>ShowPowerManagement(city.Id)));
             Ui.Bar(side, $"Wzrost miasta: {city.Food:0} / {22 + city.Population * 12}", city.Food, 22 + city.Population * 12, Ui.Green);
             var project = Catalog.Project(city.Project);
@@ -126,6 +127,7 @@ public sealed partial class MainWindow
 
     private void UnitSupply(Unit u)
     {
+        if(Navy.IsShip(u)){bool seaSupplied=Engine.Supplied(state,u);side.Children.Add(Ui.Label(seaSupplied?$"Dostawy morskie zapewnione · zasięg {Navy.SupplyRange(state,u.Owner):0} pól od czynnego portu.":"Brak dostaw morskich: siła ×0,72; straty 5 zdrowia/turę. Szukaj własnego czynnego portu.",11,seaSupplied?Ui.Green:Ui.Red));side.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));return;}
         var supply = Logistics.For(state, u.Owner);
         bool supplied = Engine.Supplied(state, u);
         string source = supply.SourceCities.TryGetValue(u.Tile, out int id) ? state.Cities.First(c => c.Id == id).Name : "brak trasy";

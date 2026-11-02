@@ -1,0 +1,8 @@
+epoch: 38 checks; exit 0; 20,8s
+three-dimensional: 34 checks; exit 0; 26,5s
+district: 32 checks; exit 0; 10,1s
+military-ai: 16 checks; exit 0; 6,4s
+naval: 27 checks; exit 0; 12,9s
+WPF fallback: 34 checks; exit 0; 24,3s
+WPF military assessment: 16 checks; exit 0; 5,5s
+WPF navy: 27 checks; exit 0; 12,1s

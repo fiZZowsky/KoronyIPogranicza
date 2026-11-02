@@ -14,6 +14,7 @@ public static class MilitaryOrders
         if (s.Ending != null || unit == null || owner is < 0 or > 3 || unit.Owner != owner || !Enum.IsDefined(order) || order == MilitaryOrder.None)
             return "Wybierz własny oddział i rozkaz.";
         if (unit.Kind == UnitKind.Settler) return "Osadnicy nie mogą przyjmować rozkazów wojskowych.";
+        if (Navy.IsShip(unit)&&order==MilitaryOrder.Fortify)return "Okręt nie może się okopywać. Użyj bezpiecznego portu i rekonwalescencji.";
         if (unit.EscortCaravanId != null) return "Najpierw odwołaj eskortę.";
         if (unit.Order == order) return "Ten rozkaz już obowiązuje.";
         if (unit.Actions != unit.MaxActions) return "Przygotowanie wymaga pełnego zapasu ruchu. Poczekaj do następnej tury.";

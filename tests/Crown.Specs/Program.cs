@@ -10,6 +10,7 @@ void Decide(GameState s)
     if(s.PendingEvent==null)return;var e=ProvincialEvents.Current(s);int c=Enumerable.Range(0,e.Choices.Length).FirstOrDefault(i=>s.Player.Gold+e.Choices[i].Gold>=0&&(e.Id!=CustodyCouncil.Event.Id||CustodyCouncil.ChoiceError(s,i)==null)&&(e.Id!=SpyCouncil.Event.Id||SpyCouncil.ChoiceError(s,i)==null),-1);Assert(c>=0,"Every event needs an affordable option.");Assert(Narrative.Resolve(s,c).Success,"Resolution must succeed.");
 }
 
+if(args.Contains("--navy")){StageTwentyTwoSpecs.Run(Test);Console.WriteLine($"{passed} naval specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--military-ai")){StageTwentyOneSpecs.Run(Test);Console.WriteLine($"{passed} military AI specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--districts")){StageTwentySpecs.Run(Test);Console.WriteLine($"{passed} district specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--export-epochs")){EpochDocumentation.Write(args.Last());return;}
@@ -151,4 +152,5 @@ StageEighteenSpecs.Run(Test);
 StageNineteenSpecs.Run(Test);
 StageTwentySpecs.Run(Test);
 StageTwentyOneSpecs.Run(Test);
+StageTwentyTwoSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

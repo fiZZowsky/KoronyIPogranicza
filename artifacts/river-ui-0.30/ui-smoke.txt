@@ -1,0 +1,20 @@
+PASS Known rivers produce sampled reaches and connected neighbors
+PASS River geometry uses only explored endpoints
+PASS Water elevations and normalized cross-sections remain finite
+PASS Changing a hidden river flag neither rebuilds nor reveals a channel
+PASS The real city road intersects its riverside channel
+PASS River water lies above a carved bed rather than a raised terrain ribbon
+PASS Changing a known river invalidates terrain and removes its channel
+PASS The same save produces identical river geometry and terrain
+PASS Reaches sharing a known node meet at identical positions and water levels
+PASS Channel preparation leaves campaign decisions, roads and RNG unchanged
+PASS River scene renders on the real Direct3D device: 
+PASS Existing roads generate a planked bridge with stone supports and parapets
+PASS The river contains actual bank and reed geometry
+PASS Picking the visible bridge returns the underlying logical tile
+PASS Visual time changes the actual water and environment pixels
+PASS Fixed visual time keeps river rendering deterministic
+PASS Camera movement does not accumulate river GPU buffers
+PASS Bridges, river animation and camera motion do not change the save
+PASS Rivers and bridges remain available in the compact window
+19 river desktop integration checks passed.

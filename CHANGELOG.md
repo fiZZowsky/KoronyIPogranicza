@@ -1,5 +1,16 @@
 # Zmiany
 
+## 0.30 — Flota i porty · 2 listopada 2026
+
+- Port morski jako rzeczywisty projekt nadbrzeżnego miasta: koszt, utrzymanie, dochód, żywność, wodowanie i zaopatrzenie. Dziewięć modeli okrętów przypisanych istniejącym technologiom od brązu po spekulatywną przyszłość; informacje w badaniach, panelach epok i podręczniku.
+- Morska domena ruchu: galery na wybrzeżu, późniejsze modele na oceanie, zwykłe punkty ruchu, granice, odkrycie i trwałe rozkazy. Okręty powstają na legalnym polu wodnym, a niedostępne wodowanie zachowuje produkcję.
+- Bitwy morskie i późniejszy ostrzał lądu przez wspólny model walki. Okręty nie zdobywają miast; lądowe jednostki dystansowe mogą bronić brzegu. Bez automatycznego transportu piechoty.
+- Blokady portów wyłączają premie, wodowanie i morskie dostawy oraz obniżają dochód miasta. Osobna trasa dostaw po wodzie, odpoczynek i płatne modernizacje przy czynnym porcie. Flota nie blokuje lądowych dróg przez samą obecność na wodzie.
+- Podstawowa morska AI: płatna budowa portów i okrętów, walka, podejście do blokady, odwrót i modernizacje. Lądowe dowództwo nie przydziela okrętów do garnizonów i nie liczy ich jako zamówionej piechoty.
+- Panel Flota i porty, produkcja, stan blokady, wybór jednostek, dostawy i modernizacja. Proceduralne kadłuby, żagle, wiosła, działa, nadbudówki, sensory i pomosty; wybieranie pól oraz nakładki nad powierzchnią wody.
+- Zapis v21 odczytuje v1–v20 bez dopisywania floty. Nadpisanie v20 zachowuje .v20.bak. Walidacja modeli, akwenów, rozkazów i portów. 33 nowe specyfikacje i siedemnasty tryb --ui-smoke-navy z 27 kontrolami interfejsu. Osobne wydanie-0.30.
+- Brak transportowców, desantu, handlu morskiego, rzek żeglownych i flot kosmicznych. Modele dzielą kilka rodzin sylwetek; nie jest to oprawa fotorealistyczna ani zaawansowany model taktyki morskiej.
+
 ## 0.29 — Dowodzenie i ocena zagrożeń · 2 listopada 2026
 
 - Planowanie wojenne pełnej kampanii: garnizony, obrona miast, zbiórka i wspólny osiągalny cel. Priorytet zagrożonego miasta, odzyskania własnej osady i ogłoszonego celu wojny. Ocena sił uwzględnia zdrowie, wsparcie dystansowe i rolę zdolną zdobyć miasto.

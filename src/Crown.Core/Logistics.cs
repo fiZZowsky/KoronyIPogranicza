@@ -27,10 +27,10 @@ public static class Logistics
     {
         var cities = s.Cities.Where(c => c.Owner == owner).OrderBy(c => c.Id).ToArray();
         var cityTiles = cities.Select(c => c.Tile).ToHashSet();
-        var escorts = s.Units.Where(u => u.Owner == owner && u.Kind is not (UnitKind.Scout or UnitKind.Settler))
+        var escorts = s.Units.Where(u => u.Owner == owner && u.Kind is not (UnitKind.Scout or UnitKind.Settler or UnitKind.Ship))
             .Select(u => u.Tile).ToHashSet();
         var blocked = new HashSet<int>();
-        foreach (var enemy in s.Units.Where(u => Engine.AtWar(s, owner, u.Owner) && u.Kind != UnitKind.Settler))
+        foreach (var enemy in s.Units.Where(u => Engine.AtWar(s, owner, u.Owner) && u.Kind is not (UnitKind.Settler or UnitKind.Ship)))
         {
             blocked.Add(enemy.Tile);
             foreach (var tile in World.Neighbors(s, enemy.Tile))
@@ -86,7 +86,7 @@ public static class Logistics
     }
 
     public static bool Supplied(GameState s, Unit unit) =>
-        For(s, unit.Owner).Costs.GetValueOrDefault(unit.Tile, double.PositiveInfinity) <= Range(s, unit.Owner);
+        Navy.IsShip(unit)?Navy.Supplied(s,unit):For(s, unit.Owner).Costs.GetValueOrDefault(unit.Tile, double.PositiveInfinity) <= Range(s, unit.Owner);
 
     public static RoadPlan PlanRoad(GameState s, int cityId)
     {

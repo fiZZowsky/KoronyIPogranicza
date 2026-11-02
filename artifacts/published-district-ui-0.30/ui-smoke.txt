@@ -1,0 +1,33 @@
+PASS District scene uses the actual Direct3D device
+PASS The real city panel exposes all five district roles
+PASS Choosing a role starts actual map placement with eligible field outlines
+PASS Browsing district plans and legal sites preserves campaign and RNG
+PASS Selecting an illegal city-center site does not reserve land or spend funds
+PASS An unresolved map placement cannot accidentally advance the turn
+PASS Esc cancels planning and removes its outlines without spending funds
+PASS Clicking an actual 3D field opens the financing decision
+PASS The council offers public and guild charters with real costs
+PASS Accepting a charter creates the actual paid construction on the selected field
+PASS The district construction field is removed from actual worked farmland
+PASS Unfinished districts render spatial scaffolding
+PASS A city with an unfinished site cannot start a second simultaneous district
+PASS The city planning control changes real production allocation
+PASS An actual economic turn advances district construction
+PASS Saving and loading preserves field work charter and production allocation
+PASS Completing construction activates actual science income
+PASS Selecting the district opens its real management card
+PASS Picking district building geometry returns its logical field
+PASS The fifth-role fixture uses valid paid placement: Ogrody miejskie
+PASS The fifth-role fixture uses valid paid placement: Dzielnica rzemiosła
+PASS The fifth-role fixture uses valid paid placement: Dzielnica kupiecka
+PASS The fifth-role fixture uses valid paid placement: Forum obywatelskie
+PASS All five roles have recognizable distinct spatial model components
+PASS District scene geometry keeps finite unit normals
+PASS Foreign district fixture uses the same placement rules
+PASS An explored but currently unseen enemy district reveals neither construction geometry nor a sidebar land-use hint
+PASS The actual field pillage button disables an enemy district and grants loot
+PASS Looted districts render visible ruins
+PASS The actual management button starts half-cost reconstruction
+PASS Confirmed cancellation releases the site without a treasury refund
+PASS The extensive district plan remains scrollable with a return action in a compact window
+32 district desktop integration checks passed.

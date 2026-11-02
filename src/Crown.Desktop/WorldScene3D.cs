@@ -78,7 +78,7 @@ internal static partial class WorldScene3D
             Point3D Wave(double xx,double zz)=>new(xx,Terrain3D.SeaLevel+Math.Sin(xx*1.3+zz*.8)*.006,zz);
             water.Quad(Wave(x,z),Wave(x,z+2),Wave(x+2,z+2),Wave(x+2,z),new(0,1,0));
         }
-        var cities = s.Cities.Where(c => s.Tiles[c.Tile].Explored).OrderBy(c => c.Id).ToArray(); foreach (var city in cities){objects.TileId=city.Tile;City(objects, s, city);}
+        var cities = s.Cities.Where(c => s.Tiles[c.Tile].Explored).OrderBy(c => c.Id).ToArray(); foreach (var city in cities){objects.TileId=city.Tile;City(objects, s, city);if(city.Buildings.Contains(Navy.Port)&&(city.Owner==0||visible.Contains(city.Tile)))PortModel(objects,s,city);}
         var units = s.Units.Where(u => u.Owner == 0 || visible.Contains(u.Tile)).Where(u => u.Owner == 0 || s.Tiles[u.Tile].Explored).OrderBy(u => u.Id).ToArray();
         var rendered = new List<int>();
         foreach (var group in units.GroupBy(u => u.Tile))
@@ -94,15 +94,16 @@ internal static partial class WorldScene3D
         int terrainTriangles = reuseTerrain?.TerrainTriangles ?? ground.Triangles, objectTriangles = objects.Triangles;
         return new(reuseTerrain?.Terrain ?? ground.Freeze(), objects.Freeze(), terrainTriangles, objectTriangles, cities.Select(c => c.Id).ToArray(), rendered, trees,field,(s.Turn-1)%4,s.Seed,s.Width,coarseTrees.Freeze());
     }
-    public static void Ribbon(SceneMesh mesh, GameState s, Point start, Point end, double width, double lift)
+    public static void Ribbon(SceneMesh mesh, GameState s, Point start, Point end, double width, double lift,bool water=false)
     {
         var delta = end - start; if (delta.Length < .001) return; var normal = new Vector(-delta.Y, delta.X); normal.Normalize(); normal *= width / 2;
         int steps = Math.Max(1, (int)Math.Ceiling(delta.Length / .17));
         for (int i = 0; i < steps; i++)
         {
             var a = start + delta * ((double)i / steps); var b = start + delta * ((double)(i + 1) / steps);
-            mesh.Quad(Terrain3D.Ground(s, a.X + normal.X, a.Y + normal.Y, lift), Terrain3D.Ground(s, b.X + normal.X, b.Y + normal.Y, lift),
-                Terrain3D.Ground(s, b.X - normal.X, b.Y - normal.Y, lift), Terrain3D.Ground(s, a.X - normal.X, a.Y - normal.Y, lift), new(0, 1, 0));
+            Point3D Surface(double x,double z)=>new(x,(water?Math.Max(Terrain3D.SeaLevel,Terrain3D.Height(s,x,z)):Terrain3D.Height(s,x,z))+lift,z);
+            mesh.Quad(Surface(a.X + normal.X, a.Y + normal.Y), Surface(b.X + normal.X, b.Y + normal.Y),
+                Surface(b.X - normal.X, b.Y - normal.Y), Surface(a.X - normal.X, a.Y - normal.Y), new(0, 1, 0));
         }
     }
     public static void HexOutline(SceneMesh mesh, GameState s, Tile tile, double width, double lift, double radius = .97)
@@ -111,7 +112,7 @@ internal static partial class WorldScene3D
         for (int i = 0; i < 6; i++)
         {
             double a = (30 + i * 60) * Math.PI / 180, b = a + Math.PI / 3;
-            Ribbon(mesh, s, new(center.X + Math.Cos(a) * radius, center.Y + Math.Sin(a) * radius), new(center.X + Math.Cos(b) * radius, center.Y + Math.Sin(b) * radius), width, lift);
+            Ribbon(mesh, s, new(center.X + Math.Cos(a) * radius, center.Y + Math.Sin(a) * radius), new(center.X + Math.Cos(b) * radius, center.Y + Math.Sin(b) * radius), width, lift,Navy.Water(tile));
         }
     }
     public static void HexFill(SceneMesh mesh, GameState s, Tile tile, double lift)
@@ -120,7 +121,8 @@ internal static partial class WorldScene3D
         for (int i = 0; i < 6; i++)
         {
             double a = (30 + i * 60) * Math.PI / 180, b = a + Math.PI / 3;
-            mesh.Triangle(Terrain3D.Ground(s, c.X, c.Y, lift), Terrain3D.Ground(s, c.X + Math.Cos(b) * .96, c.Y + Math.Sin(b) * .96, lift), Terrain3D.Ground(s, c.X + Math.Cos(a) * .96, c.Y + Math.Sin(a) * .96, lift));
+            Point3D Surface(double x,double z)=>new(x,(Navy.Water(tile)?Math.Max(Terrain3D.SeaLevel,Terrain3D.Height(s,x,z)):Terrain3D.Height(s,x,z))+lift,z);
+            mesh.Triangle(Surface(c.X, c.Y), Surface(c.X + Math.Cos(b) * .96, c.Y + Math.Sin(b) * .96), Surface(c.X + Math.Cos(a) * .96, c.Y + Math.Sin(a) * .96));
         }
     }
     private static void House(SceneBatch batch, double x, double y, double z, double width, double height, double depth, string wall = "#C6B797")

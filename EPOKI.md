@@ -1,6 +1,6 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.29
+# Epoki i możliwe przyszłości — podręcznik wydania 0.30
 
-Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 nowe modele wojsk i pięć programów pozaziemskich. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
+Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 modele wojsk lądowych, dziewięć modeli okrętów i pięć programów pozaziemskich. Port morski jest dodatkowym projektem nadbrzeżnym. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
 
 Otwórz **Nauka → Epoki i rozwój świata**. Każdy etap ma cztery dziedziny i odkrycie zamykające dorobek. Badania następnego etapu wymagają tego zamknięcia. Dodatkowe wymagania technologii nadal obowiązują. Państwa rozwijają się oddzielnie i zachowują całą wcześniejszą wiedzę, miasta oraz instytucje.
 
@@ -58,7 +58,7 @@ Prehistoria · osiadłe społeczności. Rolnictwo i hodowla pozwalają budować 
 | Technologia | Nauka | Wymagania wewnętrzne | Efekt |
 |---|---:|---|---|
 | Rolnictwo | 32 |  | Farmy, spichlerze i stabilne plony. +1 żywności z każdej farmy. |
-| Garncarstwo | 40 |  | Magazynowanie i wymiana. Odblokowuje targowisko i budowę dróg. |
+| Garncarstwo | 40 |  | Magazynowanie i wymiana. Odblokowuje targowisko i budowę dróg. Port morski w mieście przy akwenie. |
 | Udomowienie zwierząt | 57 | Rolnictwo | Rolnictwo i hodowla pozwalają budować osady. Własność zapasów staje się sprawą polityczną. Premia w każdym mieście: nauka +1. |
 | Tkactwo | 63 | Rolnictwo | Rolnictwo i hodowla pozwalają budować osady. Własność zapasów staje się sprawą polityczną. Premia w każdym mieście: złoto +1 · kultura +1. |
 | Społeczeństwa osiadłe | 70 | Rolnictwo, Garncarstwo, Udomowienie zwierząt, Tkactwo | Zamyka dorobek epoki i otwiera badania: Epoka brązu. Premia w każdym mieście: nauka +1 · kultura +1. |
@@ -88,7 +88,7 @@ Pierwsze miasta i pisma. Metalurgia, rachunki i monumentalna budowa wymagają pr
 | Technologia | Nauka | Wymagania wewnętrzne | Efekt |
 |---|---:|---|---|
 | Górnictwo | 44 |  | Kopalnie, kamieniołomy i dostęp do rudy. |
-| Metalurgia brązu | 68 | Górnictwo | Koszary. +3 siły podstawowych oddziałów. Modele nowych epok mają własną siłę. |
+| Metalurgia brązu | 68 | Górnictwo | Koszary. +3 siły podstawowych oddziałów. Modele nowych epok mają własną siłę. Flota: Galera przybrzeżna. |
 | Pismo | 65 | Garncarstwo | Biblioteki, agenci i kontrwywiad. +15% nauki w całym państwie. |
 | Kamieniarstwo | 80 | Górnictwo | Mury i akwedukty. |
 | Archiwa miejskie | 120 | Górnictwo, Metalurgia brązu, Pismo, Kamieniarstwo | Zamyka dorobek epoki i otwiera badania: Epoka żelaza. Premia w każdym mieście: nauka +1 · kultura +1. |
@@ -102,6 +102,7 @@ Pierwsze miasta i pisma. Metalurgia, rachunki i monumentalna budowa wymagają pr
 | Model wojsk | Siła bazowa | Ruch | Zasięg | Produkcja | Technologia |
 |---|---:|---:|---:|---:|---|
 | Gwardia brązu | 27 | 2 | 1 | 85 | Metalurgia brązu |
+| Galera przybrzeżna | 24 | 3 | 1 | 100 | Metalurgia brązu |
 
 **Rada: Pieczęć na rachunkach**
 
@@ -152,7 +153,7 @@ Miasta, obywatelstwo, filozofia. Moneta i wiedza łączą rynki, lecz pytanie o 
 | Filozofia | 405 | Pismo | Świątynie i instytucje. +20% kultury. |
 | Moneta | 600 | Szlaki handlowe | Banki, wspólny rynek i pożyczki państwowe. +2 złota z miasta. |
 | Inżynieria | 540 | Kamieniarstwo, Pismo | Katapulty, warsztaty i +2 do zasięgu dostaw. |
-| Instytucje klasyczne | 352 | Szlaki handlowe, Filozofia, Moneta, Inżynieria | Zamyka dorobek epoki i otwiera badania: Średniowiecze. Premia w każdym mieście: nauka +2 · kultura +2. |
+| Instytucje klasyczne | 352 | Szlaki handlowe, Filozofia, Moneta, Inżynieria | Zamyka dorobek epoki i otwiera badania: Średniowiecze. Premia w każdym mieście: nauka +2 · kultura +2. Flota: Galera wojenna. |
 
 | Nowa infrastruktura | Produkcja | Technologia | Działanie |
 |---|---:|---|---|
@@ -164,6 +165,7 @@ Miasta, obywatelstwo, filozofia. Moneta i wiedza łączą rynki, lecz pytanie o 
 |---|---:|---:|---:|---:|---|
 | Legion zawodowy | 47 | 2 | 1 | 180 | Instytucje klasyczne |
 | Tabor oblężniczy | 34 | 2 | 2 | 200 | Inżynieria |
+| Galera wojenna | 44 | 3 | 1 | 210 | Instytucje klasyczne |
 
 **Rada: Kto jest obywatelem?**
 
@@ -212,7 +214,7 @@ Wczesna nowożytność. Druk, nawigacja i broń prochowa rozszerzają horyzonty 
 |---|---:|---|---|
 | Stal | 1740 | Żelazo, Inżynieria | +7 siły podstawowych oddziałów. Otwiera nowe projekty i modele epoki renesansu. |
 | Druk | 1920 | Uniwersytety | +30% kultury; narodowa biblioteka. |
-| Nawigacja | 1860 | Moneta, Inżynieria | Szlaki zamorskie: +8 złota za każdy traktat handlowy. |
+| Nawigacja | 1860 | Moneta, Inżynieria | Szlaki zamorskie: +8 złota za każdy traktat handlowy. Flota: Karaka wojenna. |
 | Proch i balistyka | 870 | Stal | Druk, nawigacja i broń prochowa rozszerzają horyzonty oraz skutki rywalizacji. Premia w każdym mieście: złoto +3 · kultura +3. |
 | Metody renesansu | 960 | Stal, Druk, Nawigacja, Proch i balistyka | Zamyka dorobek epoki i otwiera badania: Oświecenie. Premia w każdym mieście: nauka +3 · kultura +3. |
 
@@ -226,6 +228,7 @@ Wczesna nowożytność. Druk, nawigacja i broń prochowa rozszerzają horyzonty 
 |---|---:|---:|---:|---:|---|
 | Muszkieterzy | 75 | 2 | 1 | 380 | Proch i balistyka |
 | Artyleria prochowa | 62 | 2 | 2 | 420 | Proch i balistyka |
+| Karaka wojenna | 72 | 4 | 2 | 420 | Nawigacja |
 
 **Rada: Komu wolno drukować?**
 
@@ -243,7 +246,7 @@ Nauka, prawa i reformy. Medycyna, doświadczenie i konstytucja każą pytać, ko
 |---|---:|---|---|
 | Medycyna | 2280 | Uniwersytety, Irygacja | +25% żywności, szybsze leczenie i +3 do pojemności opieki w każdym mieście. |
 | Konstytucja | 4600 | Służba publiczna, Druk | +10 do docelowej stabilności; parlament i cel korupcji -6. |
-| Metoda naukowa | 1170 | Medycyna | Medycyna, doświadczenie i konstytucja każą pytać, komu służy postęp. Premia w każdym mieście: nauka +3. |
+| Metoda naukowa | 1170 | Medycyna | Medycyna, doświadczenie i konstytucja każą pytać, komu służy postęp. Premia w każdym mieście: nauka +3. Flota: Fregata żaglowa. |
 | Prawa obywatelskie | 1305 | Medycyna | Medycyna, doświadczenie i konstytucja każą pytać, komu służy postęp. Premia w każdym mieście: złoto +3 · kultura +3. |
 | Rozum publiczny | 1440 | Medycyna, Konstytucja, Metoda naukowa, Prawa obywatelskie | Zamyka dorobek epoki i otwiera badania: Rewolucja przemysłowa. Premia w każdym mieście: nauka +3 · kultura +3. |
 
@@ -257,6 +260,7 @@ Nauka, prawa i reformy. Medycyna, doświadczenie i konstytucja każą pytać, ko
 |---|---:|---:|---:|---:|---|
 | Piechota liniowa | 88 | 2 | 1 | 500 | Prawa obywatelskie |
 | Artyleria polowa | 78 | 2 | 2 | 550 | Metoda naukowa |
+| Fregata żaglowa | 95 | 4 | 2 | 600 | Metoda naukowa |
 
 **Rada: Prawo do postępu**
 
@@ -273,7 +277,7 @@ Para, kolej i masowa produkcja. Energia napędza fabryki; emisje obciążają ws
 | Technologia | Nauka | Wymagania wewnętrzne | Efekt |
 |---|---:|---|---|
 | Przemysł | 2700 | Stal, Moneta | Fabryki i +25% produkcji. |
-| Maszyna parowa | 1724 | Przemysł | Energia napędza fabryki; emisje obciążają wspólny klimat. Wzrost ma społeczną cenę. Premia w każdym mieście: produkcja +3. |
+| Maszyna parowa | 1724 | Przemysł | Energia napędza fabryki; emisje obciążają wspólny klimat. Wzrost ma społeczną cenę. Premia w każdym mieście: produkcja +3. Flota: Okręt pancerny. |
 | Kolej | 1950 | Przemysł | Energia napędza fabryki; emisje obciążają wspólny klimat. Wzrost ma społeczną cenę. Premia w każdym mieście: nauka +3. |
 | Chemia przemysłowa | 2175 | Przemysł | Energia napędza fabryki; emisje obciążają wspólny klimat. Wzrost ma społeczną cenę. Premia w każdym mieście: złoto +3 · kultura +3. |
 | Produkcja masowa | 2400 | Przemysł, Maszyna parowa, Kolej, Chemia przemysłowa | Zamyka dorobek epoki i otwiera badania: Nowoczesność. Premia w każdym mieście: nauka +3 · kultura +3. |
@@ -288,6 +292,7 @@ Para, kolej i masowa produkcja. Energia napędza fabryki; emisje obciążają ws
 |---|---:|---:|---:|---:|---|
 | Strzelcy | 108 | 2 | 1 | 680 | Produkcja masowa |
 | Haubice | 96 | 2 | 3 | 750 | Chemia przemysłowa |
+| Okręt pancerny | 130 | 4 | 2 | 900 | Maszyna parowa |
 
 **Rada: Dym nad doliną**
 
@@ -336,7 +341,7 @@ Atom, elektronika i pierwsze rakiety. Reaktory i medycyna ratują życie, a tech
 | Technologia | Nauka | Wymagania wewnętrzne | Efekt |
 |---|---:|---|---|
 | Fizyka jądrowa | 3500 | Społeczeństwo masowe | Reaktory i medycyna ratują życie, a technologie strategiczne stawiają nowe pytania o bezpieczeństwo. Premia w każdym mieście: żywność +4. |
-| Technika rakietowa | 4024 | Fizyka jądrowa | Reaktory i medycyna ratują życie, a technologie strategiczne stawiają nowe pytania o bezpieczeństwo. Premia w każdym mieście: produkcja +4. |
+| Technika rakietowa | 4024 | Fizyka jądrowa | Reaktory i medycyna ratują życie, a technologie strategiczne stawiają nowe pytania o bezpieczeństwo. Premia w każdym mieście: produkcja +4. Flota: Niszczyciel rakietowy. |
 | Antybiotyki | 4550 | Fizyka jądrowa | Reaktory i medycyna ratują życie, a technologie strategiczne stawiają nowe pytania o bezpieczeństwo. Premia w każdym mieście: nauka +4. |
 | Półprzewodniki | 5075 | Fizyka jądrowa | Reaktory i medycyna ratują życie, a technologie strategiczne stawiają nowe pytania o bezpieczeństwo. Premia w każdym mieście: złoto +4 · kultura +4. |
 | Systemy epoki atomowej | 5600 | Fizyka jądrowa, Technika rakietowa, Antybiotyki, Półprzewodniki | Zamyka dorobek epoki i otwiera badania: Epoka informacyjna. Premia w każdym mieście: nauka +4 · kultura +4. |
@@ -351,6 +356,7 @@ Atom, elektronika i pierwsze rakiety. Reaktory i medycyna ratują życie, a tech
 |---|---:|---:|---:|---:|---|
 | Piechota zmechanizowana | 175 | 3 | 1 | 1400 | Systemy epoki atomowej |
 | Artyleria rakietowa | 150 | 3 | 3 | 1600 | Technika rakietowa |
+| Niszczyciel rakietowy | 220 | 5 | 3 | 1900 | Technika rakietowa |
 
 **Rada: Atom pod czyją kontrolą?**
 
@@ -400,7 +406,7 @@ Możliwa bliska przyszłość. Uczenie maszynowe, roboty i genomika mogą zmieni
 | Technologia | Nauka | Wymagania wewnętrzne | Efekt |
 |---|---:|---|---|
 | Uczenie maszynowe | 7200 | Społeczeństwo informacyjne | Uczenie maszynowe, roboty i genomika mogą zmienić pracę. Ich korzyści można dzielić na różne sposoby. Premia w każdym mieście: żywność +5. |
-| Robotyka | 8280 | Uczenie maszynowe | Uczenie maszynowe, roboty i genomika mogą zmienić pracę. Ich korzyści można dzielić na różne sposoby. Premia w każdym mieście: produkcja +5. |
+| Robotyka | 8280 | Uczenie maszynowe | Uczenie maszynowe, roboty i genomika mogą zmienić pracę. Ich korzyści można dzielić na różne sposoby. Premia w każdym mieście: produkcja +5. Flota: Fregata autonomiczna. |
 | Genomika | 9360 | Uczenie maszynowe | Uczenie maszynowe, roboty i genomika mogą zmienić pracę. Ich korzyści można dzielić na różne sposoby. Premia w każdym mieście: nauka +5. |
 | Inteligentne materiały | 10440 | Uczenie maszynowe | Uczenie maszynowe, roboty i genomika mogą zmienić pracę. Ich korzyści można dzielić na różne sposoby. Premia w każdym mieście: złoto +5 · kultura +5. |
 | Karta automatyzacji | 11520 | Uczenie maszynowe, Robotyka, Genomika, Inteligentne materiały | Zamyka dorobek epoki i otwiera badania: Epoka planetarna. Premia w każdym mieście: nauka +5 · kultura +5. |
@@ -416,6 +422,7 @@ Możliwa bliska przyszłość. Uczenie maszynowe, roboty i genomika mogą zmieni
 |---|---:|---:|---:|---:|---|
 | Gwardia robotyczna | 240 | 3 | 1 | 2400 | Robotyka |
 | Artyleria autonomiczna | 220 | 3 | 3 | 2700 | Uczenie maszynowe |
+| Fregata autonomiczna | 290 | 5 | 3 | 3000 | Robotyka |
 
 **Rada: Praca po automatyzacji**
 
@@ -431,7 +438,7 @@ Możliwa przyszłość · wspólna planeta. Synteza jądrowa i obiegi zamknięte
 
 | Technologia | Nauka | Wymagania wewnętrzne | Efekt |
 |---|---:|---|---|
-| Energetyka fuzyjna | 10000 | Karta automatyzacji | Synteza jądrowa i obiegi zamknięte otwierają drogę odbudowie klimatu lub dalszej koncentracji przemysłu. Premia w każdym mieście: żywność +5. |
+| Energetyka fuzyjna | 10000 | Karta automatyzacji | Synteza jądrowa i obiegi zamknięte otwierają drogę odbudowie klimatu lub dalszej koncentracji przemysłu. Premia w każdym mieście: żywność +5. Flota: Krążownik fuzyjny. |
 | Obiegi zamknięte | 11500 | Energetyka fuzyjna | Synteza jądrowa i obiegi zamknięte otwierają drogę odbudowie klimatu lub dalszej koncentracji przemysłu. Premia w każdym mieście: produkcja +5. |
 | Inżynieria klimatu | 13000 | Energetyka fuzyjna | Synteza jądrowa i obiegi zamknięte otwierają drogę odbudowie klimatu lub dalszej koncentracji przemysłu. Premia w każdym mieście: nauka +5. |
 | Sieć planetarna | 14500 | Energetyka fuzyjna | Synteza jądrowa i obiegi zamknięte otwierają drogę odbudowie klimatu lub dalszej koncentracji przemysłu. Premia w każdym mieście: złoto +5 · kultura +5. |
@@ -447,6 +454,7 @@ Możliwa przyszłość · wspólna planeta. Synteza jądrowa i obiegi zamknięte
 |---|---:|---:|---:|---:|---|
 | Gwardia planetarna | 280 | 3 | 1 | 3300 | Współpraca planetarna |
 | Bateria elektromagnetyczna | 260 | 3 | 3 | 3600 | Energetyka fuzyjna |
+| Krążownik fuzyjny | 370 | 6 | 3 | 4500 | Energetyka fuzyjna |
 
 **Rada: Jaką planetę pozostawimy?**
 
@@ -558,7 +566,7 @@ Spekulatywna daleka przyszłość. Sondy i statki pokoleniowe są przedsięwzię
 | Statki pokoleniowe | 35000 | Wspólnota Układu | Sondy i statki pokoleniowe są przedsięwzięciami wielu generacji. Nie zakładamy podróży szybszej od światła. Premia w każdym mieście: żywność +6. |
 | Energetyka gwiazdowa | 40250 | Statki pokoleniowe | Sondy i statki pokoleniowe są przedsięwzięciami wielu generacji. Nie zakładamy podróży szybszej od światła. Premia w każdym mieście: produkcja +6. |
 | Sondy międzygwiezdne | 45500 | Statki pokoleniowe | Sondy i statki pokoleniowe są przedsięwzięciami wielu generacji. Nie zakładamy podróży szybszej od światła. Premia w każdym mieście: nauka +6. |
-| Cywilizacja rozproszona | 50750 | Statki pokoleniowe | Sondy i statki pokoleniowe są przedsięwzięciami wielu generacji. Nie zakładamy podróży szybszej od światła. Premia w każdym mieście: złoto +6 · kultura +6. |
+| Cywilizacja rozproszona | 50750 | Statki pokoleniowe | Sondy i statki pokoleniowe są przedsięwzięciami wielu generacji. Nie zakładamy podróży szybszej od światła. Premia w każdym mieście: złoto +6 · kultura +6. Flota: Strażnik oceaniczny. |
 | Karta międzygwiezdna | 56000 | Statki pokoleniowe, Energetyka gwiazdowa, Sondy międzygwiezdne, Cywilizacja rozproszona | Zamyka dorobek epoki i otwiera badania: dalsze projekty międzygwiezdne. Premia w każdym mieście: nauka +6 · kultura +6. |
 
 | Nowa infrastruktura | Produkcja | Technologia | Działanie |
@@ -571,6 +579,7 @@ Spekulatywna daleka przyszłość. Sondy i statki pokoleniowe są przedsięwzię
 |---|---:|---:|---:|---:|---|
 | Straż cywilizacji rozproszonej | 550 | 3 | 1 | 9000 | Cywilizacja rozproszona |
 | Autonomiczne wozy ekspedycyjne | 590 | 5 | 1 | 10000 | Sondy międzygwiezdne |
+| Strażnik oceaniczny | 650 | 6 | 4 | 10000 | Cywilizacja rozproszona |
 
 **Rada: List do ludzi, których nie poznamy**
 
@@ -579,6 +588,10 @@ Statek pokoleniowy może wyruszyć poza Układ. Nie dożyjemy odpowiedzi. Jakie 
 - Otrzymają wolność i otwarte archiwum wiedzy. Złoto -5000 · Lud +10 · Uczeni +15 Samostanowienie i nauka zamiast odziedziczonej zależności. Trwale: nauka % +30
 - Zachowamy ciągłość planu państwowego. Lud -10 · Rody +12 Silna baza przemysłowa i długie zobowiązania. Trwale: produkcja % +30
 - Najpierw samowystarczalność i ochrona życia. Lud +12 Energia oraz żywność dla przyszłych pokoleń. Trwale: żywność % +22 · energia/miasto +150
+
+## Porty i flota od 0.30
+
+Port morski wymaga Garncarstwa i miasta bezpośrednio przy polu wybrzeża lub oceanu. Koszt 120 produkcji, premie +2 żywności i +4 złota, utrzymanie 2 złota plus administracja. Okręty powstają jako normalne projekty miasta i wodują na sąsiednim legalnym polu wodnym. Galery trzymają się wybrzeża; od karaki dostępny jest ocean i ostrzał lądu. Żaden okręt nie zajmuje miasta. Bezpośrednio sąsiadujący wrogi okręt wyłącza port i dodatkowo zmniejsza dochód złota miasta o 25%. Utrzymanie pozostaje, a wodowanie i morskie dostawy tego portu są zatrzymane. Zasięg dostaw po wodzie: 8 + połowa indeksu epoki, w dół. Modernizacja wymaga pełnego ruchu, złota i czynnego własnego portu obok. Panel **Flota i porty** jest dostępny z miasta i przeglądu armii. Nie ma jeszcze transportu wojsk, desantu, handlowych karawan morskich ani mapy kosmicznej.
 
 ## Programy kosmiczne i dalsza gra
 

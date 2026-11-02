@@ -42,6 +42,7 @@ public static partial class Engine
         }
         var development=Epochs.Bonus(s,c);food+=development.Food;prod+=development.Production;gold+=development.Gold;science+=development.Science;culture+=development.Culture;
         var districts=Districts.Yields(s,c);food+=districts.Food;prod+=districts.Production;gold+=districts.Gold;science+=districts.Science;culture+=districts.Culture;
+        if(Navy.ActivePort(s,c)){food+=2;gold+=4;}
 
         if(s.Tiles[c.Tile].River && f.Technologies.Contains("irrigation")) food+=2;
         if(f.Technologies.Contains("medicine")) food*=1.25;
@@ -71,6 +72,7 @@ public static partial class Engine
         food*=s.Turn%4==0?.8:s.Turn%4==3?1.1:1;
         double efficiency=Math.Clamp(.65+f.Stability*.005-c.Unrest*.003,.35,1.15)*(.9+c.Prosperity*.002)*(.85+c.Loyalty*.002);
         gold*=f.Tax==0?.65:f.Tax==2?1.5:1;
+        if(Navy.Blockaded(s,c))gold*=.75;
         return new(food-c.Population*2,prod*efficiency*Markets.IndustryMultiplier(c),gold*efficiency,science*efficiency,culture*efficiency);
     }
     public static Yields Income(GameState s,int owner)
@@ -201,7 +203,7 @@ public static partial class Engine
                 {
                     completedProjects.Add(c.Id);
                     c.Production-=p.Cost;
-                    if(p.Unit!=null){var u=AddUnit(s,f.Id,c.Tile,p.Unit.Value,UnitModels.All.FirstOrDefault(m=>m.Id==p.Id)?.Id);if(c.Buildings.Contains("barracks"))u.Experience=2;if(p.Unit==UnitKind.Settler)c.Population--;}
+                    if(p.Unit!=null){var model=UnitModels.Catalog.FirstOrDefault(m=>m.Id==p.Id);int spawn=p.Unit==UnitKind.Ship?Navy.LaunchTile(s,c,model!)!.Value:c.Tile;var u=AddUnit(s,f.Id,spawn,p.Unit.Value,model?.Id);if(c.Buildings.Contains("barracks"))u.Experience=2;if(p.Unit==UnitKind.Settler)c.Population--;}
                     else if(p.Id=="treasury")f.Gold+=60;
                     else if(p.Id=="festival"){f.Culture+=30;f.Prestige+=4;}
                     else if(Epochs.Programs.Any(x=>x.Id==p.Id))Epochs.Complete(s,f,p);
@@ -290,8 +292,10 @@ public static partial class Engine
                 else if(r.War&&other>0&&f.WarWeariness>65&&s.Turn%10==0)PeaceCouncil.AiArmistice(s,r);
             }
             if(s.EpochCampaign)RunMilitaryAi(s,f.Id);
+            RunNavalAi(s,f.Id);
             foreach(var u in s.Units.Where(u=>u.Owner==f.Id).ToArray())
             {
+                if(Navy.IsShip(u))continue;
                 if(s.EpochCampaign&&MilitaryStrategy.Combatant(u))continue;
                 if(u.EscortCaravanId!=null)continue;
                 if(Districts.Pillage(s,u.Id,f.Id).Success)continue;

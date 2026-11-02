@@ -1,0 +1,28 @@
+PASS The actual city button opens the fleet and seaport panel
+PASS A coastal city offers legal port construction
+PASS Browsing the admiralty preserves state and RNG
+PASS The real admiralty button selects an actual city port project
+PASS An actual economic turn completes the selected port
+PASS The constructed port renders a spatial pier and supports
+PASS The actual fleet panel orders a technology legal ship
+PASS Actual ship production launches on a water field
+PASS The launched galley has an actual hull model
+PASS Selecting the actual hull returns its logical water field
+PASS The ship sidebar uses real naval supply rather than land roads
+PASS Water selection and reachable outlines stay above the sea surface
+PASS A real map order sails to a neighboring coast and spends movement
+PASS The real galley order cannot cross deep ocean
+PASS V21 desktop reload preserves the actual port and ship
+PASS Naval orders do not offer land fortification
+PASS The actual modernization panel pays gold and consumes movement at a safe port
+PASS The upgraded ship can receive a real open ocean order
+PASS The fleet panel explains an actual wartime port blockade
+PASS A blocked port disables the actual shipbuilding choices
+PASS A ship attack uses the existing real combat preview
+PASS Confirmed naval fire sinks the blocker and restores port activity
+PASS An explored but unseen hostile ship does not appear in the 3D scene
+PASS Historical industrial and future ships render their actual visual families
+PASS Naval meshes have finite unit normals
+PASS The admiralty exposes all nine researched naval models
+PASS The complete fleet roster remains scrollable in a compact window
+27 naval desktop integration checks passed.

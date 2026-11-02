@@ -16,7 +16,9 @@ public static partial class Engine
         int owner = defender?.Owner ?? city!.Owner;
         if (!AtWar(s, u.Owner, owner)) return Invalid("Najpierw wypowiedz wojnę w panelu dyplomacji.");
         if (u.Kind == UnitKind.Settler) return Invalid("Osadnicy nie mogą walczyć.");
-        bool ranged = u.Kind is UnitKind.Archer or UnitKind.Catapult;
+        bool ranged = Navy.IsShip(u)||u.Kind is UnitKind.Archer or UnitKind.Catapult;
+        if(defender!=null&&Navy.IsShip(defender)&&!ranged)return Invalid("Piechota i jazda nie mogą atakować okrętu na wodzie.");
+        if(Navy.IsShip(u)&&!Navy.Water(s.Tiles[target])&&UnitModels.Range(u)<2)return Invalid("Ta galera walczy tylko na wodzie. Ostrzał lądu wymaga późniejszego okrętu.");
         int distance = World.Distance(s.Tiles[u.Tile], s.Tiles[target]);
         if (distance > UnitModels.Range(u)) return Invalid("Wróg jest poza zasięgiem ataku.");
         if (ranged && distance == 2 && !World.Neighbors(s, u.Tile).Any(t => World.Distance(t, s.Tiles[target]) == 1 && t.Terrain != Terrain.Mountain))

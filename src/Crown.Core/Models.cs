@@ -3,7 +3,7 @@ namespace Crown.Core;
 public enum Terrain { Ocean, Coast, Grassland, Forest, Hills, Mountain, Desert, Marsh, Tundra }
 public enum Resource { None, Grain, Iron, Horses, Stone, Salt, Dyes }
 public enum Improvement { None, Farm, Mine, TradingPost }
-public enum UnitKind { Scout, Spearmen, Archer, Cavalry, Settler, Catapult }
+public enum UnitKind { Scout, Spearmen, Archer, Cavalry, Settler, Catapult, Ship }
 public enum MilitaryOrder { None, Fortify, Recover }
 public enum LoanStatus { Active, AwaitingCouncil, Repaid, Defaulted }
 public enum SpyStatus { Available, Deployed, Captured, Lost }

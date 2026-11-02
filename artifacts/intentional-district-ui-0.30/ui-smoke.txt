@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional district diagnostic failure.
+   at Crown.Desktop.MainWindow.DistrictSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\DistrictSmoke.cs:line 23

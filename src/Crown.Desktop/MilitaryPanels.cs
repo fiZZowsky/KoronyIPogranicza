@@ -10,6 +10,7 @@ public sealed partial class MainWindow
         var p = Ui.Stack(Ui.Eyebrow("DOWÓDZTWO MARCHII"), Ui.Label("Wojsko i stałe rozkazy", 30, Ui.Text, true),
             Ui.Label("Wybierz oddział, aby obejrzeć jego pozycję i wydać rozkaz. Tab pomija okopujące się oddziały, rekonwalescentów i eskorty. Nadal można je wybrać na mapie lub tutaj.", 13, Ui.Muted));
         p.Children.Add(Ui.Button("Ocena sytuacji wojskowej",ShowMilitaryAssessment));
+        p.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));
         foreach (var unit in state.Units.Where(u => u.Owner == 0).OrderBy(u => u.Id))
         {
             var tile = state.Tiles[unit.Tile];
@@ -39,10 +40,11 @@ public sealed partial class MainWindow
             var button = Ui.Button(text, () => Apply(Engine.SetMilitaryOrder(state, unit.Id, order)), true); button.IsEnabled = error == null;
             p.Children.Add(button);if (error != null) p.Children.Add(Ui.Label(error, 12, Ui.Muted));
         }
-        AddOrder(MilitaryOrder.Fortify, "Okop oddział", "Przygotowanie pozycji: po końcu pierwszej tury +20%, po drugiej +40% siły obronnej. Premia dotyczy oddziału, nie samego miasta; dodatek lasu lub wzgórz liczymy osobno. Ruch, atak, niszczenie drogi i przydział eskorty usuwają całą premię.");
+        if(!Navy.IsShip(unit))AddOrder(MilitaryOrder.Fortify, "Okop oddział", "Przygotowanie pozycji: po końcu pierwszej tury +20%, po drugiej +40% siły obronnej. Premia dotyczy oddziału, nie samego miasta; dodatek lasu lub wzgórz liczymy osobno. Ruch, atak, niszczenie drogi i przydział eskorty usuwają całą premię.");
         AddOrder(MilitaryOrder.Recover, "Rozpocznij rekonwalescencję", $"Odpoczynek do pełnego zdrowia: +{MilitaryOrders.Healing(state, unit, true):0} zdrowia/turę, do 100; następnie straty za brak dostaw: {attrition}. Zwykły odpoczynek lub okopywanie leczy +{MilitaryOrders.Healing(state, unit, false):0}. Medycyna zwiększa leczenie z dostawami. Trafienie przerywa rekonwalescencję; umocnień ten rozkaz nie daje.");
         if (unit.Order != MilitaryOrder.None) p.Children.Add(Ui.Button("Przywróć gotowość oddziału", () => Apply(Engine.WakeUnit(state, unit.Id))));
         if(state.EpochCampaign)p.Children.Add(Ui.Button("Modernizuj oddział #"+unit.Id,()=>ShowUnitModernization(unit)));
+        if(Navy.IsShip(unit))p.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));
         p.Children.Add(Ui.Button("Wszystkie oddziały", ShowArmy)); p.Children.Add(Ui.Button("Wróć do mapy", CloseModal)); Modal(p, 800);
     }
 }

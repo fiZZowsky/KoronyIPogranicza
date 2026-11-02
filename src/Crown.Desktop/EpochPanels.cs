@@ -33,8 +33,8 @@ public sealed partial class MainWindow
         foreach (var b in EpochCatalog.Buildings.Where(b => b.Era == index))
             p.Children.Add(Ui.Label($"{b.Name} · {b.Cost} produkcji\n{EpochCatalog.Describe(b)}\nWymaga: {Catalog.Tech(b.Technology).Name}", 13, Ui.Muted));
         p.Children.Add(Ui.Eyebrow("WOJSKA I MODERNIZACJA"));
-        foreach (var m in UnitModels.All.Where(m => m.Era == index))
-            p.Children.Add(Ui.Label($"{m.Name} · siła {m.Strength} · ruch {m.Moves} · zasięg {m.Range} · koszt {m.Cost}\nWymaga: {Catalog.Tech(m.Technology).Name}. Nowe modele rekrutujesz w produkcji miasta; istniejące modernizujesz we własnym mieście.", 13, Ui.Muted));
+        foreach (var m in UnitModels.Catalog.Where(m => m.Era == index))
+            p.Children.Add(Ui.Label($"{m.Name} · siła {m.Strength} · ruch {m.Moves} · zasięg {m.Range} · koszt {m.Cost}\nWymaga: {Catalog.Tech(m.Technology).Name}. Nowe modele rekrutujesz w produkcji miasta; istniejące modernizujesz "+(m.Role==UnitKind.Ship?"przy własnym czynnym porcie.":"we własnym mieście."), 13, Ui.Muted));
         var debate = EpochCouncils.Debates[index]; p.Children.Add(Ui.Eyebrow("DECYZJA O KIERUNKU ROZWOJU")); p.Children.Add(Ui.Label(debate.Title + "\n" + debate.Body, 14, Ui.Text));
         if (f.EpochChoices.TryGetValue(index, out int choice)) p.Children.Add(Ui.Label("Przyjęto: " + debate.Policies[choice].Choice.Text + "\n" + EpochCouncils.Describe(debate.Policies[choice]), 13, Ui.Green));
         else foreach (var policy in debate.Policies) p.Children.Add(Ui.Label(policy.Choice.Text + "\n" + EpochCouncils.Describe(policy), 12, Ui.Muted));
@@ -70,7 +70,7 @@ public sealed partial class MainWindow
     }
     private void ShowUnitModernization(Unit unit)
     {
-        var p = Ui.Stack(Ui.Eyebrow("MODERNIZACJA ODDZIAŁU"), Ui.Label(UnitModels.Name(unit), 28, Ui.Text, true), Ui.Label("Potrzebny pełny ruch, dostawy i własne miasto. Zdrowie i doświadczenie pozostają; modernizacja pochłania cały ruch i porzuca umocnienia.", 13, Ui.Muted));
+        var p = Ui.Stack(Ui.Eyebrow("MODERNIZACJA ODDZIAŁU"), Ui.Label(UnitModels.Name(unit), 28, Ui.Text, true), Ui.Label(Navy.IsShip(unit)?"Potrzebny pełny ruch, dostawy i sąsiedztwo własnego czynnego portu. Zdrowie i doświadczenie pozostają; modernizacja pochłania cały ruch.":"Potrzebny pełny ruch, dostawy i własne miasto. Zdrowie i doświadczenie pozostają; modernizacja pochłania cały ruch i porzuca umocnienia.", 13, Ui.Muted));
         foreach (var model in UnitModels.Upgrades(state, unit))
         {
             string? error = UnitModels.UpgradeError(state, unit, model.Id); var button = Ui.Button($"Modernizuj: {model.Name} · {UnitModels.UpgradeCost(state,unit, model)} złota · siła {model.Strength}", () => { var r = Engine.UpgradeUnit(state, unit.Id, model.Id); Do(r); if (r.Success) { TryAutoSave(false); ShowUnitModernization(unit); } });

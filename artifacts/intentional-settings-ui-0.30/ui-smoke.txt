@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional settings diagnostic failure.
+   at Crown.Desktop.MainWindow.SettingsSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\SettingsSmoke.cs:line 32

@@ -40,7 +40,8 @@ public static class UnitModels
         new("stellar_guard", "Straż cywilizacji rozproszonej", 17, "distributed_civilization", UnitKind.Spearmen, 550, 3, 1, 9000),
         new("stellar_rovers", "Autonomiczne wozy ekspedycyjne", 17, "interstellar_probes", UnitKind.Cavalry, 590, 5, 1, 10000)
     ];
-    public static UnitModel? For(Unit u) => All.FirstOrDefault(m => m.Id == u.ModelId);
+    public static IEnumerable<UnitModel> Catalog => All.Concat(Navy.Models);
+    public static UnitModel? For(Unit u) => Catalog.FirstOrDefault(m => m.Id == u.ModelId);
     public static string Name(Unit u) => For(u)?.Name ?? Content.UnitName(u.Kind);
     public static int Range(Unit u) => For(u)?.Range ?? (u.Kind is UnitKind.Archer or UnitKind.Catapult ? 2 : 1);
     public static double Upkeep(Unit u) => For(u) is UnitModel model ? 1.4 + model.Era * .6 : 1.4;
@@ -51,13 +52,13 @@ public static class UnitModels
         var f=s.Factions[u.Owner];
         return BaseStrength(u)+(u.ModelId==null?(f.Technologies.Contains("bronze")?3:0)+(f.Technologies.Contains("iron")?5+(Engine.HasResource(s,u.Owner,Resource.Iron)?3:0):0)+(f.Technologies.Contains("steel")?7:0):0);
     }
-    public static IEnumerable<UnitModel> Upgrades(GameState s, Unit u) => All.Where(m => s.EpochCampaign && m.Role == u.Kind && m.Strength > EffectiveBaseStrength(s,u) && s.Factions[u.Owner].Technologies.Contains(m.Technology)).OrderBy(m => m.Era).ThenBy(m => m.Strength);
+    public static IEnumerable<UnitModel> Upgrades(GameState s, Unit u) => Catalog.Where(m => s.EpochCampaign && m.Role == u.Kind && m.Strength > EffectiveBaseStrength(s,u) && s.Factions[u.Owner].Technologies.Contains(m.Technology)).OrderBy(m => m.Era).ThenBy(m => m.Strength);
     public static int UpgradeCost(GameState s,Unit u, UnitModel m) => 60 + (int)(m.Strength - EffectiveBaseStrength(s,u)) * 3;
     public static string? UpgradeError(GameState s, Unit? u, string id, int owner = 0)
     {
         if (s.Ending != null || u == null || u.Owner != owner || !s.EpochCampaign) return "Wybierz własny oddział w kampanii epok.";
         var m = Upgrades(s, u).FirstOrDefault(m => m.Id == id); if (m == null) return "Brak dostępnej, silniejszej modernizacji tej roli.";
-        if (!s.Cities.Any(c => c.Owner == owner && c.Tile == u.Tile) || !Engine.Supplied(s, u)) return "Modernizacja wymaga dostaw i pobytu we własnym mieście.";
+        if (!(Navy.IsShip(u)?Navy.UpgradePort(s,u):s.Cities.Any(c => c.Owner == owner && c.Tile == u.Tile)) || !Engine.Supplied(s, u)) return "Modernizacja wymaga dostaw i własnego miasta lub czynnego portu przy okręcie.";
         if (u.EscortCaravanId != null || u.Actions != u.MaxActions) return "Potrzebny pełny ruch i brak przydziału eskorty.";
         return s.Factions[owner].Gold < UpgradeCost(s,u, m) ? "Za mało złota na modernizację." : null;
     }
@@ -67,7 +68,7 @@ public static partial class Engine
     public static Result UpgradeUnit(GameState s, int id, string model, int owner = 0)
     {
         var u = s.Units.FirstOrDefault(u => u.Id == id); var error = UnitModels.UpgradeError(s, u, model, owner); if (error != null) return Result.Fail(error);
-        var m = UnitModels.All.First(m => m.Id == model); int price = UnitModels.UpgradeCost(s,u!, m); s.Factions[owner].Gold -= price;
+        var m = UnitModels.Catalog.First(m => m.Id == model); int price = UnitModels.UpgradeCost(s,u!, m); s.Factions[owner].Gold -= price;
         MilitaryOrders.Clear(u!); u!.Destination = null; u.ModelId = model; u.Actions = 0; s.InvalidateLogistics();
         if (owner == 0) s.Log($"Modernizacja: {m.Name}, koszt {price} złota. Zdrowie i doświadczenie zachowane; poświęcono ruch.", "wojsko");
         return Result.Ok($"Oddział zmodernizowano: {m.Name}.");

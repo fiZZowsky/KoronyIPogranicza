@@ -87,6 +87,12 @@ internal static partial class WorldScene3D
     }
     private static void Unit(SceneBatch batch, GameState s, Unit unit, int slot)
     {
+        if(Navy.IsShip(unit))
+        {
+            var anchor=UnitAnchor(s,unit,slot);var seaOrigin=new Point3D(anchor.X,Terrain3D.SeaLevel,anchor.Y);double heading=0;
+            if(unit.Destination is int dest){var goal=Terrain3D.Center(s.Tiles[dest]);heading=Math.Atan2(goal.X-anchor.X,anchor.Y-goal.Y);}
+            batch.Rotated(seaOrigin,heading,()=>ShipModel(batch,s,unit,slot));return;
+        }
         var p=UnitAnchor(s,unit,slot);double x=p.X,z=p.Y;
         var origin=new Point3D(x,Terrain3D.Height(s,x,z),z);double yaw=Math.PI;
         if(unit.Destination is int destination){var goal=Terrain3D.Center(s.Tiles[destination]);var start=Terrain3D.Center(s.Tiles[unit.Tile]);yaw=Math.Atan2(goal.X-start.X,start.Y-goal.Y);}

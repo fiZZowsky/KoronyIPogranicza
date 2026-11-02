@@ -1,0 +1,34 @@
+PASS The complete naval catalog references legal technologies and distinct ship roles
+PASS A seaport requires a coastal city and the full epoch campaign
+PASS Ships require their actual technology and a completed launch port
+PASS A port is built through real city production and adds actual food gold and upkeep
+PASS Shipbuilding spends production and launches on water instead of the city center
+PASS Unavailable launch berths block new work without discarding invested production
+PASS Naval movement spends one point per water field and never walks onto land
+PASS Land infantry cannot sail and early galleys cannot cross deep ocean
+PASS Ocean capable models can cross open sea using the same route engine
+PASS Naval routes respect unexplored fields and foreign peaceful waters
+PASS Multi-turn naval orders preserve water destinations through a save reload
+PASS Ship supply comes from active seaports rather than inland city roads
+PASS An isolated water basin cannot receive supplies across land
+PASS A wartime blockade disables port output and ship supply while maintenance remains
+PASS A peaceful foreign ship does not impose a blockade or erase port income
+PASS Lifting a blockade immediately restores port activity and supply
+PASS An enemy ship does not directly cut land road supply through naval adjacency
+PASS Ship combat requires war and spends ordinary attack actions
+PASS Early galleys cannot bombard land while ocean warships can
+PASS Naval bombardment can reduce a coastal city to zero but cannot capture it
+PASS Melee infantry cannot attack ships across the shoreline but ranged troops can
+PASS Ships reject fortification and convoy escort but can use ordinary recovery
+PASS Naval modernization requires a safe active home port and pays actual gold
+PASS A supplied ship away from a port cannot modernize at sea
+PASS Ships do not consume land army garrison assignments
+PASS Coastal AI chooses legal port construction then a technology appropriate fleet
+PASS Naval AI fires through normal combat and never gives itself free movement or health
+PASS The naval AI executor cannot take control of the player's fleet
+PASS V21 preserves fleets water orders blockades and deterministic future turns
+PASS V20 migration retains the old world without inventing ships and preserves its exact backup
+PASS Save validation rejects wrong naval domains models orders and forged old formats
+PASS Saved ports on inland cities are rejected
+PASS Repeated real naval turns keep every ship afloat and every land army on land
+33 naval specifications passed in 1,2s.

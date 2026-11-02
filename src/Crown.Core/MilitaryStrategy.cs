@@ -8,7 +8,7 @@ public sealed record MilitaryPlan(int Owner, int? ObjectiveCityId, bool Ready, I
 /// <summary>Deterministic, disposable plans. Orders still use the ordinary movement and combat rules.</summary>
 public static class MilitaryStrategy
 {
-    public static bool Combatant(Unit u) => u.Kind is not (UnitKind.Scout or UnitKind.Settler);
+    public static bool Combatant(Unit u) => u.Kind is not (UnitKind.Scout or UnitKind.Settler or UnitKind.Ship);
     public static bool Ranged(Unit u) => u.Kind is UnitKind.Archer or UnitKind.Catapult;
     public static HashSet<int> Sight(GameState s, int owner)
     {
@@ -71,7 +71,7 @@ public static class MilitaryStrategy
     {
         var ownCities = s.Cities.Where(c => c.Owner == city.Owner).ToArray();
         var force = s.Units.Where(u => u.Owner == city.Owner && Combatant(u)).Select(u => u.Kind).ToList();
-        force.AddRange(ownCities.Where(c => c.Id != city.Id).Select(c => Content.Project(c.Project).Unit).Where(k => k != null && k is not (UnitKind.Scout or UnitKind.Settler)).Select(k => k!.Value));
+        force.AddRange(ownCities.Where(c => c.Id != city.Id).Select(c => Content.Project(c.Project).Unit).Where(k => k != null && k is not (UnitKind.Scout or UnitKind.Settler or UnitKind.Ship)).Select(k => k!.Value));
         bool war = s.Relations.Any(r => (r.A == city.Owner || r.B == city.Owner) && r.War);
         var threat = Threats(s, city.Owner).Single(c => c.CityId == city.Id);
         int limit = war ? ownCities.Length * 3 + 2 : ownCities.Length + 2;
@@ -79,7 +79,7 @@ public static class MilitaryStrategy
         if (s.Factions[city.Owner].Gold < 80 && Engine.Income(s, city.Owner).Gold < 0 && threat.Enemies == 0) return null;
         UnitKind desired = force.Count(k => k is UnitKind.Spearmen or UnitKind.Cavalry) < ownCities.Length + (war ? 1 : 0) ? UnitKind.Spearmen :
             war && !force.Contains(UnitKind.Catapult) ? UnitKind.Catapult : force.Count(k => k is UnitKind.Archer or UnitKind.Catapult) < Math.Max(1, force.Count / 3) ? UnitKind.Archer : UnitKind.Cavalry;
-        var available = Engine.AvailableProjects(s, city).Where(p => p.Unit != null && p.Unit is not (UnitKind.Scout or UnitKind.Settler)).ToArray();
+        var available = Engine.AvailableProjects(s, city).Where(p => p.Unit != null && p.Unit is not (UnitKind.Scout or UnitKind.Settler or UnitKind.Ship)).ToArray();
         return available.OrderBy(p => p.Unit == desired || desired == UnitKind.Archer && p.Unit == UnitKind.Catapult ? 0 : p.Unit == UnitKind.Spearmen ? 1 : 2)
             .ThenByDescending(p => UnitModels.All.FirstOrDefault(m => m.Id == p.Id)?.Strength ?? UnitModels.BaseStrength(new Unit { Kind = p.Unit!.Value }))
             .ThenBy(p => p.Cost).ThenBy(p => p.Id, StringComparer.Ordinal).FirstOrDefault();

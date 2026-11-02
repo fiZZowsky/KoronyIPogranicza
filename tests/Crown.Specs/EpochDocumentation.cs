@@ -7,8 +7,8 @@ internal static class EpochDocumentation
     {
         var text = new StringBuilder();
         void Line(string value = "") => text.AppendLine(value);
-        Line("# Epoki i możliwe przyszłości — podręcznik wydania 0.29"); Line();
-        Line("Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 nowe modele wojsk i pięć programów pozaziemskich. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii."); Line();
+        Line("# Epoki i możliwe przyszłości — podręcznik wydania 0.30"); Line();
+        Line("Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 modele wojsk lądowych, dziewięć modeli okrętów i pięć programów pozaziemskich. Port morski jest dodatkowym projektem nadbrzeżnym. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii."); Line();
         Line("Otwórz **Nauka → Epoki i rozwój świata**. Każdy etap ma cztery dziedziny i odkrycie zamykające dorobek. Badania następnego etapu wymagają tego zamknięcia. Dodatkowe wymagania technologii nadal obowiązują. Państwa rozwijają się oddzielnie i zachowują całą wcześniejszą wiedzę, miasta oraz instytucje."); Line();
         Line("Nowa kampania zaczyna się w paleolicie i ma limit 1600 tur. Kalendarz jest umowny: stopniowo zwalnia i uwzględnia najbardziej zaawansowane państwo; jego skala sięga roku 5000. Tempo wiedzy nie jest historycznym rozkładem dat. Stare kampanie zachowują zasady i limit 320 tur do wybrania **Rozszerz kampanię do 18 epok i 1600 tur**. Wtedy uznajemy zamknięcia epok poprzedzających posiadany już dorobek, zachowując miasta, środki, wywiad, długi, jednostki i plany."); Line();
         Line("## Zasady wspólne"); Line();
@@ -31,10 +31,12 @@ internal static class EpochDocumentation
             Line("| Nowa infrastruktura | Produkcja | Technologia | Działanie |"); Line("|---|---:|---|---|");
             foreach (var b in EpochCatalog.Buildings.Where(b => b.Era == e.Index)) Line($"| {b.Name} | {b.Cost} | {Content.Tech(b.Technology).Name} | {EpochCatalog.Describe(b)} |"); Line();
             Line("| Model wojsk | Siła bazowa | Ruch | Zasięg | Produkcja | Technologia |"); Line("|---|---:|---:|---:|---:|---|");
-            foreach (var m in UnitModels.All.Where(m => m.Era == e.Index)) Line($"| {m.Name} | {m.Strength} | {m.Moves} | {m.Range} | {m.Cost} | {Content.Tech(m.Technology).Name} |"); Line();
+            foreach (var m in UnitModels.Catalog.Where(m => m.Era == e.Index)) Line($"| {m.Name} | {m.Strength} | {m.Moves} | {m.Range} | {m.Cost} | {Content.Tech(m.Technology).Name} |"); Line();
             var d = EpochCouncils.Debates[e.Index]; Line("**Rada: " + d.Title + "**"); Line(); Line(d.Body); Line();
             for (int i=0;i<3;i++){var p=d.Policies[i];Line($"- {p.Choice.Text} {Narrative.Effects(EpochCouncils.Events[e.Index].Choices[i],EpochCouncils.Id(e.Index),i).Replace("\n"," ")}");} Line();
         }
+        Line("## Porty i flota od 0.30");Line();
+        Line("Port morski wymaga Garncarstwa i miasta bezpośrednio przy polu wybrzeża lub oceanu. Koszt 120 produkcji, premie +2 żywności i +4 złota, utrzymanie 2 złota plus administracja. Okręty powstają jako normalne projekty miasta i wodują na sąsiednim legalnym polu wodnym. Galery trzymają się wybrzeża; od karaki dostępny jest ocean i ostrzał lądu. Żaden okręt nie zajmuje miasta. Bezpośrednio sąsiadujący wrogi okręt wyłącza port i dodatkowo zmniejsza dochód złota miasta o 25%. Utrzymanie pozostaje, a wodowanie i morskie dostawy tego portu są zatrzymane. Zasięg dostaw po wodzie: 8 + połowa indeksu epoki, w dół. Modernizacja wymaga pełnego ruchu, złota i czynnego własnego portu obok. Panel **Flota i porty** jest dostępny z miasta i przeglądu armii. Nie ma jeszcze transportu wojsk, desantu, handlowych karawan morskich ani mapy kosmicznej.");Line();
         Line("## Programy kosmiczne i dalsza gra"); Line();
         Line("Programy są narodowymi przedsięwzięciami z trwałymi przychodami w aktualnej stolicy. Każdy wymaga technologii, wcześniejszego programu, wskazanej infrastruktury w mieście budowy i pełnego pokrycia energii. Można umieszczać je w kolejce. Utrata zasilania wstrzymuje pracę bez utraty już zgromadzonej produkcji. Ukończonego programu nie można powielić w drugim mieście."); Line();
         Line("| Program | Produkcja | Infrastruktura | Skutek |"); Line("|---|---:|---|---|");
