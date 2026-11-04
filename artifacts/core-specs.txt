@@ -555,4 +555,29 @@ PASS The transport AI cannot commandeer the player's ships or passengers
 PASS V22 preserves cargo identity and deterministic continuation across a voyage
 PASS V21 migration preserves existing ships and ports without inventing a manifest
 PASS Save validation rejects forged carriers capacity positions orders and old format cargo
-550 specifications passed in 30,9s.
+PASS Assault previews preserve state and expose the landing penalty
+PASS Successful assault lands the original troop and charges the carrier
+PASS Repelled assault keeps survivors aboard with exactly forecast casualties
+PASS Dead assault troops do not corrupt surviving passenger links
+PASS Several defenders require separate assaults
+PASS Settlers scouts and artillery cannot assault a defended coast
+PASS Invalid assault targets reject atomically
+PASS Assault owner guards prevent foreign manifest control
+PASS A repelled passenger cannot repeat its assault within the same turn
+PASS Empty shores require normal exhausted landing
+PASS Coastal assault captures weakened cities with normal occupation
+PASS City garrisons must fall before their city can be captured
+PASS Assault respects a third party's peaceful territory
+PASS AI performs favorable assaults and never commandeers the player
+PASS Three inland siege fronts stop actual economic repairs
+PASS Three troops stacked together form only one siege front
+PASS Partial siege slows repairs and coastal encirclement requires naval closure
+PASS Civilians escorts and severely wounded troops cannot besiege
+PASS Wall damage affects full campaigns while legacy defense stays unchanged
+PASS Landing and full preparation establish a beachhead through ordinary turns
+PASS Beachheads supply two land steps without creating trade connections
+PASS Loss movement or enemy interdiction of the carrier immediately cuts a beachhead
+PASS Weakening or waking the entrenched infantry ends its beachhead
+PASS A beachhead cannot invent supply for its own carrier
+PASS Assaults and sieges preserve deterministic v22 continuation
+575 specifications passed in 38,0s.

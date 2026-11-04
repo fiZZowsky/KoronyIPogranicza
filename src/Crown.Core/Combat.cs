@@ -3,13 +3,16 @@ namespace Crown.Core;
 public static partial class Engine
 {
     public static CombatPreview PreviewAttack(GameState s, int unitId, int target)
+        => PreviewAttackCore(s, unitId, target, false);
+
+    internal static CombatPreview PreviewAttackCore(GameState s, int unitId, int target, bool amphibious)
     {
         var u = s.Units.FirstOrDefault(u => u.Id == unitId);
         CombatPreview Invalid(string text) => new(false, text, u == null ? "" : UnitModels.Name(u), "");
         if (s.Ending != null || u == null || target < 0 || target >= s.Tiles.Count) return Invalid("Nieprawidłowy cel.");
         if(u.EscortCaravanId!=null)return Invalid("Najpierw odwołaj eskortę, aby zaatakować samodzielnie.");
-        if(!SeaTransport.Active(u))return Invalid("Przewożony oddział musi najpierw wylądować.");
-        if (u.Actions < 1) return Invalid("Atak wymaga co najmniej 1 punktu ruchu.");
+        if(!SeaTransport.Active(u)&&!amphibious)return Invalid("Przewożony oddział musi najpierw wylądować.");
+        if (u.Actions < 1&&!amphibious) return Invalid("Atak wymaga co najmniej 1 punktu ruchu.");
         if (u.Owner == 0 && !s.Tiles[target].Explored) return Invalid("Cel nie został odkryty.");
         var defender = s.Units.FirstOrDefault(e => e.Tile == target && e.Owner != u.Owner&&SeaTransport.Active(e));
         var city = s.Cities.FirstOrDefault(c => c.Tile == target && c.Owner != u.Owner);
@@ -27,6 +30,7 @@ public static partial class Engine
 
         var modifiers = new List<string>();
         double attack = Strength(s, u), defense;
+        if(amphibious){attack*=.65;modifiers.Add("Szturm z morza: siła ×0,65. Najpierw osłab obrońców ostrzałem floty. Przewoźnik i oddział kończą działania w tej turze.");}
         if (!Supplied(s, u)) modifiers.Add("Atakujący bez dostaw: siła ×0,72.");
         if (defender != null)
         {
@@ -39,8 +43,9 @@ public static partial class Engine
         }
         else
         {
-            defense = 20 + city!.Population * 1.5 + (city.Buildings.Contains("walls") ? 10 : 0) + (s.EpochCampaign?s.Factions[owner].Era:s.Factions[owner].Technologies.Count/5) * 3 + Epochs.Defense(s,city);
-            if (city.Buildings.Contains("walls")) modifiers.Add("Mury miejskie: +10 obrony.");
+            defense = 20 + city!.Population * 1.5 + SiegeWarfare.WallBonus(s,city) + (s.EpochCampaign?s.Factions[owner].Era:s.Factions[owner].Technologies.Count/5) * 3 + Epochs.Defense(s,city);
+            if (city.Buildings.Contains("walls")) modifiers.Add($"Mury miejskie: +{SiegeWarfare.WallBonus(s,city):0.#} obrony; w pełnej kampanii uszkodzenie miasta osłabia mury.");
+            var siege=SiegeWarfare.Report(s,city);modifiers.Add($"Oblężenie: {siege.Fronts} kierunki lądowe, {(siege.SeaClosed?"morze zamknięte":"droga morska otwarta lub brak wybrzeża")}. Naprawa miasta +{siege.Repair}/turę.");
             if (u.Kind == UnitKind.Catapult) { attack *= 2; modifiers.Add("Artyleria oblężnicza przeciw miastu: siła ×2."); }
             if (ranged) modifiers.Add("Ostrzał nie zdobywa miasta. Potrzebna piechota lub kawaleria.");
         }
@@ -61,6 +66,11 @@ public static partial class Engine
     {
         var preview = PreviewAttack(s, u.Id, target);
         if (!preview.Valid) return Result.Fail(preview.Reason);
+        return ResolveAttack(s,u,target,defender,city,preview);
+    }
+
+    internal static Result ResolveAttack(GameState s, Unit u, int target, Unit? defender, City? city, CombatPreview preview)
+    {
         MilitaryOrders.Clear(u);
         int owner = defender?.Owner ?? city!.Owner;
         WarCouncil.RecordBattle(s,u.Owner,owner,preview.DamageToAttacker,preview.DamageToTarget);
@@ -86,6 +96,7 @@ public static partial class Engine
                 ProvincialPolitics.Transfer(s, city, u.Owner);
                 DiplomaticCouncil.AddGrievance(s, old, u.Owner, 30);
                 u.Tile = city.Tile;
+                u.EmbarkedOnId = null;
                 s.Factions[u.Owner].Prestige += 25;
                 s.Log($"{s.Factions[u.Owner].Name} zdobywa {city.Name}. Nowa administracja mierzy się z oporem mieszkańców.", "wojna");
             }

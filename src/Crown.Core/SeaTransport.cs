@@ -104,6 +104,10 @@ public static partial class Engine
                 }
             }
             var cargo=SeaTransport.Passengers(s,ship).FirstOrDefault();if(cargo==null||ship.Actions<1)continue;
+            var assault=SeaTransport.Passengers(s,ship).SelectMany(u=>World.Neighbors(s,ship.Tile).Select(t=>(Unit:u,Tile:t.Id,Preview:AmphibiousAssault.Preview(s,u.Id,t.Id,owner))))
+                .Where(x=>x.Preview.Valid&&x.Unit.Health-x.Preview.DamageToAttacker>25&&(x.Preview.CanCapture||x.Preview.DamageToTarget>=x.Preview.TargetHealth||x.Preview.DamageToTarget>=x.Preview.DamageToAttacker*1.2))
+                .OrderByDescending(x=>(x.Preview.CanCapture?1000:0)+(x.Preview.DamageToTarget>=x.Preview.TargetHealth?100:0)+x.Preview.DamageToTarget-x.Preview.DamageToAttacker).ThenBy(x=>x.Tile).ThenBy(x=>x.Unit.Id).FirstOrDefault();
+            if(ship.Health>=45&&assault.Preview!=null){AmphibiousAssault.Execute(s,assault.Unit.Id,assault.Tile,owner);continue;}
             bool retreat=ship.Health<45||!Supplied(s,ship)&&ship.Health<70;
             int? target=retreat?s.Cities.Where(c=>c.Owner==owner&&Navy.ActivePort(s,c)).Select(c=>(City:c,Cost:World.Neighbors(s,c.Tile).Where(Navy.Water).Select(t=>route.Costs.GetValueOrDefault(t.Id,double.PositiveInfinity)).DefaultIfEmpty(double.PositiveInfinity).Min())).Where(x=>double.IsFinite(x.Cost)).OrderBy(x=>x.Cost).ThenBy(x=>x.City.Id).Select(x=>(int?)x.City.Tile).FirstOrDefault():SeaTransport.Target(s,ship,cargo,route);if(target==null)continue;
             int sea=World.Neighbors(s,target.Value).Where(Navy.Water).OrderBy(t=>route.Costs.GetValueOrDefault(t.Id,double.PositiveInfinity)).ThenBy(t=>t.Id).Select(t=>t.Id).First();

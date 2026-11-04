@@ -86,7 +86,7 @@ public static class Logistics
     }
 
     public static bool Supplied(GameState s, Unit unit) =>
-        !SeaTransport.Active(unit)?SeaTransport.Carrier(s,unit) is{} ship&&Navy.Supplied(s,ship):Navy.IsShip(unit)?Navy.Supplied(s,unit):For(s, unit.Owner).Costs.GetValueOrDefault(unit.Tile, double.PositiveInfinity) <= Range(s, unit.Owner);
+        !SeaTransport.Active(unit)?SeaTransport.Carrier(s,unit) is{} ship&&Navy.Supplied(s,ship):Navy.IsShip(unit)?Navy.Supplied(s,unit):For(s, unit.Owner).Costs.GetValueOrDefault(unit.Tile, double.PositiveInfinity) <= Range(s, unit.Owner) || SiegeWarfare.BeachheadSupplies(s,unit);
 
     public static RoadPlan PlanRoad(GameState s, int cityId)
     {

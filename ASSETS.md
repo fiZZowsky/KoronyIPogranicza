@@ -53,3 +53,7 @@ Pełny prompt (wbudowany tryb narzędzia):
 Pełny prompt (wbudowany tryb narzędzia):
 
 > Use case: photorealistic-natural. Asset type: transparent alpha-cutout photograph of one spruce fir branch cluster for a 3D conifer tree foliage card. A single compact fan shaped irregular green spruce bough, many fine needles with visible individual needle silhouettes and branching twigs. Isolated with genuinely transparent background. Fine realistic green needles and thin brown wood, forest green and dusty sage tips. Dense in center but small transparent gaps throughout. Whole cluster comfortably inside square canvas with transparent margin. Flat neutral diffuse daylight with no baked cast shadow. Photographic scanned vegetation, not a drawing or stylized game asset. No tree trunk, no ground, no pot, no text, no border, no watermark.
+
+## Oprawa wybrzeża 0.32
+
+Nowe żagle, olinowanie, relingi, polery, magazyny, beczki, umocnienia i gruz powstają z geometrii C#. Nie pobierano nowych modeli, zdjęć, dźwięków ani tekstur. Shader wykorzystuje istniejący atlas i osobne proceduralne właściwości drewna, płótna, metalu oraz wody. Nie są to skany ani fotogrametria. Obrazy siege-ui pokazują przygotowaną scenę testową z nadanymi technologiami i osłabionym obrońcą, następnie rzeczywisty załadunek, rozkaz rejsu, szturm i przygotowanie przyczółka. Służą weryfikacji, nie dowodzą balansu naturalnej kampanii.

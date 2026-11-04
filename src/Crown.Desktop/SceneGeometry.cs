@@ -198,7 +198,7 @@ internal sealed class SceneBatch
         {
             var model = new GeometryModel3D(pair.Value.Freeze(), materials[pair.Key]);
             model.SetValue(SceneSurface.KeyProperty, pair.Key);model.SetValue(SceneSurface.TileIdsProperty,pair.Value.TileIds.ToArray());
-            if(pair.Key.Contains("foliage"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
+            if(pair.Key.Contains("foliage")||pair.Key.Contains("sail-cloth"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
         }
         group.Freeze(); return group;
     }

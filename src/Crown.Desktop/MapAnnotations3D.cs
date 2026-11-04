@@ -15,6 +15,7 @@ public sealed partial class MapView
         if (State == null) return;
         var batch = new SceneBatch(); var visible = Engine.Visible(State);
         var supply = ShowSupply ? Logistics.For(State, 0) : null;
+        var beachheadSupply=ShowSupply?SiegeWarfare.BeachheadCoverage(State,0):[];
         var vessel=State.Units.FirstOrDefault(u=>u.Id==SelectedUnit&&u.Owner==0&&Navy.IsShip(u));
         var seaSupply=ShowSupply&&vessel!=null?Navy.Supply(State,vessel).Costs:null;
         foreach (var tile in State.Tiles.Where(t => t.Explored))
@@ -24,7 +25,7 @@ public sealed partial class MapView
             if(seaSupply!=null&&Navy.Water(tile))WorldScene3D.HexFill(batch.Mesh(seaSupply.ContainsKey(tile.Id)?"naval-supplied":"naval-unsupplied",seaSupply.ContainsKey(tile.Id)?"#60349A78":"#70B85E51",true),State,tile,.065);
             if (supply != null && tile.Passable)
             {
-                bool blocked = supply.Interdicted.Contains(tile.Id), supplied = supply.Costs.GetValueOrDefault(tile.Id, double.PositiveInfinity) <= Logistics.Range(State, 0);
+                bool beach=beachheadSupply.Contains(tile.Id),blocked = !beach&&supply.Interdicted.Contains(tile.Id), supplied = beach||supply.Costs.GetValueOrDefault(tile.Id, double.PositiveInfinity) <= Logistics.Range(State, 0);
                 WorldScene3D.HexFill(batch.Mesh(blocked ? "blocked" : supplied ? "supplied" : "unsupplied", blocked ? "#759C652F" : supplied ? "#60349A78" : "#70B85E51", true), State, tile, .060);
             }
             if (ShowPopulation && tile.Owner == 0)

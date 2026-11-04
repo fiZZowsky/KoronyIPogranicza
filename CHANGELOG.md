@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.32 — 2026-11-04 · Szturmy i przyczółki
+
+- Szturm piechoty i jazdy z pokładu z rzeczywistym podglądem strat, osłabieniem siły, kontratakiem, lądowaniem lub powrotem ocalałych na pokład.
+- Oblężenia wyliczane z odrębnych kierunków ataku i blokady morza; ograniczenie napraw miasta, uszkodzenia murów i raport widocznych miast.
+- Umocniona piechota i osłaniany, zaopatrywany okręt zapewniają ograniczone dostawy przyczółka. Nakładka i panel oddziału pokazują nowe źródło.
+- AI rozważa szturmy i utrzymuje straż przyczółka, korzystając z normalnych kosztów i reguł.
+- Wypukłe żagle, olinowanie, relingi, portowe deski, polery, magazyn i beczki. Modele umocnień, zaopatrzenia i gruzu. Materiały płótna, drewna, metalu i kamienia; fale i piana na wodzie.
+- Format v22 bez migracji; poprzednie kampanie, ustawienia i wydania zachowane. Nowe testy silnika i interfejsu obejmują szturmy, oblężenia oraz przyczółki.
+
 ## 0.31 — Transport, desant i kolonie · 4 listopada 2026
 
 - Transport wojska i osadników istniejącymi okrętami: pojemność 1/2/4, cięższa jazda i artyleria, załadunek w czynnym porcie i koszt ruchu. Pasażerowie nie działają samodzielnie, nie leczą się podczas rejsu i zachowują zwykłe utrzymanie.

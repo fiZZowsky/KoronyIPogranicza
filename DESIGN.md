@@ -1,5 +1,15 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Szturmy, oblężenia i oprawa wybrzeża — 0.32
+
+AmphibiousAssault jest oddzielną, walidowaną akcją. PreviewAttackCore oraz ResolveAttack są współdzielone ze zwykłą walką. Podgląd nie mutuje RNG ani kampanii. Szturm wymaga wojny, obecnej widoczności, sąsiedniego lądu, piechoty lub jazdy w manifeście i ruchu przewoźnika. Siła ×0,65; normalny kontratak. Opuszczenie manifestu następuje dopiero po oczyszczeniu całego pola lub zdobyciu miasta. Przewoźnik zużywa cały pozostały ruch; ocalała piechota ma zerowy ruch.
+
+SiegeWarfare.Report jest funkcją bieżących pozycji i dyplomacji. Dwa kierunki → naprawy +2; trzy i zamknięte morze, jeśli nadbrzeżne → 0; inne → +7. Nie przechowuje zegara oblężenia. WallBonus skaluje istniejące mury ze zdrowiem miasta w pełnej kampanii. Naprawy stosuje zwykła faza gospodarki.
+
+Beachheads wymagają okopanej piechoty i osłanianego własnego okrętu zaopatrywanego przez Navy.Supplied. Przeszukiwanie lądu jest ograniczone do dwóch kroków; nie dodaje źródeł miast, handlu lub szlaków żywności. Navy.Supplied nie wywołuje dostaw lądowych, więc nie ma cyklicznego źródła. Stan wynika z istniejących rozkazów i pozycji, bez zmiany formatu v22. Nakładka oblicza pokrycie raz na przebudowę. AI zachowuje czynne straże, przygotowuje odciętą piechotę przy dostawach morskich oraz ocenia szturm przez ten sam podgląd.
+
+FrontlineModels3D rysuje tylko własne lub aktualnie widoczne pozycje. Sygnatura sceny obejmuje zdrowie, rozkazy, umocnienia i wojny, aby zniszczenia i dostawy nie pozostawały w pamięci podręcznej. Modele portu i okrętu są nadal proceduralne. HLSL dodaje materiały 20 (płótno/liny) i 21 (metal okrętowy), mikrorzeźbę przez pochodne ekranowe i kierunkowe nachylenia fal. Zmiany nie ingerują w symulację ani trafianie mapy. WPF zachowuje geometrię i prostsze materiały.
+
 ## Transport i lądowanie — 0.31
 
 Unit.EmbarkedOnId wiąże istniejącą jednostkę z okrętem, bez tworzenia jej drugiego egzemplarza. SeaTransport.Active oddziela pasażerów od aktywnych jednostek mapy. Pojemność wynosi 1 przed indeksem epoki modelu 6, 2 przed 10, później 4. Jazda i artyleria ważą po 2, inne role lądowe po 1. Utrzymanie obejmuje wszystkich pasażerów.

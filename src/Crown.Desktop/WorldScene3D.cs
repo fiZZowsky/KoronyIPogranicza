@@ -81,6 +81,7 @@ internal static partial class WorldScene3D
         var cities = s.Cities.Where(c => s.Tiles[c.Tile].Explored).OrderBy(c => c.Id).ToArray(); foreach (var city in cities){objects.TileId=city.Tile;City(objects, s, city);if(city.Buildings.Contains(Navy.Port)&&(city.Owner==0||visible.Contains(city.Tile)))PortModel(objects,s,city);}
         var units = s.Units.Where(u => SeaTransport.Active(u)&&(u.Owner == 0 || visible.Contains(u.Tile))).Where(u => u.Owner == 0 || s.Tiles[u.Tile].Explored).OrderBy(u => u.Id).ToArray();
         var rendered = new List<int>();
+        FrontlineDetails(objects,s,visible);
         foreach (var group in units.GroupBy(u => u.Tile))
         {
             int i = 0; foreach (var u in group.OrderByDescending(u => u.Id == selectedUnit).ThenBy(u => u.Id).Take(3)) { objects.TileId=u.Tile;Unit(objects, s, u, i); rendered.Add(u.Id); i++; }

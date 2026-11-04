@@ -13,6 +13,7 @@ public sealed partial class MainWindow
             Ui.Label($"Okręty: {ships.Length} · z dostawami: {ships.Count(u=>Engine.Supplied(state,u))}\nPorty: {ports.Count(c=>c.Buildings.Contains(Navy.Port))} · zablokowane: {ports.Count(c=>Navy.Blockaded(state,c))}",15,Ui.Gold),
             Ui.Label("Galery pływają po polach wybrzeża. Od karaki okręty przekraczają ocean i ostrzeliwują ląd. Port zapewnia +2 żywności, +4 złota, wodowanie i dostawy floty; utrzymanie portu to 2 złota plus zwykła administracja. Budowa zużywa normalną produkcję miasta.",13,Ui.Muted));
         if(notice!=null)p.Children.Add(Ui.Label(notice,13,Ui.Gold));
+        p.Children.Add(Ui.Button("Oblężenia i przyczółki",ShowSieges));
         if(!state.EpochCampaign)p.Children.Add(Ui.Label("Rozszerz dawną kampanię w panelu epok, aby odblokować porty i flotę.",14,Ui.Gold));
         if(ports.Length==0)p.Children.Add(Ui.Label("Nie masz miasta bezpośrednio przy akwenie. Zwiad i osadnicy pozwolą wybrać wybrzeże pod przyszły port.",14,Ui.Gold));
         foreach(var city in ports)

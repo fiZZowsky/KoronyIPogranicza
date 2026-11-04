@@ -1,0 +1,16 @@
+epoch: 38 checks; exit 0; 21,0s
+three-dimensional: 34 checks; exit 0; 26,7s
+photographic: 21 checks; exit 0; 14,0s
+landscape: 18 checks; exit 0; 9,3s
+models: 27 checks; exit 0; 13,6s
+rendering: 27 checks; exit 0; 15,8s
+district: 32 checks; exit 0; 11,5s
+military-ai: 16 checks; exit 0; 6,8s
+naval: 27 checks; exit 0; 13,7s
+transport: 22 checks; exit 0; 14,0s
+siege: 21 checks; exit 0; 12,1s
+WPF fallback: 34 checks; exit 0; 27,5s
+WPF military assessment: 16 checks; exit 0; 6,0s
+WPF navy: 27 checks; exit 0; 12,5s
+WPF transport: 22 checks; exit 0; 12,8s
+WPF siege: 21 checks; exit 0; 9,9s

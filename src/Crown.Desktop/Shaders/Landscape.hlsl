@@ -47,6 +47,12 @@ float Noise(float2 p)
     return lerp(lerp(Hash(i),Hash(i+float2(1,0)),f.x),lerp(Hash(i+float2(0,1)),Hash(i+1),f.x),f.y);
 }
 float3 Decode(float3 c){return pow(max(c,.001),2.2);}
+float3 ReliefNormal(float3 position,float3 normal,float height,float amount)
+{
+    float3 dx=ddx(position),dy=ddy(position),rx=cross(dy,normal),ry=cross(normal,dx);
+    float determinant=dot(dx,rx);
+    return normalize(max(abs(determinant),.00000001)*normal-sign(determinant)*(ddx(height)*rx+ddy(height)*ry)*amount);
+}
 float GroundHeight(float2 world)
 {
     uint width,height;Elevation.GetDimensions(width,height);
@@ -95,7 +101,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
 {
     float kind=p.surface.x,rough=p.surface.y,metal=p.surface.z;
     if(Settings.w>.5&&Settings.w<1.5)clip(p.world.y-.055);
-    float3 n=normalize(p.n);if(!front && ((kind>4.5 && kind<5.5)||(kind>13.5&&kind<14.5)))n=-n;float3 v=normalize(EyeTime.xyz-p.world),sun=normalize(SunExposure.xyz);
+    float3 n=normalize(p.n);if(!front && ((kind>4.5 && kind<5.5)||(kind>13.5&&kind<14.5)||(kind>19.5&&kind<20.5)))n=-n;float3 v=normalize(EyeTime.xyz-p.world),sun=normalize(SunExposure.xyz);
     if(kind>11.5&&kind<13.5)
     {
         float2 uv=p.uv*2-1;float opacity;
@@ -132,6 +138,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     {
         float3 masonry=Triplanar(p.world,n,float2(0,1),8);
         albedo=Decode(masonry)*(.75+p.color.rgb*.45);rough=.87;
+        n=ReliefNormal(p.world,n,dot(masonry,float3(.299,.587,.114)),.012*Settings.y);
     }
     else if(kind>2.5&&kind<3.5)
     {
@@ -152,7 +159,10 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     }
     else if(kind>5.5&&kind<6.5)
     {
-        float grain=Noise(p.world.xz*45+p.world.y*float2(1,3));albedo*=.55+grain*.55;rough=.91;
+        float grain=Noise(float2(p.world.x*58+p.world.z*5,p.world.y*11+p.world.z*2));
+        float pores=Noise(p.world.xz*135+p.world.y*17);
+        albedo*=.64+grain*.35+pores*.08;rough=lerp(.63,.9,grain);
+        n=ReliefNormal(p.world,n,grain+pores*.13,.003*Settings.y);
     }
     else if(kind>6.5&&kind<7.5){rough=.13;metal=.42;albedo=Decode(p.color.rgb)*.65;}
     if(kind>7.5&&kind<8.5)return float4(p.color.rgb*.9,alpha); // strategic overlays remain readable
@@ -175,7 +185,22 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         if(kind>16.5){albedo=Decode(p.color.rgb)*(.88+Noise(p.world.xz*95)*.12);rough=.34;metal=.02;}
         albedo=lerp(albedo,Decode(float3(.80,.85,.87)),SeasonPalette.x*smoothstep(.4,.85,n.y)*.85);
     }
-    if(kind>18.5){albedo=Decode(p.color.rgb);rough=.48;metal=.62;}
+    if(kind>18.5&&kind<19.5){albedo=Decode(p.color.rgb);rough=.48;metal=.62;}
+    if(kind>19.5&&kind<20.5)
+    {
+        float weave=sin(p.world.x*780)*sin(p.world.y*780+p.world.z*230);
+        float wear=Noise(p.world.xy*31+p.world.z*7);
+        albedo*=.78+wear*.18+weave*.025;rough=.97;
+        n=ReliefNormal(p.world,n,weave,.00015*Settings.y);
+    }
+    if(kind>20.5&&kind<21.5)
+    {
+        float wear=Noise(p.world.xz*27+p.world.y*11),salt=Noise(p.world.xz*93+p.world.y*43);
+        float rust=smoothstep(.62,.88,wear)*(1-smoothstep(.04,.28,p.world.y))*.65;
+        albedo=lerp(albedo*(.82+salt*.15),Decode(float3(.27,.12,.055)),rust);
+        rough=lerp(.36,.84,rust);metal=lerp(.72,.12,rust);
+        n=ReliefNormal(p.world,n,salt,.0008*Settings.y);
+    }
     if(kind>17.5&&kind<18.5){albedo=Decode(p.color.rgb)*(.88+Noise(p.world.xz*float2(160,24)+p.world.y*37)*.19);rough=.96;}
     if((kind>1.5&&kind<3.5)||(kind>5.5&&kind<6.5)||(kind>8.5&&kind<11.5))
     {
@@ -190,14 +215,22 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     if(kind>.5&&kind<1.5)
     {
         float2 w=p.world.xz;
-        float2 flow=float2(Noise(w*3.8+EyeTime.w*.025),Noise(w*4.1+23-EyeTime.w*.017))-.5;
-        float ripple=Noise(w*8.3+EyeTime.w*.05)-.5;
+        // Directional wave slopes are the analytic gradient of the same four wave bands.
+        // They remain stable in world space rather than swimming with the camera.
+        float time=EyeTime.w;float2 flow=0;float ripple=0;
+        [unroll]for(int band=0;band<4;band++)
+        {
+            float angle=.42+band*1.73;float2 direction=float2(cos(angle),sin(angle));
+            float frequency=2.7+band*4.9,phase=dot(w,direction)*frequency-time*(.65+band*.39);
+            float amplitude=.032/(1+band*.8);flow+=direction*cos(phase)*amplitude;
+            ripple+=sin(phase)/(4+band*2);
+        }
         if(p.surface.w>1.5)
         {
             float current=Noise(float2(p.uv.x*5,p.uv.y*8-EyeTime.w*.55))-.5;
             flow=float2(current,Noise(float2(p.uv.x*9+7,p.uv.y*13-EyeTime.w*.8))-.5);ripple=current;
         }
-        n=normalize(float3(flow.x*.035,1,flow.y*.035));
+        n=normalize(float3(-flow.x,1,-flow.y));
         float fresnel=.025+.975*pow(1-saturate(dot(n,v)),5);float3 reflected=Sky(reflect(-v,n));
         if(p.surface.w<.5&&Settings.w>1.5)reflected=lerp(reflected,Reflection.Sample(TextureSampler,p.p.xy*Screen.xy+n.xz*.012).rgb,.78);
         float3 water=float3(.025,.10,.105)*(1+ripple*.06);
@@ -207,15 +240,21 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
             float3 bed=float3(.24,.22,.13)*exp(-depth*float3(4.8,3.0,2.2));
             water=lerp(bed,float3(.013,.066,.085),1-exp(-depth*3.4));
             float foam=(1-smoothstep(.005,.07,depth))*saturate(Noise(w*18+EyeTime.w*.08)*1.7-.5);
+            float shoreBand=sin(depth*110-time*1.8+ripple*2);
+            foam=max(foam,smoothstep(.50,.94,shoreBand)*(1-smoothstep(.015,.16,depth))*.55);
             if(p.surface.w>1.5)foam=max(foam,pow(saturate(abs(p.uv.x-.5)*2),6)*smoothstep(-.15,.35,ripple)*.5);
             water=lerp(water,float3(.51,.59,.55),foam*.28);
         }
-        float3 glint=Brdf(.02.xxx,n,v,sun,.22,.0)*float3(4.6,3.9,2.8)*visibility;
-        return float4(lerp(water,reflected,fresnel*.85)+glint,1);
+        float3 glint=Brdf(.02.xxx,n,v,sun,.14+WeatherSettings.x*.08,.0)*float3(4.6,3.9,2.8)*visibility;
+        float3 ocean=lerp(water,reflected,fresnel*.85)+glint;
+        float haze=1-exp(-length(EyeTime.xyz-p.world)*Settings.z*.7);
+        return float4(lerp(ocean,float3(.49,.59,.65),min(.7,haze)),1);
     }
     float3 ambient=lerp(float3(.14,.16,.12),float3(.34,.40,.46),saturate(n.y*.5+.5));
     float3 direct=Brdf(albedo,n,v,sun,rough,metal)*float3(4.7,4.05,3.0)*visibility;
     float3 color=direct+albedo*ambient*ao;
+    if(metal>.1)color+=Sky(reflect(-v,n))*lerp(.04.xxx,albedo,metal)*(.38*(1-rough*.65));
+    if(kind>19.5&&kind<20.5)color+=albedo*pow(saturate(dot(-v,sun)),3)*.10;
     if(kind>4.5&&kind<5.5)color+=albedo*float3(.6,.62,.32)*pow(saturate(dot(-v,sun)),3)*.22;
     if(kind>6.5&&kind<7.5)color+=Sky(reflect(-v,n))*.34;
     float fog=1-exp(-length(EyeTime.xyz-p.world)*Settings.z*exp(-max(0,p.world.y)*.18));

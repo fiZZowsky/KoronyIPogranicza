@@ -194,7 +194,7 @@ public static partial class Engine
                 if(c.Food>=needed){c.Population++;c.Food-=needed;}
                 if(c.Food<0){c.HungerTurns++;if(c.HungerTurns%2==0&&c.Population>1){c.Population--;if(f.Id==0)s.Log($"{c.Name}: przedłużający się głód zmniejsza liczbę mieszkańców.","gospodarka");}c.Food=0;f.Commons-=3;c.Unrest=Math.Min(100,c.Unrest+5);}
                 else c.HungerTurns=0;
-                c.Health=Math.Min(100,c.Health+7);
+                c.Health=Math.Min(100,c.Health+SiegeWarfare.Report(s,c).Repair);
                 if(f.SpaceMilestones.Contains(c.Project))ProductionPlanning.Next(s,c);
                 var p=ProductionPlanning.CurrentBlock(s,c)==null?AvailableProjects(s,c).FirstOrDefault(p=>p.Id==c.Project):null;
                 double districtWork=Districts.BuildPhase(s,c,y.Production*modifier);

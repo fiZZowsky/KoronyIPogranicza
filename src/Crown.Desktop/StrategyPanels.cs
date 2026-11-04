@@ -127,6 +127,7 @@ public sealed partial class MainWindow
 
     private void UnitSupply(Unit u)
     {
+        if(!Navy.IsShip(u)&&SeaTransport.Active(u)&&SiegeWarfare.BeachheadSupplies(state,u)){side.Children.Add(Ui.Label("Dostawy z przyczółka morskiego · do 2 kroków od okopanej piechoty. Utrata osłony okrętu przerwie zapasy.",11,Ui.Green));return;}
         if(Navy.IsShip(u)){bool seaSupplied=Engine.Supplied(state,u);side.Children.Add(Ui.Label(seaSupplied?$"Dostawy morskie zapewnione · zasięg {Navy.SupplyRange(state,u.Owner):0} pól od czynnego portu.":"Brak dostaw morskich: siła ×0,72; straty 5 zdrowia/turę. Szukaj własnego czynnego portu.",11,seaSupplied?Ui.Green:Ui.Red));side.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));return;}
         var supply = Logistics.For(state, u.Owner);
         bool supplied = Engine.Supplied(state, u);

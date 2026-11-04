@@ -97,6 +97,12 @@ public static partial class Engine
             var u = s.Units.FirstOrDefault(u => u.Id == assignment.UnitId);
             if (s.Ending != null) break;
             if (u == null || u.Actions < .5 || u.EscortCaravanId != null) continue;
+            if(SiegeWarfare.Beachheads(s,owner).Any(g=>g.Id==u.Id))continue;
+            if(u.Kind==UnitKind.Spearmen&&u.Health>=40&&u.Actions==u.MaxActions&&
+                Logistics.For(s,owner).Costs.GetValueOrDefault(u.Tile,double.PositiveInfinity)>Logistics.Range(s,owner)&&
+                !SiegeWarfare.Beachheads(s,owner).Any(g=>World.Distance(s.Tiles[g.Tile],s.Tiles[u.Tile])<=2)&&
+                s.Units.Any(ship=>ship.Owner==owner&&Navy.IsShip(ship)&&ship.Health>=40&&World.Distance(s.Tiles[ship.Tile],s.Tiles[u.Tile])==1&&Navy.Supplied(s,ship)))
+            {SetMilitaryOrder(s,u.Id,MilitaryOrder.Fortify,owner);continue;}
             var sight = MilitaryStrategy.Sight(s, owner);
             var enemies = s.Units.Where(e => SeaTransport.Active(e)&&AtWar(s, owner, e.Owner) && sight.Contains(e.Tile) && e.Kind != UnitKind.Settler).ToArray();
             double Exposure(int tile) => enemies.Where(e => World.Distance(s.Tiles[e.Tile], s.Tiles[tile]) <= UnitModels.Range(e) + 1).Sum(e => Strength(s, e));
