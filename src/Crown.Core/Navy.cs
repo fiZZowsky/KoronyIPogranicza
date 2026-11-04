@@ -83,6 +83,7 @@ public static partial class Engine
         if (!s.EpochCampaign || owner is < 1 or > 3 || s.Ending != null) return;
         foreach (var u in s.Units.Where(u => u.Owner == owner && Navy.IsShip(u)).OrderBy(u => u.Id).ToArray())
         {
+            if(SeaTransport.Passengers(s,u).Any())continue;
             if (s.Ending != null) break;
             if (u.Actions < .5) continue;
             var upgrade=UnitModels.Upgrades(s,u).LastOrDefault();
@@ -91,7 +92,7 @@ public static partial class Engine
             var visible = MilitaryStrategy.Sight(s, owner);
             if (u.Health < 45 || !Supplied(s, u) && u.Health < 70)
             {
-                if (Supplied(s, u) && !s.Units.Any(e => AtWar(s, owner, e.Owner) && visible.Contains(e.Tile) && World.Distance(s.Tiles[u.Tile], s.Tiles[e.Tile]) <= 3))
+                if (Supplied(s, u) && !s.Units.Any(e => SeaTransport.Active(e)&&AtWar(s, owner, e.Owner) && visible.Contains(e.Tile) && World.Distance(s.Tiles[u.Tile], s.Tiles[e.Tile]) <= 3))
                 { if (u.Order != MilitaryOrder.Recover) SetMilitaryOrder(s, u.Id, MilitaryOrder.Recover, owner); continue; }
                 var supply = Navy.Supply(s, u);var route = Navigation.ForUnit(s, u);
                 int safe = route.Costs.Keys.Where(supply.Costs.ContainsKey).OrderBy(t => route.Costs[t]).ThenBy(t => t).DefaultIfEmpty(u.Tile).First();
@@ -114,7 +115,7 @@ public static partial class Engine
             {
                 if (u.Actions < 1) return false;
                 visible=MilitaryStrategy.Sight(s,owner);
-                var shot = s.Units.Where(e => AtWar(s, owner, e.Owner) && visible.Contains(e.Tile)).Select(e => e.Tile)
+                var shot = s.Units.Where(e => SeaTransport.Active(e)&&AtWar(s, owner, e.Owner) && visible.Contains(e.Tile)).Select(e => e.Tile)
                     .Concat(s.Cities.Where(c => AtWar(s, owner, c.Owner) && visible.Contains(c.Tile)).Select(c => c.Tile)).Distinct()
                     .Select(t => (Tile: t, Preview: PreviewAttack(s, u.Id, t))).Where(x => x.Preview.Valid && x.Preview.DamageToTarget > 0)
                     .OrderByDescending(x => x.Preview.DamageToTarget + (x.Preview.DamageToTarget >= x.Preview.TargetHealth ? 30 : 0)).ThenBy(x => x.Tile).FirstOrDefault();

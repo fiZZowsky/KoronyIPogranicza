@@ -5,7 +5,7 @@ namespace Crown.Core;
 
 public static class SaveGame
 {
-    public const int CurrentVersion=21;
+    public const int CurrentVersion=22;
     private static readonly JsonSerializerOptions Options=new(){WriteIndented=true,IgnoreReadOnlyProperties=true,Converters={new JsonStringEnumConverter()}};
     public static string Serialize(GameState state)=>JsonSerializer.Serialize(state,Options);
     public static GameState Deserialize(string json)
@@ -116,6 +116,7 @@ public static class SaveGame
         EnergySaveRules.Validate(s);
         Districts.Validate(s);
         Navy.Validate(s);
+        SeaTransport.Validate(s);
         s.Version=CurrentVersion;
         return s;
     }

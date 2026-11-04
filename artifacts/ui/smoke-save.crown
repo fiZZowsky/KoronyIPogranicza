@@ -1,5 +1,5 @@
 {
-  "Version": 21,
+  "Version": 22,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16893,6 +16893,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -16907,6 +16908,7 @@
       "Actions": 3,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -16921,6 +16923,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -16935,6 +16938,7 @@
       "Actions": 1,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -16949,6 +16953,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -16963,6 +16968,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -16977,6 +16983,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -16991,6 +16998,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -17005,6 +17013,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17019,6 +17028,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17033,6 +17043,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17047,6 +17058,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17061,6 +17073,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17075,6 +17088,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17329,7 +17343,7 @@
     },
     {
       "Turn": 10,
-      "Text": "Odkrycie: Garncarstwo. Magazynowanie i wymiana. Odblokowuje targowisko i budow\u0119 dr\u00F3g.",
+      "Text": "Odkrycie: Garncarstwo. Magazynowanie i wymiana. Odblokowuje targowisko i budow\u0119 dr\u00F3g. Port morski w mie\u015Bcie przy akwenie.",
       "Category": "nauka"
     },
     {

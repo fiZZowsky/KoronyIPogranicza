@@ -79,7 +79,7 @@ internal static partial class WorldScene3D
             water.Quad(Wave(x,z),Wave(x,z+2),Wave(x+2,z+2),Wave(x+2,z),new(0,1,0));
         }
         var cities = s.Cities.Where(c => s.Tiles[c.Tile].Explored).OrderBy(c => c.Id).ToArray(); foreach (var city in cities){objects.TileId=city.Tile;City(objects, s, city);if(city.Buildings.Contains(Navy.Port)&&(city.Owner==0||visible.Contains(city.Tile)))PortModel(objects,s,city);}
-        var units = s.Units.Where(u => u.Owner == 0 || visible.Contains(u.Tile)).Where(u => u.Owner == 0 || s.Tiles[u.Tile].Explored).OrderBy(u => u.Id).ToArray();
+        var units = s.Units.Where(u => SeaTransport.Active(u)&&(u.Owner == 0 || visible.Contains(u.Tile))).Where(u => u.Owner == 0 || s.Tiles[u.Tile].Explored).OrderBy(u => u.Id).ToArray();
         var rendered = new List<int>();
         foreach (var group in units.GroupBy(u => u.Tile))
         {

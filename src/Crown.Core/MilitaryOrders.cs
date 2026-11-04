@@ -14,6 +14,7 @@ public static class MilitaryOrders
         if (s.Ending != null || unit == null || owner is < 0 or > 3 || unit.Owner != owner || !Enum.IsDefined(order) || order == MilitaryOrder.None)
             return "Wybierz własny oddział i rozkaz.";
         if (unit.Kind == UnitKind.Settler) return "Osadnicy nie mogą przyjmować rozkazów wojskowych.";
+        if(!SeaTransport.Active(unit))return "Oddział jest na pokładzie. Najpierw wysadź go na brzeg.";
         if (Navy.IsShip(unit)&&order==MilitaryOrder.Fortify)return "Okręt nie może się okopywać. Użyj bezpiecznego portu i rekonwalescencji.";
         if (unit.EscortCaravanId != null) return "Najpierw odwołaj eskortę.";
         if (unit.Order == order) return "Ten rozkaz już obowiązuje.";
@@ -30,6 +31,7 @@ public static class MilitaryOrders
     }
     internal static void FinishTurn(GameState s, Unit unit)
     {
+        if(!SeaTransport.Active(unit)){unit.Actions=0;return;}
         if (unit.Order == MilitaryOrder.Fortify) unit.FortificationTurns = Math.Min(2, unit.FortificationTurns + 1);
         bool resting = unit.Order != MilitaryOrder.None || unit.Actions == unit.MaxActions && unit.Destination == null && unit.EscortCaravanId == null;
         if (resting) unit.Health = Math.Min(100, unit.Health + Healing(s, unit, unit.Order == MilitaryOrder.Recover));

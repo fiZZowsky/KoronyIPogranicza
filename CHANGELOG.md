@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.31 — Transport, desant i kolonie · 4 listopada 2026
+
+- Transport wojska i osadników istniejącymi okrętami: pojemność 1/2/4, cięższa jazda i artyleria, załadunek w czynnym porcie i koszt ruchu. Pasażerowie nie działają samodzielnie, nie leczą się podczas rejsu i zachowują zwykłe utrzymanie.
+- Manifest, znacznik ładunku na pokładzie, wskazywanie brzegu na mapie, potwierdzenie i Esc bez kosztu. Wyładunek na pusty brzeg kończy działania oddziału do następnej tury. Osadnicy mogą założyć kolonię po przeprawie, wojsko lądować na wrogim pustym brzegu podczas wojny.
+- Zatopienie i dezercja przewoźnika usuwają manifest. Wycofanie po pokoju pozostawia statek na wodzie i nie rozdziela pasażerów. Przewożone jednostki nie dają dodatkowego zwiadu, garnizonów ani ochrony karawan.
+- AI potrafi załadować osadnika, przepłynąć i założyć osadę; wojenny transport zostawia obrońcę w porcie. Uszkodzone statki szukają powrotu. Bez koordynacji wielu flot i szturmu na zajęte pole.
+- Zapis v22: powiązanie jednostki z przewoźnikiem, odczyt v1–v21, dokładna .v21.bak, walidacja manifestów i deterministyczna kontynuacja. 27 nowych specyfikacji oraz osiemnasty tryb --ui-smoke-transport z 22 kontrolami UI. Osobne wydanie-0.31.
+- Brak osobnych transportowców, ratownictwa i handlu morskiego. Pasażerowie nie mają animacji na pokładzie; desant oznacza wyładunek na wolnym brzegu i walkę w kolejnej turze.
+
 ## 0.30 — Flota i porty · 2 listopada 2026
 
 - Port morski jako rzeczywisty projekt nadbrzeżnego miasta: koszt, utrzymanie, dochód, żywność, wodowanie i zaopatrzenie. Dziewięć modeli okrętów przypisanych istniejącym technologiom od brązu po spekulatywną przyszłość; informacje w badaniach, panelach epok i podręczniku.

@@ -8,9 +8,10 @@ public static partial class Engine
         CombatPreview Invalid(string text) => new(false, text, u == null ? "" : UnitModels.Name(u), "");
         if (s.Ending != null || u == null || target < 0 || target >= s.Tiles.Count) return Invalid("Nieprawidłowy cel.");
         if(u.EscortCaravanId!=null)return Invalid("Najpierw odwołaj eskortę, aby zaatakować samodzielnie.");
+        if(!SeaTransport.Active(u))return Invalid("Przewożony oddział musi najpierw wylądować.");
         if (u.Actions < 1) return Invalid("Atak wymaga co najmniej 1 punktu ruchu.");
         if (u.Owner == 0 && !s.Tiles[target].Explored) return Invalid("Cel nie został odkryty.");
-        var defender = s.Units.FirstOrDefault(e => e.Tile == target && e.Owner != u.Owner);
+        var defender = s.Units.FirstOrDefault(e => e.Tile == target && e.Owner != u.Owner&&SeaTransport.Active(e));
         var city = s.Cities.FirstOrDefault(c => c.Tile == target && c.Owner != u.Owner);
         if (defender == null && city == null) return Invalid("Na polu nie ma przeciwnika.");
         int owner = defender?.Owner ?? city!.Owner;
@@ -74,7 +75,7 @@ public static partial class Engine
                 if (defender.Owner == 0) s.Log($"{UnitModels.Name(defender)}: atak przerwał rekonwalescencję.", "rozkazy");
             }
             defender.Health -= preview.DamageToTarget;
-            if (defender.Health <= 0) { s.Units.Remove(defender); u.Experience += 2; s.Factions[u.Owner].Prestige += 3; }
+            if (defender.Health <= 0) { double cargoLoss=SeaTransport.Sink(s,defender);if(cargoLoss>0)WarCouncil.RecordBattle(s,u.Owner,owner,0,cargoLoss);s.Units.Remove(defender); u.Experience += 2; s.Factions[u.Owner].Prestige += 3; }
         }
         else
         {

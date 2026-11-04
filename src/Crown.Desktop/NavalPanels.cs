@@ -35,8 +35,9 @@ public sealed partial class MainWindow
         {
             var t=state.Tiles[ship.Tile];bool supplied=Engine.Supplied(state,ship);
             p.Children.Add(Ui.Button($"#{ship.Id} · {UnitModels.Name(ship)} · zdrowie {ship.Health:0}%\n({t.X}, {t.Y}) · "+(supplied?"Dostawy morskie":"BRAK DOSTAW MORSKICH"),()=>{CloseModal();Select(ship.Tile);selectedUnit=ship.Id;map.Center(ship.Tile);Refresh();ShowMilitaryOrders(ship);}));
+            p.Children.Add(Ui.Button($"Załadunek i desant #{ship.Id} · {SeaTransport.Used(state,ship)}/{SeaTransport.Capacity(ship)} miejsc",()=>ShowTransport(ship)));
         }
-        p.Children.Add(Ui.Label("Dostawy biegną po wodzie z własnego czynnego portu; zasięg rośnie wraz z epokami. Naprawa wymaga odpoczynku, a modernizacja pełnego ruchu i bezpiecznego portu obok. Okręty nie przewożą jeszcze wojsk ani nie zajmują miast.",13,Ui.Muted));
+        p.Children.Add(Ui.Label("Dostawy biegną po wodzie z własnego czynnego portu; zasięg rośnie wraz z epokami. Naprawa wymaga odpoczynku, a modernizacja pełnego ruchu i bezpiecznego portu obok. Manifest pozwala przewozić wojsko i osadników. Miasta zdobywają dopiero wysadzone na ląd oddziały.",13,Ui.Muted));
         p.Children.Add(Ui.Button("Wróć do mapy",CloseModal));Modal(p,900);
     }
 }

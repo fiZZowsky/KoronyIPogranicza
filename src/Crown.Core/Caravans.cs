@@ -9,13 +9,13 @@ public static class Caravans
     public static string StatusName(CaravanStatus status)=>status switch
     {CaravanStatus.Travelling=>"W drodze",CaravanStatus.Waiting=>"Zatrzymana",CaravanStatus.Delivered=>"Dostarczona",_=>"Utracona"};
     public static bool Guarded(GameState s,TradeContract contract,int tile)=>
-        s.Units.Any(u=>(u.Owner==contract.Buyer||u.Owner==contract.Seller)&&u.Kind!=UnitKind.Settler&&World.Distance(s.Tiles[u.Tile],s.Tiles[tile])<=1)||
+        s.Units.Any(u=>(u.Owner==contract.Buyer||u.Owner==contract.Seller)&&u.Kind!=UnitKind.Settler&&SeaTransport.Active(u)&&!Navy.IsShip(u)&&World.Distance(s.Tiles[u.Tile],s.Tiles[tile])<=1)||
         s.Cities.Any(c=>(c.Owner==contract.Buyer||c.Owner==contract.Seller)&&c.Tile==tile);
     public static bool Threatened(GameState s,TradeContract contract,int tile)=>
-        s.Units.Any(u=>u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&u.Kind!=UnitKind.Settler&&
+        s.Units.Any(u=>u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&u.Kind!=UnitKind.Settler&&SeaTransport.Active(u)&&!Navy.IsShip(u)&&
             (Engine.AtWar(s,u.Owner,contract.Buyer)||Engine.AtWar(s,u.Owner,contract.Seller))&&World.Distance(s.Tiles[u.Tile],s.Tiles[tile])<=1);
     public static bool AtRisk(GameState s,TradeContract contract,int tile)=>
-        s.Units.Any(u=>u.Tile==tile&&u.Kind!=UnitKind.Settler&&u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&
+        s.Units.Any(u=>u.Tile==tile&&u.Kind!=UnitKind.Settler&&SeaTransport.Active(u)&&!Navy.IsShip(u)&&u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&
             (Engine.AtWar(s,u.Owner,contract.Buyer)||Engine.AtWar(s,u.Owner,contract.Seller)))||
         Threatened(s,contract,tile)&&!Guarded(s,contract,tile);
     public static IReadOnlyList<int> Route(GameState s,TradeContract contract,int? start=null,Unit? escort=null)
@@ -28,11 +28,11 @@ public static class Caravans
         if(seller==null||buyer==null)return [];
         bool movingGuard=escort!=null&&escort.Tile==(start??seller.Tile)&&escort.Kind!=UnitKind.Settler&&
             (escort.Owner==contract.Buyer||escort.Owner==contract.Seller)&&s.Caravans.Any(c=>c.Id==escort.EscortCaravanId&&c.ContractId==contract.Id&&Caravans.Active(c));
-        var danger=s.Units.Where(u=>u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&u.Kind!=UnitKind.Settler&&
+        var danger=s.Units.Where(u=>u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&u.Kind!=UnitKind.Settler&&SeaTransport.Active(u)&&!Navy.IsShip(u)&&
             (Engine.AtWar(s,u.Owner,contract.Buyer)||Engine.AtWar(s,u.Owner,contract.Seller)))
             .SelectMany(u=>World.Neighbors(s,u.Tile).Select(t=>t.Id).Append(u.Tile)).ToHashSet();
         bool Safe(Tile t)=>TransitCouncil.CanCross(s,contract,t,previewOpenBorders)&&(!danger.Contains(t.Id)||Guarded(s,contract,t.Id)||movingGuard)&&
-            !s.Units.Any(u=>u.Tile==t.Id&&u.Kind!=UnitKind.Settler&&u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&
+            !s.Units.Any(u=>u.Tile==t.Id&&u.Kind!=UnitKind.Settler&&SeaTransport.Active(u)&&!Navy.IsShip(u)&&u.Owner!=contract.Buyer&&u.Owner!=contract.Seller&&
                 (Engine.AtWar(s,u.Owner,contract.Buyer)||Engine.AtWar(s,u.Owner,contract.Seller)));
         if(!Safe(s.Tiles[start??seller.Tile])||!Safe(s.Tiles[buyer.Tile]))return [];
         return Navigation.SearchFrom(s,start??seller.Tile,Safe,(a,b)=>Navigation.MovementCost(s,a,b),target:buyer.Tile).PathTo(buyer.Tile);

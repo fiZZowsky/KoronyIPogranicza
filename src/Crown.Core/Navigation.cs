@@ -39,9 +39,9 @@ public static class Navigation
         return new(costs, previous);
     }
 
-    public static bool CanEnter(GameState s, Unit u, Tile t) => Navy.TerrainAllowed(s,u,t) &&
+    public static bool CanEnter(GameState s, Unit u, Tile t) => SeaTransport.Active(u)&&Navy.TerrainAllowed(s,u,t) &&
         (t.Owner < 0 || t.Owner == u.Owner || Engine.AtWar(s, u.Owner, t.Owner)) &&
-        !s.Units.Any(e => e.Owner != u.Owner && e.Tile == t.Id) &&
+        !s.Units.Any(e => SeaTransport.Active(e)&&e.Owner != u.Owner && e.Tile == t.Id) &&
         !s.Cities.Any(c => c.Tile == t.Id && c.Owner != u.Owner);
 
     public static bool RoadNode(GameState s, int tile) => s.Tiles[tile].Road || s.Cities.Any(c => c.Tile == tile);

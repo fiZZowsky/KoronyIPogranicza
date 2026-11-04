@@ -73,7 +73,7 @@ public static class Content
         {int index=Array.FindIndex(Technologies,t=>t.Id==group.Key);Technologies[index]=Technologies[index] with {Description=Technologies[index].Description+" Flota: "+string.Join(", ",group.Select(m=>m.Name))+"."};}
         int pottery=Array.FindIndex(Technologies,t=>t.Id=="pottery");Technologies[pottery]=Technologies[pottery] with {Description=Technologies[pottery].Description+" Port morski w mieście przy akwenie."};
         Projects = Projects.Concat(EpochCatalog.Buildings.Select(b => new Project(b.Id, b.Name, b.Cost, b.Technology, EpochCatalog.Describe(b))))
-            .Concat(UnitModels.Catalog.Select(m => new Project(m.Id, m.Name, m.Cost, m.Technology, $"Siła {m.Strength} · ruch {m.Moves} · zasięg {m.Range}. Rola: {UnitName(m.Role)}. "+(m.Role==UnitKind.Ship?(m.Era<6?"Wymaga portu. Pływa po wybrzeżu; walczy z okrętami.":"Wymaga portu. Pływa po oceanach i ostrzeliwuje wybrzeże."):"Modernizacja zachowuje zdrowie i doświadczenie."), m.Role)))
+            .Concat(UnitModels.Catalog.Select(m => new Project(m.Id, m.Name, m.Cost, m.Technology, $"Siła {m.Strength} · ruch {m.Moves} · zasięg {m.Range}. Rola: {UnitName(m.Role)}. "+(m.Role==UnitKind.Ship?(m.Era<6?"Wymaga portu. Pływa po wybrzeżu; walczy z okrętami.":"Wymaga portu. Pływa po oceanach i ostrzeliwuje wybrzeże.")+" Ładowność: "+SeaTransport.Capacity(new Unit{Kind=UnitKind.Ship,ModelId=m.Id})+" miejsc.":"Modernizacja zachowuje zdrowie i doświadczenie."), m.Role)))
             .Concat(Epochs.Programs.Select(p => new Project(p.Id, p.Name, p.Cost, p.Technology, p.Effect))).ToArray();
     }
     public static Technology Tech(string id) => Technologies.First(t => t.Id == id);

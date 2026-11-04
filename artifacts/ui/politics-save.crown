@@ -1,5 +1,5 @@
 {
-  "Version": 21,
+  "Version": 22,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16850,6 +16850,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -16864,6 +16865,7 @@
       "Actions": 3,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -16878,6 +16880,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -16892,6 +16895,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 1,
       "Experience": 0
@@ -16906,6 +16910,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -16920,6 +16925,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "Fortify",
       "FortificationTurns": 1,
       "Experience": 0
@@ -16934,6 +16940,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": null,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0

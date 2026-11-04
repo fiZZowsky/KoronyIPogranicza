@@ -10,6 +10,7 @@ public static class EscortOrders
         if(unit.Owner!=contract.Buyer&&unit.Owner!=contract.Seller)return "Oddział musi należeć do strony umowy.";
         if(unit.Kind==UnitKind.Settler)return "Osadnicy nie mogą pełnić eskorty.";
         if(Navy.IsShip(unit))return "Okręty nie eskortują karawan lądowych.";
+        if(!SeaTransport.Active(unit))return "Oddział jest na pokładzie okrętu.";
         if(unit.EscortCaravanId!=null||s.Units.Any(u=>u.EscortCaravanId==cargo.Id))return "Oddział lub karawana ma już przydzieloną eskortę.";
         if(unit.Tile!=cargo.Tile)return "Przenieś oddział na pole karawany przed wydaniem rozkazu.";
         if(unit.Actions<.5)return "Rozkaz eskorty wymaga co najmniej 0,5 pozostałego punktu ruchu.";

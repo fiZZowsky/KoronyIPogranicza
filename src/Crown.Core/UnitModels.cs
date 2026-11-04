@@ -60,6 +60,7 @@ public static class UnitModels
         var m = Upgrades(s, u).FirstOrDefault(m => m.Id == id); if (m == null) return "Brak dostępnej, silniejszej modernizacji tej roli.";
         if (!(Navy.IsShip(u)?Navy.UpgradePort(s,u):s.Cities.Any(c => c.Owner == owner && c.Tile == u.Tile)) || !Engine.Supplied(s, u)) return "Modernizacja wymaga dostaw i własnego miasta lub czynnego portu przy okręcie.";
         if (u.EscortCaravanId != null || u.Actions != u.MaxActions) return "Potrzebny pełny ruch i brak przydziału eskorty.";
+        if(!SeaTransport.Active(u))return "Najpierw wysadź oddział na brzeg.";
         return s.Factions[owner].Gold < UpgradeCost(s,u, m) ? "Za mało złota na modernizację." : null;
     }
 }

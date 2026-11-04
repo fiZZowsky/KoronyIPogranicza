@@ -136,7 +136,7 @@ public static partial class Engine
     public static HashSet<int> Visible(GameState s)
     {
         var ids=new HashSet<int>(); foreach(var c in s.Cities.Where(c=>c.Owner==0)) foreach(var t in s.Tiles.Where(t=>World.Distance(t,s.Tiles[c.Tile])<=3)) ids.Add(t.Id);
-        foreach(var u in s.Units.Where(u=>u.Owner==0)) foreach(var t in s.Tiles.Where(t=>World.Distance(t,s.Tiles[u.Tile])<=(u.Kind==UnitKind.Scout?4:2))) ids.Add(t.Id); return ids;
+        foreach(var u in s.Units.Where(u=>u.Owner==0&&SeaTransport.Active(u))) foreach(var t in s.Tiles.Where(t=>World.Distance(t,s.Tiles[u.Tile])<=(u.Kind==UnitKind.Scout?4:2))) ids.Add(t.Id); return ids;
     }
     public static void Explore(GameState s) {foreach(int id in Visible(s)) s.Tiles[id].Explored=true;}
     public static Result FoundCity(GameState s,int unitId)
@@ -179,7 +179,7 @@ public static partial class Engine
             var income=Income(s,f.Id);double modifier=f.Id==0?1:s.Difficulty=="Wymagający"?1.3:s.Difficulty=="Spokojny"?.85:1;
             f.Gold+=income.Gold*modifier;f.Science+=income.Science*modifier;f.Culture+=income.Culture;f.Prestige+=income.Culture*.045;
             Administration.Collect(s,f.Id,modifier);
-            if(f.Gold<0){f.Stability-=3;f.Commons-=2;f.Gold=0;if(s.Turn%3==0){var u=s.Units.LastOrDefault(u=>u.Owner==f.Id);if(u!=null)s.Units.Remove(u);}if(f.Id==0)s.Log("Niewypłacalność: niepokoje i dezercje. Zwiększ dochody lub zmniejsz armię.","gospodarka");}
+            if(f.Gold<0){f.Stability-=3;f.Commons-=2;f.Gold=0;if(s.Turn%3==0){var u=s.Units.LastOrDefault(u=>u.Owner==f.Id);if(u!=null){SeaTransport.Sink(s,u,"Dezercja załogi");s.Units.Remove(u);}}if(f.Id==0)s.Log("Niewypłacalność: niepokoje i dezercje. Zwiększ dochody lub zmniejsz armię.","gospodarka");}
             var tech=Content.Technologies.FirstOrDefault(t=>t.Id==f.Research);
             if(tech!=null&&!f.Technologies.Contains(tech.Id)&&Epochs.ResearchError(s,f,tech)==null&&f.Science>=tech.Cost)
             {
@@ -291,10 +291,12 @@ public static partial class Engine
                 if(r.War&&other==0&&s.Turn%5==0)PeaceCouncil.MaybeOffer(s,f.Id,other);
                 else if(r.War&&other>0&&f.WarWeariness>65&&s.Turn%10==0)PeaceCouncil.AiArmistice(s,r);
             }
+            RunTransportAi(s,f.Id);
             if(s.EpochCampaign)RunMilitaryAi(s,f.Id);
             RunNavalAi(s,f.Id);
             foreach(var u in s.Units.Where(u=>u.Owner==f.Id).ToArray())
             {
+                if(!SeaTransport.Active(u))continue;
                 if(Navy.IsShip(u))continue;
                 if(s.EpochCampaign&&MilitaryStrategy.Combatant(u))continue;
                 if(u.EscortCaravanId!=null)continue;
@@ -308,7 +310,7 @@ public static partial class Engine
                     var site=s.Tiles.Where(t=>t.Passable&&Districts.At(s,t.Id)==null&&(t.Owner<0||t.Owner==f.Id)&&s.Cities.All(c=>World.Distance(t,s.Tiles[c.Tile])>=4)&&cities.Any(c=>World.Distance(t,s.Tiles[c.Tile])<9)).OrderByDescending(t=>TileYields(t,f).Food+TileYields(t,f).Production*.5-World.Distance(t,s.Tiles[u.Tile])*.8).FirstOrDefault();
                     if(site!=null){if(u.Tile==site.Id)FoundCity(s,u.Id);else AiStep(s,u,site.Id);}continue;
                 }
-                var enemy=s.Units.Where(e=>AtWar(s,u.Owner,e.Owner)&&World.Distance(s.Tiles[u.Tile],s.Tiles[e.Tile])<=UnitModels.Range(u)).OrderBy(e=>e.Health).FirstOrDefault();
+                var enemy=s.Units.Where(e=>SeaTransport.Active(e)&&AtWar(s,u.Owner,e.Owner)&&World.Distance(s.Tiles[u.Tile],s.Tiles[e.Tile])<=UnitModels.Range(u)).OrderBy(e=>e.Health).FirstOrDefault();
                 if(enemy!=null){Move(s,u.Id,enemy.Tile);continue;}
                 var targetCity=s.Cities.Where(c=>AtWar(s,f.Id,c.Owner)).OrderBy(c=>World.Distance(s.Tiles[u.Tile],s.Tiles[c.Tile])).FirstOrDefault();
                 if(targetCity!=null&&u.Kind!=UnitKind.Scout){if(World.Distance(s.Tiles[u.Tile],s.Tiles[targetCity.Tile])<=UnitModels.Range(u))Move(s,u.Id,targetCity.Tile);else AiStep(s,u,targetCity.Tile);}

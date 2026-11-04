@@ -1,5 +1,5 @@
 {
-  "Version": 21,
+  "Version": 22,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16895,6 +16895,7 @@
       "Actions": 2,
       "Destination": null,
       "EscortCaravanId": 1,
+      "EmbarkedOnId": null,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0

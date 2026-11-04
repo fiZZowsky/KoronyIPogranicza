@@ -10,9 +10,10 @@ public static partial class Engine
         if (s.Ending != null || u == null || u.Actions < .5 || target < 0 || target >= s.Tiles.Count)
             return Result.Fail("Brak ruchu lub jednostki.");
         if(u.EscortCaravanId!=null)return Result.Fail("Najpierw odwołaj eskortę, aby wydać samodzielny rozkaz.");
+        if(!SeaTransport.Active(u))return Result.Fail("Oddział jest na pokładzie. Najpierw wybierz wyładunek przy brzegu.");
         if (u.Owner == 0 && !s.Tiles[target].Explored) return Result.Fail("Najpierw odkryj to pole.");
         if (u.Tile == target) return Result.Fail("Jednostka już tu jest.");
-        var enemy = s.Units.FirstOrDefault(e => e.Tile == target && e.Owner != u.Owner);
+        var enemy = s.Units.FirstOrDefault(e => SeaTransport.Active(e)&&e.Tile == target && e.Owner != u.Owner);
         var city = s.Cities.FirstOrDefault(c => c.Tile == target && c.Owner != u.Owner);
         if (enemy != null || city != null) return Attack(s, u, target, enemy, city);
         var path = Navigation.ForUnit(s, u, u.Actions, target).PathTo(target);
@@ -28,6 +29,7 @@ public static partial class Engine
         if (s.Ending != null || u == null || target < 0 || target >= s.Tiles.Count)
             return Result.Fail("Nieprawidłowy rozkaz marszu.");
         if(u.EscortCaravanId!=null)return Result.Fail("Najpierw odwołaj eskortę, aby wydać samodzielny rozkaz.");
+        if(!SeaTransport.Active(u))return Result.Fail("Oddział jest na pokładzie. Rozkaz ruchu wydaj okrętowi.");
         if (u.Tile == target) return CancelOrder(s, unitId);
         if (Navigation.Route(s, u, target).Count == 0)
             return Result.Fail("Brak dostępnej, odkrytej trasy. Marsz nie przekracza obcych granic w czasie pokoju.");
@@ -51,6 +53,7 @@ public static partial class Engine
         MilitaryOrders.Clear(u);
         u.Actions -= Navigation.MovementCost(s, u.Tile, next);
         u.Tile = next;
+        SeaTransport.Sync(s,u);
         s.InvalidateLogistics();
         var tile = s.Tiles[next];
         if (tile.Ruin)

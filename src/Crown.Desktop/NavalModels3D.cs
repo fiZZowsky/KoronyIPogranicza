@@ -15,6 +15,7 @@ internal static partial class WorldScene3D
         for(int i=0;i<sections.Length-1;i++)for(int j=0;j<5;j++)
         {var a=P(i,j);var b=P(i,(j+1)%5);hull.Quad(a,b,P(i+1,(j+1)%5),P(i+1,j),new((a.X+b.X)/2-x,(a.Y+b.Y)/2-y,0));}
         batch.Mesh("naval-deck-wood","#B4A283").Box(x,y+.115,z,.26,.018,.70);
+        if(SeaTransport.Passengers(s,unit).Any())batch.Mesh("naval-cargo-wood","#B99159").Box(x+.055,y+.14,z+.14,.10,.09,.12);
         batch.Mesh("naval-bulwark-"+color,color).Box(x-.16,y+.11,z,.018,.055,.60);
         batch.Mesh("naval-bulwark-"+color,color).Box(x+.16,y+.11,z,.018,.055,.60);
         if(era<8)

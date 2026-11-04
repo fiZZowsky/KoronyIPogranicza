@@ -20,6 +20,8 @@ public sealed partial class MapView : Grid
     public IReadOnlyList<int> PlannedRoad { get; set; } = [];
     internal IReadOnlyList<int> DistrictSites {get;set;}=[];
     internal string DistrictPlanningText {get;set;}="";
+    internal IReadOnlyList<int> LandingSites {get;set;}=[];
+    internal string LandingPlanningText {get;set;}="";
     private readonly TextBlock districtPlanningHint=new(){IsHitTestVisible=false,FontSize=13,Foreground=Ui.Gold,Background=Ui.Brush("#ED192D31"),Padding=new(12),HorizontalAlignment=HorizontalAlignment.Right,VerticalAlignment=VerticalAlignment.Bottom,Margin=new(0,0,18,76),Visibility=Visibility.Collapsed};
     public Action<int>? SelectTile;
     public Action<int>? OrderUnit;
@@ -230,7 +232,7 @@ public sealed partial class MapView : Grid
         foreach (var t in State.Tiles) { h.Add(t.Explored); h.Add(t.Terrain); h.Add(t.Owner); h.Add(t.Resource); h.Add(t.Improvement); h.Add(t.Road); h.Add(t.RoadOwner); h.Add(t.Ruin); h.Add(t.River); }
         foreach (var f in State.Factions) h.Add(f.Era);
         foreach (var c in State.Cities) { h.Add(c.Id); h.Add(c.Tile); h.Add(c.Owner); h.Add(c.Population); foreach (var b in c.Buildings) h.Add(b); }
-        foreach (var u in State.Units) { h.Add(u.Id); h.Add(u.Tile); h.Add(u.Owner); h.Add(u.Kind); h.Add(u.ModelId); }
+        foreach (var u in State.Units) { h.Add(u.Id); h.Add(u.Tile); h.Add(u.Owner); h.Add(u.Kind); h.Add(u.ModelId);h.Add(u.EmbarkedOnId); }
         foreach (var c in State.Caravans) { h.Add(c.Id); h.Add(c.Tile); h.Add(c.Status); }
         foreach(var d in State.Districts){h.Add(d.Id);h.Add(d.CityId);h.Add(d.Tile);h.Add(d.Kind);h.Add(d.Status);h.Add(d.Work);}
         return h.ToHashCode();
@@ -249,7 +251,7 @@ public sealed partial class MapView : Grid
     }
     public new void InvalidateVisual()
     {
-        districtPlanningHint.Text=DistrictPlanningText;districtPlanningHint.Visibility=DistrictPlanningText.Length==0?Visibility.Collapsed:Visibility.Visible;
+        districtPlanningHint.Text=LandingPlanningText.Length>0?LandingPlanningText:DistrictPlanningText;districtPlanningHint.Visibility=districtPlanningHint.Text.Length==0?Visibility.Collapsed:Visibility.Visible;
         if (State != null) { EnsureScene(); RebuildOverlays(); UpdateAnnotations(); }
         RequestGpuFrame();
         base.InvalidateVisual();

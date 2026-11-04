@@ -528,4 +528,31 @@ PASS V20 migration retains the old world without inventing ships and preserves i
 PASS Save validation rejects wrong naval domains models orders and forged old formats
 PASS Saved ports on inland cities are rejected
 PASS Repeated real naval turns keep every ship afloat and every land army on land
-523 specifications passed in 31,1s.
+PASS Naval carrying capacity scales by model and heavy troops use two slots
+PASS Embarkation preserves identity and health while spending actions and clearing orders
+PASS Rejected boarding is atomic for insufficient capacity movement ownership and port access
+PASS Ships cannot be nested inside ships and a passenger cannot board twice
+PASS A blocked port cannot embark new troops
+PASS Actual ship movement carries every passenger without extra independent movement
+PASS Passengers cannot move march attack or create military orders independently
+PASS An embarked scout does not extend the carrier's reconnaissance radius
+PASS Passengers use carrier supply and pay their normal unit maintenance
+PASS EndTurn does not heal passengers or grant them movement while at sea
+PASS Landing spends ship movement and leaves the soldier exhausted until the next turn
+PASS Landing requires a neighboring passable discovered and empty shore
+PASS Military landings respect peaceful borders and allow empty hostile shores during war
+PASS Settlers cannot land on foreign owned shores even during war
+PASS Enemy cities must be captured on land rather than taken by a landing command
+PASS Passengers never become independent field garrisons or visible enemy targets
+PASS Sinking a loaded ship removes its complete manifest and records the loss
+PASS An insolvent carrier desertion never leaves dangling passengers
+PASS Passengers and ships cannot provide phantom guards for land caravans
+PASS A peace treaty withdraws a loaded carrier onto water with its manifest intact
+PASS A real crossing and two landings can establish a coastal colony on a new shore
+PASS AI transports a settler and founds a colony through ordinary economic turns
+PASS Wartime AI boarding retains a land defender at its embarkation city
+PASS The transport AI cannot commandeer the player's ships or passengers
+PASS V22 preserves cargo identity and deterministic continuation across a voyage
+PASS V21 migration preserves existing ships and ports without inventing a manifest
+PASS Save validation rejects forged carriers capacity positions orders and old format cargo
+550 specifications passed in 30,9s.

@@ -8,18 +8,18 @@ public sealed record MilitaryPlan(int Owner, int? ObjectiveCityId, bool Ready, I
 /// <summary>Deterministic, disposable plans. Orders still use the ordinary movement and combat rules.</summary>
 public static class MilitaryStrategy
 {
-    public static bool Combatant(Unit u) => u.Kind is not (UnitKind.Scout or UnitKind.Settler or UnitKind.Ship);
+    public static bool Combatant(Unit u) => SeaTransport.Active(u)&&u.Kind is not (UnitKind.Scout or UnitKind.Settler or UnitKind.Ship);
     public static bool Ranged(Unit u) => u.Kind is UnitKind.Archer or UnitKind.Catapult;
     public static HashSet<int> Sight(GameState s, int owner)
     {
         var centers = s.Cities.Where(c => c.Owner == owner).Select(c => (c.Tile, Range: 3))
-            .Concat(s.Units.Where(u => u.Owner == owner).Select(u => (u.Tile, Range: u.Kind == UnitKind.Scout ? 4 : 2))).ToArray();
+            .Concat(s.Units.Where(u => SeaTransport.Active(u)&&u.Owner == owner).Select(u => (u.Tile, Range: u.Kind == UnitKind.Scout ? 4 : 2))).ToArray();
         return s.Tiles.Where(t => centers.Any(c => World.Distance(t, s.Tiles[c.Tile]) <= c.Range)).Select(t => t.Id).ToHashSet();
     }
     public static IReadOnlyList<CityThreat> Threats(GameState s, int owner)
     {
         var sight = Sight(s, owner);
-        var enemies = s.Units.Where(u => u.Kind != UnitKind.Settler && Engine.AtWar(s, owner, u.Owner) && sight.Contains(u.Tile)).ToArray();
+        var enemies = s.Units.Where(u => SeaTransport.Active(u)&&u.Kind != UnitKind.Settler && Engine.AtWar(s, owner, u.Owner) && sight.Contains(u.Tile)).ToArray();
         return s.Cities.Where(c => c.Owner == owner).OrderBy(c => c.Id).Select(c =>
         {
             var hostile = enemies.Where(u => World.Distance(s.Tiles[u.Tile], s.Tiles[c.Tile]) <= 5).ToArray();
@@ -57,7 +57,7 @@ public static class MilitaryStrategy
             .ThenBy(x => x.City.Id).Select(x => x.City).FirstOrDefault();
         var sight = Sight(s, owner);
         var rally = objective == null ? anchor : cities.OrderBy(c => World.Distance(s.Tiles[c.Tile], s.Tiles[objective.Tile])).ThenBy(c => c.Id).First();
-        double opposition = objective == null ? 0 : s.Units.Where(u => Engine.AtWar(s, owner, u.Owner) && u.Kind != UnitKind.Settler && sight.Contains(u.Tile) && World.Distance(s.Tiles[u.Tile], s.Tiles[objective.Tile]) <= 3).Sum(u => Engine.Strength(s, u));
+        double opposition = objective == null ? 0 : s.Units.Where(u => SeaTransport.Active(u)&&Engine.AtWar(s, owner, u.Owner) && u.Kind != UnitKind.Settler && sight.Contains(u.Tile) && World.Distance(s.Tiles[u.Tile], s.Tiles[objective.Tile]) <= 3).Sum(u => Engine.Strength(s, u));
         var field = reserve.Where(u => u.Health >= 65).ToArray();
         var staged = field.Where(u => objective != null && (World.Distance(s.Tiles[u.Tile], s.Tiles[rally.Tile]) <= 4 || World.Distance(s.Tiles[u.Tile], s.Tiles[objective.Tile]) <= World.Distance(s.Tiles[rally.Tile], s.Tiles[objective.Tile]))).ToArray();
         double power = staged.Sum(u => Engine.Strength(s, u));
@@ -98,7 +98,7 @@ public static partial class Engine
             if (s.Ending != null) break;
             if (u == null || u.Actions < .5 || u.EscortCaravanId != null) continue;
             var sight = MilitaryStrategy.Sight(s, owner);
-            var enemies = s.Units.Where(e => AtWar(s, owner, e.Owner) && sight.Contains(e.Tile) && e.Kind != UnitKind.Settler).ToArray();
+            var enemies = s.Units.Where(e => SeaTransport.Active(e)&&AtWar(s, owner, e.Owner) && sight.Contains(e.Tile) && e.Kind != UnitKind.Settler).ToArray();
             double Exposure(int tile) => enemies.Where(e => World.Distance(s.Tiles[e.Tile], s.Tiles[tile]) <= UnitModels.Range(e) + 1).Sum(e => Strength(s, e));
             if (u.Health < 45 || !Supplied(s, u) && u.Health < 70 || u.Order == MilitaryOrder.Recover && u.Health < 90)
             {
@@ -137,7 +137,7 @@ public static partial class Engine
         bool TryAttack(Unit unit, HashSet<int> visible)
         {
             if (unit.Actions < 1) return false;
-            var target = s.Units.Where(e => AtWar(s, owner, e.Owner) && visible.Contains(e.Tile)).Select(e => e.Tile)
+            var target = s.Units.Where(e => SeaTransport.Active(e)&&AtWar(s, owner, e.Owner) && visible.Contains(e.Tile)).Select(e => e.Tile)
                 .Concat(s.Cities.Where(c => AtWar(s, owner, c.Owner) && visible.Contains(c.Tile)).Select(c => c.Tile)).Distinct()
                 .Select(t => (Tile: t, Preview: PreviewAttack(s, unit.Id, t)))
                 .Where(x => x.Preview.Valid && unit.Health - x.Preview.DamageToAttacker > (x.Preview.CanCapture ? 5 : 20) &&

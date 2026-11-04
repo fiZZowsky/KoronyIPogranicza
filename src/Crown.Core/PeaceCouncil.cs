@@ -67,10 +67,11 @@ public static class PeaceCouncil
 
     private static void Withdraw(GameState s,int owner,int other)
     {
-        foreach(var unit in s.Units.Where(u=>u.Owner==owner).ToArray())
+        foreach(var unit in s.Units.Where(u=>u.Owner==owner&&SeaTransport.Active(u)).ToArray())
         {
             if(unit.Destination is int destination&&s.Tiles[destination].Owner==other)unit.Destination=null;
             if(s.Tiles[unit.Tile].Owner!=other)continue;
+            if(Navy.IsShip(unit)){SeaTransport.Withdraw(s,unit,other);continue;}
             // The other signatory will withdraw too; its troops must not block this evacuation.
             var refuge=s.Cities.Where(c=>c.Owner==owner&&!s.Units.Any(u=>u.Owner!=owner&&u.Owner!=other&&u.Tile==c.Tile))
                 .OrderBy(c=>World.Distance(s.Tiles[unit.Tile],s.Tiles[c.Tile])).ThenBy(c=>c.Id).FirstOrDefault();

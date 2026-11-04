@@ -103,6 +103,7 @@ public sealed class Unit
     public double Actions { get; set; } = 2;
     public int? Destination { get; set; }
     public int? EscortCaravanId { get; set; }
+    public int? EmbarkedOnId { get; set; }
     public MilitaryOrder Order { get; set; }
     public int FortificationTurns { get; set; }
     public int Experience { get; set; }

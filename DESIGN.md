@@ -1,5 +1,21 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Transport i lądowanie — 0.31
+
+Unit.EmbarkedOnId wiąże istniejącą jednostkę z okrętem, bez tworzenia jej drugiego egzemplarza. SeaTransport.Active oddziela pasażerów od aktywnych jednostek mapy. Pojemność wynosi 1 przed indeksem epoki modelu 6, 2 przed 10, później 4. Jazda i artyleria ważą po 2, inne role lądowe po 1. Utrzymanie obejmuje wszystkich pasażerów.
+
+BoardError sprawdza właściciela, czynny port, sąsiedztwo, ruch, eskortę i miejsca przed mutacją. Embark kończy działania pasażera i zużywa 1 ruchu statku. EnterTile synchronizuje manifest przed odkrywaniem mapy. Pasażerowie nie są celami walki, źródłem widoczności, polowym garnizonem ani osłoną lub zagrożeniem karawan. FinishTurn zostawia ich bez ruchu i bez zmiany zdrowia. Ich podgląd dostaw używa przewoźnika.
+
+LandError wymaga wolnego sąsiedniego lądu, odkrycia gracza i zgodnej własności lub wojny. Osadnicy nie lądują na obcej ziemi również podczas wojny. Disembark odłącza pasażera i pozostawia Actions=0 do kolejnego FinishTurn. Desant nie zdobywa miasta i nie zmienia granic. Combat usuwa cały manifest zatopionego statku i dopisuje zdrowie pasażerów do strat wojny. Niewypłacalność też sprząta manifest utraconego przewoźnika. PeaceCouncil wycofuje tylko aktywne jednostki; dla statku szuka wodnego miejsca i synchronizuje pasażerów albo usuwa całą grupę, jeśli wycofanie jest niemożliwe.
+
+RunTransportAi działa przed dowództwem polowym i marynarką. Dobiera osadnika lub nadwyżkę wojska, zostawiając jednego pobliskiego obrońcę. Osadnik szuka osiągalnego wybrzeża co najmniej pięć pól od miast, wojsko brzegu przy wrogim mieście. Uszkodzony statek wraca do własnego portu. AI nadal zna geografię i legalność celów; nie ma trwałego planu wyprawy ani operacji wielu flot. Rozładowany oddział ma zerowy ruch, więc zwykłe dowództwo nie atakuje nim w turze lądowania.
+
+TransportPanels udostępnia manifest i potwierdzane wskazanie brzegu. To lokalny stan UI bez mutacji kampanii lub RNG. Blokuje koniec tury i rozkazy ruchu, Esc go anuluje, a Start/wczytanie usuwa. Modele, boczny wybór i etykiety pomijają pasażerów. Kadłub dostaje ogólny znacznik ładunku, bez ujawniania składu obcej armii. Nie dodano bitmap lub animacji załóg.
+
+V22 zapisuje nullable EmbarkedOnId. Brak pola w starszym dokumencie oznacza brak manifestu; starszy format nie może zawierać nowego załadunku. Walidacja sprawdza przewoźnika, właściciela, pojemność, wspólne pole, zerowy ruch i brak rozkazów, eskort oraz zagnieżdżenia. Samodzielny oddział lądowy na wodzie jest odrzucany. Nadpisanie v21 zachowuje dokładną .v21.bak. Testy obejmują rejs i kolonię przez EndTurn, AI, utratę przewoźnika, traktat i deterministyczny odczyt.
+
+Zakres: abstrakcyjny przewóz oddziałów wojennymi okrętami i wyładunek na pustym brzegu. Bez szturmu na zajęte pole, osobnych transportowców, ratownictwa, zapasów podróży i frachtu. Pojemność nie jest symulacją tonażu.
+
 ## Morski teatr działań — 0.30
 
 UnitKind.Ship jest dopisany na końcu enum; Navy.Models trzyma dziewięć UnitModel tej roli. UnitModels.All zachowuje dotychczasowy katalog lądowy, a Catalog łączy oba. Content generuje wszystkie projekty i opisuje odblokowania w technologiach; panel epok oraz generator podręcznika korzystają z Catalog. Port jest dodatkowym zwykłym projektem seaport, bez energii i bez nowego rekordu dzielnicy.

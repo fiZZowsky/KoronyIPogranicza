@@ -11,7 +11,8 @@ public sealed partial class MainWindow
             Ui.Label("Wybierz oddział, aby obejrzeć jego pozycję i wydać rozkaz. Tab pomija okopujące się oddziały, rekonwalescentów i eskorty. Nadal można je wybrać na mapie lub tutaj.", 13, Ui.Muted));
         p.Children.Add(Ui.Button("Ocena sytuacji wojskowej",ShowMilitaryAssessment));
         p.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));
-        foreach (var unit in state.Units.Where(u => u.Owner == 0).OrderBy(u => u.Id))
+        p.Children.Add(Ui.Label($"Oddziały na pokładach: {state.Units.Count(u=>u.Owner==0&&!SeaTransport.Active(u))}. Manifesty znajdziesz w panelu floty.",12,Ui.Muted));
+        foreach (var unit in state.Units.Where(u => u.Owner == 0&&SeaTransport.Active(u)).OrderBy(u => u.Id))
         {
             var tile = state.Tiles[unit.Tile];
             string order = unit.EscortCaravanId is int convoy ? $"Eskorta #{convoy}" : unit.Destination is int target ? $"Marsz do ({state.Tiles[target].X}, {state.Tiles[target].Y})" : MilitaryOrders.Name(unit);
@@ -45,6 +46,7 @@ public sealed partial class MainWindow
         if (unit.Order != MilitaryOrder.None) p.Children.Add(Ui.Button("Przywróć gotowość oddziału", () => Apply(Engine.WakeUnit(state, unit.Id))));
         if(state.EpochCampaign)p.Children.Add(Ui.Button("Modernizuj oddział #"+unit.Id,()=>ShowUnitModernization(unit)));
         if(Navy.IsShip(unit))p.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));
+        if(Navy.IsShip(unit))p.Children.Add(Ui.Button("Załadunek i desant #"+unit.Id,()=>ShowTransport(unit)));
         p.Children.Add(Ui.Button("Wszystkie oddziały", ShowArmy)); p.Children.Add(Ui.Button("Wróć do mapy", CloseModal)); Modal(p, 800);
     }
 }
