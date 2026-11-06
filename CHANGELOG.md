@@ -1,5 +1,16 @@
 # Zmiany
 
+## 0.33 — 2026-11-06 · Magazyny i zapasy marszowe
+
+- Magazyn wojskowy budowany za 140 produkcji po Inżynierii, z pojemnością zależną od epoki i rzeczywistym utrzymaniem.
+- Dialog kwatermistrza wybiera nakład 0%, 25% lub 50% pozostałej po dzielnicach pracy. Dwa punkty pracy tworzą pakiet; magazyn nie podwaja produkcji, a pełna pojemność oddaje nadwyżkę głównemu projektowi. Podgląd miasta i kolejki pokazuje podział.
+- Oddziały bojowe ładują do trzech tur zapasu z pobliskich własnych magazynów. Ręczny załadunek kosztuje ruch, automatyczny respektuje skończony stan i kolejność jednostek. Jazda i artyleria potrzebują dwukrotnie więcej pakietów.
+- Rezerwa chroni po odcięciu, zużywa się po jednej turze i nie tworzy nowej sieci dostaw. Flota, pasażerowie, zwiad i osadnicy zachowują swoje dotychczasowe zasady.
+- Potwierdzane napady przez wrogie drogi niszczą rzeczywiste zapasy, dają ograniczony łup, kosztują działania i wymagają rozpoznania oraz niebronionego dojścia. Zdobycie miasta zachowuje połowę magazynu i zeruje nakład.
+- AI buduje i finansuje magazyny oraz rozważa napady. Nowy wybór nie przerywa aktywnego programu kosmicznego.
+- Osobne modele magazynu i skrzyń, dopasowane do epoki, z miejscem w planie miasta. Ukryte obce magazyny nie są rysowane.
+- Format zapisu v23, odczyt v1–v22 bez dopisywania zapasów i dokładna kopia .v22.bak przy nadpisaniu v22. Nowe specyfikacje i test interfejsu zaopatrzenia.
+
 ## 0.32 — 2026-11-04 · Szturmy i przyczółki
 
 - Szturm piechoty i jazdy z pokładu z rzeczywistym podglądem strat, osłabieniem siły, kontratakiem, lądowaniem lub powrotem ocalałych na pokład.

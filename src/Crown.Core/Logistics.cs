@@ -85,7 +85,9 @@ public static class Logistics
             cities.Where(c => marketGroups[c.Id] == cities[0].Id).Select(c => c.Id).ToHashSet(), marketGroups);
     }
 
-    public static bool Supplied(GameState s, Unit unit) =>
+    public static bool Supplied(GameState s,Unit unit)=>HasSupplyLine(s,unit)||FieldLogistics.HasReserve(s,unit);
+
+    public static bool HasSupplyLine(GameState s, Unit unit) =>
         !SeaTransport.Active(unit)?SeaTransport.Carrier(s,unit) is{} ship&&Navy.Supplied(s,ship):Navy.IsShip(unit)?Navy.Supplied(s,unit):For(s, unit.Owner).Costs.GetValueOrDefault(unit.Tile, double.PositiveInfinity) <= Range(s, unit.Owner) || SiegeWarfare.BeachheadSupplies(s,unit);
 
     public static RoadPlan PlanRoad(GameState s, int cityId)

@@ -116,6 +116,7 @@ public static partial class Engine
                 March(u, retreat.PathTo(safe)); continue;
             }
             if (TryAttack(u, sight)) continue;
+            if(FieldLogistics.Raid(s,u.Id,owner).Success)continue;
             if (Districts.Pillage(s, u.Id, owner).Success) continue;
             var city = s.Cities.FirstOrDefault(c => c.Id == assignment.CityId);
             if (city == null) continue;

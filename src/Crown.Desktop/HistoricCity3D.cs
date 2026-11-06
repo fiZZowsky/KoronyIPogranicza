@@ -23,11 +23,13 @@ internal static partial class WorldScene3D
     private static void HistoricCity(SceneBatch batch,GameState s,City city,int era)
     {
         var center=Terrain3D.Center(s.Tiles[city.Tile]);double x=center.X,z=center.Y,y=Terrain3D.Height(s,x,z);
+        bool depotYard=ReserveDepotYard(s,city);
         var streets=batch.Mesh("streets-cobbles","#9D9682");
         Ribbon(streets,s,new(x-.82,z),new(x+.82,z),.115,.027);Ribbon(streets,s,new(x,z-.82),new(x,z+.90),.115,.027);
         Ribbon(streets,s,new(x-.17,z+.22),new(x+.17,z+.22),.26,.029);
         foreach(var lot in HistoricLots(city.Tile,city.Population))
         {
+            if(depotYard&&InDepotYard(lot.X,lot.Z))continue;
             double hx=x+lot.X,hz=z+lot.Z,hy=Terrain3D.Height(s,hx,hz);
             batch.Rotated(new(hx,hy,hz),lot.Yaw,()=>
             {

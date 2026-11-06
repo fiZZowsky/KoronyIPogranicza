@@ -65,7 +65,10 @@ public static class ProvincialPolitics
     {
         int old = city.Owner;
         city.LastMarketLines=[];city.LastMarketTurn=0;city.LastMarketTax=0;
+        if(!peaceful)city.MilitarySupplies*=.5;
+        city.SupplyAllocation=0;city.LastSupplyPolicyTurn=-1;
         city.Owner = owner; if(!peaceful)city.Health = 50; city.Unrest = owner == city.OriginalOwner ? 20 : 55;
+        city.MilitarySupplies=Math.Min(city.MilitarySupplies,FieldLogistics.Capacity(s,city));
         city.ProductionQueue.Clear();city.RepeatProject=city.ProductionPaused=false;
         city.PowerPriority=PowerPriority.Normal;city.LastPowerPriorityTurn=-1;city.LastOperationTurns.Clear();
         city.Loyalty = owner == city.OriginalOwner ? 65 : 30;

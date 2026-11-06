@@ -198,7 +198,8 @@ public static partial class Engine
                 if(f.SpaceMilestones.Contains(c.Project))ProductionPlanning.Next(s,c);
                 var p=ProductionPlanning.CurrentBlock(s,c)==null?AvailableProjects(s,c).FirstOrDefault(p=>p.Id==c.Project):null;
                 double districtWork=Districts.BuildPhase(s,c,y.Production*modifier);
-                if(p!=null)c.Production+=Math.Max(0,y.Production*modifier-districtWork);
+                double supplyWork=FieldLogistics.BuildPhase(s,c,Math.Max(0,y.Production*modifier-districtWork));
+                if(p!=null)c.Production+=Math.Max(0,y.Production*modifier-districtWork-supplyWork);
                 if(p!=null&&c.Production>=p.Cost)
                 {
                     completedProjects.Add(c.Id);
@@ -222,6 +223,7 @@ public static partial class Engine
         }
         powerPhase.Dispose();
         foreach(var u in s.Units.ToArray())MilitaryOrders.FinishTurn(s,u);
+        FieldLogistics.Tick(s);
         ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         AuditCouncil.Tick(s);
         EnergyCouncil.Observe(s,powerPhase.Readings);
@@ -240,7 +242,7 @@ public static partial class Engine
     {
         foreach(var f in s.Factions.Skip(1))
         {
-            var cities=s.Cities.Where(c=>c.Owner==f.Id).ToArray();if(cities.Length==0)continue;EpochCouncils.ManageAi(s,f);Districts.ManageAi(s,f);
+            var cities=s.Cities.Where(c=>c.Owner==f.Id).ToArray();if(cities.Length==0)continue;EpochCouncils.ManageAi(s,f);Districts.ManageAi(s,f);FieldLogistics.ManageAi(s,f.Id);
             var choices=Epochs.ResearchOptions(s,f).ToArray();
             if(choices.Length>0&&(s.Turn%4==0||f.Research==""))f.Research=choices[s.Next(choices.Length)].Id;
             if(f.Gold>130&&f.Technologies.Contains("pottery"))

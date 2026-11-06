@@ -12,6 +12,7 @@ public sealed partial class MainWindow
         p.Children.Add(Ui.Button("Ocena sytuacji wojskowej",ShowMilitaryAssessment));
         p.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));
         p.Children.Add(Ui.Button("Oblężenia i przyczółki",ShowSieges));
+        p.Children.Add(Ui.Button("Magazyny i zapasy marszowe",()=>ShowFieldSupply()));
         p.Children.Add(Ui.Label($"Oddziały na pokładach: {state.Units.Count(u=>u.Owner==0&&!SeaTransport.Active(u))}. Manifesty znajdziesz w panelu floty.",12,Ui.Muted));
         foreach (var unit in state.Units.Where(u => u.Owner == 0&&SeaTransport.Active(u)).OrderBy(u => u.Id))
         {
@@ -48,6 +49,12 @@ public sealed partial class MainWindow
         if(state.EpochCampaign)p.Children.Add(Ui.Button("Modernizuj oddział #"+unit.Id,()=>ShowUnitModernization(unit)));
         if(Navy.IsShip(unit))p.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));
         if(Navy.IsShip(unit))p.Children.Add(Ui.Button("Załadunek i desant #"+unit.Id,()=>ShowTransport(unit)));
+        if(FieldLogistics.Eligible(unit))
+        {
+            p.Children.Add(Ui.Label($"Zapasy marszowe {unit.SupplyReserve}/3 · "+(Logistics.HasSupplyLine(state,unit)?"dostawy połączone":unit.SupplyReserve>0?"korzysta z zapasów":"brak dostaw i rezerwy"),14,Ui.Gold));
+            p.Children.Add(Ui.Button("Magazyny i zapasy marszowe",()=>ShowFieldSupply()));
+            var raid=FieldLogistics.PreviewRaid(state,unit);var button=Ui.Button("Napad na dostawy #"+unit.Id,()=>ShowSupplyRaid(unit));button.IsEnabled=raid.Error==null;p.Children.Add(button);if(raid.Error!=null)p.Children.Add(Ui.Label(raid.Error,12,Ui.Muted));
+        }
         p.Children.Add(Ui.Button("Wszystkie oddziały", ShowArmy)); p.Children.Add(Ui.Button("Wróć do mapy", CloseModal)); Modal(p, 800);
     }
 }

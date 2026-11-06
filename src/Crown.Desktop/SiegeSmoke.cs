@@ -59,7 +59,7 @@ public sealed partial class MainWindow
             }
             else{Check(map.Scene.ObjectTriangles>0,"The WPF fallback keeps detailed coastal geometry");Check(map.Viewport3D.Children.Count>0,"The WPF fallback maintains a visible native 3D scene");}
             string path=Path.Combine(folder,"siege-campaign.crown");SaveGame.Write(state,path);before=SaveGame.Serialize(state);LoadPath(path);CloseModal();
-            Check(SaveGame.Serialize(state)==before&&SiegeWarfare.Beachheads(state,0).Any(),"Desktop save and reload preserve the derived beachhead without a new format");
+            Check(SaveGame.Serialize(state)==before&&SiegeWarfare.Beachheads(state,0).Any(),"Desktop save and reload preserve the derived beachhead from saved positions and orders");
             ShowSieges();Width=1200;Height=800;await Task.Delay(120);root.UpdateLayout();Check(Descendants<ScrollViewer>(overlay!).Any()&&Descendants<Button>(overlay!).Any(b=>b.Content?.ToString()=="Wróć do mapy"),"The siege report remains navigable in a compact window");await Capture("siege-compact");CloseModal();
             SaveGame.Deserialize(SaveGame.Serialize(state));checks.Add($"{checks.Count} siege desktop integration checks passed.");File.WriteAllLines(Path.Combine(folder,"ui-smoke.txt"),checks);Close();
         }

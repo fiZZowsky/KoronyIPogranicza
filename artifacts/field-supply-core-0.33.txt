@@ -1,0 +1,31 @@
+PASS Military depots require engineering and an extended campaign
+PASS A depot consumes real construction production and starts with no invented stocks
+PASS Quartermaster allocation changes no production immediately and rejects repeat changes atomically
+PASS Supply manufacture subtracts the exact production it spends from ordinary construction
+PASS Full stocks return all unused production to the ordinary project
+PASS District construction receives work before supply allocation without double spending
+PASS Pausing city production halts supply manufacture without deleting existing stocks
+PASS A full siege halts manufacture even with a funded unpaused depot
+PASS Manual loading charges finite stocks movement and clears prior orders
+PASS Heavy cavalry and artillery need two packs for each reserve turn
+PASS Scarce stocks load only affordable reserve turns without fractional supplies
+PASS Refill rejects missing stocks movement foreign control and civil units atomically
+PASS Blocked land routes prevent remote loading even near a depot
+PASS An ordinary turn automatically loads units in stable ID order without creating stocks
+PASS Connected troops retain their carried reserve without ongoing stock consumption
+PASS Three carried rations protect an isolated army and then restore normal attrition
+PASS Carried supply does not fabricate a physical route or commercial connection
+PASS Embarked reserves neither refill nor consume and cannot supply their own carrier
+PASS A convoy raid forecast leaves stocks RNG and campaign unchanged
+PASS Executing a raid destroys finite stocks pays exact loot and preserves the road
+PASS Raids cannot destroy or loot more than the target actually stores
+PASS Defenders and destroyed road links protect the stockpile from remote raids
+PASS Peaceful borders empty depots and unready raiders reject without side effects
+PASS A three-step depot requires current reconnaissance before a raid
+PASS Capture salvages half a depot and resets its policy within the new owner's capacity
+PASS AI builds and funds depots through actual project and economic turns
+PASS Military AI raids an exposed supply road without controlling player orders
+PASS V23 saves preserve stock policies carried reserves and deterministic future
+PASS V22 migration preserves a naval manifest without inventing reserves and backs up exact input
+PASS Save validation rejects invalid reserves stocks allocation dates roles and old-format depots
+30 field supply specifications passed in 1,8s.

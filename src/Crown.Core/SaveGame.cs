@@ -5,13 +5,14 @@ namespace Crown.Core;
 
 public static class SaveGame
 {
-    public const int CurrentVersion=22;
+    public const int CurrentVersion=23;
     private static readonly JsonSerializerOptions Options=new(){WriteIndented=true,IgnoreReadOnlyProperties=true,Converters={new JsonStringEnumConverter()}};
     public static string Serialize(GameState state)=>JsonSerializer.Serialize(state,Options);
     public static GameState Deserialize(string json)
     {
         var s=JsonSerializer.Deserialize<GameState>(json,Options)??throw new InvalidDataException("Pusty zapis.");
         if(s.Version is <1 or >CurrentVersion)throw new InvalidDataException("Nieobsługiwana wersja zapisu.");
+        if(s.Version<23)foreach(var c in s.Cities){c.MilitarySupplies=0;c.SupplyAllocation=0;c.LastSupplyPolicyTurn=-1;}
         if(s.Version<20){s.Districts=[];s.NextDistrictId=1;foreach(var c in s.Cities){c.DistrictShare=25;c.LastDistrictPolicyTurn=-1;}}
         if(s.Version<19){s.EnergyCases=[];s.NextEnergyCaseId=1;s.PendingEnergyCaseId=null;s.LastEnergyPhase=0;foreach(var c in s.Cities)c.EnergyHistory=[];}
         if(s.Version<18)foreach(var c in s.Cities){c.PowerPriority=PowerPriority.Normal;c.LastPowerPriorityTurn=-1;c.SuspendedBuildings=[];c.LastOperationTurns=[];}
@@ -117,6 +118,7 @@ public static class SaveGame
         Districts.Validate(s);
         Navy.Validate(s);
         SeaTransport.Validate(s);
+        FieldLogistics.Validate(s);
         s.Version=CurrentVersion;
         return s;
     }

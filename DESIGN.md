@@ -1,5 +1,19 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Skończone zapasy marszowe — 0.33
+
+FieldLogistics rozdziela fizyczną linię dostaw od rezerwy jednostki. Logistics.HasSupplyLine zachowuje dotychczasowy graf lądowy, dostawy morskie i przyczółki. Logistics.Supplied uwzględnia dodatkowo SupplyReserve tylko dla aktywnych lądowych oddziałów bojowych. Rezerwa nie zasila grafów miast, handlu ani okrętów. Pasażerowie nadal korzystają z przewoźnika.
+
+City.MilitarySupplies to skończony stan pakietów; SupplyAllocation i LastSupplyPolicyTurn przechowują decyzję. Produkcja najpierw obsługuje Districts.BuildPhase, później FieldLogistics.BuildPhase (2 pracy/pakiet), a na końcu zwykły projekt. Czysta Allocation obsługuje podgląd i ograniczenie pojemnością. Wstrzymanie i pełne oblężenie blokują tylko nowe wytwarzanie, nie kasują zapasów.
+
+Unit.SupplyReserve ma zakres 0–3. Ręczny Refill wymaga ruchu i legalnej bliskiej trasy; Draw rozlicza koszt każdej załadowanej tury według wagi 1 lub 2. Automatyczny Tick działa po MilitaryOrders.FinishTurn, przed ruchem AI: najpierw ostatni pakiet chroni bieżącą turę leczenia i strat, potem rezerwa maleje. Gdy fizyczna linia działa, bliski magazyn uzupełnia rezerwę według właściciela i identyfikatora, bez tworzenia pakietów. Eskorty nie ładują automatycznie; nieaktywne jednostki na pokładzie są pomijane.
+
+PreviewRaid odczytuje wyłącznie aktualnie widoczny cel, wymaga wojny, drogi przeciwnika i dojścia do trzech odcinków. Obce jednostki oraz przerwy blokują trasę. Raid niszczy najwyżej istniejące 20 pakietów, daje floor(zniszczone/2) złota, dodaje 8 krzywd i kończy ruch. Nie powstaje nowy ruchomy konwój. Transfer zachowuje połowę stanu przy podboju (całość przy pokoju), ogranicza go pojemnością nowego właściciela i zeruje politykę.
+
+AI kupuje budowę zwykłą produkcją, utrzymuje ograniczoną liczbę magazynów, finansuje zapasy i używa normalnych rezerw oraz akcji napadu. Nowy wybór magazynu nie zastępuje aktywnego programu kosmicznego. To heurystyki, bez planowania sieci magazynów na wiele tur.
+
+Format v23 waliduje stan, role, limity, daty i projekty. Starsze formaty nie dostają nowych zapasów. Manifest transportu pozostaje zachowany, a SaveGame.Write tworzy dokładną kopię źródła przy migracji. FieldSupplyPanels udostępnia rzeczywiste działania; źródła i rezerwy są rozdzielone w panelu oddziału. DepotModels3D używa istniejących materiałów, rezerwuje plac w zabudowie i rysuje obce magazyny wyłącznie w zasięgu widoczności. Sygnatura sceny zawiera stan zapasów, więc ręczny załadunek lub napad aktualizuje skrzynie w tej samej turze.
+
 ## Szturmy, oblężenia i oprawa wybrzeża — 0.32
 
 AmphibiousAssault jest oddzielną, walidowaną akcją. PreviewAttackCore oraz ResolveAttack są współdzielone ze zwykłą walką. Podgląd nie mutuje RNG ani kampanii. Szturm wymaga wojny, obecnej widoczności, sąsiedniego lądu, piechoty lub jazdy w manifeście i ruchu przewoźnika. Siła ×0,65; normalny kontratak. Opuszczenie manifestu następuje dopiero po oczyszczeniu całego pola lub zdobyciu miasta. Przewoźnik zużywa cały pozostały ruch; ocalała piechota ma zerowy ruch.

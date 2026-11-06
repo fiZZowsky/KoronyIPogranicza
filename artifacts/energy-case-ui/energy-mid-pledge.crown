@@ -1,5 +1,5 @@
 {
-  "Version": 22,
+  "Version": 23,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": true,
@@ -16631,7 +16631,10 @@
         }
       ],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     },
     {
       "Id": 4,
@@ -16768,7 +16771,10 @@
         }
       ],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     },
     {
       "Id": 7,
@@ -16905,7 +16911,10 @@
         }
       ],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     },
     {
       "Id": 10,
@@ -17042,7 +17051,10 @@
         }
       ],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     }
   ],
   "Units": [],

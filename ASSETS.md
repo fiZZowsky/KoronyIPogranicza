@@ -57,3 +57,9 @@ Pełny prompt (wbudowany tryb narzędzia):
 ## Oprawa wybrzeża 0.32
 
 Nowe żagle, olinowanie, relingi, polery, magazyny, beczki, umocnienia i gruz powstają z geometrii C#. Nie pobierano nowych modeli, zdjęć, dźwięków ani tekstur. Shader wykorzystuje istniejący atlas i osobne proceduralne właściwości drewna, płótna, metalu oraz wody. Nie są to skany ani fotogrametria. Obrazy siege-ui pokazują przygotowaną scenę testową z nadanymi technologiami i osłabionym obrońcą, następnie rzeczywisty załadunek, rozkaz rejsu, szturm i przygotowanie przyczółka. Służą weryfikacji, nie dowodzą balansu naturalnej kampanii.
+
+## Magazyny wojskowe 0.33
+
+Budynki, drzwi, dachy, skrzynie, metalowe opaski i proporce magazynów powstają w DepotModels3D z geometrii C#. Materiały wykorzystują istniejący atlas i cieniowanie z poprzednich wydań. Nie pobierano nowych bitmap, modeli ani dźwięków. Grafika pozostaje proceduralna.
+
+Obrazy field-supply-ui pokazują przygotowany teren i przyznaną wiedzę. Test ustawia końcowy postęp rozpoczętej budowy, a potem kończy magazyn w zwykłej turze, wybiera politykę i rzeczywiście wytwarza pakiety. Testowe jednostki pobierają te zapasy przez przyciski gry. Położenie odciętego oddziału i osobny układ napadu są przygotowane dla kontroli przypadków; zużycie, straty, napad, łup i zapis są rzeczywistymi operacjami. Przemysłowy magazyn i duży spis oddziałów są osobnymi ustawieniami do oceny modeli oraz małego okna. To kontrola integracji, nie zapis naturalnej długiej kampanii.

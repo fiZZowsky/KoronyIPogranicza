@@ -30,13 +30,14 @@ public sealed partial class MainWindow
             if(state.EpochCampaign)side.Children.Add(Ui.Button($"Zasilanie {Epochs.Energy(state,city).Coverage:P0} · zarządzaj energią",()=>ShowPowerManagement(city.Id)));
             Ui.Bar(side, $"Wzrost miasta: {city.Food:0} / {22 + city.Population * 12}", city.Food, 22 + city.Population * 12, Ui.Green);
             var project = Catalog.Project(city.Project);
-            double districtWork=Districts.Allocation(state,city,y.Production);int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(1, y.Production-districtWork));
+            double districtWork=Districts.Allocation(state,city,y.Production),supplyWork=FieldLogistics.Allocation(state,city,Math.Max(0,y.Production-districtWork));
+            int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(.01, y.Production-districtWork-supplyWork));
             var work = Ui.Stack(Ui.Eyebrow("W REALIZACJI"), Ui.Label(project.Name, 22, Ui.Text, true), Ui.Label(project.Description, 12, Ui.Muted));
             Ui.Gap(work, 10);
             string? productionBlock=ProductionPlanning.CurrentBlock(state,city);
             Ui.Bar(work, $"{city.Production:0} / {project.Cost} produkcji · "+(productionBlock!=null?"POSTÓJ":districtWork>=y.Production&&districtWork>0?"praca skierowana do dzielnicy":$"ok. {turns} tur"), city.Production, project.Cost);
             if(productionBlock!=null)work.Children.Add(Ui.Label(productionBlock,12,Ui.Red));
-            if(Districts.Construction(state,city)!=null)work.Children.Add(Ui.Label($"Dzielnica: {districtWork:0.##} produkcji/turę · na ten projekt {Math.Max(0,y.Production-districtWork):0.##}.",12,Ui.Gold));
+            if(Districts.Construction(state,city)!=null||FieldLogistics.Active(state,city))work.Children.Add(Ui.Label($"Podział pracy: dzielnice {districtWork:0.##} · zaopatrzenie {supplyWork:0.##} · na ten projekt {Math.Max(0,y.Production-districtWork-supplyWork):0.##}/turę.",12,Ui.Gold));
             work.Children.Add(Ui.Label($"Oczekujące zlecenia: {city.ProductionQueue.Count}/8"+(city.RepeatProject?" · obecny projekt powtarzany":""),12,Ui.Muted));
             work.Children.Add(Ui.Button("Plan produkcji: "+city.Name,()=>ShowProductionQueue(city)));
             work.Children.Add(Ui.Button("Wybierz projekt   →", () => ShowProjects(city)));
@@ -127,6 +128,8 @@ public sealed partial class MainWindow
 
     private void UnitSupply(Unit u)
     {
+        if(state.EpochCampaign&&FieldLogistics.Eligible(u)&&SeaTransport.Active(u))side.Children.Add(Ui.Label($"Zapasy marszowe {u.SupplyReserve}/3 · "+(!Logistics.HasSupplyLine(state,u)&&u.SupplyReserve>0?"utrzymują siłę i chronią przed stratami po odcięciu":"rezerwa na odcięcie dostaw"),11,Ui.Gold));
+        if(FieldLogistics.HasReserve(state,u)&&!Logistics.HasSupplyLine(state,u)){side.Children.Add(Ui.Label("Brak połączenia; dostawy z własnego zapasu. Nakładka pokazuje trasy, nie zapasy niesione przez oddział.",11,Ui.Gold));return;}
         if(!Navy.IsShip(u)&&SeaTransport.Active(u)&&SiegeWarfare.BeachheadSupplies(state,u)){side.Children.Add(Ui.Label("Dostawy z przyczółka morskiego · do 2 kroków od okopanej piechoty. Utrata osłony okrętu przerwie zapasy.",11,Ui.Green));return;}
         if(Navy.IsShip(u)){bool seaSupplied=Engine.Supplied(state,u);side.Children.Add(Ui.Label(seaSupplied?$"Dostawy morskie zapewnione · zasięg {Navy.SupplyRange(state,u.Owner):0} pól od czynnego portu.":"Brak dostaw morskich: siła ×0,72; straty 5 zdrowia/turę. Szukaj własnego czynnego portu.",11,seaSupplied?Ui.Green:Ui.Red));side.Children.Add(Ui.Button("Flota i porty",()=>ShowFleet()));return;}
         var supply = Logistics.For(state, u.Owner);
@@ -155,6 +158,7 @@ public sealed partial class MainWindow
         side.Children.Add(Ui.Card(budget));
         side.Children.Add(Ui.Label($"Zobowiązania pożyczek: {TreasuryLoans.Outstanding(state)} złota · spłaty jednorazowe", 12, Ui.Gold));
         side.Children.Add(Ui.Button("Pożyczki i zobowiązania", () => ShowLoans()));
+        side.Children.Add(Ui.Button("Magazyny i zapasy marszowe",()=>ShowFieldSupply()));
         side.Children.Add(Ui.Button(map.ShowSupply ? "Ukryj nakładkę dostaw" : "Pokaż nakładkę dostaw", () =>
         { map.ShowSupply = !map.ShowSupply; if(map.ShowSupply)map.ShowPopulation=false; map.InvalidateVisual(); RefreshSide(); }));
         side.Children.Add(Ui.Label($"Zielony: dostawy w zasięgu {Logistics.Range(state, 0):0}. Czerwony: poza zasięgiem. Pomarańczowy: blokada wojskowa. Zima podnosi koszt transportu poza drogami o 25%.", 11, Ui.Muted));

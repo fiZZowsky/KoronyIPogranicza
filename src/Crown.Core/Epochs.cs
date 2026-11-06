@@ -32,6 +32,7 @@ public static class Epochs
     public static string? ProjectError(GameState s, City c, Project p)
     {
         if(Navy.ProjectError(s,c,p.Id) is{} navalError)return navalError;
+        if(FieldLogistics.ProjectError(s,p.Id) is{} fieldError)return fieldError;
         if (!s.EpochCampaign) return Content.LegacyProjects.Contains(p.Id) ? null : "Projekt wymaga rozszerzonej kampanii epok.";
         string? site = PowerGrid.SiteError(s, c, p.Id); if (site != null) return site;
         var program = Programs.FirstOrDefault(x => x.Id == p.Id);
@@ -100,11 +101,15 @@ public static class Epochs
         var available = Engine.AvailableProjects(s, c).ToArray();
         var bestUnit = MilitaryStrategy.Recruitment(s,c);
         var navy = Navy.AiProject(s,c);
+        bool needsDepot=!Programs.Any(p=>p.Id==c.Project)&&f.Gold>250&&s.Units.Count(u=>u.Owner==f.Id&&FieldLogistics.Eligible(u))>=3&&
+            s.Cities.Count(x=>x.Owner==f.Id&&(x.Buildings.Contains(FieldLogistics.Depot)||x.Id!=c.Id&&(x.Project==FieldLogistics.Depot||x.ProductionQueue.Any(o=>o.Project==FieldLogistics.Depot))))<Math.Min(3,1+s.Cities.Count(x=>x.Owner==f.Id)/3);
+        var depot=needsDepot?available.FirstOrDefault(p=>p.Id==FieldLogistics.Depot):null;
         var power = available.Where(p => EpochCatalog.Buildings.Any(b => b.Id == p.Id && b.Energy > 0)).OrderBy(p => EpochCatalog.Buildings.First(b => b.Id == p.Id).Emissions).ThenBy(p => p.Cost).FirstOrDefault();
         var program = available.FirstOrDefault(p => Programs.Any(x => x.Id == p.Id));
         var building = available.Where(p => p.Unit == null && p.Id is not ("treasury" or "festival") && !Programs.Any(x => x.Id == p.Id))
             .OrderByDescending(p => EpochCatalog.Buildings.FirstOrDefault(b => b.Id == p.Id)?.Science ?? (p.Id == "library" ? 8 : 0)).ThenBy(p => p.Cost).FirstOrDefault();
         if (power != null && Energy(s, c).Supply <= Energy(s, c).Demand) c.Project = power.Id;
+        else if(depot!=null&&c.Project!="settler")c.Project=depot.Id;
         else if (navy != null && c.Project != "settler") c.Project = navy.Id;
         else if (bestUnit != null && c.Project != "settler") c.Project = bestUnit.Id;
         else if (program != null) c.Project = program.Id;

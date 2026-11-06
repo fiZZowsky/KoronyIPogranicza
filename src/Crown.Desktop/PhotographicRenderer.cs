@@ -98,6 +98,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
         if (emissive) return 8;
         if(key.StartsWith("naval-sail-cloth")||key.StartsWith("naval-rope")||key.StartsWith("frontline-sandbags"))return 20;
         if(key.StartsWith("naval-")&&key.Contains("metal"))return 21;
+        if(key.StartsWith("logistics-")&&key.Contains("metal"))return 21;
         if(key.StartsWith("distant-mountains"))return 9;
         if(key.StartsWith("streets"))return 10;
         if(key.StartsWith("river-bank")||key.StartsWith("river-pebbles"))return 11;

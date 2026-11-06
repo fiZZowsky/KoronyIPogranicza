@@ -1,5 +1,5 @@
 {
-  "Version": 22,
+  "Version": 23,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16580,7 +16580,10 @@
       "LastOperationTurns": {},
       "EnergyHistory": [],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     },
     {
       "Id": 4,
@@ -16682,7 +16685,10 @@
       "LastOperationTurns": {},
       "EnergyHistory": [],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     },
     {
       "Id": 7,
@@ -16782,7 +16788,10 @@
       "LastOperationTurns": {},
       "EnergyHistory": [],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     },
     {
       "Id": 10,
@@ -16882,7 +16891,10 @@
       "LastOperationTurns": {},
       "EnergyHistory": [],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     },
     {
       "Id": 13,
@@ -16985,7 +16997,10 @@
       "LastOperationTurns": {},
       "EnergyHistory": [],
       "DistrictShare": 25,
-      "LastDistrictPolicyTurn": -1
+      "LastDistrictPolicyTurn": -1,
+      "MilitarySupplies": 0,
+      "SupplyAllocation": 0,
+      "LastSupplyPolicyTurn": -1
     }
   ],
   "Units": [
@@ -17000,6 +17015,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -17015,6 +17031,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -17030,6 +17047,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17045,6 +17063,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -17060,6 +17079,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17075,6 +17095,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -17090,6 +17111,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "Fortify",
       "FortificationTurns": 2,
       "Experience": 0
@@ -17105,6 +17127,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -17120,6 +17143,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -17135,6 +17159,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "None",
       "FortificationTurns": 0,
       "Experience": 0
@@ -17150,6 +17175,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "Fortify",
       "FortificationTurns": 1,
       "Experience": 0
@@ -17165,6 +17191,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "Fortify",
       "FortificationTurns": 1,
       "Experience": 0
@@ -17180,6 +17207,7 @@
       "Destination": null,
       "EscortCaravanId": null,
       "EmbarkedOnId": null,
+      "SupplyReserve": 0,
       "Order": "Fortify",
       "FortificationTurns": 1,
       "Experience": 0

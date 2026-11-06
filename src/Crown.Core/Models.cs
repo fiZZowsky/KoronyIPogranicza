@@ -91,6 +91,9 @@ public sealed class City
     public List<EnergyReading> EnergyHistory { get; set; } = [];
     public int DistrictShare {get;set;}=25;
     public int LastDistrictPolicyTurn {get;set;}=-1;
+    public double MilitarySupplies {get;set;}
+    public int SupplyAllocation {get;set;}
+    public int LastSupplyPolicyTurn {get;set;}=-1;
 }
 public sealed class Unit
 {
@@ -104,6 +107,7 @@ public sealed class Unit
     public int? Destination { get; set; }
     public int? EscortCaravanId { get; set; }
     public int? EmbarkedOnId { get; set; }
+    public int SupplyReserve {get;set;}
     public MilitaryOrder Order { get; set; }
     public int FortificationTurns { get; set; }
     public int Experience { get; set; }
