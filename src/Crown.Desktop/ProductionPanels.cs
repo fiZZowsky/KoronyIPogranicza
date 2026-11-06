@@ -10,12 +10,13 @@ public sealed partial class MainWindow
     {
         var active=Crown.Core.Content.Project(city.Project);string? block=ProductionPlanning.CurrentBlock(state,city);
         double potential=Engine.CityYields(state,city).Production,districtWork=Districts.Allocation(state,city,potential),supplyWork=FieldLogistics.Allocation(state,city,Math.Max(0,potential-districtWork));
+        double craftWork=Manufacturing.ForecastWork(state,city,Math.Max(0,potential-districtWork-supplyWork));
         var p=Ui.Stack(Ui.Eyebrow("PLAN MIEJSKICH WARSZTATÓW"),Ui.Label(city.Name,30,Ui.Text,true),
             Ui.Label($"TERAZ · {active.Name}"+(city.RepeatProject?" · POWTARZANE":""),20,Ui.Gold,true),
             Ui.Label($"Zgromadzona praca {city.Production:0.##}/{active.Cost} · potencjał {Engine.CityYields(state,city).Production:0.##}/turę\n"+
                 (block??"Produkcja trwa. Po zakończeniu wybierzemy pierwsze oczekujące zlecenie."),13,block==null?Ui.Muted:Ui.Red),
             Ui.Label("Plan obejmuje do ośmiu zleceń po obecnym projekcie. Automatyczne przejście zachowuje całą nadwyżkę pracy; kończymy najwyżej jeden projekt na miasto i turę. Przy pustym planie miasto wraca do zwykłego wyboru następnej budowy.",13,Ui.Muted));
-        p.Children.Add(Ui.Label($"Bieżący podział pracy: dzielnice {districtWork:0.##}, zaopatrzenie {supplyWork:0.##}, obecny projekt {(block==null?Math.Max(0,potential-districtWork-supplyWork):0):0.##}/turę. Prognoza może zmienić się przy rozliczeniu gospodarki.",13,Ui.Gold));
+        p.Children.Add(Ui.Label($"Bieżący podział pracy: dzielnice {districtWork:0.##}, zaopatrzenie {supplyWork:0.##}, przetwórstwo {craftWork:0.##}, obecny projekt {(block==null?Math.Max(0,potential-districtWork-supplyWork-craftWork):0):0.##}/turę. Prognoza może zmienić się przy rozliczeniu gospodarki.",13,Ui.Gold));
         ScrollViewer? Scroller()=>overlay is Grid layer?layer.Children.OfType<System.Windows.Controls.Border>().FirstOrDefault()?.Child as ScrollViewer:null;
         void Apply(Result result)
         {double offset=Scroller()?.VerticalOffset??0;Do(result);if(result.Success){TryAutoSave(false);ShowProductionQueue(city,selectedProject,repeating,offset);}}
@@ -23,6 +24,7 @@ public sealed partial class MainWindow
         if(ProductionPlanning.Repeatable(active))p.Children.Add(Ui.Button(city.RepeatProject?"Nie powtarzaj obecnego projektu":"Powtarzaj obecny projekt",()=>Apply(Engine.SetProjectRepeat(state,city.Id,!city.RepeatProject))));
         p.Children.Add(Ui.Button("Dzielnice i podział pracy",()=>ShowDistrictPlan(city)));
         p.Children.Add(Ui.Button("Magazyny i zapasy marszowe",()=>ShowFieldSupply()));
+        p.Children.Add(Ui.Button("Warsztaty i łańcuchy produkcji",()=>ShowManufacturing()));
         Ui.Gap(p,10);
         var projects=Crown.Core.Content.Projects;
         var selection=Ui.Combo(projects.Select(project=>$"{project.Name} · {project.Cost} produkcji").ToArray(),Math.Max(0,Array.FindIndex(projects,p=>p.Id==selectedProject)));

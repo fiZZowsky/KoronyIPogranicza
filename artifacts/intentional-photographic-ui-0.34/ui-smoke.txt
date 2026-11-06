@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional photographic diagnostic failure.
+   at Crown.Desktop.MainWindow.PhotographicSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\PhotographicSmoke.cs:line 45

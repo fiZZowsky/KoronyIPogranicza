@@ -60,7 +60,10 @@ public static class Content
         new("catapult", "Katapulta", 100, "engineering", "Atak na 2 pola, premia przeciw miastom.", UnitKind.Catapult),
         new("settler", "Osadnicy", 100, "agriculture", "Zakładają miasto. Rekrutacja kosztuje 1 mieszkańca.", UnitKind.Settler),
         new(Navy.Port, "Port morski", 120, "pottery", "Miasto przy akwenie: +2 żywności, +4 złota, 2 złota utrzymania. Wodowanie, modernizacja i dostawy floty. Wroga flota może nałożyć blokadę."),
-        new(FieldLogistics.Depot,"Magazyn wojskowy",140,"engineering","Przechowuje pakiety zaopatrzenia. Nakład 0%, 25% lub 50% produkcji po dzielnicach; 2 pracy tworzy 1 pakiet. Oddziały mogą zabrać zapas na 3 odcięte tury. Utrzymanie 2 złota plus administracja.")
+        new(FieldLogistics.Depot,"Magazyn wojskowy",140,"engineering","Przechowuje pakiety zaopatrzenia. Nakład 0%, 25% lub 50% produkcji po dzielnicach; 2 pracy tworzy 1 pakiet. Oddziały mogą zabrać zapas na 3 odcięte tury. Utrzymanie 2 złota plus administracja."),
+        new(Manufacturing.Toolmakers,"Warsztat narzędziowy",160,"engineering","Partia: 2 żelaza i 6 pracy → 1 narzędzi. Wymaga planu przetwórstwa. Utrzymanie 1,5 złota plus administracja."),
+        new(Manufacturing.Weavers,"Tkalnia",130,"trade","Partia: 1 barwników i 4 pracy → 2 tkanin. Wymaga planu przetwórstwa. Utrzymanie 1,5 złota plus administracja."),
+        new(Manufacturing.Guildhall,"Dom cechów",180,"currency","Zużywa narzędzia i tkaniny. Pokrycie popytu na narzędzia: do +15% produkcji; tkaniny: do +3 kultury i +3 dobrobytu. Utrzymanie 1,5 złota plus administracja.")
     ];
     public static readonly HashSet<string> LegacyTechnologies;
     public static readonly HashSet<string> LegacyProjects;

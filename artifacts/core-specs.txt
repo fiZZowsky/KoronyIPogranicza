@@ -607,7 +607,39 @@ PASS A three-step depot requires current reconnaissance before a raid
 PASS Capture salvages half a depot and resets its policy within the new owner's capacity
 PASS AI builds and funds depots through actual project and economic turns
 PASS Military AI raids an exposed supply road without controlling player orders
-PASS V23 saves preserve stock policies carried reserves and deterministic future
+PASS Current saves preserve stock policies carried reserves and deterministic future
 PASS V22 migration preserves a naval manifest without inventing reserves and backs up exact input
 PASS Save validation rejects invalid reserves stocks allocation dates roles and old-format depots
-605 specifications passed in 29,5s.
+PASS Processing projects have legal technologies and cannot be built in legacy campaigns
+PASS A real city project builds a workshop with no invented goods or active policy
+PASS The crafting policy commits no immediate materials work or goods
+PASS Policy changes validate owner recipe and cooldown without partial mutation
+PASS Manufacturing forecasts preserve exact stocks campaign and RNG
+PASS Tools spend real iron and work and keep every commodity ledger balanced
+PASS Weaving converts each dye unit into two textiles at the quoted work cost
+PASS A partial work budget never creates a fractional batch
+PASS Missing ingredients leave the entire processing budget to ordinary construction
+PASS Full product storage blocks work and prevents manufacturing overflow
+PASS A two-item textile batch requires room for both items
+PASS Repeated market previews and market ticks never manufacture early products
+PASS Districts and military supply receive work before manufacturing without double spending
+PASS Connected own warehouses supply ingredients with explicit source receipts
+PASS A broken road prevents production from a disconnected warehouse
+PASS Enemy interdiction separates the industrial input network
+PASS A foreign stockpile cannot feed workshops without a delivered import
+PASS Paused workshops retain their ingredients apart from normal household consumption
+PASS A full siege suspends processing even with labor and ingredients
+PASS A newly built guildhall cannot claim bonuses from zero historical demand
+PASS Actual product consumption grants the guildhall's production culture and prosperity benefits
+PASS Newly manufactured tools reach guild consumption only in the following market phase
+PASS Processed export prices reflect both markets while raw commodity pricing stays unchanged
+PASS Products are dispatched after production and arrive by an actual paid caravan
+PASS Imported iron feeds production only after its caravan arrives
+PASS Embargo still stops and destroys an already paid processed-goods caravan
+PASS Capture retains physical workshops and goods but resets plans and accounting context
+PASS AI builds and funds a real input-backed workshop through ordinary turns
+PASS Current manufacturing saves preserve deterministic economic and shipment continuation
+PASS V23 migration retains military reserves and old ledgers without inventing processed goods
+PASS Validation rejects forged recipes work dates input sources and inconsistent industrial ledgers
+PASS Older formats cannot smuggle new facilities products or product contracts
+637 specifications passed in 32,1s.

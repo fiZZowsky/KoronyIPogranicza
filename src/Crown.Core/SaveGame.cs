@@ -5,7 +5,7 @@ namespace Crown.Core;
 
 public static class SaveGame
 {
-    public const int CurrentVersion=23;
+    public const int CurrentVersion=24;
     private static readonly JsonSerializerOptions Options=new(){WriteIndented=true,IgnoreReadOnlyProperties=true,Converters={new JsonStringEnumConverter()}};
     public static string Serialize(GameState state)=>JsonSerializer.Serialize(state,Options);
     public static GameState Deserialize(string json)
@@ -100,6 +100,7 @@ public static class SaveGame
             foreach(var city in s.Cities)
             {city.MarketStocks=Markets.Goods.ToDictionary(g=>g,_=>0d);city.LastMarketLines=[];city.LastMarketTurn=0;city.LastMarketTax=0;}
         }
+        Manufacturing.Migrate(s);
         MarketSaveRules.Validate(s);
         if(s.Version<7){s.Caravans=[];s.NextCaravanId=1;}
         CaravanSaveRules.Validate(s);
@@ -119,6 +120,7 @@ public static class SaveGame
         Navy.Validate(s);
         SeaTransport.Validate(s);
         FieldLogistics.Validate(s);
+        Manufacturing.Validate(s);
         s.Version=CurrentVersion;
         return s;
     }

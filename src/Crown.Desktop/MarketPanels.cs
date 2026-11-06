@@ -7,12 +7,13 @@ public sealed partial class MainWindow
 {
     private void MarketsPanel()
     {
-        TitlePanel("ZAPASY I WYMIANA","Rynki prowincji","Żelazo wspiera warsztaty, sól i barwniki dobrobyt. Ceny zależą od regionalnych zapasów i popytu. Prognoza rozliczenia nie rezerwuje towarów.");
+        TitlePanel("ZAPASY I WYMIANA","Rynki prowincji","Żelazo wspiera warsztaty, sól i barwniki dobrobyt. Narzędzia i tkaniny zasilają Dom cechów. Ceny zależą od regionalnych zapasów i popytu. Prognoza rozliczenia nie rezerwuje towarów.");
         var plan=Markets.Plan(state);
         side.Children.Add(Ui.Label(Markets.PolicyName(state.Player.TradePolicy),20,Ui.Gold,true));
         side.Children.Add(Ui.Label(Markets.PolicyDescription(state.Player.TradePolicy),12,Ui.Muted));
         side.Children.Add(Ui.Button("Zmień politykę handlową",ShowTradePolicy));
         side.Children.Add(Ui.Button("Podpisz kontrakt handlowy",ShowTradeContract,true));
+        side.Children.Add(Ui.Button("Warsztaty i łańcuchy produkcji",()=>ShowManufacturing()));
         var cargoes=state.Caravans.Where(c=>{var t=state.TradeContracts.First(t=>t.Id==c.ContractId);return t.Buyer==0||t.Seller==0;}).ToArray();
         side.Children.Add(Ui.Label($"Karawany w drodze: {cargoes.Count(Caravans.Active)} · dostarczone: {cargoes.Count(c=>c.Status==CaravanStatus.Delivered)} · utracone: {cargoes.Count(c=>c.Status==CaravanStatus.Lost)}",12,Ui.Gold));
         side.Children.Add(Ui.Button("Karawany i trasy",ShowCaravans));
@@ -46,6 +47,7 @@ public sealed partial class MainWindow
         var forecast=Markets.Plan(state).Cities[city.Id];
         var p=Ui.Stack(Ui.Eyebrow("PROGNOZA RYNKU"),Ui.Label(city.Name,32,Ui.Text,true),
             Ui.Label("Rozliczenie następuje przed wzrostem i produkcją miejską. Powstają towary, przybywają karawany i ładujemy następne. Potem zaspokajamy potrzeby mieszkańców i wymianę krajową. Import w bilansie oznacza przybyły ładunek, eksport — wysłany. Nadmiar ponad pojemność przepada.",13,Ui.Muted));
+        p.Children.Add(Ui.Label("Przetwórstwo następuje później, podczas produkcji miasta. Dzisiejsze wyroby wejdą do obrotu w następnej turze. Zużyte składniki są odrębnie wykazywane w ostatnim bilansie.",13,Ui.Muted));
         foreach(var line in forecast)
         {
             var q=Ui.Stack(Ui.Label($"{Markets.Name(line.Good)} · {line.Price:0.00} złota",23,Ui.Gold,true));
@@ -54,6 +56,8 @@ public sealed partial class MainWindow
         }
         p.Children.Add(Ui.Label($"Ostatnie rozliczenie: {(city.LastMarketTurn==0?"brak":"tura "+city.LastMarketTurn)} · podatek {city.LastMarketTax:0.00}\nWpływ ostatnich dostaw: cel dobrobytu {Markets.ProsperityEffect(city):+0;-0;0}, produkcja ×{Markets.IndustryMultiplier(city):0.00}.",13,Ui.Gold));
         p.Children.Add(Ui.Label("Skład towarowy dodaje 100 miejsc na każdy towar. Targowisko dodaje 25 do początkowych 50. Żywność nadal ma własne spichlerze i system przesyłek.",12,Ui.Muted));
+        foreach(var line in city.LastMarketLines.Where(l=>l.IndustrialUsed>0))p.Children.Add(Ui.Label($"Ostatni bilans — zużycie przemysłowe: {Markets.Name(line.Good)} {line.IndustrialUsed:0.##}.",13,Ui.Gold));
+        p.Children.Add(Ui.Button("Warsztaty i łańcuchy produkcji",()=>ShowManufacturing()));
         p.Children.Add(Ui.Button("Wybierz budowę",()=>ShowProjects(city)));p.Children.Add(Ui.Button("Wróć do mapy",CloseModal));Modal(p,810);
     }
 
@@ -90,7 +94,7 @@ public sealed partial class MainWindow
         void Update()
         {
             var (buyer,seller)=Parties();var commodity=Markets.Goods[good.SelectedIndex];var plan=Markets.Plan(state);
-            double price=Math.Round(plan.Cities[seller.Id].First(l=>l.Good==commodity).Price*1.15,2);
+            double price=Markets.ExportPrice(commodity,plan.Cities[seller.Id].First(l=>l.Good==commodity).Price,plan.Cities[buyer.Id].First(l=>l.Good==commodity).Price);
             var draft=new TradeContract{Buyer=buyer.Owner,Seller=seller.Owner,BuyerCity=buyer.Id,SellerCity=seller.Id};
             int turns=Caravans.TravelTurns(state,Caravans.Route(state,draft));
             preview.Text=$"{seller.Name} → {buyer.Name}\nCena orientacyjna {price:0.00}; pełny ładunek {(quantity.SelectedIndex+1)*price:0.00} złota.\nPodróż od wysyłki: {(turns<0?"trasa niedostępna":$"około {turns} tur przy obecnej trasie")}.\n"+(Markets.RouteError(state,draft)??Markets.PolicyDescription(state.Factions[seller.Owner].TradePolicy));feedback.Text="";

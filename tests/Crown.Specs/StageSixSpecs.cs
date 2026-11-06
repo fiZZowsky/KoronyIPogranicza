@@ -67,7 +67,7 @@ internal static class StageSixSpecs
         test("Market processing consumes stocks once and stores a valid detailed ledger",()=>
         {
             var (s,a,_,_)=Fixture();a.MarketStocks[TradeGood.Salt]=20;Markets.Tick(s);
-            Assert(a.MarketStocks[TradeGood.Salt]<20&&a.LastMarketTax>0&&a.LastMarketLines.Count==3,"Consumption or tax missing.");
+            Assert(a.MarketStocks[TradeGood.Salt]<20&&a.LastMarketTax>0&&a.LastMarketLines.Count==Markets.Goods.Length,"Consumption or tax missing.");
             string once=SaveGame.Serialize(s);Markets.Tick(s);Assert(SaveGame.Serialize(s)==once,"Market processed twice in one turn.");SaveGame.Deserialize(once);
         });
         test("Warehouse capacity preserves otherwise lost surplus",()=>
@@ -142,7 +142,7 @@ internal static class StageSixSpecs
         {
             var (s,a,_,seller)=Fixture();string before=SaveGame.Serialize(s);
             Assert(!Engine.SignTradeContract(s,seller.Id,a.Id,TradeGood.Salt,1,1).Success&&SaveGame.Serialize(s)==before,"AI committed the player's goods without consent.");
-            foreach(var good in Markets.Goods)Assert(Engine.SignTradeContract(s,a.Id,seller.Id,good,1).Success,"Could not fill three valid slots.");
+            foreach(var good in Markets.Goods.Take(3))Assert(Engine.SignTradeContract(s,a.Id,seller.Id,good,1).Success,"Could not fill three valid slots.");
             before=SaveGame.Serialize(s);Assert(!Engine.SignTradeContract(s,seller.Id,a.Id,TradeGood.Salt,1).Success&&SaveGame.Serialize(s)==before,"Fourth contract bypassed a state's limit.");
             Engine.CancelTradeContract(s,1);Assert(Engine.SignTradeContract(s,seller.Id,a.Id,TradeGood.Salt,1).Success,"Cancellation did not release a slot.");
         });

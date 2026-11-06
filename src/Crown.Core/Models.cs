@@ -16,7 +16,7 @@ public enum WarReason { Conquest, Redress, Liberation }
 public enum DemandKind { Compensation, NonAggression, Transit, PaidTransit }
 public enum DemandStatus { Pending, Accepted, Rejected, Cancelled }
 public enum PeaceStatus { Travelling, AwaitingPlayer, Accepted, Rejected, Cancelled, Expired }
-public enum TradeGood { Iron, Salt, Dyes }
+public enum TradeGood { Iron, Salt, Dyes, Tools, Textiles }
 public enum TradePolicy { DomesticFirst, OpenExports, Embargo }
 public enum ContractStatus { Active, Cancelled, Expired }
 public enum CaravanStatus { Travelling, Waiting, Delivered, Lost }
@@ -73,7 +73,7 @@ public sealed class City
     public double LastFoodExported { get; set; }
     public HashSet<string> Charters { get; set; } = [];
     public HashSet<string> ResolvedIssues { get; set; } = [];
-    public Dictionary<TradeGood,double> MarketStocks { get; set; } = new() { [TradeGood.Iron]=0,[TradeGood.Salt]=0,[TradeGood.Dyes]=0 };
+    public Dictionary<TradeGood,double> MarketStocks { get; set; } = Markets.Goods.ToDictionary(g=>g,_=>0d);
     public List<CommodityBalance> LastMarketLines { get; set; } = [];
     public int LastMarketTurn { get; set; }
     public double LastMarketTax { get; set; }
@@ -94,6 +94,15 @@ public sealed class City
     public double MilitarySupplies {get;set;}
     public int SupplyAllocation {get;set;}
     public int LastSupplyPolicyTurn {get;set;}=-1;
+    public CraftRecipe IndustryRecipe {get;set;}
+    public int IndustryShare {get;set;}
+    public int LastIndustryPolicyTurn {get;set;}=-1;
+    public int LastIndustryTurn {get;set;}
+    public CraftRecipe LastIndustryRecipe {get;set;}
+    public int LastIndustryBatches {get;set;}
+    public double LastIndustryWork {get;set;}
+    public List<CraftInput> LastIndustryInputs {get;set;}=[];
+    public string LastIndustryMessage {get;set;}="";
 }
 public sealed class Unit
 {
@@ -327,7 +336,7 @@ public sealed class TradeContract
     public string Message { get; set; } = "Oczekuje na pierwszą dostawę.";
 }
 public sealed record CommodityBalance(TradeGood Good,double Opening,double Produced,double DomesticIn,double DomesticOut,
-    double ForeignIn,double ForeignOut,double Consumed,double Demand,double Lost,double Closing,double Price)
+    double ForeignIn,double ForeignOut,double Consumed,double Demand,double Lost,double Closing,double Price,double IndustrialUsed=0)
 {
     public double Coverage => Demand<=0?1:Math.Clamp(Consumed/Demand,0,1);
 }

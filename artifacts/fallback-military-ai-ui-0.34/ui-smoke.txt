@@ -1,0 +1,17 @@
+PASS The actual city button opens the military assessment
+PASS The assessment reports the real nearby observed hostile force
+PASS An unseen distant enemy is absent from the assessment
+PASS The assessment explains an actual local strength deficit
+PASS The report explains the limits of current reconnaissance
+PASS Supply counts use the real friendly army
+PASS Opening the assessment preserves campaign orders and RNG
+PASS Defense planning opens the existing actual city production controls
+PASS The real army roster also opens the assessment
+PASS The assessment locates the selected city on the actual map
+PASS A peaceful fresh report does not retain stale war warnings
+PASS An isolated friendly army changes the real supply count
+PASS An unsupplied unit entry opens its actual order panel
+PASS The complete assessment is scrollable in a compact window
+PASS Assessment resizing and camera navigation preserve exact state
+PASS The report is correctly rebuilt after an unchanged v20 save reload
+16 military AI desktop integration checks passed.

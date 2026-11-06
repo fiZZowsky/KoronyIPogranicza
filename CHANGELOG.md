@@ -1,5 +1,16 @@
 # Zmiany
 
+## 0.34 — 2026-11-06 · Warsztaty i handel wyrobami
+
+- Dwa fizyczne łańcuchy: 2 żelaza i 6 pracy → 1 narzędzi; 1 barwników i 4 pracy → 2 tkanin. Składniki pochodzą z bezpiecznej sieci własnych miast; zagraniczny import musi najpierw dojechać karawaną.
+- Warsztat narzędziowy, Tkalnia i Dom cechów powstają przez zwykłą kolejkę. Każdy kosztuje utrzymanie. Dom cechów zużywa wyroby i dopiero rzeczywiste pokrycie popytu daje korzyści produkcji, kultury i dobrobytu.
+- Rozmowa z mistrzynią cechów pozwala wybrać wyrób i nakład 0%, 25% lub 50% raz na turę. Przetwórstwo korzysta z pracy pozostałej po dzielnicach i zapasach wojskowych, przed zwykłym projektem; nie podwaja pracy ani składników. Powstają tylko pełne partie mieszczące się w magazynie.
+- Panel warsztatów pokazuje źródła składników, blokady i rozliczenie ostatniej tury. Braki, wstrzymanie, przecięta droga i pełne oblężenie zatrzymują wytwarzanie bez odbierania niewykorzystanej pracy.
+- Narzędzia i tkaniny można sprzedawać istniejącymi kontraktami i karawanami lądowymi. Cena wyrobów uwzględnia oba rynki; zachowano opóźniony transport, opłaty, eskorty, embargo i ryzyko straty.
+- AI buduje i finansuje warsztaty na podstawie rzeczywistych składników oraz stanów wyrobów. Rozwój warsztatów zachowuje priorytet aktywnego programu kosmicznego.
+- Proceduralne modele warsztatów, kowadła, krosna, skrzyń i Domu cechów w 3D, z wariantami historycznymi i przemysłowymi oraz ochroną widoczności obcych miast.
+- Format v24 zachowuje plany i bilanse przetwórstwa. Starsze kampanie zachowują zapasy i umowy bez dopisywania wyrobów; nadpisanie v23 tworzy dokładną .v23.bak. Dodano 32 specyfikacje silnika i 26 kontroli interfejsu.
+
 ## 0.33 — 2026-11-06 · Magazyny i zapasy marszowe
 
 - Magazyn wojskowy budowany za 140 produkcji po Inżynierii, z pojemnością zależną od epoki i rzeczywistym utrzymaniem.

@@ -31,13 +31,13 @@ public sealed partial class MainWindow
             Ui.Bar(side, $"Wzrost miasta: {city.Food:0} / {22 + city.Population * 12}", city.Food, 22 + city.Population * 12, Ui.Green);
             var project = Catalog.Project(city.Project);
             double districtWork=Districts.Allocation(state,city,y.Production),supplyWork=FieldLogistics.Allocation(state,city,Math.Max(0,y.Production-districtWork));
-            int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(.01, y.Production-districtWork-supplyWork));
+            double craftWork=Manufacturing.ForecastWork(state,city,Math.Max(0,y.Production-districtWork-supplyWork));int turns = (int)Math.Ceiling(Math.Max(0, project.Cost - city.Production) / Math.Max(.01, y.Production-districtWork-supplyWork-craftWork));
             var work = Ui.Stack(Ui.Eyebrow("W REALIZACJI"), Ui.Label(project.Name, 22, Ui.Text, true), Ui.Label(project.Description, 12, Ui.Muted));
             Ui.Gap(work, 10);
             string? productionBlock=ProductionPlanning.CurrentBlock(state,city);
             Ui.Bar(work, $"{city.Production:0} / {project.Cost} produkcji · "+(productionBlock!=null?"POSTÓJ":districtWork>=y.Production&&districtWork>0?"praca skierowana do dzielnicy":$"ok. {turns} tur"), city.Production, project.Cost);
             if(productionBlock!=null)work.Children.Add(Ui.Label(productionBlock,12,Ui.Red));
-            if(Districts.Construction(state,city)!=null||FieldLogistics.Active(state,city))work.Children.Add(Ui.Label($"Podział pracy: dzielnice {districtWork:0.##} · zaopatrzenie {supplyWork:0.##} · na ten projekt {Math.Max(0,y.Production-districtWork-supplyWork):0.##}/turę.",12,Ui.Gold));
+            if(Districts.Construction(state,city)!=null||FieldLogistics.Active(state,city)||Manufacturing.Facility(city))work.Children.Add(Ui.Label($"Podział pracy: dzielnice {districtWork:0.##} · zaopatrzenie {supplyWork:0.##} · przetwórstwo {craftWork:0.##} · na ten projekt {Math.Max(0,y.Production-districtWork-supplyWork-craftWork):0.##}/turę.",12,Ui.Gold));
             work.Children.Add(Ui.Label($"Oczekujące zlecenia: {city.ProductionQueue.Count}/8"+(city.RepeatProject?" · obecny projekt powtarzany":""),12,Ui.Muted));
             work.Children.Add(Ui.Button("Plan produkcji: "+city.Name,()=>ShowProductionQueue(city)));
             work.Children.Add(Ui.Button("Wybierz projekt   →", () => ShowProjects(city)));

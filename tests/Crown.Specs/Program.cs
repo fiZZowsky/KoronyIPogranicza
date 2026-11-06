@@ -11,6 +11,7 @@ void Decide(GameState s)
 }
 
 if(args.Contains("--transport")){StageTwentyThreeSpecs.Run(Test);Console.WriteLine($"{passed} transport specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
+if(args.Contains("--manufacturing")){StageTwentySixSpecs.Run(Test);Console.WriteLine($"{passed} manufacturing specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--field-supply")){StageTwentyFiveSpecs.Run(Test);Console.WriteLine($"{passed} field supply specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--siege")){StageTwentyFourSpecs.Run(Test);Console.WriteLine($"{passed} siege specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--navy")){StageTwentyTwoSpecs.Run(Test);Console.WriteLine($"{passed} naval specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
@@ -159,4 +160,5 @@ StageTwentyTwoSpecs.Run(Test);
 StageTwentyThreeSpecs.Run(Test);
 StageTwentyFourSpecs.Run(Test);
 StageTwentyFiveSpecs.Run(Test);
+StageTwentySixSpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

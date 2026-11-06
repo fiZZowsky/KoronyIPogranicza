@@ -9,15 +9,15 @@ internal static class MarketSaveRules
             throw new InvalidDataException("Uszkodzona polityka handlowa.");
         foreach(var c in s.Cities)
         {
-            if(c.MarketStocks==null||c.MarketStocks.Count!=3||Markets.Goods.Any(g=>!c.MarketStocks.TryGetValue(g,out double stock)||!Amount(stock)||stock>Markets.Capacity(c)+.00001)||
+            if(c.MarketStocks==null||c.MarketStocks.Count!=Markets.Goods.Length||Markets.Goods.Any(g=>!c.MarketStocks.TryGetValue(g,out double stock)||!Amount(stock)||stock>Markets.Capacity(c)+.00001)||
                 c.LastMarketTurn<0||c.LastMarketTurn>s.LastMarketTurn||!Amount(c.LastMarketTax)||c.LastMarketLines==null||
-                (c.LastMarketTurn==0?c.LastMarketLines.Count!=0||c.LastMarketTax!=0:c.LastMarketLines.Count!=3||c.LastMarketLines.Select(l=>l.Good).Distinct().Count()!=3))
+                (c.LastMarketTurn==0?c.LastMarketLines.Count!=0||c.LastMarketTax!=0:c.LastMarketLines.Count!=Markets.Goods.Length||c.LastMarketLines.Select(l=>l.Good).Distinct().Count()!=Markets.Goods.Length))
                 throw new InvalidDataException("Uszkodzone magazyny prowincji.");
             foreach(var line in c.LastMarketLines)
             {
-                double[] amounts=[line.Opening,line.Produced,line.DomesticIn,line.DomesticOut,line.ForeignIn,line.ForeignOut,line.Consumed,line.Demand,line.Lost,line.Closing];
+                double[] amounts=[line.Opening,line.Produced,line.DomesticIn,line.DomesticOut,line.ForeignIn,line.ForeignOut,line.Consumed,line.Demand,line.Lost,line.Closing,line.IndustrialUsed];
                 if(!Enum.IsDefined(line.Good)||amounts.Any(v=>!Amount(v))||!double.IsFinite(line.Price)||line.Price<=0||line.Price>100||line.Consumed>line.Demand+.00001||
-                    Math.Abs(line.Opening+line.Produced+line.DomesticIn+line.ForeignIn-line.DomesticOut-line.ForeignOut-line.Consumed-line.Lost-line.Closing)>.00001||
+                    Math.Abs(line.Opening+line.Produced+line.DomesticIn+line.ForeignIn-line.DomesticOut-line.ForeignOut-line.Consumed-line.IndustrialUsed-line.Lost-line.Closing)>.00001||
                     Math.Abs(line.Closing-c.MarketStocks[line.Good])>.00001)
                     throw new InvalidDataException("Niezgodny bilans towarów.");
             }

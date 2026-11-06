@@ -1,5 +1,5 @@
 {
-  "Version": 23,
+  "Version": 24,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16516,7 +16516,9 @@
       "MarketStocks": {
         "Iron": 0,
         "Salt": 0,
-        "Dyes": 0
+        "Dyes": 0,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
@@ -16537,7 +16539,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     },
     {
       "Id": 4,
@@ -16576,7 +16587,9 @@
       "MarketStocks": {
         "Iron": 0,
         "Salt": 0,
-        "Dyes": 0
+        "Dyes": 0,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
@@ -16597,7 +16610,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     },
     {
       "Id": 7,
@@ -16636,7 +16658,9 @@
       "MarketStocks": {
         "Iron": 0,
         "Salt": 0,
-        "Dyes": 0
+        "Dyes": 0,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
@@ -16657,7 +16681,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     },
     {
       "Id": 10,
@@ -16696,7 +16729,9 @@
       "MarketStocks": {
         "Iron": 0,
         "Salt": 0,
-        "Dyes": 0
+        "Dyes": 0,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
@@ -16717,7 +16752,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     },
     {
       "Id": 13,
@@ -16756,7 +16800,9 @@
       "MarketStocks": {
         "Iron": 0,
         "Salt": 0,
-        "Dyes": 0
+        "Dyes": 0,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
@@ -16777,7 +16823,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     }
   ],
   "Units": [

@@ -1,0 +1,1 @@
+Final source report complete and closed: 637 core + 675 UI = 1312 PASS; 0 FAIL; 21 UI modes.

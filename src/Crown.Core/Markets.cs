@@ -4,8 +4,9 @@ public static class Markets
 {
     public static readonly TradeGood[] Goods=Enum.GetValues<TradeGood>();
     public const int PolicyPrice=30,ContractPrice=15;
-    public static string Name(TradeGood good)=>good switch{TradeGood.Iron=>"Żelazo",TradeGood.Salt=>"Sól",_=>"Barwniki"};
-    public static double BasePrice(TradeGood good)=>good switch{TradeGood.Iron=>8,TradeGood.Salt=>5,_=>9};
+    public static string Name(TradeGood good)=>good switch{TradeGood.Iron=>"Żelazo",TradeGood.Salt=>"Sól",TradeGood.Dyes=>"Barwniki",TradeGood.Tools=>"Narzędzia",_=>"Tkaniny"};
+    public static double BasePrice(TradeGood good)=>good switch{TradeGood.Iron=>8,TradeGood.Salt=>5,TradeGood.Dyes=>9,TradeGood.Tools=>14,_=>10};
+    public static double ExportPrice(TradeGood good,double seller,double buyer)=>Math.Round((good is TradeGood.Tools or TradeGood.Textiles?(seller+buyer)*.5:seller)*1.15,2);
     public static string PolicyName(TradePolicy policy)=>policy switch{TradePolicy.OpenExports=>"Swobodny eksport",TradePolicy.Embargo=>"Embargo",_=>"Najpierw mieszkańcy"};
     public static string PolicyDescription(TradePolicy policy)=>policy switch
     {
@@ -18,12 +19,14 @@ public static class Markets
     {
         TradeGood.Iron=>city.Population*.15+(city.Buildings.Contains("workshop")?1:0)+(city.Buildings.Contains("factory")?2:0),
         TradeGood.Salt=>city.Population*.35,
-        _=>city.Population*.2+(city.Buildings.Contains("bank")?1:0)
+        TradeGood.Dyes=>city.Population*.2+(city.Buildings.Contains("bank")?1:0),
+        TradeGood.Tools=>city.Buildings.Contains(Manufacturing.Guildhall)?1+city.Population*.1:0,
+        _=>city.Buildings.Contains(Manufacturing.Guildhall)?1+city.Population*.15:0
     };
     public static double TaxRate(Faction f)=>f.Tax==0?.08:f.Tax==2?.18:.12;
     public static double Coverage(City c,TradeGood good)=>c.LastMarketLines.FirstOrDefault(l=>l.Good==good)?.Coverage??1;
     public static double IndustryMultiplier(City c)=>c.LastMarketTurn==0?1:.9+.1*Coverage(c,TradeGood.Iron);
-    public static int ProsperityEffect(City c)=>c.LastMarketTurn==0?0:(int)Math.Round((Coverage(c,TradeGood.Salt)+Coverage(c,TradeGood.Dyes))*6)-4;
+    public static int ProsperityEffect(City c)=>c.LastMarketTurn==0?0:(int)Math.Round((Coverage(c,TradeGood.Salt)+Coverage(c,TradeGood.Dyes))*6)-4+Manufacturing.ProsperityBonus(c);
     public static double LastTradeBalance(GameState s,int owner)=>s.LastMarketTurn==0?0:s.TradeContracts.Where(c=>c.LastExecutedTurn==s.LastMarketTurn)
         .Sum(c=>c.Seller==owner?c.LastPayment:c.Buyer==owner?-c.LastPayment:0);
 
@@ -101,7 +104,7 @@ public static class Markets
             var good=contract.Good;
             double stock=sellers.Sum(c=>lines[c.Id][good].Stock);
             double reserve=s.Factions[contract.Seller].TradePolicy==TradePolicy.DomesticFirst?sellers.Sum(c=>lines[c.Id][good].Demand):0;
-            double price=Math.Round(lines[contract.SellerCity][good].Price*1.15,2);
+            double price=ExportPrice(good,lines[contract.SellerCity][good].Price,lines[contract.BuyerCity][good].Price);
             double funds=Math.Floor(Math.Max(0,budget[contract.Buyer])*100)/100;
             double quantity=Math.Min(contract.Quantity,Math.Min(Math.Max(0,stock-reserve),Math.Floor(funds/price*100)/100));
             quantity=Math.Round(quantity,2,MidpointRounding.ToZero);

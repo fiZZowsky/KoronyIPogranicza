@@ -33,6 +33,7 @@ public static class Epochs
     {
         if(Navy.ProjectError(s,c,p.Id) is{} navalError)return navalError;
         if(FieldLogistics.ProjectError(s,p.Id) is{} fieldError)return fieldError;
+        if(Manufacturing.ProjectError(s,p.Id) is{} craftError)return craftError;
         if (!s.EpochCampaign) return Content.LegacyProjects.Contains(p.Id) ? null : "Projekt wymaga rozszerzonej kampanii epok.";
         string? site = PowerGrid.SiteError(s, c, p.Id); if (site != null) return site;
         var program = Programs.FirstOrDefault(x => x.Id == p.Id);
@@ -106,7 +107,7 @@ public static class Epochs
         var depot=needsDepot?available.FirstOrDefault(p=>p.Id==FieldLogistics.Depot):null;
         var power = available.Where(p => EpochCatalog.Buildings.Any(b => b.Id == p.Id && b.Energy > 0)).OrderBy(p => EpochCatalog.Buildings.First(b => b.Id == p.Id).Emissions).ThenBy(p => p.Cost).FirstOrDefault();
         var program = available.FirstOrDefault(p => Programs.Any(x => x.Id == p.Id));
-        var building = available.Where(p => p.Unit == null && p.Id is not ("treasury" or "festival") && !Programs.Any(x => x.Id == p.Id))
+        var building = available.Where(p => p.Unit == null && p.Id is not ("treasury" or "festival") && !Programs.Any(x => x.Id == p.Id)&&Manufacturing.AiProject(s,c,p.Id))
             .OrderByDescending(p => EpochCatalog.Buildings.FirstOrDefault(b => b.Id == p.Id)?.Science ?? (p.Id == "library" ? 8 : 0)).ThenBy(p => p.Cost).FirstOrDefault();
         if (power != null && Energy(s, c).Supply <= Energy(s, c).Demand) c.Project = power.Id;
         else if(depot!=null&&c.Project!="settler")c.Project=depot.Id;

@@ -16,6 +16,7 @@ public static partial class Engine
 
     public static Result SignTradeContract(GameState s,int buyerCity,int sellerCity,TradeGood good,int quantity,int owner=0)
     {
+        if(!s.EpochCampaign&&good is TradeGood.Tools or TradeGood.Textiles)return Result.Fail("Handel wyrobami wymaga rozszerzenia kampanii epok.");
         var buyer=s.Cities.FirstOrDefault(c=>c.Id==buyerCity);var seller=s.Cities.FirstOrDefault(c=>c.Id==sellerCity);
         if(s.Ending!=null||owner<0||owner>3||buyer==null||seller==null||buyer.Owner==seller.Owner||buyer.Owner!=owner&&seller.Owner!=owner||!Enum.IsDefined(good)||quantity is <1 or >6)
             return Result.Fail("Nieprawidłowe strony lub ilość towaru.");

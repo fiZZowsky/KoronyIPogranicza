@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional models diagnostic failure.
+   at Crown.Desktop.MainWindow.ModelsSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\ModelsSmoke.cs:line 29

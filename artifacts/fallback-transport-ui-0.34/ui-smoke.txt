@@ -1,0 +1,23 @@
+PASS The real fleet entry opens the carrier manifest with model capacity
+PASS Browsing the manifest preserves exact campaign and RNG
+PASS The actual boarding button loads the settler and spends movement
+PASS The manifest disables a heavy unit that exceeds remaining capacity
+PASS The second real boarding action fills the carrier
+PASS Carried troops disappear from independent 3D formations
+PASS A loaded ship shows an actual deck cargo marker
+PASS The manifest starts real map placement for disembarkation
+PASS Choosing a landing shore blocks accidental turn advancement
+PASS Esc cancels landing selection without spending movement
+PASS Selecting a loaded carrier never selects its hidden passengers
+PASS A real sea map order moves the complete manifest across the water
+PASS Current-format desktop reload restores the actual manifest mid voyage
+PASS An exhausted carrier cannot unload from its actual manifest
+PASS An invalid water landing neither opens confirmation nor changes state
+PASS Selecting the actual shore opens a landing confirmation
+PASS Confirmed landing exhausts the settler and removes the placement overlay
+PASS The second actual landing empties the carrier without granting attacks
+PASS A freshly unloaded settler cannot found a city before the next turn
+PASS A real voyage and next-turn founding establish a coastal colony
+PASS A visible foreign carrier does not expose independent passenger models
+PASS A full future carrier manifest remains scrollable in a compact window
+22 transport desktop integration checks passed.

@@ -63,3 +63,9 @@ Nowe żagle, olinowanie, relingi, polery, magazyny, beczki, umocnienia i gruz po
 Budynki, drzwi, dachy, skrzynie, metalowe opaski i proporce magazynów powstają w DepotModels3D z geometrii C#. Materiały wykorzystują istniejący atlas i cieniowanie z poprzednich wydań. Nie pobierano nowych bitmap, modeli ani dźwięków. Grafika pozostaje proceduralna.
 
 Obrazy field-supply-ui pokazują przygotowany teren i przyznaną wiedzę. Test ustawia końcowy postęp rozpoczętej budowy, a potem kończy magazyn w zwykłej turze, wybiera politykę i rzeczywiście wytwarza pakiety. Testowe jednostki pobierają te zapasy przez przyciski gry. Położenie odciętego oddziału i osobny układ napadu są przygotowane dla kontroli przypadków; zużycie, straty, napad, łup i zapis są rzeczywistymi operacjami. Przemysłowy magazyn i duży spis oddziałów są osobnymi ustawieniami do oceny modeli oraz małego okna. To kontrola integracji, nie zapis naturalnej długiej kampanii.
+
+## Warsztaty i cechy 0.34
+
+CraftingModels3D tworzy budynki warsztatów, komin, kowadło, krosno, płótno, skrzynie i proporzec Domu cechów z geometrii C#. Materiały metalu i tkaniny korzystają z istniejącego renderera oraz atlasu. Nie pobierano modeli, bitmap ani dźwięków i nie generowano nowych ilustracji. Są to modele proceduralne, bez animowanych rzemieślników lub fotogrametrii.
+
+Obrazy manufacturing-ui pochodzą z rzeczywistej aplikacji na przygotowanym terenie z przyznanymi technologiami, drogami, zagranicznym odbiorcą oraz początkowym żelazem i barwnikami. Scenariusz przyspiesza końcowy postęp wybranych budów; ukończenie, decyzje, pobranie surowców z połączonego miasta, wytwarzanie, konsumpcja cechów, płatny eksport i dostarczenie karawaną odbywają się przez normalne fazy i przyciski gry. Przerwanie drogi i dodatkowy stan do kontroli małego okna są przygotowanymi przypadkami. To diagnostyka integracji oraz oprawy, nie zapis naturalnej kampanii ani dowód fotorealizmu.

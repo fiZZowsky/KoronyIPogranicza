@@ -1,5 +1,5 @@
 {
-  "Version": 23,
+  "Version": 24,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16516,7 +16516,9 @@
       "MarketStocks": {
         "Iron": 3.0999999999999996,
         "Salt": 0,
-        "Dyes": 2.8
+        "Dyes": 2.8,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [
         {
@@ -16531,7 +16533,8 @@
           "Demand": 0.44999999999999996,
           "Lost": 0,
           "Closing": 3.0999999999999996,
-          "Price": 6.79
+          "Price": 6.79,
+          "IndustrialUsed": 0
         },
         {
           "Good": "Salt",
@@ -16545,7 +16548,8 @@
           "Demand": 1.0499999999999998,
           "Lost": 0,
           "Closing": 0,
-          "Price": 9
+          "Price": 9,
+          "IndustrialUsed": 0
         },
         {
           "Good": "Dyes",
@@ -16559,7 +16563,38 @@
           "Demand": 0.6000000000000001,
           "Lost": 0,
           "Closing": 2.8,
-          "Price": 7.98
+          "Price": 7.98,
+          "IndustrialUsed": 0
+        },
+        {
+          "Good": "Tools",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 10.5,
+          "IndustrialUsed": 0
+        },
+        {
+          "Good": "Textiles",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 7.5,
+          "IndustrialUsed": 0
         }
       ],
       "LastMarketTurn": 2,
@@ -16580,7 +16615,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     },
     {
       "Id": 4,
@@ -16621,7 +16665,9 @@
       "MarketStocks": {
         "Iron": 0,
         "Salt": 0,
-        "Dyes": 0
+        "Dyes": 0,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [],
       "LastMarketTurn": 0,
@@ -16642,7 +16688,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     },
     {
       "Id": 7,
@@ -16681,7 +16736,9 @@
       "MarketStocks": {
         "Iron": 3.0999999999999996,
         "Salt": 0,
-        "Dyes": 0
+        "Dyes": 0,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [
         {
@@ -16696,7 +16753,8 @@
           "Demand": 0.44999999999999996,
           "Lost": 0,
           "Closing": 3.0999999999999996,
-          "Price": 6.79
+          "Price": 6.79,
+          "IndustrialUsed": 0
         },
         {
           "Good": "Salt",
@@ -16710,7 +16768,8 @@
           "Demand": 1.0499999999999998,
           "Lost": 0,
           "Closing": 0,
-          "Price": 9
+          "Price": 9,
+          "IndustrialUsed": 0
         },
         {
           "Good": "Dyes",
@@ -16724,7 +16783,38 @@
           "Demand": 0.6000000000000001,
           "Lost": 0,
           "Closing": 0,
-          "Price": 12.15
+          "Price": 12.15,
+          "IndustrialUsed": 0
+        },
+        {
+          "Good": "Tools",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 10.5,
+          "IndustrialUsed": 0
+        },
+        {
+          "Good": "Textiles",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 7.5,
+          "IndustrialUsed": 0
         }
       ],
       "LastMarketTurn": 2,
@@ -16745,7 +16835,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     },
     {
       "Id": 10,
@@ -16784,7 +16883,9 @@
       "MarketStocks": {
         "Iron": 3.0999999999999996,
         "Salt": 0,
-        "Dyes": 0
+        "Dyes": 0,
+        "Tools": 0,
+        "Textiles": 0
       },
       "LastMarketLines": [
         {
@@ -16799,7 +16900,8 @@
           "Demand": 0.44999999999999996,
           "Lost": 0,
           "Closing": 3.0999999999999996,
-          "Price": 6.79
+          "Price": 6.79,
+          "IndustrialUsed": 0
         },
         {
           "Good": "Salt",
@@ -16813,7 +16915,8 @@
           "Demand": 1.0499999999999998,
           "Lost": 0,
           "Closing": 0,
-          "Price": 9
+          "Price": 9,
+          "IndustrialUsed": 0
         },
         {
           "Good": "Dyes",
@@ -16827,7 +16930,38 @@
           "Demand": 0.6000000000000001,
           "Lost": 0,
           "Closing": 0,
-          "Price": 12.15
+          "Price": 12.15,
+          "IndustrialUsed": 0
+        },
+        {
+          "Good": "Tools",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 10.5,
+          "IndustrialUsed": 0
+        },
+        {
+          "Good": "Textiles",
+          "Opening": 0,
+          "Produced": 0,
+          "DomesticIn": 0,
+          "DomesticOut": 0,
+          "ForeignIn": 0,
+          "ForeignOut": 0,
+          "Consumed": 0,
+          "Demand": 0,
+          "Lost": 0,
+          "Closing": 0,
+          "Price": 7.5,
+          "IndustrialUsed": 0
         }
       ],
       "LastMarketTurn": 2,
@@ -16848,7 +16982,16 @@
       "LastDistrictPolicyTurn": -1,
       "MilitarySupplies": 0,
       "SupplyAllocation": 0,
-      "LastSupplyPolicyTurn": -1
+      "LastSupplyPolicyTurn": -1,
+      "IndustryRecipe": "Tools",
+      "IndustryShare": 0,
+      "LastIndustryPolicyTurn": -1,
+      "LastIndustryTurn": 0,
+      "LastIndustryRecipe": "Tools",
+      "LastIndustryBatches": 0,
+      "LastIndustryWork": 0,
+      "LastIndustryInputs": [],
+      "LastIndustryMessage": ""
     }
   ],
   "Units": [

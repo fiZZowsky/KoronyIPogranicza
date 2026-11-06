@@ -19,11 +19,13 @@ internal static partial class WorldScene3D
         batch.Mesh("town-square", "#A79D7F").Cylinder(p.X, y - .035, p.Y, .23, .04, sides: 16);
         int count = era<2?Math.Clamp(4+city.Population,6,14):Math.Clamp(10+city.Population*2,12,46);
         bool depotYard=ReserveDepotYard(s,city);
+        bool craftYard=ReserveCraftYard(s,city);
         for (int i = 0; i < count; i++)
         {
             double angle = i * 2.399963, radius = .24+Math.Sqrt((i+.5)/count)*.56;
             double x = p.X + Math.Cos(angle) * radius, z = p.Y + Math.Sin(angle) * radius, baseY = Terrain3D.Height(s, x, z);
             if(depotYard&&InDepotYard(x-p.X,z-p.Y))continue;
+            if(craftYard&&InCraftYard(x-p.X,z-p.Y))continue;
             if (era == 0)
             {
                 batch.Mesh("tents", "#B1A080").Cylinder(x, baseY, z, .12, .20 + random.NextDouble() * .08, .012, 8);

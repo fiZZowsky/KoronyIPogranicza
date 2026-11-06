@@ -1,5 +1,19 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Warsztaty i handel wyrobami — 0.34
+
+Manufacturing wprowadza dwa skończone łańcuchy oraz trzy zwykłe projekty miejskie. Tools wymaga 2 Iron i 6 pracy na sztukę; Textiles wymaga 1 Dyes i 4 pracy na dwie sztuki. Quote jest czystym podglądem i zwraca pełne partie, pracę oraz dokładną listę pobrań z miast. Źródła należą do tego samego właściciela i MarketGroup, omijają interdiction, preferują własny magazyn i następnie identyfikator miasta. Zagraniczne stany nie są źródłem; surowce stają się dostępne dopiero po istniejącym rzeczywistym imporcie.
+
+Markets.Tick rozlicza konsumpcję i transport przed nowym przetwórstwem. W gospodarce miasta najpierw pracują dzielnice, następnie magazyn wojskowy, następnie warsztaty, a pozostałość trafia do projektu. BuildPhase raz na turę pobiera dokładnie Quote.Work i Quote.Inputs, aktualizuje IndustrialUsed w księgach miast źródłowych oraz Produced w mieście docelowym. Wyroby są dostępne dla rynku w kolejnej turze. Liczba partii wynosi najwyżej 1 + floor(indeks epoki / 4); pełna partia musi mieścić się w zapasie wyrobu. Brak składników, pracy, miejsca, pauza albo pełne oblężenie nie pobiera pracy częściowej partii. Nie ma ukrytego bufora w toku produkcji.
+
+IndustryRecipe, IndustryShare i LastIndustryPolicyTurn przechowują decyzję mistrzyni cechów. Zmiana 0/25/50% jest możliwa raz na turę, bez natychmiastowego przesuwania dóbr. LastIndustryTurn, receptura, partie, praca, źródła i komunikat przechowują ostatni raport. Zdobycie miasta zachowuje jego fizyczne zapasy i budynki, ale zeruje nakład i kontekst raportu. Ukończenie pierwszego warsztatu wybiera jego recepturę przy nakładzie 0%.
+
+Dom cechów dodaje popyt na Tools i Textiles. Bonusy opierają się na faktycznej konsumpcji przy Demand > 0: do 15% produkcji, 3 bazowej kultury i 3 dobrobytu. Samo ukończenie budynku po fazie rynku nie daje premii za pusty wiersz historyczny. Trzy nowe budynki kosztują po 1,5 złota plus zwykłą administrację. Cena eksportu wyrobów to średnia cen sprzedawcy i odbiorcy ×1,15; surowce zachowują starą wycenę. Transport używa istniejących kontraktów, płatności i karawan lądowych, z ich ograniczeniami i ryzykiem.
+
+AI uwzględnia skończone surowce, limit rozbudowy i realne koszty. Dobiera recepturę i nakład; powyżej 80% pojemności albo przy aktywnym programie kosmicznym zatrzymuje przetwórstwo. To lokalne heurystyki, bez wieloturowego planowania przemysłu i automatycznej optymalizacji całej sieci.
+
+Format v24 dodaje pięć pozycji księgi i IndustrialUsed oraz waliduje receptury, daty, pracę, źródła i sumy. Migracja dodaje wyłącznie zerowe stany nowych wyrobów i zerowe brakujące wiersze historii, zachowując trzy stare towary i systemy wojskowe. Nowe wyroby, budynki i umowy nie mogą być przemycane w starszym schemacie. SaveGame.Write zachowuje dokładną kopię wersji źródłowej przy zapisie. ManufacturingPanels pokazuje plan, źródła, faktyczny wynik oraz istniejący eksport. CraftingModels3D rezerwuje osobny plac w mieście i rysuje obce obiekty wyłącznie przy bieżącej widoczności. Stan wyrobów trafia do sygnatury sceny, więc skrzynie odświeżają się w tej samej turze.
+
 ## Skończone zapasy marszowe — 0.33
 
 FieldLogistics rozdziela fizyczną linię dostaw od rezerwy jednostki. Logistics.HasSupplyLine zachowuje dotychczasowy graf lądowy, dostawy morskie i przyczółki. Logistics.Supplied uwzględnia dodatkowo SupplyReserve tylko dla aktywnych lądowych oddziałów bojowych. Rezerwa nie zasila grafów miast, handlu ani okrętów. Pasażerowie nadal korzystają z przewoźnika.

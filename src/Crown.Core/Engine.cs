@@ -42,6 +42,7 @@ public static partial class Engine
         }
         var development=Epochs.Bonus(s,c);food+=development.Food;prod+=development.Production;gold+=development.Gold;science+=development.Science;culture+=development.Culture;
         var districts=Districts.Yields(s,c);food+=districts.Food;prod+=districts.Production;gold+=districts.Gold;science+=districts.Science;culture+=districts.Culture;
+        culture+=Manufacturing.CultureBonus(c);
         if(Navy.ActivePort(s,c)){food+=2;gold+=4;}
 
         if(s.Tiles[c.Tile].River && f.Technologies.Contains("irrigation")) food+=2;
@@ -73,7 +74,7 @@ public static partial class Engine
         double efficiency=Math.Clamp(.65+f.Stability*.005-c.Unrest*.003,.35,1.15)*(.9+c.Prosperity*.002)*(.85+c.Loyalty*.002);
         gold*=f.Tax==0?.65:f.Tax==2?1.5:1;
         if(Navy.Blockaded(s,c))gold*=.75;
-        return new(food-c.Population*2,prod*efficiency*Markets.IndustryMultiplier(c),gold*efficiency,science*efficiency,culture*efficiency);
+        return new(food-c.Population*2,prod*efficiency*Markets.IndustryMultiplier(c)*(1+Manufacturing.ProductionBonus(c)),gold*efficiency,science*efficiency,culture*efficiency);
     }
     public static Yields Income(GameState s,int owner)
     {
@@ -199,7 +200,8 @@ public static partial class Engine
                 var p=ProductionPlanning.CurrentBlock(s,c)==null?AvailableProjects(s,c).FirstOrDefault(p=>p.Id==c.Project):null;
                 double districtWork=Districts.BuildPhase(s,c,y.Production*modifier);
                 double supplyWork=FieldLogistics.BuildPhase(s,c,Math.Max(0,y.Production*modifier-districtWork));
-                if(p!=null)c.Production+=Math.Max(0,y.Production*modifier-districtWork-supplyWork);
+                double craftWork=Manufacturing.BuildPhase(s,c,Math.Max(0,y.Production*modifier-districtWork-supplyWork));
+                if(p!=null)c.Production+=Math.Max(0,y.Production*modifier-districtWork-supplyWork-craftWork);
                 if(p!=null&&c.Production>=p.Cost)
                 {
                     completedProjects.Add(c.Id);
@@ -208,7 +210,11 @@ public static partial class Engine
                     else if(p.Id=="treasury")f.Gold+=60;
                     else if(p.Id=="festival"){f.Culture+=30;f.Prestige+=4;}
                     else if(Epochs.Programs.Any(x=>x.Id==p.Id))Epochs.Complete(s,f,p);
-                    else c.Buildings.Add(p.Id);
+                    else
+                    {
+                        c.Buildings.Add(p.Id);
+                        if(p.Id==Manufacturing.Weavers&&!c.Buildings.Contains(Manufacturing.Toolmakers)||p.Id==Manufacturing.Toolmakers&&!c.Buildings.Contains(Manufacturing.Weavers))Manufacturing.Reset(c);
+                    }
                     if(f.Id==0)s.Log($"{c.Name}: ukończono {p.Name}.","miasto");
                     ProductionPlanning.Next(s,c);
                 }
@@ -275,6 +281,7 @@ public static partial class Engine
                 }
             }
             Markets.ManageAi(s,f.Id);
+            Manufacturing.ManageAi(s,f.Id);
             EscortOrders.ManageAi(s,f.Id);
             Espionage.ManageAi(s,f.Id);
             foreach(var r in s.Relations.Where(r=>r.A==f.Id||r.B==f.Id))
