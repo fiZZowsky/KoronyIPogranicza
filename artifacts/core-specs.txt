@@ -372,9 +372,9 @@ PASS Old campaigns explicitly extend without erasing cities, people, treasury or
 PASS V16 migration preserves espionage and custody without inventing new era decisions
 PASS Validation rejects impossible eras, milestones, climate values and mismatched models
 PASS A real campaign researches every epoch, resolves its institutions and keeps deterministic saves
-  extended development T200: AI eras 8,8,7; techs 38,36,35
-  extended development T400: AI eras 14,13,12; techs 70,61,58
-  future reached after 491 turns; highest AI era 18; cities 13
+  extended development T200: AI eras 8,8,7; techs 36,36,35
+  extended development T400: AI eras 15,12,12; techs 74,57,57
+  future reached after 461 turns; highest AI era 18; cities 13
 PASS AI develops from prehistoric income into future eras without granted research or buildings
 PASS Army model forecasts remain pure and preserve modern movement metadata
 PASS V16 save overwrite creates a faithful backup with the old custody context
@@ -642,4 +642,42 @@ PASS Current manufacturing saves preserve deterministic economic and shipment co
 PASS V23 migration retains military reserves and old ledgers without inventing processed goods
 PASS Validation rejects forged recipes work dates input sources and inconsistent industrial ledgers
 PASS Older formats cannot smuggle new facilities products or product contracts
-637 specifications passed in 32,1s.
+PASS Era endeavour completes paid real phases: Paleolit
+PASS Era endeavour completes paid real phases: Neolit
+PASS Era endeavour completes paid real phases: Epoka brązu
+PASS Era endeavour completes paid real phases: Epoka żelaza
+PASS Era endeavour completes paid real phases: Starożytność klasyczna
+PASS Era endeavour completes paid real phases: Średniowiecze
+PASS Era endeavour completes paid real phases: Renesans
+PASS Era endeavour completes paid real phases: Oświecenie
+PASS Era endeavour completes paid real phases: Rewolucja przemysłowa
+PASS Era endeavour completes paid real phases: Nowoczesność
+PASS Era endeavour completes paid real phases: Epoka atomowa
+PASS Era endeavour completes paid real phases: Epoka informacyjna
+PASS Era endeavour completes paid real phases: Epoka automatyzacji
+PASS Era endeavour completes paid real phases: Epoka planetarna
+PASS Era endeavour completes paid real phases: Epoka orbitalna
+PASS Era endeavour completes paid real phases: Epoka międzyplanetarna
+PASS Era endeavour completes paid real phases: Epoka Układu Słonecznego
+PASS Era endeavour completes paid real phases: Epoka międzygwiezdna
+PASS Every era has a distinct task legacy and architectural purpose
+PASS Commissioning spends only the explicit start cost and grants no instant legacy
+PASS Rejected future duplicate owner and pace choices are atomic
+PASS Advancing an era preserves an unfinished historical commission
+PASS An established legacy cannot be replayed for repeated rewards
+PASS Foreign institutions cannot satisfy a domestic endeavour
+PASS Forecasting all requirements preserves the complete campaign and RNG
+PASS Each funded phase spends the exact fee beyond ordinary economy
+PASS Missing conditions reset continuity while retaining already paid costs
+PASS The gradual plan actually needs six consecutive phases
+PASS A cash shortage resets the plan without creating debt
+PASS Cancellation has no refund and cannot be used to restart in the same turn
+PASS Unpowered and suspended infrastructure never satisfies a powered endeavour
+PASS A newly built service cannot claim a phase before it actually received energy
+PASS Legacy production is earned and follows the actual operating building
+PASS Transport housing and climate legacies change their actual systems
+PASS AI funds a legal available endeavour without steering the player
+PASS A current save resumes the exact paid endeavour and future world
+PASS Actual v24 shape migrates without invented legacies and keeps an exact backup
+PASS Validation rejects forged completed plans progress dates and legacy formats
+675 specifications passed in 29,1s.

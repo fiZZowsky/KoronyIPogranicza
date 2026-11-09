@@ -1,0 +1,39 @@
+PASS New desktop campaign starts a full Paleolithic-to-future history
+PASS Era browser contains all eighteen ordered stages
+PASS Era browser opens Paleolit
+PASS Era browser opens Neolit
+PASS Era browser opens Epoka brązu
+PASS Era browser opens Epoka żelaza
+PASS Era browser opens Starożytność klasyczna
+PASS Era browser opens Średniowiecze
+PASS Era browser opens Renesans
+PASS Era browser opens Oświecenie
+PASS Era browser opens Rewolucja przemysłowa
+PASS Era browser opens Nowoczesność
+PASS Era browser opens Epoka atomowa
+PASS Era browser opens Epoka informacyjna
+PASS Era browser opens Epoka automatyzacji
+PASS Era browser opens Epoka planetarna
+PASS Era browser opens Epoka orbitalna
+PASS Era browser opens Epoka międzyplanetarna
+PASS Era browser opens Epoka Układu Słonecznego
+PASS Era browser opens Epoka międzygwiezdna
+PASS Prehistoric state cannot start interstellar research from the browser
+PASS Era research button selects a real technology without resetting the science pool
+PASS A real turn completes Renaissance research and opens the era's political debate
+PASS Era debate stores the chosen permanent industrial and supply policy
+PASS Era browser shows the actually adopted historical institution
+PASS Modernization UI pays gold, changes the physical model and retains veteran health and experience
+PASS Project era filter shows the requested industrial infrastructure
+PASS An industrial building is ordered through its production button and really supplies energy after completion
+PASS Space program button is disabled when its industrial network lacks power
+PASS Sufficient fusion energy enables the orbital program
+PASS Space overview starts actual city production
+PASS Real production completes a national orbital program rather than a decorative local building
+PASS Desktop reload preserves era institutions, national infrastructure and the extended campaign
+PASS Planetary overview displays actual climate pressure and crop impact
+PASS Interstellar program completes through a real UI turn and triggers the new science victory
+PASS Victory dialog allows further development of the future world
+PASS Legacy campaign expansion preserves its cities and treasury
+PASS Extensive future-era content remains reachable in a compact scrolling window
+38 epoch desktop integration checks passed.

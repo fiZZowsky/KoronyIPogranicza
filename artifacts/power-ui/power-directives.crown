@@ -1,5 +1,5 @@
 {
-  "Version": 24,
+  "Version": 25,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": true,
@@ -17398,7 +17398,15 @@
         "16": 1,
         "17": 1
       },
-      "SpaceMilestones": []
+      "SpaceMilestones": [],
+      "EraLegacies": [],
+      "ActiveEndeavour": -1,
+      "EndeavourPace": 0,
+      "EndeavourProgress": 0,
+      "EndeavourStartedTurn": 0,
+      "LastEndeavourDecisionTurn": -1,
+      "LastEndeavourPhase": 0,
+      "EndeavourReport": ""
     },
     {
       "Id": 1,
@@ -17427,7 +17435,15 @@
       "EpochChoices": {
         "0": 1
       },
-      "SpaceMilestones": []
+      "SpaceMilestones": [],
+      "EraLegacies": [],
+      "ActiveEndeavour": -1,
+      "EndeavourPace": 0,
+      "EndeavourProgress": 0,
+      "EndeavourStartedTurn": 0,
+      "LastEndeavourDecisionTurn": -1,
+      "LastEndeavourPhase": 0,
+      "EndeavourReport": ""
     },
     {
       "Id": 2,
@@ -17456,7 +17472,15 @@
       "EpochChoices": {
         "0": 0
       },
-      "SpaceMilestones": []
+      "SpaceMilestones": [],
+      "EraLegacies": [],
+      "ActiveEndeavour": -1,
+      "EndeavourPace": 0,
+      "EndeavourProgress": 0,
+      "EndeavourStartedTurn": 0,
+      "LastEndeavourDecisionTurn": -1,
+      "LastEndeavourPhase": 0,
+      "EndeavourReport": ""
     },
     {
       "Id": 3,
@@ -17485,7 +17509,15 @@
       "EpochChoices": {
         "0": 2
       },
-      "SpaceMilestones": []
+      "SpaceMilestones": [],
+      "EraLegacies": [],
+      "ActiveEndeavour": -1,
+      "EndeavourPace": 0,
+      "EndeavourProgress": 0,
+      "EndeavourStartedTurn": 0,
+      "LastEndeavourDecisionTurn": -1,
+      "LastEndeavourPhase": 0,
+      "EndeavourReport": ""
     }
   ],
   "Relations": [

@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using System.Windows.Media.Media3D;
 
 namespace Crown.Desktop;
@@ -17,7 +17,7 @@ internal sealed partial class PhotographicRenderer
     {
         var mesh=(MeshGeometry3D)model.Geometry;if(meshCache.TryGetValue(mesh,out var cached))return cached;
         string key=SceneSurface.Key(model);var material=ReadMaterial(model.Material);var c=material.Color;float kind=Kind(key,material.Emissive);
-        byte detail=key.StartsWith("lod-")?(byte)2:key.StartsWith("bark")||key.StartsWith("foliage")?(byte)1:key.StartsWith("ground-grass")||key.StartsWith("wild-")?(byte)3:(byte)0;
+        byte detail=key.StartsWith("detail-")?(byte)4:key.StartsWith("lod-")?(byte)2:key.StartsWith("bark")||key.StartsWith("foliage")?(byte)1:key.StartsWith("ground-grass")||key.StartsWith("wild-")?(byte)3:(byte)0;
         var ids=(int[]?)model.GetValue(SceneSurface.TileIdsProperty);
         var groups=new Dictionary<(int X,int Z),List<GpuVertex>>();
         for(int triangle=0;triangle<mesh.TriangleIndices.Count/3;triangle++)
@@ -54,6 +54,6 @@ internal sealed partial class PhotographicRenderer
     {
         if(!AutomaticDetail)return mesh.Detail!=2;
         float distance=Vector3.Distance(eye,new(mesh.Cell.X,(float)(field?.Sample(mesh.Cell.X,mesh.Cell.Y)??0),mesh.Cell.Y));
-        return mesh.Detail switch{1=>distance<25,2=>distance>=25,3=>distance<18,_=>true};
+        return mesh.Detail switch{1=>distance<25,2=>distance>=25,3=>distance<18,4=>distance<16,_=>true};
     }
 }

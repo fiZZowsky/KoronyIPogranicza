@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.Windows.Media.Media3D;
 
 namespace Crown.Desktop;
@@ -35,34 +35,12 @@ internal static partial class WorldScene3D
             {
                 double height = .22 + random.NextDouble() * (era >= 12 ? .55 : .35);
                 string walls = era >= 12 ? "#A9C1C1" : "#ADAFA8";
-                batch.Mesh("urban-" + walls, walls).Box(x, baseY, z, .16, height, .17);
-                batch.Mesh("glass", "#5E8C9A").Box(x, baseY + height * .28, z - .09, .115, height * .57, .008);
+                batch.Mesh("era-facade-"+(era==9?2:3),"#FFFFFF").FacadeBox(x,baseY,z,.16,height,.17);
                 batch.Mesh("flat-roofs", "#778781").Box(x, baseY + height, z, .18, .025, .19);
+                EraFacade(batch,x,baseY,z,.16,height,.17,era);
             }
         }
-        if (era < 1) batch.Mesh("camp-fire", "#D0A86D").Cylinder(p.X, y, p.Y, .10, .07, .03, 8);
-        else if (era < 8)
-        {
-            House(batch, p.X, y, p.Y, .30, .30, .37);
-            if (era >= 4) { batch.Mesh("hall-tower", "#B9B49F").Box(p.X + .16, y, p.Y, .15, .48, .16); batch.Mesh("roofs", "#9B6550").Cylinder(p.X + .16, y + .48, p.Y, .12, .17, 0, 4); }
-        }
-        else if (era < 12)
-        {
-            House(batch, p.X, y, p.Y, .32, .30, .38, "#B3ADA0");
-            batch.Mesh("civic-tower", "#CBC7B7").Box(p.X, y, p.Y, .18, .70, .18);
-            batch.Mesh("civic-glass", "#72929B").Box(p.X, y + .4, p.Y - .097, .13, .20, .009);
-        }
-        else
-        {
-            batch.Mesh("future-towers", "#ADBFBC").Cylinder(p.X, y, p.Y, .15, .85, .11, 12);
-            batch.Mesh("future-glass", "#5C99A3").Cylinder(p.X, y + .22, p.Y, .155, .44, .13, 12);
-            batch.Mesh("future-caps", "#C9D3CC").Cylinder(p.X, y + .85, p.Y, .13, .075, .04, 12);
-            if (era >= 14)
-            {
-                batch.Mesh("habitat-domes", "#83ACAB").Sphere(p.X + .28, y + .14, p.Y + .16, .25, .22, .22, 14, 7);
-                batch.Mesh("antenna", "#C4C8BE").Tube(new(p.X - .26, y, p.Y - .20), new(p.X - .26, y + .68, p.Y - .20), .016);
-            }
-        }
+        EraCivic(batch,s,city,era);
         if (city.Buildings.Contains("walls"))
         {
             var stone = batch.Mesh("fortifications", "#A5A28C");

@@ -1,4 +1,4 @@
-namespace Crown.Core;
+﻿namespace Crown.Core;
 
 public enum Terrain { Ocean, Coast, Grassland, Forest, Hills, Mountain, Desert, Marsh, Tundra }
 public enum Resource { None, Grain, Iron, Horses, Stone, Salt, Dyes }
@@ -149,6 +149,14 @@ public sealed class Faction
     public int LastTradePolicyTurn { get; set; } = -10;
     public Dictionary<int, int> EpochChoices { get; set; } = [];
     public HashSet<string> SpaceMilestones { get; set; } = [];
+    public HashSet<int> EraLegacies { get; set; } = [];
+    public int ActiveEndeavour { get; set; } = -1;
+    public int EndeavourPace { get; set; }
+    public int EndeavourProgress { get; set; }
+    public int EndeavourStartedTurn { get; set; }
+    public int LastEndeavourDecisionTurn { get; set; } = -1;
+    public int LastEndeavourPhase { get; set; }
+    public string EndeavourReport { get; set; } = "";
     public int Era => Epochs.Current(this);
 }
 public sealed class Relation

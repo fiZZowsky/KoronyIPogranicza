@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional era identity diagnostic failure.
+   at Crown.Desktop.MainWindow.EraIdentitySmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\EraIdentitySmoke.cs:line 27

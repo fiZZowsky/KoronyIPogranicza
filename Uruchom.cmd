@@ -1,6 +1,10 @@
 @echo off
 setlocal
 cd /d "%~dp0"
+if exist "wydanie-0.35\KoronyIPogranicza.exe" (
+    start "" "wydanie-0.35\KoronyIPogranicza.exe"
+    exit /b 0
+)
 if exist "wydanie-0.34\KoronyIPogranicza.exe" (
     start "" "wydanie-0.34\KoronyIPogranicza.exe"
     exit /b 0

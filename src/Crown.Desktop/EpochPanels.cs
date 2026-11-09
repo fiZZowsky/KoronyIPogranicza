@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using Catalog = Crown.Core.Content;
 using System.Windows.Controls;
 
@@ -17,6 +17,8 @@ public sealed partial class MainWindow
         select.SelectionChanged += (_, _) => ShowEpochs(select.SelectedIndex); p.Children.Add(select);
         p.Children.Add(Ui.Label(e.Name, 28, Ui.Text, true)); p.Children.Add(Ui.Label(e.Period + "\n" + e.Description, 14, Ui.Muted));
         p.Children.Add(Ui.Label("Postęp zależy od wiedzy. Kalendarz jest umowny i uwzględnia najbardziej zaawansowane państwo. Każda epoka ma cztery dziedziny i odkrycie zamykające dorobek. Następny etap wymaga zamknięcia poprzedniego. Technologie i instytucje zachowujesz.", 12, Ui.Muted));
+        p.Children.Add(Ui.Label("Charakter architektury: "+WorldScene3D.ArchitectureNames[index],14,Ui.Gold));
+        p.Children.Add(Ui.Button("Przedsięwzięcia i dziedzictwo epok",()=>ShowEraEndeavours(index),true));
         foreach (string id in e.Technologies)
         {
             var t = Catalog.Tech(id); bool known = f.Technologies.Contains(id); string? error = Epochs.ResearchError(state, f, t);

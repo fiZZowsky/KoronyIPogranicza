@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
@@ -11,6 +11,10 @@ internal sealed record GamePreferences
     public int Version {get;set;}=1;
     public int DisplayMode {get;set;}
     public int Quality {get;set;}
+    public bool AdaptiveResolution {get;set;}=true;
+    public bool EcoRendering {get;set;}=true;
+    public bool ContactShadows {get;set;}=true;
+    public int FrameLimit {get;set;}=30;
     public bool Shadows {get;set;}=true;
     public bool Reflections {get;set;}=true;
     public bool EdgeSmoothing {get;set;}=true;
@@ -57,11 +61,12 @@ internal sealed record GamePreferences
         if(Bindings.Any(pair=>pair.Value==key&&pair.Key!=action))return "Klawisz jest już przypisany: "+ActionName(conflict.Key)+". Wybierz inny.";
         Bindings[action]=key;return null;
     }
-    internal void Preset(int quality){Quality=Math.Clamp(quality,0,2);Shadows=Quality<2;Reflections=Quality==0;EdgeSmoothing=true;AutomaticDetail=true;VisibilityCulling=true;}
+    internal void Preset(int quality){Quality=Math.Clamp(quality,0,2);Shadows=Quality<2;Reflections=Quality==0;EdgeSmoothing=true;AutomaticDetail=true;VisibilityCulling=true;ContactShadows=Quality<2;AdaptiveResolution=true;EcoRendering=true;}
     internal GamePreferences Normalize()
     {
         var p=Copy();p.Version=1;p.DisplayMode=Math.Clamp(p.DisplayMode,0,1);p.Quality=Math.Clamp(p.Quality,0,2);
         double Clamp(double value,double low,double high,double fallback)=>double.IsFinite(value)?Math.Clamp(value,low,high):fallback;
+        p.FrameLimit=p.FrameLimit is 10 or 20 or 30 or 60?p.FrameLimit:30;
         p.Brightness=Clamp(p.Brightness,.6,1.4,1);p.MasterVolume=Clamp(p.MasterVolume,0,1,.7);p.InterfaceVolume=Clamp(p.InterfaceVolume,0,1,.5);
         p.PanSpeed=Clamp(p.PanSpeed,.3,2.5,1);p.OrbitSensitivity=Clamp(p.OrbitSensitivity,.3,2.5,1);p.ZoomSensitivity=Clamp(p.ZoomSensitivity,.3,2.5,1);
         if(!Enum.IsDefined(p.Weather))p.Weather=VisualWeather.Seasonal;

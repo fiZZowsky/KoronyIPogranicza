@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -52,7 +52,7 @@ public sealed partial class MainWindow
             Check(contract.LastDelivered>0&&state.Caravans.Count==1&&foreign.LastMarketLines.Single(l=>l.Good==TradeGood.Tools).ForeignIn==0,"Paid manufactured exports enter an actual caravan rather than arriving instantly");int cargo=state.Caravans[0].Id;
             for(int i=0;i<6&&Caravans.Active(state.Caravans.Single(c=>c.Id==cargo));i++)Step();Check(state.Caravans.Single(c=>c.Id==cargo).Status==CaravanStatus.Delivered&&foreign.LastMarketLines.Single(l=>l.Good==TradeGood.Tools).ForeignIn>0,"The actual caravan delivers manufactured tools to the foreign guildhall");
             string path=Path.Combine(folder,"manufacturing-campaign.crown");SaveGame.Write(state,path);before=SaveGame.Serialize(state);LoadPath(path);CloseModal();city=state.Cities.Single(c=>c.Id==city.Id);
-            Check(state.Version==24&&SaveGame.Serialize(state)==before&&city.LastIndustryBatches>0,"Desktop V24 reload preserves manufacturing receipts stocks and shipment history");
+            Check(state.Version==SaveGame.CurrentVersion&&SaveGame.Serialize(state)==before&&city.LastIndustryBatches>0,"Desktop current-format reload preserves manufacturing receipts stocks and shipment history");
             var cut=state.Tiles[12*state.Width+14];cut.Road=false;cut.RoadOwner=-1;city.MarketStocks[TradeGood.Iron]=0;state.InvalidateLogistics();Refresh();ShowManufacturing();
             Check(Text("Brak składników")&&Manufacturing.Quote(state,city,100).Batches==0,"The actual processing panel explains loss of the disconnected supplier");CloseModal();Step();ShowManufacturing();Check(city.LastIndustryBatches==0&&city.LastIndustryWork==0,"A real subsequent turn cannot manufacture through a missing road");
             CloseModal();map.Center(city.Tile);await Capture("manufacturing-workshops");ShowManufacturing();root.UpdateLayout();

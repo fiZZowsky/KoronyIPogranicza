@@ -1,0 +1,23 @@
+PASS The fleet opens the real siege and beachhead report
+PASS Reading siege intelligence leaves state and RNG unchanged
+PASS The report omits currently unseen foreign cities
+PASS A real sea order carries the assault infantry to the enemy shore
+PASS The real landing planner includes a defended legal assault shore
+PASS The map opens the assault forecast and explicit landing penalty
+PASS Opening the assault confirmation spends no resources
+PASS Cancelling the assault preserves the entire campaign
+PASS Confirmed assault defeats defenders and lands exhausted infantry at the actual cost
+PASS Successful assault clears the map planning state
+PASS The existing military order begins genuine beachhead preparation
+PASS Ordinary turns activate fleet-backed beachhead supply
+PASS An active beachhead has a real flag and supply-crate model
+PASS Prepared field positions appear in actual scene geometry
+PASS The report exposes the established beachhead and its map link
+PASS Ships and ports include actual rigging and mooring fittings
+PASS The requested rendering backend initializes successfully: System.InvalidOperationException: Tryb zgodności wybrany parametrem --no-gpu.
+   at Crown.Desktop.MapView.RenderGpuFrame(Double visualTime) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\MapView3D.cs:line 284
+PASS The WPF fallback keeps detailed coastal geometry
+PASS The WPF fallback maintains a visible native 3D scene
+PASS Desktop save and reload preserve the derived beachhead from saved positions and orders
+PASS The siege report remains navigable in a compact window
+21 siege desktop integration checks passed.

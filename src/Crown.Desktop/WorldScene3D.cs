@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -128,16 +128,17 @@ internal static partial class WorldScene3D
             mesh.Triangle(Surface(c.X, c.Y), Surface(c.X + Math.Cos(b) * .96, c.Y + Math.Sin(b) * .96), Surface(c.X + Math.Cos(a) * .96, c.Y + Math.Sin(a) * .96));
         }
     }
-    private static void House(SceneBatch batch, double x, double y, double z, double width, double height, double depth, string wall = "#C6B797")
+    private static void House(SceneBatch batch, double x, double y, double z, double width, double height, double depth, string wall = "#C6B797",int facade=-1)
     {
-        batch.Mesh("walls-" + wall, wall).Box(x, y, z, width, height, depth);
+        if(facade>=0)batch.Mesh("era-facade-"+facade,"#FFFFFF").FacadeBox(x,y,z,width,height,depth);
+        else batch.Mesh("walls-" + wall, wall).Box(x, y, z, width, height, depth);
         var roof = batch.Mesh("roofs", "#9B6550"); double l = x - width * .57, r = x + width * .57, f = z - depth * .57, b = z + depth * .57, top = y + height, ridge = top + width * .42;
         roof.Quad(new(l, top, f), new(l, top, b), new(x, ridge, b), new(x, ridge, f), new(-1, 1, 0));
         roof.Quad(new(r, top, f), new(x, ridge, f), new(x, ridge, b), new(r, top, b), new(1, 1, 0));
         roof.Quad(new(l, top, f), new(x, ridge, f), new(r, top, f), new(r, top, f), new(0, 0, -1));
         roof.Quad(new(l, top, b), new(r, top, b), new(x, ridge, b), new(x, ridge, b), new(0, 0, 1));
         batch.Mesh("doors", "#514737").Box(x, y, f - .004, width * .15, height * .58, .012);
-        BuildingDetails(batch,x,y,z,width,height,depth);
+        if(facade<0)BuildingDetails(batch,x,y,z,width,height,depth);
     }
     private static void BuildImprovement(SceneBatch batch, GameState s, Tile tile)
     {

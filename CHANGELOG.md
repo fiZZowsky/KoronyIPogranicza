@@ -1,4 +1,14 @@
-# Zmiany
+﻿# Zmiany
+
+## 0.35 — 2026-11-09 · Tożsamość epok i oprawa miast
+
+- 18 odrębnych przedsięwzięć opartych na rzeczywistym świecie oraz 18 trwałych dziedzictw. Warunki obejmują lasy, zapasy, farmy, instytucje, drogi, poparcie, zasilanie, emisje i programy pozaziemskie.
+- Rozmowa z radą wybiera stopniowy lub intensywny plan; rzeczywiste opłaty, kolejne kwalifikowane fazy, zerowanie ciągłości, odwołanie i brak nagród wstecz. AI korzysta z tych samych zasad. Premie zmieniają faktyczne dochody, mieszkania, dostawy i emisje.
+- 18 charakterystycznych sylwetek centrów miast, wyższe domy przemysłowe i cztery fotograficzne warianty elewacji. Drugi atlas daje ziemię, cegłę, asfalt i drewno. Elewacje działają również w WPF.
+- Rekonstrukcja pozycji świata w cieniach kontaktowych, drobniejsze fale rzek i bardziej zróżnicowany materiał gruntu. To dalszy rozwój oprawy; pełny fotorealizm menu pozostaje celem.
+- Adaptacyjna rozdzielczość 50–100%, limit klatek, tryb oszczędzania przy bezczynności i zatrzymanie animacji po minimalizacji. Łączenie zleceń kamery oraz ponowne użycie ważnych cieni i odbić. Bliskie detale fasad omijane w oddaleniu.
+- Nowe ustawienia oraz jawne statystyki rozdzielczości i kosztu klatki. Raport diagnostyczny zawiera pomiar pełnych i zachowanych przebiegów na tej samej scenie.
+- Format v25 zachowuje plany i dziedzictwa; odczyt v1–v24 bez dopisywania osiągnięć, dokładna kopia .v24.bak przy zapisie v24. Nowe specyfikacje, test realnego UI, 18 architektur, backendu GPU i WPF oraz małego okna.
 
 ## 0.34 — 2026-11-06 · Warsztaty i handel wyrobami
 

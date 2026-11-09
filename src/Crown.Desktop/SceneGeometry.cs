@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
@@ -43,6 +43,19 @@ internal sealed class SceneMesh
         var n = Vector3D.CrossProduct(right, up); n.Normalize();
         var a = center - right - up; var b = center + right - up; var c = center + right + up; var d = center - right + up;
         Triangle(a,b,c,n,n,n,new(0,1),new(1,1),new(1,0)); Triangle(a,c,d,n,n,n,new(0,1),new(1,0),new(0,0));
+    }
+    public void FacadeBox(double x,double y,double z,double width,double height,double depth)
+    {
+        double l=x-width/2,r=x+width/2,f=z-depth/2,b=z+depth/2,t=y+height;
+        void Face(Point3D a,Point3D bb,Point3D c,Point3D d,Vector3D normal)
+        {
+            Triangle(a,bb,c,normal,normal,normal,new(0,1),new(0,0),new(1,0));
+            Triangle(a,c,d,normal,normal,normal,new(0,1),new(1,0),new(1,1));
+        }
+        Face(new(l,y,f),new(l,t,f),new(r,t,f),new(r,y,f),new(0,0,-1));
+        Face(new(r,y,b),new(r,t,b),new(l,t,b),new(l,y,b),new(0,0,1));
+        Face(new(l,y,b),new(l,t,b),new(l,t,f),new(l,y,f),new(-1,0,0));
+        Face(new(r,y,f),new(r,t,f),new(r,t,b),new(r,y,b),new(1,0,0));
     }
     public void Box(double x, double y, double z, double width, double height, double depth)
     {
@@ -156,7 +169,7 @@ internal sealed class SceneBatch
     {
         key = Slot(key);
         if (meshes.TryGetValue(key, out var existing)) return Configure(existing);
-        var brush = Ui.Brush(color); Material m = emissive ? new EmissiveMaterial(brush) : new DiffuseMaterial(brush); m.Freeze(); materials[key] = m;
+        Brush brush = key.StartsWith("era-facade-")&&key.Length>11&&key[11] is >='0' and <='3'?ArchitectureMaterials.Facade(key[11]-'0'):Ui.Brush(color); Material m = emissive ? new EmissiveMaterial(brush) : new DiffuseMaterial(brush); m.Freeze(); materials[key] = m;
         var result = new SceneMesh(); meshes[key] = result; return Configure(result);
     }
     public SceneMesh Terrain(Crown.Core.Terrain terrain, bool remembered)

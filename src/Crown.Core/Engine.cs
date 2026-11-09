@@ -1,4 +1,4 @@
-namespace Crown.Core;
+﻿namespace Crown.Core;
 
 public static partial class Engine
 {
@@ -42,6 +42,7 @@ public static partial class Engine
         }
         var development=Epochs.Bonus(s,c);food+=development.Food;prod+=development.Production;gold+=development.Gold;science+=development.Science;culture+=development.Culture;
         var districts=Districts.Yields(s,c);food+=districts.Food;prod+=districts.Production;gold+=districts.Gold;science+=districts.Science;culture+=districts.Culture;
+        var legacy=EraEndeavours.Bonus(s,c);food+=legacy.Food;prod+=legacy.Production;gold+=legacy.Gold;science+=legacy.Science;culture+=legacy.Culture;
         culture+=Manufacturing.CultureBonus(c);
         if(Navy.ActivePort(s,c)){food+=2;gold+=4;}
 
@@ -229,6 +230,7 @@ public static partial class Engine
         }
         powerPhase.Dispose();
         foreach(var u in s.Units.ToArray())MilitaryOrders.FinishTurn(s,u);
+        EraEndeavours.Tick(s,powerPhase.Readings);
         FieldLogistics.Tick(s);
         ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
         AuditCouncil.Tick(s);
@@ -248,7 +250,7 @@ public static partial class Engine
     {
         foreach(var f in s.Factions.Skip(1))
         {
-            var cities=s.Cities.Where(c=>c.Owner==f.Id).ToArray();if(cities.Length==0)continue;EpochCouncils.ManageAi(s,f);Districts.ManageAi(s,f);FieldLogistics.ManageAi(s,f.Id);
+            var cities=s.Cities.Where(c=>c.Owner==f.Id).ToArray();if(cities.Length==0)continue;EpochCouncils.ManageAi(s,f);EraEndeavours.ManageAi(s,f);Districts.ManageAi(s,f);FieldLogistics.ManageAi(s,f.Id);
             var choices=Epochs.ResearchOptions(s,f).ToArray();
             if(choices.Length>0&&(s.Turn%4==0||f.Research==""))f.Research=choices[s.Next(choices.Length)].Id;
             if(f.Gold>130&&f.Technologies.Contains("pottery"))

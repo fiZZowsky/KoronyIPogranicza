@@ -1,0 +1,23 @@
+PASS Seasonal environment uses the real Direct3D renderer: 
+PASS Season 0 updates shader data without rebuilding terrain or revealing geography
+PASS Season 0 renders without changing the campaign or RNG
+PASS Season 1 updates shader data without rebuilding terrain or revealing geography
+PASS Season 1 renders without changing the campaign or RNG
+PASS Season 2 updates shader data without rebuilding terrain or revealing geography
+PASS Season 2 renders without changing the campaign or RNG
+PASS Season 3 updates shader data without rebuilding terrain or revealing geography
+PASS Season 3 renders without changing the campaign or RNG
+PASS Spring, summer, autumn and winter have four distinct actual GPU images
+PASS Disabling seasonal surfaces changes actual winter pixels
+PASS Automatic winter creates real snow particle triangles
+PASS A fixed visual time reproduces the exact snowy image
+PASS Snowfall advances with visual time without advancing a turn
+PASS Clear weather releases the particle buffer and changes actual pixels
+PASS Manual rain creates depth-tested streak geometry and a distinct rendered image
+PASS Replacing precipitation buffers over 24 frames does not leak native GPU resources
+PASS Repeatedly enabling and clearing precipitation returns to the same native resource count
+PASS Weather particles do not intercept picking of the city's real geometry
+PASS Weather controls, animation and camera motion leave the exact save unchanged
+PASS A v19 winter save reloads with the correct automatic season
+PASS The seasonal scene remains available in the compact window
+22 environment desktop integration checks passed.

@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional espionage diagnostic failure.
+   at Crown.Desktop.MainWindow.SpySmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\SpySmoke.cs:line 62

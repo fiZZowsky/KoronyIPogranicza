@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
@@ -35,8 +35,9 @@ internal static partial class WorldScene3D
             double hx=x+lot.X,hz=z+lot.Z,hy=Terrain3D.Height(s,hx,hz);
             batch.Rotated(new(hx,hy,hz),lot.Yaw,()=>
             {
-                House(batch,hx,hy,hz,lot.Width,lot.Height,lot.Depth,era<4?"#B1A58B":"#D0C5AC");
-                if(era>=4)
+                House(batch,hx,hy,hz,lot.Width,lot.Height*(era==8?1.25:1),lot.Depth,era<4?"#B1A58B":"#D0C5AC",era>=8?2:era>=6?1:era==5?0:-1);
+                EraFacade(batch,hx,hy,hz,lot.Width,lot.Height*(era==8?1.25:1),lot.Depth,era);
+                if(era==5)
                 {
                     var wood=batch.Mesh("timber-beams","#74634C");double f=hz-lot.Depth*.515;
                     wood.Tube(new(hx-lot.Width*.47,hy+.02,f),new(hx+lot.Width*.47,hy+lot.Height*.85,f),.006,4);
@@ -44,13 +45,7 @@ internal static partial class WorldScene3D
                 }
             });
         }
-        House(batch,x,y,z-.055,.28,.28,.34,"#C4BBA4");
-        if(era>=4)
-        {
-            batch.Mesh("hall-tower","#C4BBA4").Box(x+.16,y,z-.02,.14,.57,.14);
-            batch.Mesh("roofs","#9B6550").Cylinder(x+.16,y+.57,z-.02,.12,.18,0,4);
-            batch.Mesh("window-glass","#455B5B").Box(x+.16,y+.39,z-.096,.045,.095,.008);
-        }
+        EraCivic(batch,s,city,era);
         // Market stalls are decorative city geometry, not additional simulated trade contracts.
         for(int i=-1;i<=1;i+=2)
         {

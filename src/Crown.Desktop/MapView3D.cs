@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -37,9 +37,12 @@ public sealed partial class MapView : Grid
     internal ContextMenu? ActiveGraphicsMenu {get;private set;}
     private PhotographicRenderer? photographic;
     private bool gpuPending, gpuAttempted;
+    private long lastPresented;
+    private readonly System.Windows.Threading.DispatcherTimer requestTimer=new(System.Windows.Threading.DispatcherPriority.Render);
     private readonly System.Windows.Threading.DispatcherTimer animationTimer=new(System.Windows.Threading.DispatcherPriority.Background){Interval=TimeSpan.FromMilliseconds(100)};
     private readonly System.Diagnostics.Stopwatch visualClock=System.Diagnostics.Stopwatch.StartNew();
     private bool animateEnvironment=true;
+    private long lastVisualInteraction=Environment.TickCount64;
     internal PhotographicRenderer? Photographic => photographic;
     internal string? GpuFailure { get; private set; }
     private WorldScene? scene;
@@ -64,9 +67,13 @@ public sealed partial class MapView : Grid
         Background = new LinearGradientBrush((Color)ColorConverter.ConvertFromString("#A2BEC6"), (Color)ColorConverter.ConvertFromString("#344F55"), 90);
         viewport.Camera = camera; viewport.Children.Add(worldVisual); viewport.Children.Add(overlaysVisual);
         Children.Add(viewport); Children.Add(photographicImage); Children.Add(annotations); Children.Add(rendererStatus);Children.Add(RenderStatisticsText);Children.Add(districtPlanningHint); AddCameraControls();
-        animationTimer.Tick+=(_,_)=>{if(!suspended&&animateEnvironment&&photographic!=null&&!gpuPending&&IsVisible)RenderGpuFrame(visualClock.Elapsed.TotalSeconds);};
+        requestTimer.Tick+=(_,_)=>{requestTimer.Stop();gpuPending=false;RenderGpuFrame();};
+        animationTimer.Tick+=(_,_)=>{if(!suspended&&animateEnvironment&&photographic!=null&&!gpuPending&&IsVisible&&Window.GetWindow(this)?.WindowState!=WindowState.Minimized){
+            bool idle=preferences.EcoRendering&&Environment.TickCount64-lastVisualInteraction>2500;
+            double interval=Math.Max(idle?250:1000d/preferences.FrameLimit,photographic.LastFrameMilliseconds*1.5);
+            animationTimer.Interval=TimeSpan.FromMilliseconds(Math.Clamp(interval,16,1000));RenderGpuFrame(visualClock.Elapsed.TotalSeconds);}};
         Loaded+=(_,_)=>animationTimer.Start();
-        Unloaded += (_, _) => { animationTimer.Stop();photographic?.Dispose(); photographic = null; photographicImage.Source = null; gpuAttempted = false; };
+        Unloaded += (_, _) => { animationTimer.Stop();requestTimer.Stop();gpuPending=false;photographic?.Dispose(); photographic = null; photographicImage.Source = null; gpuAttempted = false; };
         MouseDown += (_, e) =>
         {
             if (suspended || e.OriginalSource is Button) return;
@@ -137,6 +144,8 @@ public sealed partial class MapView : Grid
         void Option(string label,Action action){var item=new MenuItem{Header=label};item.Click+=(_,_)=>{action();PersistGraphicsMenu();RequestGpuFrame();};menu.Items.Add(item);}
         Option("Jakość wysoka · cienie i odbicia",()=>{if(photographic is{} r){r.MaximumWidth=1600;r.Reflections=true;r.PostProcessing=true;r.Shadows=true;}});
         Option("Jakość zrównoważona · mniej obciążenia",()=>{if(photographic is{} r){r.MaximumWidth=1100;r.Reflections=false;r.PostProcessing=true;r.Shadows=true;}});
+        Option("Adaptacyjna rozdzielczość: włącz / wyłącz",()=>{if(photographic is{} r){r.AdaptiveResolution=!r.AdaptiveResolution;r.Budget.Reset();}});
+        Option("Cienie kontaktowe: włącz / wyłącz",()=>{if(photographic is{} r)r.ContactShadows=!r.ContactShadows;});
         Option("Cienie: włącz / wyłącz",()=>{if(photographic is{} r)r.Shadows=!r.Shadows;});
         Option("Odbicia: włącz / wyłącz",()=>{if(photographic is{} r)r.Reflections=!r.Reflections;});
         Option("Brzegi i głębokość wody: włącz / wyłącz",()=>{if(photographic is{} r)r.ShoreEffects=!r.ShoreEffects;});
@@ -171,7 +180,7 @@ public sealed partial class MapView : Grid
         camera.Position = focus + new Vector3D(Math.Sin(a) * Math.Cos(p) * distance, Math.Sin(p) * distance, Math.Cos(a) * Math.Cos(p) * distance);
         var position=camera.Position;position.Y=Math.Max(position.Y,Math.Max(Terrain3D.SeaLevel,Terrain3D.Height(State,position.X,position.Z))+.3);camera.Position=position;
         camera.LookDirection = focus - camera.Position;
-        UpdateAnnotations(); CameraChanged?.Invoke(); RequestGpuFrame();
+        lastVisualInteraction=Environment.TickCount64;UpdateAnnotations(); CameraChanged?.Invoke(); RequestGpuFrame();
     }
     private (Vector3D Forward, Vector3D Right, Vector3D Up) Basis()
     {
@@ -260,7 +269,9 @@ public sealed partial class MapView : Grid
     private void RequestGpuFrame()
     {
         if (gpuPending || State == null || scene == null) return; gpuPending = true;
-        Dispatcher.BeginInvoke(new Action(() => { gpuPending = false; RenderGpuFrame(); }), System.Windows.Threading.DispatcherPriority.Render);
+        double remaining=1000d/preferences.FrameLimit-(Environment.TickCount64-lastPresented);
+        if(remaining>1){requestTimer.Interval=TimeSpan.FromMilliseconds(remaining);requestTimer.Start();}
+        else Dispatcher.BeginInvoke(new Action(() => { gpuPending = false; RenderGpuFrame(); }), System.Windows.Threading.DispatcherPriority.Render);
     }
     internal void RenderGpuFrame(double visualTime=0)
     {
@@ -276,10 +287,10 @@ public sealed partial class MapView : Grid
             if (photographic == null) return;
             photographic.Scene(scene, overlaysVisual.Content);
             photographic.Render(camera, (int)ActualWidth, (int)ActualHeight,visualTime);
-            photographicImage.Source = photographic.Image; viewport.Visibility = Visibility.Hidden;
+            lastPresented=Environment.TickCount64;photographicImage.Source = photographic.Image; viewport.Visibility = Visibility.Hidden;
             rendererStatus.Text = "DIRECT3D 11 · CIENIE · MATERIAŁY · HDR";
             var stats=photographic.Statistics;RenderStatisticsText.Visibility=ShowRenderStatistics?Visibility.Visible:Visibility.Collapsed;
-            RenderStatisticsText.Text=$"RENDEROWANIE · {photographic.LastFrameMilliseconds:0.0} ms\nMapa: {stats.MainTriangles:N0} / {stats.InputTriangles:N0} trójkątów\nCienie: {stats.ShadowTriangles:N0} · odbicia: {stats.ReflectionTriangles:N0}\nPartie mapy: {stats.MainDraws} · poza kadrem: {stats.CulledBatches}\nUproszczone korony: {stats.CoarseTreeDraws} partii";
+            RenderStatisticsText.Text=$"RENDEROWANIE · {photographic.LastFrameMilliseconds:0.0} ms · limit {preferences.FrameLimit} FPS\nObraz: {photographic.RenderWidth}×{photographic.RenderHeight} · skala {photographic.ResolutionScale:P0}\nMapa: {stats.MainTriangles:N0} / {stats.InputTriangles:N0} trójkątów\nCienie: {stats.ShadowTriangles:N0} · odbicia: {stats.ReflectionTriangles:N0}\nPartie mapy: {stats.MainDraws} · poza kadrem: {stats.CulledBatches}\nUproszczone korony: {stats.CoarseTreeDraws} partii";
         }
         catch (Exception ex)
         {

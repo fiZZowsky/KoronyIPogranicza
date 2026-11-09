@@ -1,0 +1,39 @@
+PASS Era endeavour completes paid real phases: Paleolit
+PASS Era endeavour completes paid real phases: Neolit
+PASS Era endeavour completes paid real phases: Epoka brązu
+PASS Era endeavour completes paid real phases: Epoka żelaza
+PASS Era endeavour completes paid real phases: Starożytność klasyczna
+PASS Era endeavour completes paid real phases: Średniowiecze
+PASS Era endeavour completes paid real phases: Renesans
+PASS Era endeavour completes paid real phases: Oświecenie
+PASS Era endeavour completes paid real phases: Rewolucja przemysłowa
+PASS Era endeavour completes paid real phases: Nowoczesność
+PASS Era endeavour completes paid real phases: Epoka atomowa
+PASS Era endeavour completes paid real phases: Epoka informacyjna
+PASS Era endeavour completes paid real phases: Epoka automatyzacji
+PASS Era endeavour completes paid real phases: Epoka planetarna
+PASS Era endeavour completes paid real phases: Epoka orbitalna
+PASS Era endeavour completes paid real phases: Epoka międzyplanetarna
+PASS Era endeavour completes paid real phases: Epoka Układu Słonecznego
+PASS Era endeavour completes paid real phases: Epoka międzygwiezdna
+PASS Every era has a distinct task legacy and architectural purpose
+PASS Commissioning spends only the explicit start cost and grants no instant legacy
+PASS Rejected future duplicate owner and pace choices are atomic
+PASS Advancing an era preserves an unfinished historical commission
+PASS An established legacy cannot be replayed for repeated rewards
+PASS Foreign institutions cannot satisfy a domestic endeavour
+PASS Forecasting all requirements preserves the complete campaign and RNG
+PASS Each funded phase spends the exact fee beyond ordinary economy
+PASS Missing conditions reset continuity while retaining already paid costs
+PASS The gradual plan actually needs six consecutive phases
+PASS A cash shortage resets the plan without creating debt
+PASS Cancellation has no refund and cannot be used to restart in the same turn
+PASS Unpowered and suspended infrastructure never satisfies a powered endeavour
+PASS A newly built service cannot claim a phase before it actually received energy
+PASS Legacy production is earned and follows the actual operating building
+PASS Transport housing and climate legacies change their actual systems
+PASS AI funds a legal available endeavour without steering the player
+PASS A current save resumes the exact paid endeavour and future world
+PASS Actual v24 shape migrates without invented legacies and keeps an exact backup
+PASS Validation rejects forged completed plans progress dates and legacy formats
+38 era identity specifications passed in 2,7s.

@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
@@ -69,7 +69,9 @@ internal static partial class WorldScene3D
     private static void RoadLink(SceneBatch batch,GameState s,Tile from,Tile to,RiverNetwork network)
     {
         var a=Terrain3D.Center(from);var b=Terrain3D.Center(to);var crossing=network.Crossing(a,b);
-        if(crossing==null){Ribbon(batch.Mesh("roads","#C6B794"),s,a,b,.075,.036);return;}
+        if(crossing==null){int roadOwner=from.RoadOwner>=0?from.RoadOwner:from.Owner;
+            bool modern=s.EpochCampaign&&roadOwner>=0&&s.Factions[roadOwner].Era>=9;
+            Ribbon(batch.Mesh(modern?"era-asphalt-road":"roads",modern?"#878A83":"#B4A17A"),s,a,b,modern?.12:.085,.036);return;}
         var direction=b-a;double length=direction.Length;direction.Normalize();
         double start=Math.Max(0,crossing.RoadT*length-crossing.HalfSpan),end=Math.Min(length,crossing.RoadT*length+crossing.HalfSpan);
         var left=a+direction*start;var right=a+direction*end;var center=new Point((left.X+right.X)/2,(left.Y+right.Y)/2);

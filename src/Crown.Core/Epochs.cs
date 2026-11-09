@@ -1,4 +1,4 @@
-namespace Crown.Core;
+﻿namespace Crown.Core;
 
 public sealed record EnergyReport(int Supply, int Demand, double? CityCoverage = null)
 {
@@ -72,12 +72,12 @@ public static class Epochs
         }
         return new(food, prod, gold, science, culture);
     }
-    public static int Housing(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Housing) : 0;
+    public static int Housing(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Housing) + (s.Factions[c.Owner].EraLegacies.Contains(7)&&c.Buildings.Contains("medical_college")?3:0) : 0;
     public static int Sanitation(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Sanitation) : 0;
     public static int Defense(GameState s, City c) => s.EpochCampaign ? EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Defense) : 0;
-    public static int Supply(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Select(c => EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Supply)).DefaultIfEmpty(0).Max() + (s.Factions[owner].SpaceMilestones.Contains("orbital_station") ? 2 : 0);
+    public static int Supply(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Select(c => EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Supply)).DefaultIfEmpty(0).Max() + (s.Factions[owner].SpaceMilestones.Contains("orbital_station") ? 2 : 0) + (s.Factions[owner].EraLegacies.Contains(3)?1:0);
     public static double Upkeep(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Sum(c => EpochCatalog.Buildings.Where(b => c.Buildings.Contains(b.Id)).Sum(b => b.Upkeep * (c.SuspendedBuildings.Contains(b.Id) ? .25 : 1)));
-    public static double Emissions(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Sum(c => EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Emissions * (b.Demand > 0 ? .25 + .75 * Energy(s,c).Coverage : 1)) + EpochCouncils.Policy(s.Factions[owner]).Emissions);
+    public static double Emissions(GameState s, int owner) => !s.EpochCampaign ? 0 : s.Cities.Where(c => c.Owner == owner).Sum(c => EpochCatalog.Buildings.Where(b => PowerGrid.Active(c, b.Id)).Sum(b => b.Emissions * (b.Demand > 0 ? .25 + .75 * Energy(s,c).Coverage : 1)) + EpochCouncils.Policy(s.Factions[owner]).Emissions - (s.Factions[owner].EraLegacies.Contains(13)?2:0));
     public static void Tick(GameState s, double? phaseEmissions = null)
     {
         if (!s.EpochCampaign) return;

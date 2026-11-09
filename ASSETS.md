@@ -1,4 +1,4 @@
-# Oprawa i pochodzenie plików
+﻿# Oprawa i pochodzenie plików
 
 ## Ilustracja doliny
 
@@ -69,3 +69,27 @@ Obrazy field-supply-ui pokazują przygotowany teren i przyznaną wiedzę. Test u
 CraftingModels3D tworzy budynki warsztatów, komin, kowadło, krosno, płótno, skrzynie i proporzec Domu cechów z geometrii C#. Materiały metalu i tkaniny korzystają z istniejącego renderera oraz atlasu. Nie pobierano modeli, bitmap ani dźwięków i nie generowano nowych ilustracji. Są to modele proceduralne, bez animowanych rzemieślników lub fotogrametrii.
 
 Obrazy manufacturing-ui pochodzą z rzeczywistej aplikacji na przygotowanym terenie z przyznanymi technologiami, drogami, zagranicznym odbiorcą oraz początkowym żelazem i barwnikami. Scenariusz przyspiesza końcowy postęp wybranych budów; ukończenie, decyzje, pobranie surowców z połączonego miasta, wytwarzanie, konsumpcja cechów, płatny eksport i dostarczenie karawaną odbywają się przez normalne fazy i przyciski gry. Przerwanie drogi i dodatkowy stan do kontroli małego okna są przygotowanymi przypadkami. To diagnostyka integracji oraz oprawy, nie zapis naturalnej kampanii ani dowód fotorealizmu.
+
+## Oprawa miast i epok 0.35
+
+Wygenerowano 6 listopada 2026 r. wbudowanym narzędziem image_gen w domyślnym trybie umiejętności imagegen, bez zewnętrznego API lub pobierania modeli. Dwa nowe atlasy poniżej skopiowano do projektu i wbudowano w program. To syntetyczne obrazy AI o fotograficznym wyglądzie, nie fotografie, fotogrametria lub pełne skanowane zestawy PBR. Normalne reliefu, chropowatość i metaliczność nadal pochodzą z shadera. Nie zastępują kompletnych modeli budynków, postaci i ich animacji.
+
+Geometria 18 centrów miast, portyków, wież, kopuł, hal, arkologii, anten i pierścieni powstaje w EraArchitecture3D. Elewacje są mapowane na cztery pionowe ściany geometryczne, z oddzielną geometrią dachów i wybranych bliskich detali. WPF używa przyciętych ćwiartek tego samego atlasu. Nie dodano nagrań ani cudzych fontów.
+
+Zrzuty era-identity-ui są obrazami rzeczywistego programu. Scenariusz nadaje początkowy zapas żywności, po czym decyzja, opłaty i ukończenie pierwszego dziedzictwa zachodzą w trzech normalnych turach. Galeria przyznaje technologie kolejnych epok i przygotowuje wiosnę, zachowując tę samą mapę; nie jest naturalnym rozegraniem 18 epok. Wygląd centrum jest dekoracją stylu, a nie dowodem zbudowania zakładów. Dane pomiarów pochodzą z działającego renderera, nie ilustracji AI. Modele nadal są uproszczone, a oprawa nie osiąga pełnego fotorealizmu menu.
+
+### civilization-materials-0.35.png
+
+Plik: `src/Crown.Desktop/Assets/civilization-materials-0.35.png`. Rozmiar: 1254×1254. SHA256: `6320F12ED06487CA5072617DA7474AA8D4271AC213065C2551EB9462712FD905`.
+
+Pełny prompt (wbudowane image_gen, tło nieprzezroczyste):
+
+> Use case: photorealistic-natural. Asset type: production 3D strategy game material ALBEDO atlas, a perfectly square image divided into exactly FOUR EQUAL quadrants, no gutters, no frame, no text. Each quadrant is a close orthographic photograph of a flat surface under completely even diffuse neutral light, no cast shadows, no perspective, no scene. TOP LEFT: realistic rich brown dirt, small grey and ochre gravel embedded in compact earth, tiny dry grass roots, irregular fine natural variation. TOP RIGHT: historical muted red-brown handmade brick masonry with thin grey lime mortar, subtle weathering, believable small brick dimensions and fine porous surfaces. BOTTOM LEFT: grey modern asphalt and worn concrete aggregate, fine stone granules, subtle hairline cracks, no road markings. BOTTOM RIGHT: weathered oak timber planks, natural silver-brown grain and subtle dark seams, no nails or objects. Extremely detailed photographic surface microtexture, physically believable neutral albedo, no baked highlights, no vignette, no ornament, no labels, no watermark. All quadrants fill exactly one quarter of the canvas. Maximum useful texture detail for physically lit historical to futuristic cities and paths. This is a material atlas, not a collage of scenes.
+
+### building-facades-0.35.png
+
+Plik: `src/Crown.Desktop/Assets/building-facades-0.35.png`. Rozmiar: 1254×1254. SHA256: `AC495E5BC4CAEDB546BA3831277965796B00D810797321C628986F59750FD73B`.
+
+Pełny prompt (wbudowane image_gen, tło nieprzezroczyste):
+
+> Use case: photorealistic-natural. Asset type: production ALBEDO texture atlas for realistic 3D game BUILDING FACADES. Square canvas in exactly four equal quadrants without gutters, labels or borders. Each quarter contains an orthographic perfectly front-facing wall facade only, cropped to fill its full quadrant. No roof, sky, ground, people, props, street, perspective or cast shadow. Neutral overcast illumination, no directional baked lighting. TOP LEFT: historically plausible medieval European half-timbered building facade, two storeys, three window bays, ivory lime plaster between dark weathered oak beams, small leaded glazing, fine age and irregular plaster detail, no signage. TOP RIGHT: restrained renaissance or enlightenment town house facade, exactly two storeys and three window bays, warm cream lime plaster, fine stone window surrounds, dark green shutters, subtle weathering, no lettering. BOTTOM LEFT: authentic 19th century industrial workers' brick townhouse facade, two storeys, three window bays, weathered muted red-brown brick and pale lime mortar, fine timber sash windows, neutral weathering and chipped stone sills, no ivy or objects. BOTTOM RIGHT: contemporary elegant curtain wall facade, three storeys and three window bays, neutral lightly reflective blue-grey glass panes, slender matte silver aluminium frames and light grey stone spandrels, no scene reflections, no interior characters. Photographic fine architectural material detail, physically plausible dimensions, completely flat orthographic diffuse albedo photography. Architectural walls are the entire subject, not building photographs with backgrounds. Avoid stylization, cartoon, illustration, text, watermarks, deep shadow, 3D perspective, solid black window holes. Exactly one wall per quadrant, facade aligned with each quarter edges. The result will be sampled on real building geometry with lighting and shadows supplied by a game renderer.

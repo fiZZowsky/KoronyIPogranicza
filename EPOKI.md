@@ -1,10 +1,35 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.34
+# Epoki i możliwe przyszłości — podręcznik wydania 0.35
 
 Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 modele wojsk lądowych, dziewięć modeli okrętów i pięć programów pozaziemskich. Port morski jest dodatkowym projektem nadbrzeżnym. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
 
 Otwórz **Nauka → Epoki i rozwój świata**. Każdy etap ma cztery dziedziny i odkrycie zamykające dorobek. Badania następnego etapu wymagają tego zamknięcia. Dodatkowe wymagania technologii nadal obowiązują. Państwa rozwijają się oddzielnie i zachowują całą wcześniejszą wiedzę, miasta oraz instytucje.
 
 Nowa kampania zaczyna się w paleolicie i ma limit 1600 tur. Kalendarz jest umowny: stopniowo zwalnia i uwzględnia najbardziej zaawansowane państwo; jego skala sięga roku 5000. Tempo wiedzy nie jest historycznym rozkładem dat. Stare kampanie zachowują zasady i limit 320 tur do wybrania **Rozszerz kampanię do 18 epok i 1600 tur**. Wtedy uznajemy zamknięcia epok poprzedzających posiadany już dorobek, zachowując miasta, środki, wywiad, długi, jednostki i plany.
+
+## Przedsięwzięcia i dziedzictwo 0.35
+
+W przeglądzie epok otwórz **Przedsięwzięcia i dziedzictwo epok**. Jedno przedsięwzięcie naraz. Plan stopniowy wymaga sześciu kolejnych kwalifikowanych faz, intensywny trzech i trzykrotnie większej opłaty za fazę. Rozpoczęcie: 25 + 25 × indeks epoki² złota. Opłata stopniowa: 2 + indeks epoki². Warunki muszą pozostać spełnione; ich brak lub brak środków zeruje ciągłość. Opłacone niespełnione fazy nie są zwracane. Zmiana planu raz na turę, odwołanie bez zwrotu. Dawne epoki można nadrobić, ale nie zaliczamy faz wstecz. Przejście epoki zachowuje rozpoczęty plan. Zasilane obiekty muszą rzeczywiście otrzymać energię w zaliczanej fazie. Format v25 zachowuje plany i dziedzictwa; odczytuje wcześniejsze kampanie bez dopisanych nagród i zachowuje .v24.bak przy nadpisaniu v24.
+
+| Epoka | Przedsięwzięcie | Warunki | Dziedzictwo |
+| --- | --- | --- | --- |
+| Paleolit | Szlak wspólnych łowów | Las przy osadzie oraz co najmniej 4 zapasy żywności. | Do +3 żywności w miastach przy lesie. |
+| Neolit | Rezerwa pierwszych rolników | Dwie własne farmy oraz 15 żywności w jednym mieście. | +1 żywności za własną farmę, do +4 na miasto. |
+| Epoka brązu | Państwo pisma i brązu | Szkoła skrybów, odlewnia brązu i poparcie uczonych ≥45. | +2 złota i +2 nauki w miastach ze szkołą skrybów. |
+| Epoka żelaza | Trakty żelaznych ziem | Dwa własne miasta w jednej sieci i co najmniej 2 żelaza. | +1 do zasięgu dostaw państwa. |
+| Starożytność klasyczna | Życie obywatelskie | Forum, akademia filozofów oraz targowisko. | +4 kultury w miastach z forum. |
+| Średniowiecze | Karta cechów i młynów | Czynny młyn wodny, dom cechowy oraz dobrobyt miasta ≥60. | +4 produkcji w miastach z czynnym młynem. |
+| Renesans | Republika drukarzy | Czynna oficyna drukarska i arsenał prochowy. | +5 nauki w miastach z czynną oficyną. |
+| Oświecenie | Powszechna służba publiczna | Liceum publiczne, kolegium medyczne i stabilność ≥60. | +3 miejsc mieszkalnych w miastach z kolegium. |
+| Rewolucja przemysłowa | Węzeł przemysłowy | Kombinat stalowy i terminal kolejowy przy pełnym zasilaniu. | +10 produkcji w miastach z czynnym kombinatem. |
+| Nowoczesność | Elektryfikacja usług | Sieć elektroenergetyczna i szpital powszechny przy pełnym zasilaniu. | +6 żywności w miastach z czynnym szpitalem. |
+| Epoka atomowa | Cywilny program atomowy | Reaktor, ośrodek rakietowy, pełne zasilanie i presja klimatyczna ≤50. | +12 nauki w miastach z czynnym ośrodkiem rakietowym. |
+| Epoka informacyjna | Sieć wiedzy i odzysku | Centrum danych i dzielnica recyklingu przy pełnym zasilaniu. | +12 złota w miastach z czynnym recyklingiem. |
+| Epoka automatyzacji | Umowa o pracy robotów | Fabryka robotyczna, klinika genomowa, pełna energia i poparcie ludu ≥55. | +18 produkcji w miastach z czynną fabryką robotyczną. |
+| Epoka planetarna | Odbudowa wspólnej planety | Czynna fuzja i odbudowa klimatu, pełna energia oraz emisje państwa ≤0. | Redukcja emisji o 2 na własne miasto. |
+| Epoka orbitalna | Stała obecność orbitalna | Ukończona stacja orbitalna i zasilane laboratorium mikrograwitacji. | +25 nauki w stolicy przy zachowanej stacji orbitalnej. |
+| Epoka międzyplanetarna | Most między planetami | Baza księżycowa, osada marsjańska i zasilana farma pozaziemska. | +20 żywności w stolicy przy zachowanej osadzie marsjańskiej. |
+| Epoka Układu Słonecznego | Samowystarczalny Układ | Osada pasa asteroid, habitat biosferyczny i sieć dalekiego kosmosu, pełna energia. | +35 produkcji w stolicy przy zachowanej osadzie pasa. |
+| Epoka międzygwiezdna | Dziedzictwo dalekiej podróży | Statek pokoleniowy, zasilane archiwum cywilizacji i stabilność ≥65. | +50 kultury w stolicy przy zachowanym programie międzygwiezdnym. |
 
 ## Zasady wspólne
 

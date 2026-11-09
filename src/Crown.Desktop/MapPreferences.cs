@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using System.Windows.Input;
 
 namespace Crown.Desktop;
@@ -22,6 +22,7 @@ public sealed partial class MapView
     private void ApplyRendererPreferences()
     {
         if(photographic is not{} r)return;
+        r.Budget.Reset();r.AdaptiveResolution=preferences.AdaptiveResolution;r.ContactShadows=preferences.ContactShadows;r.TargetFps=preferences.FrameLimit;
         r.MaximumWidth=preferences.Quality switch{1=>1100,2=>900,_=>1600};r.Shadows=preferences.Shadows;r.Reflections=preferences.Reflections;
         r.ShoreEffects=preferences.ShoreEffects;r.EdgeSmoothing=preferences.EdgeSmoothing;r.SeasonalColors=preferences.SeasonalColors;
         r.AutomaticDetail=preferences.AutomaticDetail;r.VisibilityCulling=preferences.VisibilityCulling;r.Weather=preferences.Weather;r.Exposure=(float)(.87*preferences.Brightness);
@@ -32,6 +33,7 @@ public sealed partial class MapView
         var p=preferences.Copy();p.AnimateEnvironment=animateEnvironment;p.ShowStatistics=ShowRenderStatistics;
         if(photographic is{} r)
         {
+            p.AdaptiveResolution=r.AdaptiveResolution;p.ContactShadows=r.ContactShadows;
             p.Quality=r.MaximumWidth<=900?2:r.MaximumWidth<=1100?1:0;p.Shadows=r.Shadows;p.Reflections=r.Reflections;p.ShoreEffects=r.ShoreEffects;p.EdgeSmoothing=r.EdgeSmoothing;
             p.SeasonalColors=r.SeasonalColors;p.AutomaticDetail=r.AutomaticDetail;p.VisibilityCulling=r.VisibilityCulling;p.Weather=r.Weather;p.Brightness=r.Exposure/.87;p.NoonLight=r.Sun.Y>.7;
         }

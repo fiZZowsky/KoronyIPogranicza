@@ -1,4 +1,4 @@
-cbuffer Frame : register(b0)
+﻿cbuffer Frame : register(b0)
 {
     row_major float4x4 ViewProjection;
     row_major float4x4 LightProjection;
@@ -21,6 +21,8 @@ Texture2D<float> SceneDepth : register(t5);
 Texture2D Pine : register(t6);
 Texture2D Reflection : register(t7);
 Texture2D<float> Elevation : register(t8);
+Texture2D Civilization : register(t9);
+Texture2D Facades : register(t10);
 SamplerState TextureSampler : register(s0);
 SamplerComparisonState ShadowSampler : register(s1);
 struct Vertex { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD; float4 color:COLOR; float4 surface:SURFACE; };
@@ -64,6 +66,16 @@ float3 Tile(float2 uv,float2 quadrant)
     // Mirrored tile coordinates prevent a hard seam in generated nonperiodic scans.
     float2 q=1-abs(frac(uv*.5)*2-1);
     return Surfaces.Sample(TextureSampler,(quadrant+(.006+q*.988))*.5).rgb;
+}
+float3 CivilTile(float2 uv,float2 quadrant)
+{
+    float2 q=1-abs(frac(uv*.5)*2-1);
+    return Civilization.Sample(TextureSampler,(quadrant+.006+q*.988)*.5).rgb;
+}
+float3 CivilSurface(float3 p,float3 n,float2 quadrant,float scale)
+{
+    float3 w=pow(abs(n),5);w/=max(.001,w.x+w.y+w.z);
+    return CivilTile(p.zy*scale,quadrant)*w.x+CivilTile(p.xz*scale,quadrant)*w.y+CivilTile(p.xy*scale,quadrant)*w.z;
 }
 float3 Triplanar(float3 p,float3 n,float2 quadrant,float scale)
 {
@@ -114,7 +126,9 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     {
         float3 region=Land.Sample(TextureSampler,p.uv).rgb;
         float3 grass=Tile(p.world.xz*1.65,float2(0,0));
-        float3 rock=Triplanar(p.world,n,float2(1,0),.65);
+        float3 rock=grass;
+        [branch]if(1-saturate(n.y)>.015||p.world.y>.95)rock=Triplanar(p.world,n,float2(1,0),.65);
+        [branch]if(Settings.y>.5&&length(EyeTime.xyz-p.world)<30){float soil=smoothstep(.52,.78,Noise(p.world.xz*.72))* .32;grass=lerp(grass,CivilTile(p.world.xz*2,float2(0,0)),soil);}
         float slope=1-saturate(n.y);float stone=saturate(slope*3.6+smoothstep(.95,2.15,p.world.y)*.4);
         float snow=smoothstep(3.1,4.4,p.world.y)*saturate(n.y*1.5-.3);
         float3 detail=lerp(grass,rock,stone);
@@ -211,6 +225,26 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     {
         albedo*=1-SeasonPalette.z*.16;rough=lerp(rough,.35,SeasonPalette.z*.65);
     }
+    if(kind>21.5&&kind<26.5)
+    {
+        float2 quadrant=kind<22.5?float2(0,0):kind<23.5?float2(1,0):kind<24.5?float2(0,1):kind<25.5?float2(1,1):float2(0,1);
+        float scale=kind<22.5?5:kind<23.5?6:kind<24.5?5:kind<25.5?4:3;
+        float3 surface=CivilSurface(p.world,n,quadrant,scale);
+        if(kind>25.5)surface=lerp(.67.xxx,surface,.25);
+        albedo=Decode(surface)*(.70+p.color.rgb*.35);rough=kind>24.5&&kind<25.5?.78:.91;
+        n=ReliefNormal(p.world,n,dot(surface,float3(.299,.587,.114)),.007*Settings.y);
+        albedo*=1-SeasonPalette.z*.18;rough=lerp(rough,.38,SeasonPalette.z*.6);
+        albedo=lerp(albedo,Decode(float3(.80,.85,.87)),SeasonPalette.x*smoothstep(.4,.85,n.y)*.8);
+    }
+    if(kind>26.5&&kind<30.5)
+    {
+        float index=kind-27;float2 quadrant=float2(fmod(index,2),floor(index/2));
+        float2 uv=(quadrant+.008+saturate(p.uv)*.984)*.5;
+        float3 facade=Facades.Sample(TextureSampler,uv).rgb;
+        albedo=Decode(facade);rough=kind>29.5?.30:.84;metal=kind>29.5?.15:0;
+        n=ReliefNormal(p.world,n,dot(facade,float3(.299,.587,.114)),.0015*Settings.y);
+        albedo*=1-SeasonPalette.z*.1;
+    }
     float visibility=Visibility(p,n);
     if(kind>.5&&kind<1.5)
     {
@@ -227,8 +261,9 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         }
         if(p.surface.w>1.5)
         {
-            float current=Noise(float2(p.uv.x*5,p.uv.y*8-EyeTime.w*.55))-.5;
-            flow=float2(current,Noise(float2(p.uv.x*9+7,p.uv.y*13-EyeTime.w*.8))-.5);ripple=current;
+            float current=Noise(float2(p.uv.x*12,p.uv.y*30-EyeTime.w*.55))-.5;
+            float fine=Noise(float2(p.uv.x*90+3,p.uv.y*160-EyeTime.w*2))-.5;
+            flow=float2(current*.07+fine*.04,(Noise(float2(p.uv.x*65+7,p.uv.y*110-EyeTime.w*1.4))-.5)*.07);ripple=current*.12+fine*.06;
         }
         n=normalize(float3(-flow.x,1,-flow.y));
         float fresnel=.025+.975*pow(1-saturate(dot(n,v)),5);float3 reflected=Sky(reflect(-v,n));
@@ -277,13 +312,24 @@ float4 PostPS(FullPixel p):SV_TARGET
     if(Settings.x>.5)
     {
         float occlusion=0;
-        [unroll]for(int i=0;i<8;i++)
+        if(VisualOptions.z>.5&&depth<.99999)
         {
-            float angle=i*2.399963;float2 offset=float2(cos(angle),sin(angle))*Screen.xy*(3+i*1.1);
-            float other=SceneDepth.SampleLevel(TextureSampler,p.uv+offset,0);
-            float difference=depth-other;occlusion+=step(.00015,difference)*saturate(1-abs(difference)*120);
+            float4 reconstructed=mul(float4(p.uv*float2(2,-2)+float2(-1,1),depth,1),InverseProjection);
+            float3 center=reconstructed.xyz/reconstructed.w;
+            float3 normal=normalize(cross(ddx(center),ddy(center)));if(dot(normal,EyeTime.xyz-center)<0)normal=-normal;
+            float radius=clamp(90/max(.5,length(EyeTime.xyz-center)),3,24);
+            [unroll]for(int i=0;i<12;i++)
+            {
+                float angle=i*2.399963;float2 uv=p.uv+float2(cos(angle),sin(angle))*Screen.xy*radius*sqrt((i+.5)/12);
+                uv=clamp(uv,Screen.xy*.5,1-Screen.xy*.5);
+                float other=SceneDepth.SampleLevel(TextureSampler,uv,0);
+                float4 sampleWorld=mul(float4(uv*float2(2,-2)+float2(-1,1),other,1),InverseProjection);
+                float3 delta=sampleWorld.xyz/sampleWorld.w-center;float len=length(delta);
+                float horizon=saturate(dot(normal,delta)/max(.0001,len)-.10);
+                occlusion+=horizon*(1-smoothstep(.04,.48,len))*step(other,.99999)*step(.002,len);
+            }
         }
-        color*=1-occlusion*.032;
+        color*=1-saturate(occlusion/12)*.72;
         float3 bloom=0;
         [unroll]for(int j=0;j<4;j++)
         {
