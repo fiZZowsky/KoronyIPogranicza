@@ -1,4 +1,6 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.38
+# Epoki i możliwe przyszłości — podręcznik wydania 0.39
+
+Wydanie 0.39 dodaje samouczek krok po kroku dostępny w Poradniku oraz powitanie sterowane w Ustawieniach → Rozgrywka. Nową kampanię rozpoczyna wybór trudności, a mapa powstaje automatycznie. Format kampanii pozostaje v28.
 
 Od 0.38 postacie i konie używają importowanych siatek 3D z własnymi mapami materiałów i osobnymi LOD. Warsztaty otwierają inwestycje państwowe lub koncesje: 8 rozliczeń, 6 rzeczywistych partii w 4 finansowanych fazach, do dwóch poziomów urządzeń. Koncesja wymaga później 24 rzeczywistych wpłat; trzy kolejne braki odbierają jeden poziom.
 

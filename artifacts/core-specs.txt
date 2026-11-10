@@ -757,4 +757,4 @@ PASS A signed concession resumes deterministically after reload
 PASS Unsupported owners recipes pending councils and legacy campaigns reject signing
 PASS Malformed fees missing evidence and overlarge equipment are rejected
 PASS V27 migration invents no industry levels and keeps the exact predecessor
-752 specifications passed in 35,0s.
+752 specifications passed in 34,1s.

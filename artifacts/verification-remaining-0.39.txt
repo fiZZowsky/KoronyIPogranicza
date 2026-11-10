@@ -1,0 +1,654 @@
+PASS New desktop campaign starts a full Paleolithic-to-future history
+PASS Era browser contains all eighteen ordered stages
+PASS Era browser opens Paleolit
+PASS Era browser opens Neolit
+PASS Era browser opens Epoka brązu
+PASS Era browser opens Epoka żelaza
+PASS Era browser opens Starożytność klasyczna
+PASS Era browser opens Średniowiecze
+PASS Era browser opens Renesans
+PASS Era browser opens Oświecenie
+PASS Era browser opens Rewolucja przemysłowa
+PASS Era browser opens Nowoczesność
+PASS Era browser opens Epoka atomowa
+PASS Era browser opens Epoka informacyjna
+PASS Era browser opens Epoka automatyzacji
+PASS Era browser opens Epoka planetarna
+PASS Era browser opens Epoka orbitalna
+PASS Era browser opens Epoka międzyplanetarna
+PASS Era browser opens Epoka Układu Słonecznego
+PASS Era browser opens Epoka międzygwiezdna
+PASS Prehistoric state cannot start interstellar research from the browser
+PASS Era research button selects a real technology without resetting the science pool
+PASS A real turn completes Renaissance research and opens the era's political debate
+PASS Era debate stores the chosen permanent industrial and supply policy
+PASS Era browser shows the actually adopted historical institution
+PASS Modernization UI pays gold, changes the physical model and retains veteran health and experience
+PASS Project era filter shows the requested industrial infrastructure
+PASS An industrial building is ordered through its production button and really supplies energy after completion
+PASS Space program button is disabled when its industrial network lacks power
+PASS Sufficient fusion energy enables the orbital program
+PASS Space overview starts actual city production
+PASS Real production completes a national orbital program rather than a decorative local building
+PASS Desktop reload preserves era institutions, national infrastructure and the extended campaign
+PASS Planetary overview displays actual climate pressure and crop impact
+PASS Interstellar program completes through a real UI turn and triggers the new science victory
+PASS Victory dialog allows further development of the future world
+PASS Legacy campaign expansion preserves its cities and treasury
+PASS Extensive future-era content remains reachable in a compact scrolling window
+38 epoch desktop integration checks passed.
+PASS World development exposes actual city power management
+PASS Shared energy shortage initially blocks the national orbital program
+PASS Power panel shows other consumers in the real road network
+PASS Priority button stores the actual city directive and turn lock
+PASS Prioritising the spaceport reduces another city's real research output
+PASS Same-turn priority alternatives are visibly unavailable
+PASS City priority enables the real program button without adding a power plant
+PASS Shutdown retains the physical building, treasury and accumulated production
+PASS Immediate restart is disabled until the next turn
+PASS Shutdown reallocates the released energy to the remaining consumer
+PASS Inactive required infrastructure blocks the orbital program despite ample power
+PASS Next-turn control offers a paid restart
+PASS Restart debits the displayed gold cost exactly once
+PASS Restart also locks further switching during its turn
+PASS Desktop save and reload preserve power allocation, payment and locks exactly
+PASS Reload does not bypass the same-turn operating lock
+PASS Retiring redundant coal reduces actual emissions while preserving full supply
+PASS Economic upkeep retains the coal plant's one-gold standby cost
+PASS Production browser includes the new geographical energy source
+PASS Renewable production button builds an actual generating facility
+PASS New renewable facilities share the same operating controls
+PASS Operating panel shows actual winter desert solar generation rather than nominal power
+PASS Long industrial controls remain reachable at 1200 by 800
+23 power desktop integration checks passed.
+PASS World overview exposes an initially empty energy petition register
+PASS Two actual desktop turns record history without opening an early petition
+PASS Third real shortage turn opens the contextual city energy council
+PASS Energy dialogue identifies its speaker and the actual affected service
+PASS A free verifiable recovery pledge is selectable
+PASS Reload reopens the correct pending delegation
+PASS Relief option pays the quoted amount and leaves the power shortage real
+PASS Register retains the actual relief decision
+PASS Promise decision records its deadline without crediting forecasts
+PASS Operating panel displays real earlier economic readings
+PASS Plant construction changes the forecast but does not rewrite that turn's unpowered delivery
+PASS Two later fully powered desktop phases build a genuine consecutive recovery streak
+PASS Mid-pledge desktop reload preserves the exact evidence and progress
+PASS Third full phase completes the real political commitment
+PASS Register shows fulfilled recovery with its preserved outcome
+PASS Empty treasury disables relief while preserving both free political choices
+PASS Refusal records a real decision without fabricating a payment or promise
+PASS Turning off the named service cannot satisfy the pledge at zero demand
+PASS Failed pledge register explains the unmet phases rather than awarding a timer reward
+PASS An older pending council visibly prevents replacing its context with an energy hearing
+PASS Compact native layout: requested 1200x800, window 1200x800, root 1184x761, state Normal
+PASS Energy case explanations and actions remain reachable in a compact scrolling window
+22 energy case desktop integration checks passed.
+PASS New game mounts one genuine Viewport3D with a perspective camera
+PASS Terrain and world objects contain actual depth-tested triangle meshes
+PASS Static terrain is frozen and split into bounded mesh batches
+PASS Mesh positions and smooth normals are finite and valid
+PASS Forests and the starting settlement are spatial geometry rather than map symbols
+PASS Own military formations are present in the 3D scene
+PASS Rendering a new campaign leaves simulation state and RNG untouched
+PASS A ray through the projected capital hits its actual scene geometry
+PASS Perspective minimap footprint includes the centred city
+PASS Camera rotation uses the WPF control without rebuilding the world
+PASS Zoom changes perspective projection through its actual control
+PASS Camera elevation is clamped above the world
+PASS Camera cannot orbit beneath the terrain
+PASS Near camera distance is bounded
+PASS Far camera distance is bounded
+PASS Pan retains a finite world camera and minimap footprint
+PASS Orbit, pan and zoom do not advance turns or modify the save
+PASS 3D screen selection reaches the real city and unit selection handler
+PASS Perspective picking identifies an adjacent ground surface
+PASS A 3D screen order moves the actual military unit and refreshes its geometry
+PASS Unexplored terrain elevation does not reveal the hidden terrain type
+PASS Fog hides unseen enemy formations and undiscovered cities
+PASS Grid, selection, movement range and logistics are terrain-following 3D overlays
+PASS Population overlays and projected city annotations remain available
+PASS Existing save format reloads exact gameplay into the 3D renderer
+PASS Ray picking resolves a visible hostile formation on the battlefield
+PASS A 3D hostile order opens the real battle preview before changing health
+PASS Confirmed 3D combat applies real damage and consumes the unit's actions
+PASS City architecture builds spatial models for era 6
+PASS City architecture builds spatial models for era 10
+PASS City architecture builds spatial models for era 15
+PASS City architecture builds spatial models for era 18
+PASS All six land roles have renderable spatial models, including cavalry and artillery
+PASS Compact window retains a usable 3D viewport and camera controls
+34 3D desktop integration checks passed.
+Elapsed 31,8s; render tier 2; final terrain 262034 triangles; objects 456344 triangles.
+PASS Default game map initializes the hardware renderer: Direct3D 11
+PASS Hardware feature level 11_0 renders an actual frame
+PASS World meshes and a 2048px shadow map are resident on the GPU
+PASS GPU image contains a nonempty lit scene with a broad tonal range
+PASS oak-foliage-0.21.png has real transparent gaps and opaque leaves
+PASS spruce-foliage-0.21.png has real transparent gaps and opaque leaves
+PASS Fixed visual time renders deterministically without random simulation changes
+PASS Visual time animates water and leaves without advancing a turn
+PASS Disabling shadow mapping changes actual pixels
+PASS Photographic terrain detail changes actual surface pixels
+PASS The visible lake changes when planar scene reflections are disabled
+PASS Ambient occlusion and highlight processing affect the rendered image
+PASS Exposure controls operate on the HDR scene
+PASS Changing sunlight repositions real world shading
+PASS GPU presentation retains real geometry picking and city selection (hit 639, city 639)
+PASS Rendering, lighting and visual settings leave the campaign and RNG untouched
+PASS Low camera remains above hills and mountains instead of entering the terrain
+FRAME SAMPLE: median 30,7ms, maximum 32,8ms; 1165x758; this machine only, not a frame-rate guarantee.
+RESIZE: state Normal; requested 1200x800; actual 1200x800; map 765x578; GPU 765x578.
+PASS Resize recreates GPU targets at the compact client's size
+PASS Balanced rendering bounds the GPU output resolution
+PASS Existing v19 save reloads into the new GPU renderer without migration
+PASS Graphics and landscape camera controls remain available
+21 photographic desktop integration checks passed.
+Elapsed 17,4s; Direct3D feature level 0xB000; fixed-time diagnostic.
+PASS Unchanged explored geography reuses one immutable height field
+PASS The shared height texture contains only finite samples
+PASS Changing an unexplored terrain type does not affect the visual field
+PASS The known coast center remains below the visible water plane
+PASS Changing explored geography invalidates the field and updates elevation
+PASS Preparing and invalidating visual fields does not change gameplay or RNG
+PASS Town growth adds stable residential lots without rearranging existing homes
+PASS Residential footprints are separated and leave the two streets unobstructed
+PASS The new terrain and city render on the actual Direct3D device: 
+PASS Geometry, camera and the GPU use the same prepared geography
+PASS The town contains street surfaces and the archway's real 3D geometry
+PASS The distant horizon has a continuous, detailed mountain surface
+PASS Depth-aware shores and shallow water change actual rendered pixels
+PASS Edge smoothing changes the rendered silhouette pixels
+PASS The gateway points to its city's logical tile, including the wall edge
+PASS Repeated camera movement does not accumulate additional GPU meshes
+PASS Camera movement, shore shading and city rendering leave the exact save unchanged
+PASS The detailed environment remains available in the compact window
+18 landscape desktop integration checks passed.
+PASS Known rivers produce sampled reaches and connected neighbors
+PASS River geometry uses only explored endpoints
+PASS Water elevations and normalized cross-sections remain finite
+PASS Changing a hidden river flag neither rebuilds nor reveals a channel
+PASS The real city road intersects its riverside channel
+PASS River water lies above a carved bed rather than a raised terrain ribbon
+PASS Changing a known river invalidates terrain and removes its channel
+PASS The same save produces identical river geometry and terrain
+PASS Reaches sharing a known node meet at identical positions and water levels
+PASS Channel preparation leaves campaign decisions, roads and RNG unchanged
+PASS River scene renders on the real Direct3D device: 
+PASS Existing roads generate a planked bridge with stone supports and parapets
+PASS The river contains actual bank and reed geometry
+PASS Picking the visible bridge returns the underlying logical tile
+PASS Visual time changes the actual water and environment pixels
+PASS Fixed visual time keeps river rendering deterministic
+PASS Camera movement does not accumulate river GPU buffers
+PASS Bridges, river animation and camera motion do not change the save
+PASS Rivers and bridges remain available in the compact window
+19 river desktop integration checks passed.
+PASS Seasonal environment uses the real Direct3D renderer: 
+PASS Season 0 updates shader data without rebuilding terrain or revealing geography
+PASS Season 0 renders without changing the campaign or RNG
+PASS Season 1 updates shader data without rebuilding terrain or revealing geography
+PASS Season 1 renders without changing the campaign or RNG
+PASS Season 2 updates shader data without rebuilding terrain or revealing geography
+PASS Season 2 renders without changing the campaign or RNG
+PASS Season 3 updates shader data without rebuilding terrain or revealing geography
+PASS Season 3 renders without changing the campaign or RNG
+PASS Spring, summer, autumn and winter have four distinct actual GPU images
+PASS Disabling seasonal surfaces changes actual winter pixels
+PASS Automatic winter creates real snow particle triangles
+PASS A fixed visual time reproduces the exact snowy image
+PASS Snowfall advances with visual time without advancing a turn
+PASS Clear weather releases the particle buffer and changes actual pixels
+PASS Manual rain creates depth-tested streak geometry and a distinct rendered image
+PASS Replacing precipitation buffers over 24 frames does not leak native GPU resources
+PASS Repeatedly enabling and clearing precipitation returns to the same native resource count
+PASS Weather particles do not intercept picking of the city's real geometry
+PASS Weather controls, animation and camera motion leave the exact save unchanged
+PASS A v19 winter save reloads with the correct automatic season
+PASS The seasonal scene remains available in the compact window
+22 environment desktop integration checks passed.
+PASS Imported living meshes render with the selected actual backend: 
+PASS Human formations use imported continuous anatomical meshes with baked skeletal poses
+PASS Horse resources and cavalry use the detailed imported equine mesh
+PASS Forests, grass tufts and smaller leaves have distinct spatial geometry
+PASS All six resource types have their own recognizable model components
+PASS New resource and living meshes remain bounded with finite unit normals
+PASS Dyes are represented by flowering plants rather than the former colored sphere
+PASS Imported actors use their actual UV-matched bitmap materials in the fallback scene
+PASS Wheat has textured double-sided crossed cards instead of geometric grain balls
+PASS Organic models include a substantially smaller alternative for distant rendering
+PASS Organic material coordinates follow detailed model surfaces
+PASS The wheat asset contains real transparent cutouts and opaque plants
+PASS Organic geometry evidence: near 117730 triangles, far 15112 triangles
+PASS Every imported actor has a substantially smaller dedicated LOD
+PASS Every actor has UV-matched color normal and roughness-metallic maps bounded at 1024 pixels
+PASS Actual map badge shows the full resource name and icon: Zboże
+PASS Selected resource explains its identity and actual field bonus: Zboże
+PASS Actual map badge shows the full resource name and icon: Żelazo
+PASS Selected resource explains its identity and actual field bonus: Żelazo
+PASS Actual map badge shows the full resource name and icon: Konie
+PASS Selected resource explains its identity and actual field bonus: Konie
+PASS Actual map badge shows the full resource name and icon: Kamień
+PASS Selected resource explains its identity and actual field bonus: Kamień
+PASS Actual map badge shows the full resource name and icon: Sól
+PASS Selected resource explains its identity and actual field bonus: Sól
+PASS Actual map badge shows the full resource name and icon: Barwniki
+PASS Selected resource explains its identity and actual field bonus: Barwniki
+PASS The map never substitutes a chemical abbreviation for the iron resource name
+PASS The resources toggle hides badges while keeping the real world models
+PASS The real legend button opens names and pictograms for every resource
+PASS Picking a horse resource model resolves its actual logical tile
+PASS The actual inspection button opens a close view without changing the campaign
+PASS The camera can approach closely enough to inspect the new models
+PASS Resource labels, legend, new models and camera inspection preserve gameplay and RNG
+PASS An undiscovered iron deposit never gains a revealing map badge
+PASS The resource legend remains scrollable in the compact window
+36 models desktop integration checks passed.
+PASS Spatial rendering initializes on the actual Direct3D device: 
+PASS A box in front of the camera remains visible
+PASS A box behind the camera is rejected
+PASS A box beyond a side plane is rejected
+PASS A box crossing the edge stays visible even with its center outside
+PASS A box crossing the near plane is kept conservatively
+PASS A box beyond the far plane is rejected
+PASS Coarse trees retain geometry with fewer than one quarter of the detailed triangles
+PASS Material meshes are partitioned into cached spatial batches
+PASS Main, reflected and shadow frusta preserve every rendered pixel at fixed time
+PASS A close camera submits fewer than half the uncropped world triangles
+PASS Shadows and reflections cull using their own view volumes
+PASS Disabling automatic detail selects only detailed tree geometry
+PASS The low landscape camera preserves the exact reference image including reflections
+PASS The real graphics menu opens live rendering statistics
+PASS Orbiting changes visibility without rebuilding simulation geometry
+PASS Camera motion reuses buffers and does not accumulate native resources or scene uploads
+PASS The real detail control selects coarse trees in the distant overview
+PASS Distant tree and small-plant detail reduces submitted geometry
+PASS Approaching the map restores nearby tree detail
+PASS Visibility and tree detail do not change logical city picking
+PASS Resource names remain readable with rendering optimizations enabled
+PASS The real culling control restores the reference path
+PASS Rendering optimizations, statistics and camera changes preserve campaign state and RNG
+PASS Unknown forest geography creates no coarse tree models
+PASS Statistics fit the compact map without blocking its controls
+PASS Resizing preserves every reference pixel with the new camera aspect ratio
+SAME-BUILD SAMPLE: reference 51,2ms; spatial culling 36,7ms; ten fixed-time frames each, median; not an FPS guarantee.
+NEAR TRIANGLES: main 205405/842092; shadows 522903/839344; reflections 250888/839344.
+FAR TRIANGLES: detail 257435/770448; coarse tree batches 73; cached spatial batches 1592.
+27 rendering desktop integration checks passed.
+PASS The main menu has an actual settings entry
+PASS Settings exposes five separate sections
+PASS Esc from main-menu settings discards an unapplied draft
+PASS Apply writes a real preferences file that reloads correctly
+PASS Borderless display mode changes the actual game window
+PASS Windowed mode restores a resizable decorated window
+PASS A second apply uses the newly edited draft rather than stale controls
+PASS Master and interface volumes combine in the actual audio player
+PASS Mute reaches the actual audio player's effective volume
+PASS Interface feedback generates a valid PCM WAV asset
+PASS Duplicate shortcuts are rejected without replacing an existing action
+PASS Custom global and camera shortcuts are persisted
+PASS Esc cancels key capture while keeping settings open
+PASS Starting a campaign applies saved render quality and brightness
+PASS Starting a campaign applies interface preferences
+PASS The footer displays the player's current shortcut rather than the default key
+PASS Esc opens the complete in-game pause menu
+PASS Pause suspends automatic environment rendering and map interaction
+PASS Camera shortcuts, global actions and map orders are blocked behind pause
+PASS Cancelling the native save-path selection preserves pause and campaign
+PASS Pause save writes and reloads the exact campaign even with autosave disabled
+PASS A failed manual save stays in pause and preserves the previous valid save
+PASS Pause opens the same settings screen
+PASS Esc from pause settings returns to pause
+PASS Esc from pause resumes the actual campaign
+PASS The rebound next-unit shortcut selects a real player unit
+PASS The rebound camera shortcut changes the actual camera
+PASS The previous camera key no longer triggers its old action
+PASS Settings, pauses, saves, selection and camera changes preserve campaign state and RNG
+PASS The end-turn preference opens a real confirmation without advancing time
+PASS Cancelling end-turn confirmation does not advance the campaign
+PASS Returning to main menu retains an unsaved campaign in memory
+PASS Returning from main menu restores the campaign and applied preferences
+PASS Loading a campaign keeps player preferences independent of its save
+PASS Disabling autosave prevents a real diagnostic autosave write
+PASS Enabling autosave writes the actual campaign to its isolated save directory
+PASS Accepting end-turn confirmation advances exactly one turn
+PASS Corrupt preferences fall back safely without overwriting their source
+PASS Invalid preference ranges and bindings normalize to usable values
+PASS Apply and return controls stay visible in the compact settings window
+PASS Restore defaults prepares a draft without silently changing active settings
+PASS Applying restored defaults resets every section together
+PASS Esc closes an ordinary dialog before opening pause
+PASS A subsequent Esc opens pause after a normal dialog closes
+44 settings desktop integration checks passed.
+PASS District scene uses the actual Direct3D device
+PASS The real city panel exposes all five district roles
+PASS Choosing a role starts actual map placement with eligible field outlines
+PASS Browsing district plans and legal sites preserves campaign and RNG
+PASS Selecting an illegal city-center site does not reserve land or spend funds
+PASS An unresolved map placement cannot accidentally advance the turn
+PASS Esc cancels planning and removes its outlines without spending funds
+PASS Clicking an actual 3D field opens the financing decision
+PASS The council offers public and guild charters with real costs
+PASS Accepting a charter creates the actual paid construction on the selected field
+PASS The district construction field is removed from actual worked farmland
+PASS Unfinished districts render spatial scaffolding
+PASS A city with an unfinished site cannot start a second simultaneous district
+PASS The city planning control changes real production allocation
+PASS An actual economic turn advances district construction
+PASS Saving and loading preserves field work charter and production allocation
+PASS Completing construction activates actual science income
+PASS Selecting the district opens its real management card
+PASS Picking district building geometry returns its logical field
+PASS The fifth-role fixture uses valid paid placement: Ogrody miejskie
+PASS The fifth-role fixture uses valid paid placement: Dzielnica rzemiosła
+PASS The fifth-role fixture uses valid paid placement: Dzielnica kupiecka
+PASS The fifth-role fixture uses valid paid placement: Forum obywatelskie
+PASS All five roles have recognizable distinct spatial model components
+PASS District scene geometry keeps finite unit normals
+PASS Foreign district fixture uses the same placement rules
+PASS An explored but currently unseen enemy district reveals neither construction geometry nor a sidebar land-use hint
+PASS The actual field pillage button disables an enemy district and grants loot
+PASS Looted districts render visible ruins
+PASS The actual management button starts half-cost reconstruction
+PASS Confirmed cancellation releases the site without a treasury refund
+PASS The extensive district plan remains scrollable with a return action in a compact window
+32 district desktop integration checks passed.
+PASS The actual city button opens the military assessment
+PASS The assessment reports the real nearby observed hostile force
+PASS An unseen distant enemy is absent from the assessment
+PASS The assessment explains an actual local strength deficit
+PASS The report explains the limits of current reconnaissance
+PASS Supply counts use the real friendly army
+PASS Opening the assessment preserves campaign orders and RNG
+PASS Defense planning opens the existing actual city production controls
+PASS The real army roster also opens the assessment
+PASS The assessment locates the selected city on the actual map
+PASS A peaceful fresh report does not retain stale war warnings
+PASS An isolated friendly army changes the real supply count
+PASS An unsupplied unit entry opens its actual order panel
+PASS The complete assessment is scrollable in a compact window
+PASS Assessment resizing and camera navigation preserve exact state
+PASS The report is correctly rebuilt after an unchanged v20 save reload
+16 military AI desktop integration checks passed.
+PASS The actual city button opens the fleet panel using the requested renderer
+PASS A coastal city offers legal port construction
+PASS Browsing the admiralty preserves state and RNG
+PASS The real admiralty button selects an actual city port project
+PASS An actual economic turn completes the selected port
+PASS The constructed port renders a spatial pier and supports
+PASS The actual fleet panel orders a technology legal ship
+PASS Actual ship production launches on a water field
+PASS The launched galley has an actual hull model
+PASS Selecting the actual hull returns its logical water field
+PASS The ship sidebar uses real naval supply rather than land roads
+PASS Water selection and reachable outlines stay above the sea surface
+PASS A real map order sails to a neighboring coast and spends movement
+PASS The real galley order cannot cross deep ocean
+PASS V21 desktop reload preserves the actual port and ship
+PASS Naval orders do not offer land fortification
+PASS The actual modernization panel pays gold and consumes movement at a safe port
+PASS The upgraded ship can receive a real open ocean order
+PASS The fleet panel explains an actual wartime port blockade
+PASS A blocked port disables the actual shipbuilding choices
+PASS A ship attack uses the existing real combat preview
+PASS Confirmed naval fire sinks the blocker and restores port activity
+PASS An explored but unseen hostile ship does not appear in the 3D scene
+PASS Historical industrial and future ships render their actual visual families
+PASS Naval meshes have finite unit normals
+PASS The admiralty and epoch catalog expose naval models and their real modernization requirements
+PASS The complete fleet roster remains scrollable in a compact window
+27 naval desktop integration checks passed.
+PASS The real fleet entry opens the carrier manifest with model capacity
+PASS Browsing the manifest preserves exact campaign and RNG
+PASS The actual boarding button loads the settler and spends movement
+PASS The manifest disables a heavy unit that exceeds remaining capacity
+PASS The second real boarding action fills the carrier
+PASS Carried troops disappear from independent 3D formations
+PASS A loaded ship shows an actual deck cargo marker
+PASS The manifest starts real map placement for disembarkation
+PASS Choosing a landing shore blocks accidental turn advancement
+PASS Esc cancels landing selection without spending movement
+PASS Selecting a loaded carrier never selects its hidden passengers
+PASS A real sea map order moves the complete manifest across the water
+PASS Current-format desktop reload restores the actual manifest mid voyage
+PASS An exhausted carrier cannot unload from its actual manifest
+PASS An invalid water landing neither opens confirmation nor changes state
+PASS Selecting the actual shore opens a landing confirmation
+PASS Confirmed landing exhausts the settler and removes the placement overlay
+PASS The second actual landing empties the carrier without granting attacks
+PASS A freshly unloaded settler cannot found a city before the next turn
+PASS A real voyage and next-turn founding establish a coastal colony
+PASS A visible foreign carrier does not expose independent passenger models
+PASS A full future carrier manifest remains scrollable in a compact window
+22 transport desktop integration checks passed.
+PASS The fleet opens the real siege and beachhead report
+PASS Reading siege intelligence leaves state and RNG unchanged
+PASS The report omits currently unseen foreign cities
+PASS A real sea order carries the assault infantry to the enemy shore
+PASS The real landing planner includes a defended legal assault shore
+PASS The map opens the assault forecast and explicit landing penalty
+PASS Opening the assault confirmation spends no resources
+PASS Cancelling the assault preserves the entire campaign
+PASS Confirmed assault defeats defenders and lands exhausted infantry at the actual cost
+PASS Successful assault clears the map planning state
+PASS The existing military order begins genuine beachhead preparation
+PASS Ordinary turns activate fleet-backed beachhead supply
+PASS An active beachhead has a real flag and supply-crate model
+PASS Prepared field positions appear in actual scene geometry
+PASS The report exposes the established beachhead and its map link
+PASS Ships and ports include actual rigging and mooring fittings
+PASS The requested rendering backend initializes successfully: no GPU error
+PASS Shore bathymetry and wave foam change rendered pixels
+PASS Detailed coastal models receive real GPU shadows
+PASS Desktop save and reload preserve the derived beachhead from saved positions and orders
+PASS The siege report remains navigable in a compact window
+21 siege desktop integration checks passed.
+PASS The real army entry opens the stockpile and reserve panel
+PASS Browsing logistics leaves campaign and RNG unchanged
+PASS The actual depot button selects an ordinary construction project
+PASS An ordinary production turn completes the prepared depot without free stocks
+PASS A completed depot has real visible warehouse geometry
+PASS The quartermaster dialogue explains the production tradeoff
+PASS Leaving the quartermaster conversation changes no policy or resources
+PASS The actual priority decision commits work without instant supplies
+PASS The dialogue enforces the once-per-turn policy change
+PASS Actual economic turns manufacture paid stock packages
+PASS The actual loading button spends earned packages and one movement point
+PASS A fully supplied troop cannot load beyond three reserve turns
+PASS Heavy artillery draws two real packs per loaded reserve turn
+PASS Orders identify an isolated army living on its carried reserve
+PASS Desktop current-format reload restores carried supplies stock and allocation exactly
+PASS Three ordinary turns consume reserve before attrition begins
+PASS The UI reports exhaustion and actual attrition after the last ration
+PASS The real military order opens an exact supply raid quote
+PASS Cancelling a raid preserves stocks cash movement and RNG
+PASS Confirmed raid destroys finite supplies pays exact loot and preserves the road
+PASS Stock loss rebuilds the actual supply-crate geometry within the same turn
+PASS The real order prevents a repeated exhausted raid
+PASS A currently unseen foreign depot does not expose its warehouse or stock geometry
+PASS Industrial-era warehouses use the actual metal roof model
+PASS The requested renderer displays the new logistics geometry: no GPU error
+PASS A large reserve roster remains scrollable in a compact native window
+26 field supply desktop integration checks passed.
+PASS The real market entry opens the crafting and regional input panel
+PASS Browsing the complete processing forecast preserves stocks and RNG
+PASS The actual workshop button selects ordinary construction
+PASS A normal economic turn completes the prepared workshop without free goods
+PASS The guild conversation explains the processing tradeoff
+PASS Leaving the guild conversation changes no materials or work
+PASS The actual tool plan commits a policy without instant output
+PASS The production dialogue enforces the once-per-turn plan change
+PASS An ordinary city turn converts actual work into tools
+PASS Processing draws real iron from the connected warehouse and names its source
+PASS Actual anvils and produced-goods stacks appear in the 3D scene
+PASS The second actual construction path completes a weaving facility
+PASS The real plan switch produces two textiles per consumed dye unit
+PASS The actual weaving facility has visible cloth and loom geometry
+PASS A newly completed guildhall cannot claim unearned zero-demand benefits
+PASS Actual subsequent product consumption activates the guildhall's economic benefits
+PASS The real contract selector exposes both manufactured products alongside raw materials
+PASS The export form shows the chosen product route and current price quote
+PASS The actual signature creates the intended processed-goods export
+PASS Paid manufactured exports enter an actual caravan rather than arriving instantly
+PASS The actual caravan delivers manufactured tools to the foreign guildhall
+PASS Desktop current-format reload preserves manufacturing receipts stocks and shipment history
+PASS The actual processing panel explains loss of the disconnected supplier
+PASS A real subsequent turn cannot manufacture through a missing road
+PASS The requested rendering backend displays workshop geometry: no GPU error
+PASS A complete crafting and receipt panel remains scrollable at compact window size
+26 manufacturing desktop integration checks passed.
+PASS The new GPU material shader initializes successfully or the requested WPF backend is selected
+PASS The real epoch entry opens era-specific conditions and legacy
+PASS Reading the endeavour panel preserves campaign and RNG
+PASS The council explains the two paid commitments
+PASS Leaving the council incurs no costs
+PASS A real council decision pays startup cost without an instant legacy
+PASS A second plan decision is blocked in the same turn
+PASS The first actual economic phase records only one paid success
+PASS Three actual qualified phases establish the legacy through the UI
+PASS The earned hunter legacy changes the city's actual food yield
+PASS The actual desktop reload preserves paid plans and earned legacies
+PASS Distinct finite read-only architecture: Paleolit
+PASS Distinct finite read-only architecture: Neolit
+PASS Distinct finite read-only architecture: Epoka brązu
+PASS Distinct finite read-only architecture: Epoka żelaza
+PASS Distinct finite read-only architecture: Starożytność klasyczna
+PASS Distinct finite read-only architecture: Średniowiecze
+PASS Distinct finite read-only architecture: Renesans
+PASS Distinct finite read-only architecture: Oświecenie
+PASS Distinct finite read-only architecture: Rewolucja przemysłowa
+PASS Distinct finite read-only architecture: Nowoczesność
+PASS Distinct finite read-only architecture: Epoka atomowa
+PASS Distinct finite read-only architecture: Epoka informacyjna
+PASS Distinct finite read-only architecture: Epoka automatyzacji
+PASS Distinct finite read-only architecture: Epoka planetarna
+PASS Distinct finite read-only architecture: Epoka orbitalna
+PASS Distinct finite read-only architecture: Epoka międzyplanetarna
+PASS Distinct finite read-only architecture: Epoka Układu Słonecznego
+PASS Distinct finite read-only architecture: Epoka międzygwiezdna
+PASS All 18 civic silhouettes differ within a bounded geometry budget
+PASS Photographic facade textures are shared by the GPU scene and WPF fallback
+PASS The requested rendering backend actually renders the new architecture
+PASS Sustained slow frames lower detail resolution to its bounded floor
+PASS Sustained spare frame budget gradually restores native resolution
+PASS Invalid timing never corrupts the adaptive controller
+PASS World-space contact shading changes actual GPU pixels
+PASS A stationary animated frame reuses valid shadow and reflection passes
+PASS Orbiting refreshes reflections while retaining valid world-space shadows
+PASS Moving the camera focus invalidates cached shadow coverage
+PASS Distant facade and foliage details reduce real submitted geometry
+PASS The actual renderer applies the measured resolution budget
+MEASURED: full passes 33,6ms; cached 10,6ms; ten warm frames per path; 1021x769; 102383 main triangles; 275 extra draws refreshed only when needed. CPU+GPU+readback; one machine, no temperature or FPS guarantee.
+PASS The real settings controls persist frame budget and idle energy saving
+PASS An unfulfilled future commitment remains a paid plan rather than a free reward
+PASS Era requirements and decisions remain reachable in the compact window
+44 era identity desktop integration checks passed.
+PASS The real diplomacy entry opens the new treaty registry
+PASS Browsing treaty history preserves campaign and RNG
+PASS The diplomatic conversation exposes both agreements and real securities
+PASS Leaving the proposal conversation costs nothing
+PASS The actual send button pays only embassy costs
+PASS The first ordinary turn cannot deliver an instant treaty reply
+PASS The reply arrives after two real turns without automatic signature
+PASS The ratification dialogue shows bonds recurring costs and liability
+PASS Deferring ratification preserves both treasuries
+PASS The real signature locks both deposits atomically
+PASS An ordinary funded phase produces auditable scientific cooperation
+PASS The actual embargo screen warns about forfeiting research security
+PASS Desktop current-format reload preserves signatures bonds and phase evidence
+PASS Twelve actual economic phases complete the treaty and refund both securities
+PASS An AI-originated proposal pays its own embassy without charging the player
+PASS The incoming guarantee awaits an informed player decision
+PASS Explicitly signing the incoming guarantee locks actual security
+PASS The withdrawal confirmation exposes the financial and political costs
+PASS Cancelling withdrawal preserves the entire campaign
+PASS The existing war dialogue includes the current guarantee liability
+PASS The real declaration of war compensates the guaranteed victim exactly once
+PASS The complete treaty ledger and exit remain reachable in a compact window
+22 treaty desktop integration checks passed.
+PASS The actual desktop starts with the selected renderer
+PASS The province screen provides the new council entry point
+PASS Three local constituencies expose their real support
+PASS The council explains delivery costs and political failure before signing
+PASS The actual dialogue exposes the food conditions and final signature
+PASS Leaving the conversation preserves money politics and chronology
+PASS The actual signing button starts the mandate and pays once
+PASS Competing groups react immediately to the decision
+PASS The signed decision is shown with its captured historical year
+PASS An ordinary economic turn fulfils and funds the first phase
+PASS Desktop reload preserves exact calendar support and paid phase evidence
+PASS Six actual economic phases establish the permanent food charter
+PASS The final council ledger explains the durable outcome
+PASS The delivered charter affects city yields and political loyalty
+PASS The actual chronicle dates the original decision by its recorded year
+PASS The chronicle contains no abbreviated turn labels
+PASS All local choices and the exit remain reachable in a compact window
+PASS Leaving the council returns to the selected province
+18 calendar and local council desktop integration checks passed.
+PASS The selected renderer runs the investment scenario
+PASS The actual workshop entry exposes investment goals and equipment limits
+PASS The public financing dialogue states upfront cost real production and failure liability
+PASS Leaving financing talks changes neither treasury nor machinery
+PASS The real signature pays once without granting machinery
+PASS The ledger exposes zero progress and prevents concurrent investment signatures
+PASS An ordinary economic phase pays supervision and credits actual manufactured batches
+PASS Desktop reload preserves funding dates batches receipts and RNG exactly
+PASS Eight actual economic phases establish a public upgrade without concession royalties
+PASS The final public ledger reports the physical upgrade
+PASS Investment history remains tied to the signed historical phase
+PASS The concession dialogue exposes future obligations and repossession before signature
+PASS The concession signature pays its lower actual upfront cost
+PASS Declining cancellation preserves the signed contract
+PASS The second completed investment starts future royalties: level 2, phases 8, productive 8, batches 24, royalty 24
+PASS The next real turn collects one royalty and updates the visible obligation
+PASS Desktop reload retains paid royalties and both equipment levels
+PASS The complete investment ledger and exit remain reachable in a compact window
+PASS The investment ledger returns control to the map
+19 industrial investment desktop integration checks passed.
+PASS Main menu has no seed editor or upfront difficulty controls
+PASS New game first opens three difficulty choices without generating a campaign
+PASS Cancelling difficulty returns to menu without creating a world
+PASS A new campaign opens welcome before its founding decision
+PASS Welcome is centered in the actual game window
+PASS Welcome pauses map input until the player responds
+PASS Do not show again persists to the real isolated preferences file
+PASS Starting the tutorial changes no campaign data or RNG and leaves the map usable
+PASS First task highlights the actual council button
+PASS Coach yields its space to the council dialog
+PASS Deferring the council does not falsely complete the decision task
+PASS Any real council answer completes the task and records its actual consequences
+PASS Production task scrolls the actual city project button into view
+PASS Merely closing production does not count as planning it
+PASS Keeping the existing project advances without losing production or changing the save
+PASS Opening research waits for a deliberate research decision
+PASS Keeping existing research preserves science and campaign RNG
+PASS The actual next-unit button selects a real unit and starts movement training
+PASS A no-op order does not falsely complete movement training
+PASS The actual map order handler moves the unit before completing its task
+PASS Ending the first period advances the actual campaign exactly once
+PASS Opening the real chronicle reaches the final lesson
+PASS Finishing removes coaching and highlights without changing the campaign
+PASS Reference guide starts with collapsed topics rather than a wall of text
+PASS Guide restarts the interactive tutorial after it was completed or dismissed
+PASS Esc pauses the game while preserving tutorial progress
+PASS Returning from the main menu resumes the existing tutorial without another welcome
+PASS Stopping a tutorial preserves all gameplay state
+PASS Gameplay settings reflect the welcome dismissal preference
+PASS Leaving settings discards an unapplied welcome preference
+PASS Settings can re-enable the welcome and persist it
+PASS Another campaign gets a fresh automatic world and the selected challenge
+PASS Skipping goes to the founding council without consuming its decision
+PASS Disabled welcome starts a standard campaign directly at its council
+PASS An existing save can receive onboarding without losing campaign data
+PASS A preference write failure stays visible and never claims dismissal was saved
+PASS Tutorial on a progressed save handles an already resolved council
+PASS Coach and actual project target fit the compact game window
+PASS Tutorial exit remains reachable in the compact layout
+PASS A campaign with no available units can proceed without a tutorial soft lock
+PASS Selecting an actual project also completes the production lesson
+PASS Selecting a new available technology also completes the research lesson
+PASS Movement training can be explicitly skipped without requiring a risky order
+PASS A completed campaign can finish its interface tour without an impossible turn
+PASS An existing save without active research has an explicit way forward
+PASS Older preference files default to showing onboarding without a settings migration
+46 onboarding desktop integration checks passed.

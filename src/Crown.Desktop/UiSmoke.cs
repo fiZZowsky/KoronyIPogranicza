@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,7 +32,7 @@ public sealed partial class MainWindow
         try
         {
             if(arguments.Contains("--smoke-force-failure"))throw new InvalidOperationException("Intentional diagnostic failure to verify process exit propagation.");
-            Landing();await Capture("menu");Click("ROZPOCZNIJ");Check(state.PendingEvent=="founding"&&overlay!=null,"New game opens the council");
+            Landing();await Capture("menu");Click("ROZPOCZNIJ");Click("Standard");Check(state.PendingEvent=="founding"&&overlay!=null,"New game opens the council");
             // Keep the existing regression campaign on its original rules; EpochSmoke exercises the new default campaign.
             Start(World.CreateLegacy());ShowCouncil();await Capture("council");
             Click("01   Ziemia");Check(state.Player.Flags.Contains("land_charter")&&overlay==null,"Council button applies the founding charter");await Capture("gameplay");

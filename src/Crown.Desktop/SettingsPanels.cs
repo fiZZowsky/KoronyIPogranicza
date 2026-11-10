@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,7 +45,7 @@ public sealed partial class MainWindow
             PreviewMouseWheel+=(_,e)=>{if(e.Timestamp!=0)e.Handled=true;};
             PreviewTextInput+=(_,e)=>{if(e.Timestamp!=0)e.Handled=true;};
         }
-        PreviewKeyDown+=PreferencesKey;Closed+=(_,_)=>audio.Dispose();SizeChanged+=(_,_)=>{if(landingScroll!=null)landingScroll.MaxHeight=Math.Max(400,ActualHeight-70);};ApplyDisplayMode();
+        PreviewKeyDown+=PreferencesKey;Closed+=(_,_)=>audio.Dispose();SizeChanged+=(_,_)=>{if(landingScroll!=null)landingScroll.MaxHeight=Math.Max(400,ActualHeight-70);if(tutorialHost!=null)tutorialHost.MaxHeight=Math.Max(230,ActualHeight-340);};ApplyDisplayMode();
     }
     private void ApplyDisplayMode()
     {
@@ -140,9 +140,10 @@ public sealed partial class MainWindow
                 Toggle("Pokaż nazwy i ikony zasobów",p.ShowResources,v=>p.ShowResources=v);Toggle("Pokaż siatkę pól",p.ShowGrid,v=>p.ShowGrid=v);Toggle("Pokaż statystyki renderowania",p.ShowStatistics,v=>p.ShowStatistics=v);
                 panel.Children.Add(Ui.Label("Ustawienia są stosowane także po wczytaniu kampanii. Przełączniki na mapie pozwalają tymczasowo zmienić jej widok.",13,Ui.Muted));break;
             case "Rozgrywka":
+                Toggle("Pokaż powitanie z propozycją samouczka",p.ShowTutorialWelcome,v=>p.ShowTutorialWelcome=v);
                 Toggle("Automatyczny zapis kampanii",p.AutoSave,v=>p.AutoSave=v);Toggle("Potwierdzaj zakończenie tury",p.ConfirmEndTurn,v=>p.ConfirmEndTurn=v);
                 panel.Children.Add(Ui.Label("Autozapis zachowuje kampanię po turze, decyzji rady i przy opuszczaniu gry. Ręczny zapis pozostaje dostępny również po wyłączeniu autozapisu. Zmiana tych opcji nie przesuwa tury.",13,Ui.Muted));
-                panel.Children.Add(Ui.Label("Poziom trudności i ziarno świata wybierasz przed rozpoczęciem nowej kampanii.",12,Ui.Muted));break;
+                panel.Children.Add(Ui.Label("Poziom trudności wybierasz po naciśnięciu Rozpocznij nową grę. Świat powstaje automatycznie. Samouczek uruchomisz w dowolnej chwili z Poradnika po lewej stronie ekranu.",12,Ui.Muted));break;
         }
     }
     private void ApplySettings()

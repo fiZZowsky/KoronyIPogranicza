@@ -1,0 +1,5 @@
+onboarding-gpu: 46 checks; exit 0; 23,3s
+onboarding-wpf: 46 checks; exit 0; 25,0s
+settings-gpu: 44 checks; exit 0; 15,0s
+epochs-gpu: 38 checks; exit 0; 24,1s
+onboarding-forced: 0 checks; exit 3; 0,7s

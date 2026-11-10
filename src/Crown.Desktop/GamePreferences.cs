@@ -38,6 +38,7 @@ internal sealed record GamePreferences
     public bool ShowStatistics {get;set;}
     public bool AutoSave {get;set;}=true;
     public bool ConfirmEndTurn {get;set;}
+    public bool ShowTutorialWelcome {get;set;}=true;
     public Dictionary<GameAction,Key> Bindings {get;set;}=DefaultBindings();
     internal GamePreferences Copy()=>this with{Bindings=new(Bindings)};
     internal static Dictionary<GameAction,Key> DefaultBindings()=>new()

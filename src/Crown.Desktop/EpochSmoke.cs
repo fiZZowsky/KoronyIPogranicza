@@ -36,7 +36,7 @@ public sealed partial class MainWindow
         try
         {
             if (arguments.Contains("--smoke-force-failure")) throw new InvalidOperationException("Intentional epoch diagnostic failure.");
-            Landing(); Click("ROZPOCZNIJ"); Check(state.EpochCampaign && state.MaxTurns == 1600 && state.Player.Era == 0, "New desktop campaign starts a full Paleolithic-to-future history");
+            Landing(); Click("ROZPOCZNIJ"); Click("Standard"); Check(state.EpochCampaign && state.MaxTurns == 1600 && state.Player.Era == 0, "New desktop campaign starts a full Paleolithic-to-future history");
             Click("01   Ziemia"); tab = "research"; RefreshSide(); Click("Epoki i rozwój świata"); root.UpdateLayout();
             var combo = Descendants<ComboBox>(overlay!).Single(); Check(combo.Items.Count == 18, "Era browser contains all eighteen ordered stages");
             for (int era = 0; era < 18; era++) { combo = Descendants<ComboBox>(overlay!).Single(); combo.SelectedIndex = era; root.UpdateLayout(); Check(Descendants<TextBlock>(overlay!).Any(t => t.Text == EpochCatalog.All[era].Name), "Era browser opens " + EpochCatalog.All[era].Name); }

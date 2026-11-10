@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional onboarding diagnostic failure.
+   at Crown.Desktop.MainWindow.OnboardingSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\OnboardingSmoke.cs:line 26

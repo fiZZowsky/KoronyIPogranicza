@@ -1,4 +1,13 @@
-# Zmiany
+﻿# Zmiany
+
+## 0.39 — 2026-11-10 · Pierwsze kroki z doradcą
+
+- Centralne powitanie przed pierwszą sprawą rady: rozpoczęcie lub pominięcie samouczka, „Nie pokazuj ponownie”, trwała preferencja w Ustawieniach → Rozgrywka.
+- Dziewięć kroków w prawdziwej kampanii. Instrukcje kliknięć, podświetlanie rzeczywistych kontrolek, przewijanie do celu i postęp po wykonaniu zadania. Swobodny wybór odpowiedzi rady i możliwość pozostawienia projektu oraz badań.
+- Przerwanie i ponowne uruchomienie z Poradnika, pominięcie ruchu, zachowanie kroku podczas pauzy i powrotu z menu. Obsługa istniejących kampanii bez spraw rady, gotowych oddziałów lub wybranego badania; możliwość zakończenia nauki także po finale historii.
+- Zwijane tematy poradnika; aktualizacja przestarzałego opisu modeli i początku epok.
+- Usunięcie pola ziarna oraz wyboru trudności z menu głównego. Nowa gra otwiera osobny wybór trzech poziomów z opisami, następnie losuje nowy świat. Anulowanie nie tworzy kampanii.
+- Brak zmian formatu v28 i reguł symulacji. Osobny katalog wydania 0.39.
 
 ## 0.38 — 2026-11-10 · Importowane postacie i rozwój zakładów
 

@@ -1,4 +1,16 @@
-# Korony i Pogranicza — kierunek projektu
+﻿# Korony i Pogranicza — kierunek projektu
+
+## Pierwsza kampania i samouczek — 0.39
+
+**Rozpocznij nową grę → Spokojny / Standard / Wymagający**. Świat losuje się automatycznie; nie trzeba znać ani wpisywać ziarna. Anulowanie wyboru trudności wraca do menu, bez tworzenia kampanii.
+
+Po wejściu do kampanii na środku ekranu pojawia się powitanie: **Rozpocznij samouczek** albo **Graj bez samouczka**. Opcja **Nie pokazuj ponownie** zapisuje się lokalnie. Włączysz ją ponownie przez **Ustawienia → Rozgrywka → Pokaż powitanie z propozycją samouczka** i **Zastosuj**. Powrót z menu do tej samej rozgrywki nie powtarza pytania.
+
+Doradca prowadzi przez dziewięć krótkich etapów: układ ekranu, decyzję rady, produkcję miasta, badania, wybór oddziału, marsz, zakończenie pierwszego okresu, kronikę i samodzielną grę. Podświetla rzeczywiste przyciski, przewija potrzebny panel i czeka na działanie gracza. W radzie możesz wybrać dowolną odpowiedź, a projekt i badania pozostawić bez zmian. Rozkazy i decyzje mają zwykłe konsekwencje kampanii. Ćwiczenie ruchu można pominąć.
+
+**Poradnik → Rozpocznij samouczek krok po kroku** uruchamia naukę ponownie, także w istniejącej kampanii. **Przerwij samouczek** usuwa wskazówki. Esc otwiera menu, a powrót z niego zachowuje bieżący krok. Po zamknięciu programu lub wczytaniu innego zapisu naukę rozpoczyna się ponownie z Poradnika; postęp doradcy nie jest częścią zapisu kampanii. Tematy poradnika są domyślnie zwinięte i można otwierać je pojedynczo.
+
+Format kampanii pozostaje **v28**. Ustawienie powitania jest niezależne od zapisów gry; starszy plik ustawień dostaje domyślnie włączone powitanie. Samo czytanie instrukcji, otwieranie ekranów i pozostawienie planów nie zmieniają środków, produkcji ani losowości świata.
 
 ## Postacie 3D i inwestycje przemysłowe — 0.38
 
