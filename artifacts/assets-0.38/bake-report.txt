@@ -1,0 +1,36 @@
+horse [
+  { triangles: 9932, vertices: 9628, error: 0.004256731364876032 },
+  { triangles: 1382, vertices: 1345, error: 0.02759818732738495 }
+]
+viking [
+  { triangles: 7994, vertices: 7095, error: 0.008048498071730137 },
+  { triangles: 1000, vertices: 939, error: 0.06437534838914871 }
+]
+knight [
+  { triangles: 7994, vertices: 7365, error: 0.006622746586799622 },
+  { triangles: 990, vertices: 964, error: 0.051418863236904144 }
+]
+modern [
+  { triangles: 7994, vertices: 7203, error: 0.004880428779870272 },
+  { triangles: 996, vertices: 979, error: 0.04125196859240532 }
+]
+soldier [
+  { triangles: 8000, vertices: 7851, error: 0.0034901548642665148 },
+  { triangles: 1000, vertices: 1015, error: 0.031127838417887688 }
+]
+civilian [
+  { triangles: 8000, vertices: 6238, error: 0.0015819775871932507 },
+  { triangles: 1000, vertices: 1114, error: 0.015613866969943047 }
+]
+robot [
+  { triangles: 7988, vertices: 8300, error: 0.006622008513659239 },
+  { triangles: 998, vertices: 890, error: 0.06044738367199898 }
+]
+viking-rider [
+  { triangles: 7996, vertices: 7122, error: 0.009760171175003052 },
+  { triangles: 996, vertices: 916, error: 0.07642214000225067 }
+]
+knight-rider [
+  { triangles: 8000, vertices: 7344, error: 0.007804838474839926 },
+  { triangles: 994, vertices: 966, error: 0.06434440612792969 }
+]

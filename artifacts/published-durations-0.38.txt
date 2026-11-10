@@ -1,0 +1,28 @@
+epoch: 38 checks; exit 0; 20,8s
+three-dimensional: 34 checks; exit 0; 31,3s
+photographic: 21 checks; exit 0; 15,6s
+landscape: 18 checks; exit 0; 9,2s
+models: 36 checks; exit 0; 15,2s
+rendering: 27 checks; exit 0; 16,8s
+district: 32 checks; exit 0; 12,0s
+military-ai: 16 checks; exit 0; 8,0s
+naval: 27 checks; exit 0; 13,0s
+transport: 22 checks; exit 0; 15,1s
+siege: 21 checks; exit 0; 12,2s
+field-supply: 26 checks; exit 0; 16,3s
+manufacturing: 26 checks; exit 0; 12,6s
+era-identity: 44 checks; exit 0; 16,3s
+treaty: 22 checks; exit 0; 14,2s
+calendar-locals: 18 checks; exit 0; 11,9s
+industrial-investment: 19 checks; exit 0; 17,3s
+WPF fallback: 34 checks; exit 0; 29,6s
+WPF military assessment: 16 checks; exit 0; 6,5s
+WPF navy: 27 checks; exit 0; 12,7s
+WPF transport: 22 checks; exit 0; 13,4s
+WPF siege: 21 checks; exit 0; 10,6s
+WPF field supply: 26 checks; exit 0; 14,5s
+WPF manufacturing: 26 checks; exit 0; 11,7s
+WPF era identity: 38 checks; exit 0; 14,9s
+WPF treaties: 22 checks; exit 0; 11,9s
+WPF local councils: 18 checks; exit 0; 10,0s
+WPF industrial investment: 19 checks; exit 0; 14,5s

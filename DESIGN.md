@@ -1,5 +1,26 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Postacie 3D i inwestycje przemysłowe — 0.38
+
+Ludzie i konie korzystają teraz z importowanych siatek 3D z własnymi UV oraz mapami koloru, normalnych i szorstkości/metaliczności. Zastąpiono dotychczasowe anatomiczne bryły proceduralne. Dwa poziomy szczegółowości i współdzielone tekstury ograniczają koszt mapy. Przycisk **Przyjrzyj się oddziałowi** otwiera bliższy widok zaznaczonej jednostki. Zestaw obejmuje siedem typów modeli i osobne pozy jeźdźców. Pełna animacja, szersza garderoba historyczna i spójny docelowy fotorealizm wymagają dalszej produkcji; szczegóły i licencje w ASSETS.md.
+
+**Rynek → Warsztaty i łańcuchy produkcji → Inwestycje i koncesje przemysłowe**. Najpierw zbuduj warsztat narzędzi lub tkalnię. Umowa wskazuje jeden wyrób i trwa 8 rozliczeń. Cel: **6 rzeczywiście wytworzonych partii w co najmniej 4 opłaconych fazach**. Liczą się własne warsztaty, rzeczywiste składniki i praca; zakup gotowych wyrobów nie zalicza celu. Zmiana planu, przecięta sieć dostaw lub brak surowca wpływają na wynik.
+
+| Finansowanie | Podpis | Nadzór w każdej fazie umowy | Po udanej rozbudowie |
+|---|---:|---:|---|
+| Państwowe | 120 złota | 5 + połowa indeksu epoki, w dół | Mieszkańcy +4, uczeni +3; brak dalszych opłat |
+| Koncesja kupiecka | 30 złota | 2 złota | Rody +6, mieszkańcy -4; **24 wpłaty po 6 + indeks epoki** |
+
+Stawki są utrwalane przy podpisie. Nadzór jest płatny także bez produkcji; brak środków blokuje opłatę i zaliczanie partii. Każdy sukces daje dobrobyt +5 oraz **+1 do limitu partii zakładu**, do dwóch poziomów. Składniki i praca nadal muszą istnieć, a rozbudowa zaczyna działać w następnej fazie. Nieudana umowa nie zwraca wpłat i daje niepokoje +6 oraz lojalność -4. Potwierdzone odwołanie nie zwraca kosztów i zwiększa niepokoje o 4.
+
+Koncesja zaczyna pobierać pieniądze po zakończeniu inwestycji. Niezapłacona rata nie skraca zobowiązania; zapłata zeruje serię niedoborów. Trzy kolejne niedobory odbierają jeden poziom urządzeń i kończą koncesję: niepokoje +10, lojalność -6, prestiż -5. Rejestr zachowuje rzeczywistą wcześniejszą przepustowość także po odebraniu urządzeń. Podbój zachowuje fizyczny poziom, ale kończy umowy poprzedniego właściciela. AI korzysta z państwowej ścieżki po otwarciu systemu przez gracza.
+
+Format **v28** zachowuje poprzednie kampanie v1–v27, bez dopisywania urządzeń i koncesji. Nadpisanie starszego pliku tworzy dokładną kopię `.vN.bak`. Wydanie ma osobny katalog `wydanie-0.38`.
+
+ActorAssets czyta dwa LOD z wewnętrznego formatu Brotli. Modele są niezmienne, buforowane i transformowane przez istniejący SceneBatch. Renderer wiąże zestawy materiałów pod t13–t15 dla konkretnego rodzaju aktora. Mapy są przygotowywane przy zmianie sceny, dzięki czemu ruch kamery nie tworzy nowych zasobów GPU. Normalna jest odtwarzana w bazie stycznej wyliczonej z pochodnych pozycji i UV. WPF korzysta z tej samej siatki i tekstury koloru. Stare PersonShape/HorseShape usunięto.
+
+IndustrialInvestment.Tick działa po rzeczywistej produkcji, przed radami i lojalnością. Odczytuje LastIndustryTurn, Recipe i Batches tylko z aktualnej fazy. LastPhaseTurn i LastRoyaltyTurn chronią przed podwójną opłatą. PeakLevel zachowuje historyczny limit produkcji, ponieważ LastIndustryBatches może pochodzić sprzed odebrania urządzeń w zakładzie obecnie wstrzymanym. Bieżący limit używa Level, a walidacja dawnego raportu PeakLevel. Prognozowane opłaty są osobnym składnikiem UI, pobieranym tylko raz w fazie Tick. Zmiana właściciela zeruje umowy, zachowując fizyczny poziom; migracja starszych formatów zaczyna bez inwestycji.
+
 ## Lata, żywy świat i polityka prowincji — 0.37
 
 Kronika, decyzje rady, raporty szpiegów, wojny, pożyczki, traktaty i terminy pokazują **lata p.n.e./n.e.** zamiast kodów T2/T5. Kampania utrwala rok każdej odwiedzonej fazy; późniejsze odkrycia nie przepisują dawnych dat. Daty przyszłe i brakujące daty sprzed formatu v27 mają oznaczenie **„ok.”**. Długość działań nadal wyrażamy w rozliczeniach/turach: tempo upływu lat zmienia się wraz z historią. Nowy zapis przechowuje kalendarz; przy wczytaniu starszej kampanii nie dopisujemy zmyślonych dokładnych dat. Przeliczane są również dawne kody T w tekstach kroniki i zachowanych raportach.

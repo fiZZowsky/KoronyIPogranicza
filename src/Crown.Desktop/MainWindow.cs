@@ -36,6 +36,7 @@ public sealed partial class MainWindow : Window
         InitializePreferences();Closing+=(o,e)=>{if(state!=null)TryAutoSave(false);};
         Loaded+=(o,e)=>
         {
+            if(args.Contains("--ui-smoke-industrial-investment")){Dispatcher.BeginInvoke(async()=>await IndustrialInvestmentSmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-calendar-locals")){Dispatcher.BeginInvoke(async()=>await LocalCouncilSmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-treaties")){Dispatcher.BeginInvoke(async()=>await TreatySmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-era-identity")){Dispatcher.BeginInvoke(async()=>await EraIdentitySmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
@@ -80,7 +81,7 @@ public sealed partial class MainWindow : Window
         scene.Children.Add(new Border{Background=new LinearGradientBrush(Colors.Transparent,Color.FromArgb(225,7,19,25),90)});
         var p=new StackPanel{Width=500,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center,Margin=new Thickness(84,10,0,0)};
         landingScroll=new ScrollViewer{Content=p,Width=620,MaxHeight=Math.Max(400,ActualHeight-70),VerticalAlignment=VerticalAlignment.Center,HorizontalAlignment=HorizontalAlignment.Left,VerticalScrollBarVisibility=ScrollBarVisibility.Auto,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled};scene.Children.Add(landingScroll);
-        p.Children.Add(Ui.Eyebrow("AUTORSKA STRATEGIA TUROWA  /  0.37"));Ui.Gap(p,14);
+        p.Children.Add(Ui.Eyebrow("AUTORSKA STRATEGIA TUROWA  /  0.38"));Ui.Gap(p,14);
         p.Children.Add(Ui.Label("Korony\ni Pogranicza",59,Ui.Text,true));Ui.Gap(p,18);
         p.Children.Add(Ui.Label("Każde państwo ma początek.\nKażda decyzja ma swoją przyszłość.",21,Ui.Gold,true));Ui.Gap(p,14);
         p.Children.Add(Ui.Label("Poprowadź Marchie Veyru przez stulecia. Buduj miasta, negocjuj z sąsiadami i słuchaj tych, którzy ponoszą ciężar Twoich wyborów.",14,Ui.Brush("#BFCDC9")));Ui.Gap(p,25);
@@ -143,7 +144,7 @@ public sealed partial class MainWindow : Window
         var word=Ui.Stack(Ui.Label("KORONY",23,Ui.Text,true),Ui.Label("I   P O G R A N I C Z A",9,Ui.Gold));word.Margin=new Thickness(26,10,0,0);header.Children.Add(word);
         var inc=Engine.Income(state,0);var stats=new UniformGridEx{Columns=5,Margin=new Thickness(0,12,15,8)};Grid.SetColumn(stats,1);header.Children.Add(stats);
         void Stat(string title,string value,string suffix,Brush color){var p=Ui.Stack(Ui.Label(title.ToUpperInvariant(),9,Ui.Muted),Ui.Label(value,21,color),Ui.Label(suffix,10,Ui.Muted));p.Margin=new Thickness(15,0,0,0);stats.Children.Add(p);}
-        Stat("Skarb",Ui.Number(state.Player.Gold),$"{Ui.Signed(inc.Gold-EraEndeavours.PlannedFee(state,0)-Treaties.PlannedFees(state,0)+(state.TradeContracts.Any(c=>c.Status==ContractStatus.Active&&(c.Buyer==0||c.Seller==0))?Markets.Plan(state).Cash[0]:0))} / turę",Ui.Gold);Stat("Nauka",Ui.Number(state.Player.Science),$"{Ui.Signed(inc.Science)} / turę",Ui.Brush("#91BFCD"));Stat("Kultura",Ui.Number(state.Player.Culture),$"{Ui.Signed(inc.Culture)} / turę",Ui.Brush("#BCA6CE"));Stat("Stabilność",state.Player.Stability+"%",$"cel: {Engine.StabilityTarget(state,state.Player)}%",Ui.Green);Stat("Prestiż",Ui.Number(state.Player.Prestige),Catalog.Era(state.Player.Era),Ui.Gold);
+        Stat("Skarb",Ui.Number(state.Player.Gold),$"{Ui.Signed(inc.Gold-EraEndeavours.PlannedFee(state,0)-Treaties.PlannedFees(state,0)-IndustrialInvestment.PlannedFees(state,0)+(state.TradeContracts.Any(c=>c.Status==ContractStatus.Active&&(c.Buyer==0||c.Seller==0))?Markets.Plan(state).Cash[0]:0))} / turę",Ui.Gold);Stat("Nauka",Ui.Number(state.Player.Science),$"{Ui.Signed(inc.Science)} / turę",Ui.Brush("#91BFCD"));Stat("Kultura",Ui.Number(state.Player.Culture),$"{Ui.Signed(inc.Culture)} / turę",Ui.Brush("#BCA6CE"));Stat("Stabilność",state.Player.Stability+"%",$"cel: {Engine.StabilityTarget(state,state.Player)}%",Ui.Green);Stat("Prestiż",Ui.Number(state.Player.Prestige),Catalog.Era(state.Player.Era),Ui.Gold);
         string year=CampaignCalendar.Format(state.Year);var date=Ui.Stack(Ui.Label($"HISTORIA TWOJEGO PAŃSTWA",10,Ui.Gold),Ui.Label(year,22,Ui.Text,true),Ui.Label($"{state.Season} · {state.Difficulty}",10,Ui.Muted));date.Margin=new Thickness(12,10,20,0);Grid.SetColumn(date,2);header.Children.Add(date);
     }
     private void RefreshSide()

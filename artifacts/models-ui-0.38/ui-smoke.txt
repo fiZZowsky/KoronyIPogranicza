@@ -1,0 +1,37 @@
+PASS The new living models render on the actual Direct3D device: 
+PASS Human formations use imported continuous anatomical meshes with baked skeletal poses
+PASS Horse resources and cavalry use the detailed imported equine mesh
+PASS Forests, grass tufts and smaller leaves have distinct spatial geometry
+PASS All six resource types have their own recognizable model components
+PASS New resource and living meshes remain bounded with finite unit normals
+PASS Dyes are represented by flowering plants rather than the former colored sphere
+PASS Imported actors use their actual UV-matched bitmap materials in the fallback scene
+PASS Wheat has textured double-sided crossed cards instead of geometric grain balls
+PASS Organic models include a substantially smaller alternative for distant rendering
+PASS Organic material coordinates follow detailed model surfaces
+PASS The wheat asset contains real transparent cutouts and opaque plants
+PASS Organic geometry evidence: near 117736 triangles, far 15110 triangles
+PASS Every imported actor has a substantially smaller dedicated LOD
+PASS Every actor has UV-matched color normal and roughness-metallic maps bounded at 1024 pixels
+PASS Actual map badge shows the full resource name and icon: Zboże
+PASS Selected resource explains its identity and actual field bonus: Zboże
+PASS Actual map badge shows the full resource name and icon: Żelazo
+PASS Selected resource explains its identity and actual field bonus: Żelazo
+PASS Actual map badge shows the full resource name and icon: Konie
+PASS Selected resource explains its identity and actual field bonus: Konie
+PASS Actual map badge shows the full resource name and icon: Kamień
+PASS Selected resource explains its identity and actual field bonus: Kamień
+PASS Actual map badge shows the full resource name and icon: Sól
+PASS Selected resource explains its identity and actual field bonus: Sól
+PASS Actual map badge shows the full resource name and icon: Barwniki
+PASS Selected resource explains its identity and actual field bonus: Barwniki
+PASS The map never substitutes a chemical abbreviation for the iron resource name
+PASS The resources toggle hides badges while keeping the real world models
+PASS The real legend button opens names and pictograms for every resource
+PASS Picking a horse resource model resolves its actual logical tile
+PASS The actual inspection button opens a close view without changing the campaign
+PASS The camera can approach closely enough to inspect the new models
+PASS Resource labels, legend, new models and camera inspection preserve gameplay and RNG
+PASS An undiscovered iron deposit never gains a revealing map badge
+PASS The resource legend remains scrollable in the compact window
+36 models desktop integration checks passed.

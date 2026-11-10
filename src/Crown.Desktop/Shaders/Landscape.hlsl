@@ -25,6 +25,9 @@ Texture2D Civilization : register(t9);
 Texture2D Facades : register(t10);
 Texture2D Organic : register(t11);
 Texture2D Wheat : register(t12);
+Texture2D ActorBase : register(t13);
+Texture2D ActorNormal : register(t14);
+Texture2D ActorOrm : register(t15);
 SamplerState TextureSampler : register(s0);
 SamplerComparisonState ShadowSampler : register(s1);
 struct Vertex { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD; float4 color:COLOR; float4 surface:SURFACE; };
@@ -267,6 +270,21 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         float4 wheat=Wheat.Sample(TextureSampler,p.uv);clip(wheat.a-.38);alpha=1;
         albedo=Decode(wheat.rgb/max(wheat.a,.001));rough=.92;
         albedo=lerp(albedo,Decode(float3(.79,.83,.84)),SeasonPalette.x*.35);
+    }
+    if(kind>35.5&&kind<42.5)
+    {
+        albedo=Decode(ActorBase.Sample(TextureSampler,p.uv).rgb);
+        float3 orm=ActorOrm.Sample(TextureSampler,p.uv).rgb;rough=clamp(orm.g,.12,.98);metal=saturate(orm.b);
+        float3 dp1=ddx(p.world),dp2=ddy(p.world);float2 duv1=ddx(p.uv),duv2=ddy(p.uv);
+        float determinant=duv1.x*duv2.y-duv1.y*duv2.x;
+        if(abs(determinant)>.0000001)
+        {
+            float3 tangent=(dp1*duv2.y-dp2*duv1.y)/determinant;
+            float3 bitangent=(-dp1*duv2.x+dp2*duv1.x)/determinant;
+            tangent=normalize(tangent-n*dot(n,tangent));bitangent=normalize(bitangent-n*dot(n,bitangent));
+            float3 detail=ActorNormal.Sample(TextureSampler,p.uv).xyz*2-1;
+            n=normalize(tangent*detail.x+bitangent*detail.y+n*detail.z);
+        }
     }
     float visibility=Visibility(p,n);
     if(kind>.5&&kind<1.5)

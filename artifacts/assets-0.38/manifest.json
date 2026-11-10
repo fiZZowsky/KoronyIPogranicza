@@ -1,0 +1,191 @@
+[
+  {
+    "name": "horse",
+    "sourceSHA256": "868b8bc116a63978af9933798fe5e676a1ed2bbad42a0945bcd2cf8c3b839991",
+    "sourceTriangles": 731120,
+    "pose": "static",
+    "lods": [
+      {
+        "triangles": 9932,
+        "vertices": 9628,
+        "error": 0.004256731364876032
+      },
+      {
+        "triangles": 1382,
+        "vertices": 1345,
+        "error": 0.02759818732738495
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  },
+  {
+    "name": "viking",
+    "sourceSHA256": "a5e92d6b7e2529e77ee4350e0f03116f21efc4aaee04f7b3077b705f1eb0eca1",
+    "sourceTriangles": 287867,
+    "pose": "walk@17%",
+    "lods": [
+      {
+        "triangles": 7994,
+        "vertices": 7095,
+        "error": 0.008048498071730137
+      },
+      {
+        "triangles": 1000,
+        "vertices": 939,
+        "error": 0.06437534838914871
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  },
+  {
+    "name": "knight",
+    "sourceSHA256": "5a6073df01941b2e5a98d98b34e2924e5dae75c352eeb45d3fc148692a169b4c",
+    "sourceTriangles": 291910,
+    "pose": "walk@17%",
+    "lods": [
+      {
+        "triangles": 7994,
+        "vertices": 7365,
+        "error": 0.006622746586799622
+      },
+      {
+        "triangles": 990,
+        "vertices": 964,
+        "error": 0.051418863236904144
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  },
+  {
+    "name": "modern",
+    "sourceSHA256": "b1f32017868a6f951c21c45b84646696431e6b4c813d563af37944123f673a59",
+    "sourceTriangles": 278969,
+    "pose": "walk@17%",
+    "lods": [
+      {
+        "triangles": 7994,
+        "vertices": 7203,
+        "error": 0.004880428779870272
+      },
+      {
+        "triangles": 996,
+        "vertices": 979,
+        "error": 0.04125196859240532
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  },
+  {
+    "name": "soldier",
+    "sourceSHA256": "db5d7336f896483da0a7d0904a6c02218f607525d47c94d864db4b784a0cab4f",
+    "sourceTriangles": 238850,
+    "pose": "walk@17%",
+    "lods": [
+      {
+        "triangles": 8000,
+        "vertices": 7851,
+        "error": 0.0034901548642665148
+      },
+      {
+        "triangles": 1000,
+        "vertices": 1015,
+        "error": 0.031127838417887688
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  },
+  {
+    "name": "civilian",
+    "sourceSHA256": "3038f56e1225d0ef9692189ed19ff688f1424e669281148a4cc6995fed568496",
+    "sourceTriangles": 262348,
+    "pose": "walk@17%",
+    "lods": [
+      {
+        "triangles": 8000,
+        "vertices": 6238,
+        "error": 0.0015819775871932507
+      },
+      {
+        "triangles": 1000,
+        "vertices": 1114,
+        "error": 0.015613866969943047
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  },
+  {
+    "name": "robot",
+    "sourceSHA256": "f9d3629ed90cebbb81eb299b796b8fdf20709628e5cd8bc23fd28c6f53c8c12f",
+    "sourceTriangles": 252216,
+    "pose": "walk@17%",
+    "lods": [
+      {
+        "triangles": 7988,
+        "vertices": 8300,
+        "error": 0.006622008513659239
+      },
+      {
+        "triangles": 998,
+        "vertices": 890,
+        "error": 0.06044738367199898
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  },
+  {
+    "name": "viking-rider",
+    "sourceSHA256": "a5e92d6b7e2529e77ee4350e0f03116f21efc4aaee04f7b3077b705f1eb0eca1",
+    "sourceTriangles": 287867,
+    "pose": "walk@17%",
+    "lods": [
+      {
+        "triangles": 7998,
+        "vertices": 7124,
+        "error": 0.009663263335824013
+      },
+      {
+        "triangles": 994,
+        "vertices": 909,
+        "error": 0.07647854089736938
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  },
+  {
+    "name": "knight-rider",
+    "sourceSHA256": "5a6073df01941b2e5a98d98b34e2924e5dae75c352eeb45d3fc148692a169b4c",
+    "sourceTriangles": 291910,
+    "pose": "walk@17%",
+    "lods": [
+      {
+        "triangles": 7994,
+        "vertices": 7345,
+        "error": 0.008050796575844288
+      },
+      {
+        "triangles": 996,
+        "vertices": 940,
+        "error": 0.06239700689911842
+      }
+    ],
+    "sourceLicense": "CC0-1.0",
+    "toolLicense": "MIT",
+    "normalizationHeight": 1
+  }
+]

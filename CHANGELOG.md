@@ -1,5 +1,15 @@
 # Zmiany
 
+## 0.38 — 2026-11-10 · Importowane postacie i rozwój zakładów
+
+- Importowane siatki ludzi i koni zastępują proceduralną anatomię. Siedem typów modeli CC0, dwa LOD, pozy oparte na szkielecie i dwa warianty jeźdźców.
+- Oryginalne UV i mapy koloru, normalnych, szorstkości/metaliczności, współdzielone i ograniczone do 1024 pikseli przy dekodowaniu. Buforowanie materiałów GPU przy zmianie sceny. WPF wykorzystuje tę samą geometrię i kolor.
+- Bliższy widok oddziału, usunięcie starych prostopadłościennych plecaków i zdublowanych płaskich tarcz. Licencje, źródła i statystyki siatek w ASSETS.md i manifestach.
+- Inwestycje państwowe i koncesje kupieckie. Sześć rzeczywistych partii w czterech finansowanych fazach, termin ośmiu rozliczeń, dwa poziomy przepustowości.
+- Rzeczywiste opłaty, odwołanie, porażka, wpływ społeczny i zobowiązanie koncesyjne 24 wpłat. Brak raty nie skraca umowy; trzy niedobory odbierają urządzenia i powodują skutki polityczne.
+- Historia produkcji pozostaje poprawna po utracie przepustowości. Podbój zachowuje urządzenia, kończąc zobowiązania poprzedniego właściciela. Finansowanie AI po otwarciu systemu przez gracza.
+- Format v28, odczyt v1–v27 bez wymyślonego wyposażenia i dokładna kopia starszego zapisu przy nadpisaniu. Osobny katalog wydania.
+
 ## 0.37 — 2026-11-10 · Lata, żywy świat i rady prowincji
 
 - Lata p.n.e./n.e. w kronice, radzie, raportach i terminach zamiast kodów T2/T5; utrwalanie historycznych lat, jawne szacunki przyszłości oraz nieznanych dat starych zapisów.

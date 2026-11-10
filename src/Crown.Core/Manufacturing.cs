@@ -15,7 +15,7 @@ public static class Manufacturing
     public static CraftType Type(CraftRecipe recipe)=>Recipes.Single(r=>r.Recipe==recipe);
     public static bool Facility(City c)=>c.Buildings.Contains(Toolmakers)||c.Buildings.Contains(Weavers);
     public static bool Project(string id)=>id is Toolmakers or Weavers or Guildhall;
-    public static int Limit(GameState s,City c)=>1+s.Factions[c.Owner].Era/4;
+    public static int Limit(GameState s,City c)=>1+s.Factions[c.Owner].Era/4+(c.Factory?.Level??0);
     public static double Upkeep(GameState s,int owner)=>s.Cities.Where(c=>c.Owner==owner).Sum(c=>c.Buildings.Count(Project))*1.5;
     public static string? ProjectError(GameState s,string id)=>Project(id)&&!s.EpochCampaign?"Warsztaty przetwórcze i Dom cechów wymagają pełnej kampanii epok.":null;
     private static double Coverage(City c,TradeGood good)=>c.LastMarketLines.FirstOrDefault(l=>l.Good==good&&l.Demand>0)?.Coverage??0;
@@ -125,7 +125,7 @@ public static class Manufacturing
         if(s.Version<24&&(s.Cities.Any(c=>c.Buildings.Any(Project)||Project(c.Project)||c.ProductionQueue.Any(o=>Project(o.Project)))||s.TradeContracts.Any(c=>c.Good is TradeGood.Tools or TradeGood.Textiles)))throw new InvalidDataException("Starszy format nie zawiera przetwórstwa i umów na wyroby.");
         foreach(var c in s.Cities)
         {
-            if(!Enum.IsDefined(c.IndustryRecipe)||!Enum.IsDefined(c.LastIndustryRecipe)||c.IndustryShare is not (0 or 25 or 50)||c.LastIndustryPolicyTurn< -1||c.LastIndustryPolicyTurn>s.Turn||c.LastIndustryTurn<0||c.LastIndustryTurn>=s.Turn||c.LastIndustryBatches<0||c.LastIndustryBatches>Limit(s,c)||!ValidAmount(c.LastIndustryWork)||c.LastIndustryInputs==null||c.LastIndustryMessage==null||c.LastIndustryMessage.Length>500||c.LastIndustryInputs.Select(i=>i.CityId).Distinct().Count()!=c.LastIndustryInputs.Count)
+            if(!Enum.IsDefined(c.IndustryRecipe)||!Enum.IsDefined(c.LastIndustryRecipe)||c.IndustryShare is not (0 or 25 or 50)||c.LastIndustryPolicyTurn< -1||c.LastIndustryPolicyTurn>s.Turn||c.LastIndustryTurn<0||c.LastIndustryTurn>=s.Turn||c.LastIndustryBatches<0||c.LastIndustryBatches>1+s.Factions[c.Owner].Era/4+(c.Factory?.PeakLevel??0)||!ValidAmount(c.LastIndustryWork)||c.LastIndustryInputs==null||c.LastIndustryMessage==null||c.LastIndustryMessage.Length>500||c.LastIndustryInputs.Select(i=>i.CityId).Distinct().Count()!=c.LastIndustryInputs.Count)
                 throw new InvalidDataException("Uszkodzony plan lub raport warsztatów.");
             if(c.Buildings.Any(Project)&&!s.EpochCampaign||(c.IndustryShare>0||c.LastIndustryPolicyTurn>=0)&&!c.Buildings.Contains(Type(c.IndustryRecipe).Facility))throw new InvalidDataException("Brak warsztatu dla nakładu przetwórstwa.");
             var type=Type(c.LastIndustryRecipe);

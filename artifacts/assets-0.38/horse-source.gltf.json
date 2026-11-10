@@ -1,0 +1,178 @@
+{
+  "asset": {
+    "generator": "glTF-Transform v4.5.1",
+    "version": "2.0"
+  },
+  "accessors": [
+    {
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 425312,
+      "max": [
+        0.29142117500305176,
+        2.0108673572540283,
+        1.1998512744903564
+      ],
+      "min": [
+        -0.29140907526016235,
+        3.692242898978293e-05,
+        -1.1998744010925293
+      ],
+      "bufferView": 3,
+      "byteOffset": 0
+    },
+    {
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 425312,
+      "bufferView": 3,
+      "byteOffset": 12
+    },
+    {
+      "type": "VEC2",
+      "componentType": 5126,
+      "count": 425312,
+      "bufferView": 3,
+      "byteOffset": 24
+    },
+    {
+      "type": "SCALAR",
+      "componentType": 5125,
+      "count": 2193360,
+      "bufferView": 4,
+      "byteOffset": 0
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 22383424,
+      "byteLength": 1342039
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 23725464,
+      "byteLength": 1056146
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 24781616,
+      "byteLength": 261064
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 13609984,
+      "byteStride": 32,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 13609984,
+      "byteLength": 8773440,
+      "target": 34963
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "textures": [
+    {
+      "source": 1,
+      "sampler": 0
+    },
+    {
+      "source": 0,
+      "sampler": 0
+    },
+    {
+      "source": 2,
+      "sampler": 0
+    }
+  ],
+  "images": [
+    {
+      "name": "Image_2",
+      "mimeType": "image/jpeg",
+      "bufferView": 0
+    },
+    {
+      "name": "Image_0",
+      "mimeType": "image/jpeg",
+      "bufferView": 1
+    },
+    {
+      "name": "Image_1",
+      "mimeType": "image/jpeg",
+      "bufferView": 2
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 25042680
+    }
+  ],
+  "materials": [
+    {
+      "name": "Material_0",
+      "doubleSided": true,
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 2
+        }
+      },
+      "normalTexture": {
+        "index": 1
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "horse",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2
+          },
+          "mode": 4,
+          "material": 0,
+          "indices": 3
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "horse",
+      "extras": {
+        "license": "CC0-1.0",
+        "source": "grab3d.com",
+        "dimensions_m": "0.583 x 2.400 x 2.011",
+        "triangles": 731120,
+        "variant": "download",
+        "generator": "Created by grab3d",
+        "created": "2026-09-28"
+      },
+      "mesh": 0
+    }
+  ],
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "scene": 0
+}

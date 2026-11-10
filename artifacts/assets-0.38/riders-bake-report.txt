@@ -1,0 +1,8 @@
+viking-rider [
+  { triangles: 7998, vertices: 7124, error: 0.009663263335824013 },
+  { triangles: 994, vertices: 909, error: 0.07647854089736938 }
+]
+knight-rider [
+  { triangles: 7994, vertices: 7345, error: 0.008050796575844288 },
+  { triangles: 996, vertices: 940, error: 0.06239700689911842 }
+]

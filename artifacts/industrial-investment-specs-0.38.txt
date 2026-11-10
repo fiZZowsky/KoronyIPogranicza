@@ -1,0 +1,22 @@
+PASS Industrial terms and rejected signatures preserve the campaign
+PASS Signing pays the selected funding cost without instant machinery or goods
+PASS Public investment uses eight real economic phases and paid batch evidence
+PASS Equipment expands actual production while still requiring iron and work
+PASS Buying finished stock does not fulfil an investment in idle workshops
+PASS Producing another recipe does not fulfil the signed objective
+PASS No funds means no supervisor fee and no credited output
+PASS An investment cannot charge or credit the same phase twice
+PASS Concession completion starts future royalties without retroactive payment
+PASS Missed royalties do not shorten the payment obligation
+PASS Three consecutive missed royalties remove one equipment level exactly once
+PASS Paused production retains valid earlier throughput after repossession
+PASS Twenty four actual payments end a concession without removing equipment
+PASS An active concession blocks another investment
+PASS Cancellation is confirmed later without refunds or equipment
+PASS Ownership preserves physical equipment and clears former obligations
+PASS An active investment resumes deterministically after reload
+PASS A signed concession resumes deterministically after reload
+PASS Unsupported owners recipes pending councils and legacy campaigns reject signing
+PASS Malformed fees missing evidence and overlarge equipment are rejected
+PASS V27 migration invents no industry levels and keeps the exact predecessor
+21 industrial investment specifications passed in 2,8s.

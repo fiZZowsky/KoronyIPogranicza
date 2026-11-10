@@ -11,6 +11,7 @@ void Decide(GameState s)
 }
 
 if(args.Contains("--transport")){StageTwentyThreeSpecs.Run(Test);Console.WriteLine($"{passed} transport specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
+if(args.Contains("--industrial-investment")){StageThirtySpecs.Run(Test);Console.WriteLine($"{passed} industrial investment specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--calendar-locals")){StageTwentyNineSpecs.Run(Test);Console.WriteLine($"{passed} calendar and local council specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--treaties")){StageTwentyEightSpecs.Run(Test);Console.WriteLine($"{passed} treaty specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
 if(args.Contains("--era-identity")){StageTwentySevenSpecs.Run(Test);Console.WriteLine($"{passed} era identity specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");return;}
@@ -167,4 +168,5 @@ StageTwentySixSpecs.Run(Test);
 StageTwentySevenSpecs.Run(Test);
 StageTwentyEightSpecs.Run(Test);
 StageTwentyNineSpecs.Run(Test);
+StageThirtySpecs.Run(Test);
 Console.WriteLine($"{passed} specifications passed in {timer.Elapsed.TotalSeconds:0.0}s.");

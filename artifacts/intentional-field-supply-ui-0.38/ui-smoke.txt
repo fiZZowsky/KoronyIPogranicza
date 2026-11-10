@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional field supply diagnostic failure.
+   at Crown.Desktop.MainWindow.FieldSupplySmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\FieldSupplySmoke.cs:line 31

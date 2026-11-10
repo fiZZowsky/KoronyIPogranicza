@@ -115,6 +115,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
     {
         if(key.StartsWith("organic-near-"))key=key[13..];
         if(key.StartsWith("organic-far-"))key=key[12..];
+        int actor=ActorAssets.MaterialId(key);if(actor>=0)return 36+actor;
         if(key.StartsWith("wheat-tuft"))return 35;
         int organicIndex=OrganicMaterials.Index(key);if(organicIndex>=0)return 31+organicIndex;
         if(key.StartsWith("lod-"))key=key[4..];
@@ -166,6 +167,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
             elevationTexture=gpu.Texture(field.Width,field.Height,41,8,MemoryMarshal.AsBytes(field.Values.Span).ToArray());elevationView=gpu.View(elevationTexture,7);
         }
         foreach (var model in Models(scene.Terrain).Concat(Models(scene.Objects)).Concat(Models(scene.CoarseTrees))) { world.AddRange(ConvertSpatial(model,scene.MapWidth,true)); retained.Add((MeshGeometry3D)model.Geometry); }
+        foreach(int actor in world.Select(m=>(int)m.Kind-36).Where(id=>id>=0&&id<ActorAssets.Names.Length).Distinct())EnsureActorViews(actor);
         if (overlay != null) foreach (var model in Models(overlay)) { overlays.AddRange(ConvertSpatial(model,scene.MapWidth,false)); var mesh = (MeshGeometry3D)model.Geometry; retained.Add(mesh); overlayMeshes.Add(mesh); }
         foreach (var mesh in meshCache.Keys.Where(m => !retained.Contains(m)).ToArray()) { foreach(var draw in meshCache[mesh])gpu.Free(draw.Buffer); meshCache.Remove(mesh); }
         lastScene=scene;lastOverlay=overlay;
@@ -212,7 +214,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
             gpu.Targets(0, shadowDepth); gpu.ClearDepth(shadowDepth); gpu.SetViewport(ShadowSize, ShadowSize); gpu.Raster(shadowRaster); gpu.Shaders(shadowVs, shadowPs);
             var shadowFrustum=new RenderFrustum(lp);
             foreach (var mesh in eligible.Where(m=>!m.Transparent&&m.Kind!=1&&(!VisibilityCulling||shadowFrustum.Intersects(m.Minimum,m.Maximum))))
-            {gpu.Draw(mesh.Buffer,mesh.Vertices);shadowTriangles+=mesh.Vertices/3;shadowDraws++;}
+            {DrawWithActors(mesh);shadowTriangles+=mesh.Vertices/3;shadowDraws++;}
         }
         if(refreshShadow){shadowValid=true;shadowScene=lastScene;cachedLight=lp;cachedSun=Sun;shadowTime=time;}
         if(!Reflections)reflectionValid=false;
@@ -225,7 +227,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
             gpu.Resources(landView,surfacesView,leavesView,shadowView,0,0,pineView,0,elevationView,civilizationView,facadesView,organicView,wheatView);
             var reflectionFrustum=new RenderFrustum(mirrored.ViewProjection);
             foreach(var mesh in eligible.Where(m=>!m.Transparent&&m.Kind!=1&&(!VisibilityCulling||reflectionFrustum.Intersects(m.Minimum,m.Maximum))))
-            {gpu.Draw(mesh.Buffer,mesh.Vertices);reflectionTriangles+=mesh.Vertices/3;reflectionDraws++;}
+            {DrawWithActors(mesh);reflectionTriangles+=mesh.Vertices/3;reflectionDraws++;}
             gpu.Update(constants,frame);
         }
         if(refreshReflection){reflectionValid=true;reflectionScene=lastScene;cachedView=vp;reflectionTime=time;}
@@ -233,10 +235,10 @@ internal sealed partial class PhotographicRenderer : IDisposable
         gpu.Depth(depthRead);gpu.Layout(0);gpu.Shaders(fullVs,skyPs);gpu.Triangle();
         gpu.Depth(depthWrite);gpu.Layout(layout);gpu.Shaders(worldVs,worldPs);
         gpu.Resources(landView, surfacesView, leavesView, shadowView, 0, 0,pineView,Reflections?reflectionView:0,elevationView,civilizationView,facadesView,organicView,wheatView);
-        foreach (var mesh in visibleWorld.Where(m => !m.Transparent)) gpu.Draw(mesh.Buffer, mesh.Vertices);
+        foreach (var mesh in visibleWorld.Where(m => !m.Transparent)) DrawWithActors(mesh);
         gpu.Blend(alpha); gpu.Depth(depthRead);
-        foreach (var mesh in visibleWorld.Where(m => m.Transparent).OrderByDescending(m => Vector3.DistanceSquared(m.Center, eye))) gpu.Draw(mesh.Buffer, mesh.Vertices);
-        foreach (var mesh in overlays) gpu.Draw(mesh.Buffer, mesh.Vertices);
+        foreach (var mesh in visibleWorld.Where(m => m.Transparent).OrderByDescending(m => Vector3.DistanceSquared(m.Center, eye))) DrawWithActors(mesh);
+        foreach (var mesh in overlays) DrawWithActors(mesh);
         RenderWeather(eye,target,time,environment);
         gpu.Targets(finalTarget, 0); gpu.Resources(landView, surfacesView, leavesView, shadowView, hdrView, depthView,pineView,0,elevationView,civilizationView,facadesView,organicView,wheatView); gpu.Shaders(fullVs, postPs); gpu.Layout(0); gpu.Blend(opaque); gpu.Triangle();
         gpu.Targets(0, 0); gpu.Resources(0, 0, 0, 0, 0, 0,0,0,0,0,0); gpu.Copy(staging, finalTexture);

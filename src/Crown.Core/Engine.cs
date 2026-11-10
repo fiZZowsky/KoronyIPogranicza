@@ -238,7 +238,7 @@ public static partial class Engine
         Treaties.EconomyPhase(s,treatyScience);
         EraEndeavours.Tick(s,powerPhase.Readings);
         FieldLogistics.Tick(s);
-        LocalCouncils.Tick(s);ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);Treaties.TickDiplomacy(s);
+        IndustrialInvestment.Tick(s);LocalCouncils.Tick(s);ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);Treaties.TickDiplomacy(s);
         AuditCouncil.Tick(s);
         EnergyCouncil.Observe(s,powerPhase.Readings);
         TreasuryLoans.Tick(s);

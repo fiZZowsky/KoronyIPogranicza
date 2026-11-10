@@ -41,6 +41,7 @@ public sealed class Tile
 public sealed class City
 {
     public LocalCouncil Council {get;set;}=new();
+    public FactoryInvestment Factory {get;set;}=new();
     public int Id { get; set; }
     public string Name { get; set; } = "";
     public int Owner { get; set; }

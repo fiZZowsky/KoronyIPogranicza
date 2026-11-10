@@ -7,7 +7,8 @@ internal static class EpochDocumentation
     {
         var text = new StringBuilder();
         void Line(string value = "") => text.AppendLine(value);
-        Line("# Epoki i możliwe przyszłości — podręcznik wydania 0.37"); Line();
+        Line("# Epoki i możliwe przyszłości — podręcznik wydania 0.38"); Line();
+        Line("Od 0.38 postacie i konie używają importowanych siatek 3D z własnymi mapami materiałów i osobnymi LOD. Warsztaty otwierają inwestycje państwowe lub koncesje: 8 rozliczeń, 6 rzeczywistych partii w 4 finansowanych fazach, do dwóch poziomów urządzeń. Koncesja wymaga później 24 rzeczywistych wpłat; trzy kolejne braki odbierają jeden poziom.");Line();
         Line("Od 0.37 kronika i raporty pokazują utrwalone lata decyzji zamiast kodów tur; przyszłość i nieznana historia starszych zapisów są oznaczone jako przybliżone. W Ludności otwórz radę prowincji: trzy miejscowe grupy, umowy na sześć rozliczeń i trwałe karty za co najmniej cztery wykonane zobowiązania. Podpis kosztuje 30 złota, kolejne wykonane fazy wymagają opłaty. Modele ludzi i koni mają nowe powierzchnie i tekstury; pszenica używa kęp z alfą. Format v27 zachowuje kalendarz i koalicje.");Line();
         Line("Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 modele wojsk lądowych, dziewięć modeli okrętów i pięć programów pozaziemskich. Port morski jest dodatkowym projektem nadbrzeżnym. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii."); Line();
         Line("Otwórz **Nauka → Epoki i rozwój świata**. Każdy etap ma cztery dziedziny i odkrycie zamykające dorobek. Badania następnego etapu wymagają tego zamknięcia. Dodatkowe wymagania technologii nadal obowiązują. Państwa rozwijają się oddzielnie i zachowują całą wcześniejszą wiedzę, miasta oraz instytucje."); Line();

@@ -135,7 +135,12 @@ public sealed partial class MapView : Grid
         if (State == null || id < 0 || id >= State.Tiles.Count) return;
         target = Terrain3D.Center(State.Tiles[id]); EnsureScene(); UpdateCamera();
     }
-    public void ResetCamera() { distance = 13; yaw = -30; pitch = 48;camera.FieldOfView=52; if (SelectedTile >= 0) Center(SelectedTile); else UpdateCamera(); }
+    private double focusLift;
+    internal void InspectUnit(Unit unit)
+    {
+        target=WorldScene3D.UnitAnchor(State,unit,0);focusLift=.21;distance=1.35;yaw=-30;pitch=18;camera.FieldOfView=44;UpdateCamera();
+    }
+    public void ResetCamera() { focusLift=0;distance = 13; yaw = -30; pitch = 48;camera.FieldOfView=52; if (SelectedTile >= 0) Center(SelectedTile); else UpdateCamera(); }
     public void Orbit(double azimuth, double elevation) { yaw = ((yaw + azimuth) % 360 + 360) % 360; pitch = Math.Clamp(pitch + elevation, 15, 78); UpdateCamera(); }
     internal void LandscapeCamera(){pitch=15;distance=7;yaw=20;camera.FieldOfView=80;if(SelectedTile>=0)Center(SelectedTile);else UpdateCamera();}
     private void GraphicsMenu()
@@ -163,7 +168,7 @@ public sealed partial class MapView : Grid
         Option("Światło: poranek / południe",()=>{if(photographic is{} r)r.Sun=r.Sun.Y<.7?System.Numerics.Vector3.Normalize(new(-.3f,1.5f,-.2f)):System.Numerics.Vector3.Normalize(new(-.65f,.82f,-.35f));});
         menu.IsOpen=true;
     }
-    public void Zoom(double factor) { if (!double.IsFinite(factor) || factor <= 0) return; distance = Math.Clamp(distance * factor, 2.5, 60); UpdateCamera(); }
+    public void Zoom(double factor) { if (!double.IsFinite(factor) || factor <= 0) return; distance = Math.Clamp(distance * factor, focusLift>0?1.1:2.5, 60); UpdateCamera(); }
     internal void PanPixels(double dx, double dy)
     {
         double angle = yaw * Math.PI / 180, scale = preferences.PanSpeed * distance * 2 * Math.Tan(camera.FieldOfView * Math.PI / 360) / Math.Max(1, ActualWidth);
@@ -176,7 +181,7 @@ public sealed partial class MapView : Grid
     {
         if (State == null) return;
         double a = yaw * Math.PI / 180, p = pitch * Math.PI / 180, y = Math.Max(Terrain3D.SeaLevel, Terrain3D.Height(State, target.X, target.Y));
-        var focus = new Point3D(target.X, y + .07, target.Y);
+        var focus = new Point3D(target.X, y + .07+focusLift, target.Y);
         camera.Position = focus + new Vector3D(Math.Sin(a) * Math.Cos(p) * distance, Math.Sin(p) * distance, Math.Cos(a) * Math.Cos(p) * distance);
         var position=camera.Position;position.Y=Math.Max(position.Y,Math.Max(Terrain3D.SeaLevel,Terrain3D.Height(State,position.X,position.Z))+.3);camera.Position=position;
         camera.LookDirection = focus - camera.Position;

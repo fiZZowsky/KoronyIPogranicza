@@ -6,3 +6,6 @@ saves/
 settings.json
 settings.json.tmp
 cache/
+
+# Offline CC0 source downloads; compact runtime meshes are tracked under Assets/Actors.
+artifacts/assets-0.38/*-source.glb

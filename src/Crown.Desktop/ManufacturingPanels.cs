@@ -36,6 +36,7 @@ public sealed partial class MainWindow
             card.Children.Add(Ui.Button("Plan produkcji: "+c.Name,()=>ShowProductionQueue(c)));card.Children.Add(Ui.Button("Pokaż warsztaty: "+c.Name,()=>{CloseModal();Select(c.Tile);map.Center(c.Tile);}));p.Children.Add(Ui.Card(card));
         }
         p.Children.Add(Ui.Label("Dom cechów zużywa narzędzia i tkaniny. Pokrycie popytu daje do +15% produkcji, +3 bazowej kultury i +3 dobrobytu. Warsztaty i Dom cechów kosztują po 1,5 złota utrzymania plus administrację. Nadwyżki można sprzedawać tymi samymi kontraktami co surowce. Cena narzędzi i tkanin uwzględnia średnią cenę obu stron oraz marżę 15%; zapłata przy wysyłce, dostawa po rzeczywistym przejazdzie karawany lądowej. Embargo, granice, eskorta i straty działają jak wcześniej.",14,Ui.Muted));
+        p.Children.Add(Ui.Button("Inwestycje i koncesje przemysłowe",()=>ShowIndustrialInvestments()));
         p.Children.Add(Ui.Button("Podpisz kontrakt na wyroby",ShowTradeContract));p.Children.Add(Ui.Button("Wróć do mapy",CloseModal));Modal(p,920);
     }
     private void ShowCraftPolicy(City c)

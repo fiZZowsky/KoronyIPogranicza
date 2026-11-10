@@ -1,0 +1,2 @@
+Final models gpu: 36 checks; exit 0; 20,6s
+Final models wpf: 36 checks; exit 0; 17,1s

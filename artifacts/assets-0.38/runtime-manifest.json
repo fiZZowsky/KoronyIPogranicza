@@ -1,0 +1,152 @@
+[
+  {
+    "file": "civilian-base.jpg",
+    "bytes": 364953,
+    "sha256": "e80959ffed491749311b3f3040ab17803215a1961ff9baaf669151e81fc4ea5c"
+  },
+  {
+    "file": "civilian-normal.jpg",
+    "bytes": 94071,
+    "sha256": "945bbbaad7bbfa23c819c3576a2501feb4e54a784ecc7526c16167d599139854"
+  },
+  {
+    "file": "civilian-orm.jpg",
+    "bytes": 210756,
+    "sha256": "0f65055204dd52f17417a3d8a1a851d360b36ebc74634a81e0e9e13d071a1b52"
+  },
+  {
+    "file": "civilian.cmesh",
+    "bytes": 157168,
+    "sha256": "f62b4479e171be51dc05b2ce1c779f2fcb46ab9c037b09947f5f1271a56da502"
+  },
+  {
+    "file": "horse-base.jpg",
+    "bytes": 1056146,
+    "sha256": "0f53e16031f0754c20718fe47dd394950839373697fc278e310abee698471239"
+  },
+  {
+    "file": "horse-normal.jpg",
+    "bytes": 1342039,
+    "sha256": "1cb699ec1a3524bea460468c5730f3c1891399edd888c012b4d6b597fa96cd53"
+  },
+  {
+    "file": "horse-orm.jpg",
+    "bytes": 261064,
+    "sha256": "1a0e7c9160060082b1ca5c649dbaabf046b8ee1119deb69b3e801541936ea35a"
+  },
+  {
+    "file": "horse.cmesh",
+    "bytes": 197524,
+    "sha256": "ba6d5d0e72ac46f51efdc503af676281a032ab5b7d2f51cf522b951fc596891c"
+  },
+  {
+    "file": "knight-base.jpg",
+    "bytes": 927320,
+    "sha256": "ef4c4416eafbcc9c7aabf52529a9ab2252afedce9d8b078b067ca801914b99a6"
+  },
+  {
+    "file": "knight-normal.jpg",
+    "bytes": 587731,
+    "sha256": "33112c6216feb14283ed0a95333e95747f04a1ed7d57e73577cb5867b58818ff"
+  },
+  {
+    "file": "knight-orm.jpg",
+    "bytes": 454810,
+    "sha256": "c8f2f256090704cfc41ea783442d3e04cee7f017f247c00ccd21b83993e02e0c"
+  },
+  {
+    "file": "knight-rider.cmesh",
+    "bytes": 201370,
+    "sha256": "3664fc85b0825214f65a00aee1f7571fb1dad0fced6bf2f91a15e4b5d716f0ec"
+  },
+  {
+    "file": "knight.cmesh",
+    "bytes": 203142,
+    "sha256": "abf8952c882184ef3924a7acd33c3f1e83b90a70dfa2718738d3045a7acc0c85"
+  },
+  {
+    "file": "modern-base.jpg",
+    "bytes": 656856,
+    "sha256": "3710aaa093fdf6a148a5077649f312ce5dbc0c30b9932a14d4aff6b6d33b6f41"
+  },
+  {
+    "file": "modern-normal.jpg",
+    "bytes": 362038,
+    "sha256": "38997199c9c92d43bb4513febf73efbf6b63798123364b953c1bcade70f88e28"
+  },
+  {
+    "file": "modern-orm.jpg",
+    "bytes": 239177,
+    "sha256": "c10b246e09d059ec9d1f3608c3e4046a838382cf5214cf797b95ffe23004f36f"
+  },
+  {
+    "file": "modern.cmesh",
+    "bytes": 198530,
+    "sha256": "ab091bd2404311ca43ab2c3ef1f315ad854504bf6cd71c709793a66909b22d71"
+  },
+  {
+    "file": "robot-base.jpg",
+    "bytes": 618870,
+    "sha256": "e90407d96c5549539b50f9fc4bee6f808b0c158340607a8fa7a60ddc0ca0c09b"
+  },
+  {
+    "file": "robot-normal.jpg",
+    "bytes": 309169,
+    "sha256": "f0b1591fe61a6c3bb21a56a1acec3d7560df54d45108806a48abf7209af37a73"
+  },
+  {
+    "file": "robot-orm.jpg",
+    "bytes": 362565,
+    "sha256": "c2b1d2792ef9e4150ddb510caae4f8d087d5482702ee053323568dbceb4fabea"
+  },
+  {
+    "file": "robot.cmesh",
+    "bytes": 215638,
+    "sha256": "c6bb77ffa3d90fdc803224ad0fdcf8ba9e3ae780233019de73239b1ff0fbcde4"
+  },
+  {
+    "file": "soldier-base.jpg",
+    "bytes": 558180,
+    "sha256": "1200023750754f90b1896145358c9638235f010276a73c0a2a1442f4248724d5"
+  },
+  {
+    "file": "soldier-normal.jpg",
+    "bytes": 309162,
+    "sha256": "39b5d67551daf9d45b83598667b2ec40ed51dc37a158ddfdeb7d71ba04225ab3"
+  },
+  {
+    "file": "soldier-orm.jpg",
+    "bytes": 154207,
+    "sha256": "8cf66cf3f2323034871f3e62fc8a586b8fbee5d8357e25a6e6bd6ecc69d9bffb"
+  },
+  {
+    "file": "soldier.cmesh",
+    "bytes": 209264,
+    "sha256": "4ac15c5cd0f1efd1d61afe436ef1bb4e0fd795b8b8d3f19d463a26e506c425d3"
+  },
+  {
+    "file": "viking-base.jpg",
+    "bytes": 768685,
+    "sha256": "966d95d1d164839eea6e2f27f0cc9838a8e216936624d3122a61146aea0a3572"
+  },
+  {
+    "file": "viking-normal.jpg",
+    "bytes": 530860,
+    "sha256": "c26b3893a305c2311f62dd0e40e09a72933deb1f5fef59c1782fd802f38356ea"
+  },
+  {
+    "file": "viking-orm.jpg",
+    "bytes": 309227,
+    "sha256": "4060615bea58ea95a360dd9994c50ba176212fd0623ba80e2e303d141999f4c7"
+  },
+  {
+    "file": "viking-rider.cmesh",
+    "bytes": 197849,
+    "sha256": "cc40ba99fdfc53af02f05b399ed29233631f993b808f20c528c1060b0721a44e"
+  },
+  {
+    "file": "viking.cmesh",
+    "bytes": 198390,
+    "sha256": "90bc835548c9b965eb486a8f0e0b0556542cba337e957fc10bfbdcd5f0f8740b"
+  }
+]

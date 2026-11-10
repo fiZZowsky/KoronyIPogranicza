@@ -1,0 +1,27 @@
+PASS The real army entry opens the stockpile and reserve panel
+PASS Browsing logistics leaves campaign and RNG unchanged
+PASS The actual depot button selects an ordinary construction project
+PASS An ordinary production turn completes the prepared depot without free stocks
+PASS A completed depot has real visible warehouse geometry
+PASS The quartermaster dialogue explains the production tradeoff
+PASS Leaving the quartermaster conversation changes no policy or resources
+PASS The actual priority decision commits work without instant supplies
+PASS The dialogue enforces the once-per-turn policy change
+PASS Actual economic turns manufacture paid stock packages
+PASS The actual loading button spends earned packages and one movement point
+PASS A fully supplied troop cannot load beyond three reserve turns
+PASS Heavy artillery draws two real packs per loaded reserve turn
+PASS Orders identify an isolated army living on its carried reserve
+PASS Desktop current-format reload restores carried supplies stock and allocation exactly
+PASS Three ordinary turns consume reserve before attrition begins
+PASS The UI reports exhaustion and actual attrition after the last ration
+PASS The real military order opens an exact supply raid quote
+PASS Cancelling a raid preserves stocks cash movement and RNG
+PASS Confirmed raid destroys finite supplies pays exact loot and preserves the road
+PASS Stock loss rebuilds the actual supply-crate geometry within the same turn
+PASS The real order prevents a repeated exhausted raid
+PASS A currently unseen foreign depot does not expose its warehouse or stock geometry
+PASS Industrial-era warehouses use the actual metal roof model
+PASS The requested renderer displays the new logistics geometry: no GPU error
+PASS A large reserve roster remains scrollable in a compact native window
+26 field supply desktop integration checks passed.

@@ -65,7 +65,7 @@ public static class ProvincialPolitics
     public static void Transfer(GameState s, City city, int owner, bool peaceful=false)
     {
         int old = city.Owner;
-        city.Council=new();
+        city.Council=new();IndustrialInvestment.OwnershipChanged(city);
         city.LastMarketLines=[];city.LastMarketTurn=0;city.LastMarketTax=0;
         if(!peaceful)city.MilitarySupplies*=.5;
         city.SupplyAllocation=0;city.LastSupplyPolicyTurn=-1;

@@ -95,6 +95,7 @@ public sealed partial class MainWindow
                 if (u.Id != selectedUnit) continue;
                 side.Children.Add(Ui.Label($"Zdrowie {u.Health:0}% · siła {Engine.Strength(state, u):0} · doświadczenie {u.Experience}", 11, Ui.Muted));
                 UnitSupply(u);
+                if(!Navy.IsShip(u))side.Children.Add(Ui.Button("Przyjrzyj się oddziałowi",()=>map.InspectUnit(u)));
                 if(state.EpochCampaign)side.Children.Add(Ui.Button("Modernizuj oddział #"+u.Id,()=>ShowUnitModernization(u)));
                 side.Children.Add(Ui.Label(MilitaryOrders.Name(u), 12, Ui.Gold));
                 side.Children.Add(Ui.Button("Rozkazy wojskowe #" + u.Id, () => ShowMilitaryOrders(u)));
@@ -149,10 +150,10 @@ public sealed partial class MainWindow
         double tradeForecast=state.TradeContracts.Any(c=>c.Status==ContractStatus.Active&&(c.Buyer==0||c.Seller==0))?Markets.Plan(state).Cash[0]:0;
         var budget = Ui.Stack(Ui.Eyebrow("BILANS ORIENTACYJNY"));
         foreach (var row in new (string Label, double Amount)[] { ("Miasta", economy.CityIncome), ("Traktaty", economy.TradeIncome), ("Podatki rynku · ostatnio",economy.MarketIncome),("Kontrakty · prognoza",tradeForecast),
-            ("Armia", -economy.ArmyCost), ("Administracja", -economy.AdministrationCost), ("Drogi", -economy.RoadCost), ("Przedsięwzięcie epoki", -EraEndeavours.PlannedFee(state,0)), ("Współpraca badawcza", -Treaties.PlannedFees(state,0)) })
+            ("Armia", -economy.ArmyCost), ("Administracja", -economy.AdministrationCost), ("Drogi", -economy.RoadCost), ("Przedsięwzięcie epoki", -EraEndeavours.PlannedFee(state,0)), ("Współpraca badawcza", -Treaties.PlannedFees(state,0)-IndustrialInvestment.PlannedFees(state,0)) })
             budget.Children.Add(Ui.Label($"{row.Label}  {Ui.Signed(row.Amount)}", 13, row.Amount < 0 ? Ui.Muted : Ui.Green));
         budget.Children.Add(Ui.Rule());
-        budget.Children.Add(Ui.Label($"Saldo skarbu  {Ui.Signed(economy.Net+tradeForecast-EraEndeavours.PlannedFee(state,0)-Treaties.PlannedFees(state,0))}", 20, Ui.Gold, true));
+        budget.Children.Add(Ui.Label($"Saldo skarbu  {Ui.Signed(economy.Net+tradeForecast-EraEndeavours.PlannedFee(state,0)-Treaties.PlannedFees(state,0)-IndustrialInvestment.PlannedFees(state,0))}", 20, Ui.Gold, true));
         budget.Children.Add(Ui.Label($"W dochodach miast uwzględniono już ubytek przez korupcję: {state.Cities.Where(c=>c.Owner==0).Sum(c=>Administration.Loss(state,c)):0.00} złota/turę.",11,Ui.Gold));
         budget.Children.Add(Ui.Label("Dochody miast są bieżące. Podatki rynku według ostatniego rozliczenia, kontrakty według aktualnej prognozy.",11,Ui.Muted));
         side.Children.Add(Ui.Card(budget));

@@ -1,4 +1,6 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.37
+# Epoki i możliwe przyszłości — podręcznik wydania 0.38
+
+Od 0.38 postacie i konie używają importowanych siatek 3D z własnymi mapami materiałów i osobnymi LOD. Warsztaty otwierają inwestycje państwowe lub koncesje: 8 rozliczeń, 6 rzeczywistych partii w 4 finansowanych fazach, do dwóch poziomów urządzeń. Koncesja wymaga później 24 rzeczywistych wpłat; trzy kolejne braki odbierają jeden poziom.
 
 Od 0.37 kronika i raporty pokazują utrwalone lata decyzji zamiast kodów tur; przyszłość i nieznana historia starszych zapisów są oznaczone jako przybliżone. W Ludności otwórz radę prowincji: trzy miejscowe grupy, umowy na sześć rozliczeń i trwałe karty za co najmniej cztery wykonane zobowiązania. Podpis kosztuje 30 złota, kolejne wykonane fazy wymagają opłaty. Modele ludzi i koni mają nowe powierzchnie i tekstury; pszenica używa kęp z alfą. Format v27 zachowuje kalendarz i koalicje.
 

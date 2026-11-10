@@ -1,0 +1,20 @@
+PASS The selected renderer runs the investment scenario
+PASS The actual workshop entry exposes investment goals and equipment limits
+PASS The public financing dialogue states upfront cost real production and failure liability
+PASS Leaving financing talks changes neither treasury nor machinery
+PASS The real signature pays once without granting machinery
+PASS The ledger exposes zero progress and prevents concurrent investment signatures
+PASS An ordinary economic phase pays supervision and credits actual manufactured batches
+PASS Desktop reload preserves funding dates batches receipts and RNG exactly
+PASS Eight actual economic phases establish a public upgrade without concession royalties
+PASS The final public ledger reports the physical upgrade
+PASS Investment history remains tied to the signed historical phase
+PASS The concession dialogue exposes future obligations and repossession before signature
+PASS The concession signature pays its lower actual upfront cost
+PASS Declining cancellation preserves the signed contract
+PASS The second completed investment starts future royalties: level 2, phases 8, productive 8, batches 24, royalty 24
+PASS The next real turn collects one royalty and updates the visible obligation
+PASS Desktop reload retains paid royalties and both equipment levels
+PASS The complete investment ledger and exit remain reachable in a compact window
+PASS The investment ledger returns control to the map
+19 industrial investment desktop integration checks passed.

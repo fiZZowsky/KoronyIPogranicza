@@ -1,0 +1,8 @@
+PASS Actual previous-release autosave migrates to the current format and round trips exactly
+PASS Migration adds no equipment and preserves existing local politics
+PASS Writing the isolated migrated copy keeps an exact predecessor backup
+PASS The migrated campaign advances through the real economic engine
+PASS The migrated campaign advances through the real economic engine
+PASS The migrated campaign continues with identical state and RNG after reload
+PASS The original user autosave remains byte-for-byte unchanged
+Source format v27; turn 1 -> 2; SHA256 41C6F2F03CE5E26AE04DCE61470B5713ADEB5EDCA335BB1EF028BA06116F1822

@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional industrial investment diagnostic failure.
+   at Crown.Desktop.MainWindow.IndustrialInvestmentSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\IndustrialInvestmentSmoke.cs:line 23
