@@ -16,13 +16,13 @@ public static class TreasuryLoans
         if (s.Ending != null || creditor is < 1 or > 3 || !Principals.Contains(principal)) return "Nieprawidłowy kredytodawca lub kwota.";
         if (!s.Player.Technologies.Contains("currency")) return "Pożyczki państwowe wymagają Monety.";
         if (!s.Cities.Any(c => c.Owner == 0) || !s.Cities.Any(c => c.Owner == creditor)) return "Pożyczka wymaga istniejących państw po obu stronach.";
-        if (s.Turn < FrozenUntil(s)) return $"Po zerwaniu zobowiązań nowy kredyt jest zamknięty do T{FrozenUntil(s)}.";
+        if (s.Turn < FrozenUntil(s)) return $"Po zerwaniu zobowiązań nowy kredyt jest zamknięty do {CampaignCalendar.At(s, FrozenUntil(s))}.";
         var relation = s.Relation(0, creditor);
         if (relation.War || !relation.Trade || relation.Trust < 10) return "Kupcy wymagają pokoju, traktatu handlowego i zaufania co najmniej +10.";
         if (s.Loans.Count(Open) >= 2) return "Państwo może utrzymywać najwyżej dwie otwarte pożyczki.";
         if (s.Loans.Any(l => l.Creditor == creditor && Open(l))) return "Wobec tych kupców istnieje już otwarte zobowiązanie.";
         int last = s.Loans.Where(l => l.Creditor == creditor).Select(l => l.StartedTurn).DefaultIfEmpty(-Interval).Max();
-        if (s.Turn - last < Interval) return $"Następne finansowanie z tego państwa najwcześniej w T{last + Interval}.";
+        if (s.Turn - last < Interval) return $"Następne finansowanie z tego państwa najwcześniej w {CampaignCalendar.At(s, last + Interval)}.";
         if (s.Factions[creditor].Gold < principal) return "Skarb wspierający kupców nie ma środków na tę kwotę.";
         return null;
     }
@@ -53,7 +53,7 @@ public static class TreasuryLoans
             { loan.Status = LoanStatus.AwaitingCouncil; s.Log($"Pożyczka #{loan.Id}: nadszedł termin spłaty {Amount(loan)} złota. Kupcy ({s.Factions[loan.Creditor].Name}) czekają na decyzję rady.", "skarb"); }
             else if (loan.DueTurn - s.Turn == 2)
             {
-                string notice = $"Za dwie tury zapada pożyczka #{loan.Id}: {Amount(loan)} złota w T{loan.DueTurn}.";
+                string notice = $"Za dwie tury zapada pożyczka #{loan.Id}: {Amount(loan)} złota w {CampaignCalendar.At(s, loan.DueTurn)}.";
                 if (!s.Chronicle.Any(e => e.Turn == s.Turn && e.Category == "skarb" && e.Text == notice)) s.Log(notice, "skarb");
             }
         }
@@ -68,8 +68,8 @@ public static partial class Engine
         s.Factions[creditor].Gold -= principal; s.Player.Gold += principal;
         var loan = new SovereignLoan { Id = s.NextLoanId++, Creditor = creditor, Principal = principal, StartedTurn = s.Turn, DueTurn = s.Turn + TreasuryLoans.Term };
         s.Loans.Add(loan);
-        s.Log($"Pożyczka #{loan.Id} od kupców ({s.Factions[creditor].Name}): +{principal} złota teraz, spłata {TreasuryLoans.Amount(loan)} w T{loan.DueTurn}.", "skarb");
-        return Result.Ok($"Otrzymano {principal} złota. Zobowiązanie: {TreasuryLoans.Amount(loan)} złota w T{loan.DueTurn}.");
+        s.Log($"Pożyczka #{loan.Id} od kupców ({s.Factions[creditor].Name}): +{principal} złota teraz, spłata {TreasuryLoans.Amount(loan)} w {CampaignCalendar.At(s, loan.DueTurn)}.", "skarb");
+        return Result.Ok($"Otrzymano {principal} złota. Zobowiązanie: {TreasuryLoans.Amount(loan)} złota w {CampaignCalendar.At(s, loan.DueTurn)}.");
     }
     public static Result RepayLoan(GameState s, int loanId)
     {

@@ -30,6 +30,7 @@ public static class ProvincialPolitics
         Add("Praca za dług", c.Charters.Contains("bonded_labor") ? -8 : 0);
         Add("Obca administracja", c.Owner != c.OriginalOwner ? -10 : 8);
         Add("Niedawny podbój", c.OccupiedUntil > s.Turn ? -20 : 0);
+        Add("Poparcie stronnictw", LocalCouncils.Loyalty(c));
         Add("Ustrój prowincji", c.Governance == Governance.Autonomous ? 18 : c.Governance == Governance.Military ? garrison ? 10 : -12 : 0);
         target = Math.Clamp(target, 5, 95);
         int change = Math.Clamp(target - c.Loyalty, -3, 3);
@@ -64,6 +65,7 @@ public static class ProvincialPolitics
     public static void Transfer(GameState s, City city, int owner, bool peaceful=false)
     {
         int old = city.Owner;
+        city.Council=new();
         city.LastMarketLines=[];city.LastMarketTurn=0;city.LastMarketTax=0;
         if(!peaceful)city.MilitarySupplies*=.5;
         city.SupplyAllocation=0;city.LastSupplyPolicyTurn=-1;

@@ -18,9 +18,9 @@ public static class DebtCouncil
         var loan = s.Loans.FirstOrDefault(l => l.Id == s.PendingLoanId); if (loan == null) return Event;
         var choices = Event.Choices.ToArray();
         choices[0] = choices[0] with { Gold = -TreasuryLoans.Amount(loan) };
-        choices[1] = choices[1] with { Gold = -TreasuryLoans.ExtensionFee, Consequence = $"Dług wzrośnie o {loan.Principal / 10} do {loan.Principal + loan.Principal / 5 + loan.Principal / 10} złota. Nowy termin: T{s.Turn + TreasuryLoans.Extension}. Zaufanie -5. Nie będzie drugiego odroczenia." };
+        choices[1] = choices[1] with { Gold = -TreasuryLoans.ExtensionFee, Consequence = $"Dług wzrośnie o {loan.Principal / 10} do {loan.Principal + loan.Principal / 5 + loan.Principal / 10} złota. Nowy termin: {CampaignCalendar.At(s, s.Turn + TreasuryLoans.Extension)}. Zaufanie -5. Nie będzie drugiego odroczenia." };
         return Event with { Title = Event.Title + $" — pożyczka #{loan.Id}", Choices = choices,
-            Body = $"Delegacja kupiecka ({s.Factions[loan.Creditor].Name}) przedstawia umowę #{loan.Id}: otrzymano {loan.Principal} złota w T{loan.StartedTurn}, termin T{loan.DueTurn}, do spłaty {TreasuryLoans.Amount(loan)}. Dotąd wpłacono wierzycielom {loan.Paid} złota. " +
+            Body = $"Delegacja kupiecka ({s.Factions[loan.Creditor].Name}) przedstawia umowę #{loan.Id}: otrzymano {loan.Principal} złota w {CampaignCalendar.At(s, loan.StartedTurn)}, termin {CampaignCalendar.At(s, loan.DueTurn)}, do spłaty {TreasuryLoans.Amount(loan)}. Dotąd wpłacono wierzycielom {loan.Paid} złota. " +
                 (loan.ExtendedTurn == null ? "Możemy zapłacić pełną sumę, wykupić sześć tur odroczenia albo zerwać zobowiązanie. " : "Termin był już raz przesuwany. Kupcy nie zgodzą się na kolejne odroczenie. ") +
                 "Zerwanie ugodzi w zaufanie oraz handel, a pozostałe domy kupieckie zamkną kredyt na 24 tury. Wojna i upadek państwa wierzycieli nie umarzają długu. Jaka odpowiedź znajdzie się pod waszą pieczęcią?" };
     }

@@ -20,7 +20,7 @@ public static class AuditCouncil
         var audit=s.Audits.FirstOrDefault(a=>a.Id==s.PendingAuditId);if(audit==null)return Event;
         var city=City(s,audit);var choices=Event.Choices.ToArray();
         choices[0]=choices[0] with {Gold=Recovery(audit,0),Consequence="Odzyskujemy 75% ustalonych braków (w dół do pełnego złota); reszta jest nieściągalna. W mieście: korupcja -25 punktów, niepokoje +6, lojalność -4."};
-        choices[1]=choices[1] with {Consequence=$"Bez odzyskania dawnych braków. W mieście: korupcja -35 punktów, niepokoje -5, lojalność +4. Nadzór obniża cel korupcji o 20 do początku T{s.Turn+Administration.ProtectionTurns}."};
+        choices[1]=choices[1] with {Consequence=$"Bez odzyskania dawnych braków. W mieście: korupcja -35 punktów, niepokoje -5, lojalność +4. Nadzór obniża cel korupcji o 20 do początku {CampaignCalendar.At(s, s.Turn+Administration.ProtectionTurns)}."};
         choices[2]=choices[2] with {Gold=Recovery(audit,2),Consequence="Odzyskujemy 25% ustalonych braków (w dół do pełnego złota); reszta jest umorzona. W mieście: korupcja -8 punktów, niepokoje -3, lojalność +3."};
         return Event with {Title=Event.Title+" — "+city.Name,Choices=choices,
             Body=$"W mieście {city.Name} ustalono {audit.AssessedGold:0.00} złota rzeczywistych braków z poprzednich rozliczeń. Środki objęte raportem odłączono od dalszych rachunków; nowe straty będą przedmiotem przyszłej kontroli. Korupcja wynosi teraz {city.Corruption}%. Jawny proces uderzy w miejscowe rody. Niezależny urząd wymaga nowych środków. Ugoda ocali część dochodów i wpływy dawnych zarządców. Jaką instrukcję wpiszemy do protokołu?"};

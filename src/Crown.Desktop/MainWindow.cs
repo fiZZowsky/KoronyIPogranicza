@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using Catalog = Crown.Core.Content;
 using Microsoft.Win32;
 using System.IO;
@@ -36,6 +36,7 @@ public sealed partial class MainWindow : Window
         InitializePreferences();Closing+=(o,e)=>{if(state!=null)TryAutoSave(false);};
         Loaded+=(o,e)=>
         {
+            if(args.Contains("--ui-smoke-calendar-locals")){Dispatcher.BeginInvoke(async()=>await LocalCouncilSmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-treaties")){Dispatcher.BeginInvoke(async()=>await TreatySmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-era-identity")){Dispatcher.BeginInvoke(async()=>await EraIdentitySmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-manufacturing")){Dispatcher.BeginInvoke(async()=>await ManufacturingSmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
@@ -79,7 +80,7 @@ public sealed partial class MainWindow : Window
         scene.Children.Add(new Border{Background=new LinearGradientBrush(Colors.Transparent,Color.FromArgb(225,7,19,25),90)});
         var p=new StackPanel{Width=500,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center,Margin=new Thickness(84,10,0,0)};
         landingScroll=new ScrollViewer{Content=p,Width=620,MaxHeight=Math.Max(400,ActualHeight-70),VerticalAlignment=VerticalAlignment.Center,HorizontalAlignment=HorizontalAlignment.Left,VerticalScrollBarVisibility=ScrollBarVisibility.Auto,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled};scene.Children.Add(landingScroll);
-        p.Children.Add(Ui.Eyebrow("AUTORSKA STRATEGIA TUROWA  /  0.36"));Ui.Gap(p,14);
+        p.Children.Add(Ui.Eyebrow("AUTORSKA STRATEGIA TUROWA  /  0.37"));Ui.Gap(p,14);
         p.Children.Add(Ui.Label("Korony\ni Pogranicza",59,Ui.Text,true));Ui.Gap(p,18);
         p.Children.Add(Ui.Label("Każde państwo ma początek.\nKażda decyzja ma swoją przyszłość.",21,Ui.Gold,true));Ui.Gap(p,14);
         p.Children.Add(Ui.Label("Poprowadź Marchie Veyru przez stulecia. Buduj miasta, negocjuj z sąsiadami i słuchaj tych, którzy ponoszą ciężar Twoich wyborów.",14,Ui.Brush("#BFCDC9")));Ui.Gap(p,25);
@@ -143,7 +144,7 @@ public sealed partial class MainWindow : Window
         var inc=Engine.Income(state,0);var stats=new UniformGridEx{Columns=5,Margin=new Thickness(0,12,15,8)};Grid.SetColumn(stats,1);header.Children.Add(stats);
         void Stat(string title,string value,string suffix,Brush color){var p=Ui.Stack(Ui.Label(title.ToUpperInvariant(),9,Ui.Muted),Ui.Label(value,21,color),Ui.Label(suffix,10,Ui.Muted));p.Margin=new Thickness(15,0,0,0);stats.Children.Add(p);}
         Stat("Skarb",Ui.Number(state.Player.Gold),$"{Ui.Signed(inc.Gold-EraEndeavours.PlannedFee(state,0)-Treaties.PlannedFees(state,0)+(state.TradeContracts.Any(c=>c.Status==ContractStatus.Active&&(c.Buyer==0||c.Seller==0))?Markets.Plan(state).Cash[0]:0))} / turę",Ui.Gold);Stat("Nauka",Ui.Number(state.Player.Science),$"{Ui.Signed(inc.Science)} / turę",Ui.Brush("#91BFCD"));Stat("Kultura",Ui.Number(state.Player.Culture),$"{Ui.Signed(inc.Culture)} / turę",Ui.Brush("#BCA6CE"));Stat("Stabilność",state.Player.Stability+"%",$"cel: {Engine.StabilityTarget(state,state.Player)}%",Ui.Green);Stat("Prestiż",Ui.Number(state.Player.Prestige),Catalog.Era(state.Player.Era),Ui.Gold);
-        string year=state.Year<0?$"{-state.Year} p.n.e.":$"{state.Year} n.e.";var date=Ui.Stack(Ui.Label($"TURA {state.Turn:000}  /  {state.MaxTurns}",10,Ui.Gold),Ui.Label(year,22,Ui.Text,true),Ui.Label($"{state.Season} · {state.Difficulty}",10,Ui.Muted));date.Margin=new Thickness(12,10,20,0);Grid.SetColumn(date,2);header.Children.Add(date);
+        string year=CampaignCalendar.Format(state.Year);var date=Ui.Stack(Ui.Label($"HISTORIA TWOJEGO PAŃSTWA",10,Ui.Gold),Ui.Label(year,22,Ui.Text,true),Ui.Label($"{state.Season} · {state.Difficulty}",10,Ui.Muted));date.Margin=new Thickness(12,10,20,0);Grid.SetColumn(date,2);header.Children.Add(date);
     }
     private void RefreshSide()
     {
@@ -177,12 +178,12 @@ public sealed partial class MainWindow : Window
         side.Children.Add(Ui.Label("Priorytet państwa",13));var focus=Ui.Combo(["Zrównoważony rozwój","Wiedza · +30% nauki, -15% produkcji","Rozbudowa · +25% produkcji, -15% nauki"],f.Focus);side.Children.Add(focus);
         side.Children.Add(Ui.Button("Przyjmij reformę · 20 złota",()=>Do(Engine.SetPolicy(state,tax.SelectedIndex,gov.SelectedIndex,focus.SelectedIndex)),true));
         side.Children.Add(Ui.Rule());side.Children.Add(Ui.Label($"Wyczerpanie wojną: {f.WarWeariness:0}%\nDocelowa stabilność: {Engine.StabilityTarget(state,f)}%\nStabilność zmierza do celu o 1 punkt na turę. Poniżej 25% rosną niepokoje i spadają wpływy.",12,Ui.Muted));
-        if(f.Flags.Count>0){Ui.Gap(side,12);side.Children.Add(Ui.Eyebrow("DZIEDZICTWO WYBORÓW"));foreach(var entry in state.Chronicle.Where(e=>e.Category=="decyzja").TakeLast(4))side.Children.Add(Ui.Label($"T{entry.Turn} · {entry.Text.Split('—')[0]}",12,Ui.Gold));}
+        if(f.Flags.Count>0){Ui.Gap(side,12);side.Children.Add(Ui.Eyebrow("DZIEDZICTWO WYBORÓW"));foreach(var entry in state.Chronicle.Where(e=>e.Category=="decyzja").TakeLast(4))side.Children.Add(Ui.Label($"{CampaignCalendar.At(state, entry.Turn)} · {entry.Text.Split('—')[0]}",12,Ui.Gold));}
     }
     private void HistoryPanel()
     {
         TitlePanel("ZAPIS POKOLEŃ","Kronika Marchii",$"{state.Chronicle.Count} zapisanych wydarzeń. Oczekujące następstwa decyzji: {state.Deferred.Count}.");
-        foreach(var e in state.Chronicle.AsEnumerable().Reverse().Take(150))side.Children.Add(Ui.Card(Ui.Stack(Ui.Eyebrow($"TURA {e.Turn} / {e.Category}"),Ui.Label(e.Text,12,Ui.Text))));
+        foreach(var e in state.Chronicle.AsEnumerable().Reverse().Take(150))side.Children.Add(Ui.Card(Ui.Stack(Ui.Eyebrow($"{CampaignCalendar.At(state,e.Turn)} / {e.Category}"),Ui.Label(e.Text,12,Ui.Text))));
     }
     private void VictoryPanel()
     {
@@ -255,7 +256,7 @@ public sealed partial class MainWindow : Window
     private void ShowCouncil()
     {
         if(state.PendingEvent==null){Toast("Rada nie ma nowej sprawy. Poprzednie decyzje znajdziesz w kronice.");return;}
-        var e=ProvincialEvents.Current(state);var p=new StackPanel();p.Children.Add(Ui.Eyebrow($"SALA RADY  /  TURA {state.Turn}"));p.Children.Add(Ui.Label(e.Title,36,Ui.Text,true));Ui.Gap(p,18);
+        var e=ProvincialEvents.Current(state);var p=new StackPanel();p.Children.Add(Ui.Eyebrow($"SALA RADY  /  {CampaignCalendar.At(state,state.Turn)}"));p.Children.Add(Ui.Label(e.Title,36,Ui.Text,true));Ui.Gap(p,18);
         var speaker=Ui.Stack(Ui.Label(e.Speaker,17,Ui.Gold,true),Ui.Label(e.Role,11,Ui.Muted));p.Children.Add(speaker);Ui.Gap(p,18);p.Children.Add(Ui.Label("„"+e.Body+"”",17,Ui.Text,true));p.Children.Add(Ui.Rule());
         for(int i=0;i<e.Choices.Length;i++)
         {
@@ -291,7 +292,7 @@ public sealed partial class MainWindow : Window
         {
             Directory.CreateDirectory(saveFolder);string? path;
             if(SavePathOverride!=null)path=SavePathOverride();
-            else{var dialog=new SaveFileDialog{Filter="Historia Marchii (*.crown)|*.crown",InitialDirectory=saveFolder,FileName=$"Marchie-tura-{state.Turn:000}.crown"};path=dialog.ShowDialog(this)==true?dialog.FileName:null;}
+            else{var dialog=new SaveFileDialog{Filter="Historia Marchii (*.crown)|*.crown",InitialDirectory=saveFolder,FileName=$"Marchie-{Math.Abs(state.Year)}-{(state.Year<0?"pne":"ne")}.crown"};path=dialog.ShowDialog(this)==true?dialog.FileName:null;}
             if(path==null)return;SaveGame.Write(state,path);lastManualSave=path;string message="Zapisano historię: "+Path.GetFileName(path);Toast(message);if(overlayScreen==OverlayScreen.Pause&&pauseStatus!=null)pauseStatus.Text=message;
         }
         catch(Exception e){string message="Zapis nie powiódł się: "+e.Message;Toast(message,false);if(overlayScreen==OverlayScreen.Pause&&pauseStatus!=null){pauseStatus.Text=message;pauseStatus.Foreground=Ui.Red;}}

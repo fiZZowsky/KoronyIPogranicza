@@ -18,18 +18,18 @@ public sealed partial class MainWindow
         foreach (var c in cases)
         {
             var city = EnergyCouncil.City(state, c); var last = c.Shortages[^1];
-            var card = Ui.Stack(Ui.Eyebrow($"SPRAWA #{c.Id} · OD T{c.OpenedTurn}"), Ui.Label(city.Name, 24, Ui.Text, true),
+            var card = Ui.Stack(Ui.Eyebrow($"SPRAWA #{c.Id} · OD {CampaignCalendar.At(state, c.OpenedTurn)}"), Ui.Label(city.Name, 24, Ui.Text, true),
                 Ui.Label(EnergyCouncil.StatusName(c.Status), 17, c.Status == EnergyCaseStatus.Fulfilled ? Ui.Green : c.Status == EnergyCaseStatus.Broken ? Ui.Red : Ui.Gold),
-                Ui.Label($"Ostatnia faza zgłoszenia T{last.PhaseTurn}: {last.Allocated:0.##}/{last.Demand} mocy · {last.Coverage:P0}\nPomoc: {c.ReliefCost} złota. Protokół: " + string.Join(", ", last.Services.Select(id => Catalog.Project(id).Name)), 13, Ui.Muted));
+                Ui.Label($"Ostatnia faza zgłoszenia {CampaignCalendar.At(state, last.PhaseTurn)}: {last.Allocated:0.##}/{last.Demand} mocy · {last.Coverage:P0}\nPomoc: {c.ReliefCost} złota. Protokół: " + string.Join(", ", last.Services.Select(id => Catalog.Project(id).Name)), 13, Ui.Muted));
             if (c.Decision == 1)
             {
-                Ui.Bar(card, $"Kolejne pełne fazy: {EnergyCouncil.Progress(c)}/{EnergyCouncil.RecoveryPhases} · termin: początek T{c.DeadlineTurn}", EnergyCouncil.Progress(c), EnergyCouncil.RecoveryPhases, c.Status == EnergyCaseStatus.Broken ? Ui.Red : Ui.Green);
-                card.Children.Add(Ui.Label($"Dozwolone rozliczenia: T{c.DecidedTurn}–T{c.DeadlineTurn - 1}. Ostatnia dozwolona faza najpierw sprawdza wykonanie.\n{EnergyCouncil.SuccessEffects}\n{EnergyCouncil.FailureEffects}", 12, Ui.Muted));
+                Ui.Bar(card, $"Kolejne pełne fazy: {EnergyCouncil.Progress(c)}/{EnergyCouncil.RecoveryPhases} · termin: początek {CampaignCalendar.At(state, c.DeadlineTurn)}", EnergyCouncil.Progress(c), EnergyCouncil.RecoveryPhases, c.Status == EnergyCaseStatus.Broken ? Ui.Red : Ui.Green);
+                card.Children.Add(Ui.Label($"Dozwolone rozliczenia: {CampaignCalendar.At(state, c.DecidedTurn)}–{CampaignCalendar.At(state, c.DeadlineTurn - 1)}. Ostatnia dozwolona faza najpierw sprawdza wykonanie.\n{EnergyCouncil.SuccessEffects}\n{EnergyCouncil.FailureEffects}", 12, Ui.Muted));
                 foreach (var r in c.Deliveries)
-                    card.Children.Add(Ui.Label($"T{r.PhaseTurn}: {r.Allocated:0.##}/{r.Demand} mocy · " + (EnergyCouncil.Satisfies(c, r) ? "pełna praca wskazanych usług" : "warunki niewypełnione — seria przerwana"), 12, EnergyCouncil.Satisfies(c, r) ? Ui.Green : Ui.Gold));
+                    card.Children.Add(Ui.Label($"{CampaignCalendar.At(state, r.PhaseTurn)}: {r.Allocated:0.##}/{r.Demand} mocy · " + (EnergyCouncil.Satisfies(c, r) ? "pełna praca wskazanych usług" : "warunki niewypełnione — seria przerwana"), 12, EnergyCouncil.Satisfies(c, r) ? Ui.Green : Ui.Gold));
             }
             if (c.Failure == EnergyFailure.CityLost) card.Children.Add(Ui.Label("Obietnicę przerwała utrata miasta. Kary miejscowe nie przechodzą na nowego właściciela.", 12, Ui.Red));
-            if (c.ResolvedTurn != null) card.Children.Add(Ui.Label($"Zamknięto w T{c.ResolvedTurn}. Wynik pozostaje w kronice.", 12, Ui.Muted));
+            if (c.ResolvedTurn != null) card.Children.Add(Ui.Label($"Zamknięto w {CampaignCalendar.At(state, c.ResolvedTurn)}. Wynik pozostaje w kronice.", 12, Ui.Muted));
             if (c.Status == EnergyCaseStatus.Pending)
             {
                 var button = Ui.Button("Rozpatrz kryzys #" + c.Id, () =>
@@ -47,9 +47,9 @@ public sealed partial class MainWindow
         panel.Children.Add(Ui.Eyebrow("ODCZYTY RZECZYWISTYCH FAZ GOSPODARKI"));
         if (city.EnergyHistory.Count == 0) panel.Children.Add(Ui.Label("Brak zarejestrowanych faz. Bieżący podgląd zasilania jest prognozą, nie historią.", 12, Ui.Muted));
         else foreach (var r in city.EnergyHistory.TakeLast(8))
-            panel.Children.Add(Ui.Label($"T{r.PhaseTurn}: {r.Allocated:0.##}/{r.Demand} mocy · " + (r.Demand == 0 ? "brak aktywnych potrzeb" : r.Coverage.ToString("P0")), 12, r.Shortage ? Ui.Red : r.Coverage < 1 ? Ui.Gold : Ui.Green));
+            panel.Children.Add(Ui.Label($"{CampaignCalendar.At(state, r.PhaseTurn)}: {r.Allocated:0.##}/{r.Demand} mocy · " + (r.Demand == 0 ? "brak aktywnych potrzeb" : r.Coverage.ToString("P0")), 12, r.Shortage ? Ui.Red : r.Coverage < 1 ? Ui.Gold : Ui.Green));
         var active = state.EnergyCases.FirstOrDefault(c => c.CityId == city.Id && c.Status is EnergyCaseStatus.Pending or EnergyCaseStatus.Pledged);
-        if (active != null) panel.Children.Add(Ui.Label($"{EnergyCouncil.StatusName(active.Status)} · sprawa #{active.Id}" + (active.DeadlineTurn != null ? $" · termin T{active.DeadlineTurn} · seria {EnergyCouncil.Progress(active)}/3" : ""), 13, Ui.Gold));
+        if (active != null) panel.Children.Add(Ui.Label($"{EnergyCouncil.StatusName(active.Status)} · sprawa #{active.Id}" + (active.DeadlineTurn != null ? $" · termin {CampaignCalendar.At(state, active.DeadlineTurn)} · seria {EnergyCouncil.Progress(active)}/3" : ""), 13, Ui.Gold));
         panel.Children.Add(Ui.Button("Kryzysy i obietnice: " + city.Name, () => ShowEnergyCases(city.Id)));
     }
 }

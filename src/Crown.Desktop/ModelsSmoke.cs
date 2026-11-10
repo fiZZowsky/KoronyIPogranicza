@@ -14,6 +14,7 @@ public sealed partial class MainWindow
     {
         Directory.CreateDirectory(folder);var checks=new List<string>();
         void Check(bool value,string message){if(!value)throw new InvalidOperationException(message);checks.Add("PASS "+message);}
+        string ModelKey(GeometryModel3D m)=>SceneSurface.Key(m).Replace("organic-near-", "").Replace("organic-far-", "");
         IEnumerable<GeometryModel3D> Models(Model3D model)
         {
             if(model is GeometryModel3D geometry)yield return geometry;
@@ -41,12 +42,22 @@ public sealed partial class MainWindow
             s.InvalidateLogistics();string original=SaveGame.Serialize(s);Start(s);root.UpdateLayout();await Task.Delay(140);map.ShowResources=true;map.Center(deposits[1].Id);map.Zoom(.8);map.RenderGpuFrame();
             Check(map.Photographic!=null,"The new living models render on the actual Direct3D device: "+map.GpuFailure);
             var models=Models(map.Scene!.Objects).ToArray();
-            Check(models.Any(m=>SceneSurface.Key(m).StartsWith("skin"))&&models.Any(m=>SceneSurface.Key(m).StartsWith("eyes"))&&models.Any(m=>SceneSurface.Key(m).StartsWith("boots")),"Human formations contain shaped bodies, facial details, hands and boots");
-            Check(models.Any(m=>SceneSurface.Key(m).StartsWith("horse-hooves"))&&models.Any(m=>SceneSurface.Key(m).StartsWith("horse-mane-tail"))&&models.Any(m=>SceneSurface.Key(m).StartsWith("horse-eyes")),"Horses have actual hoof, mane, tail and eye geometry");
-            Check(models.Any(m=>SceneSurface.Key(m).StartsWith("ground-grass"))&&models.Any(m=>SceneSurface.Key(m).StartsWith("bark-"))&&models.Any(m=>SceneSurface.Key(m).StartsWith("plant-leaves")),"Forests, grass tufts and smaller leaves have distinct spatial geometry");
-            Check(new[]{"wheat-grain","iron-ore","horse-coat-","stone-outcrop","salt-crystals","dye-petals"}.All(key=>models.Any(m=>SceneSurface.Key(m).StartsWith(key))),"All six resource types have their own recognizable model components");
+            Check(models.Any(m=>ModelKey(m).StartsWith("skin"))&&models.Any(m=>ModelKey(m).StartsWith("eyes"))&&models.Any(m=>ModelKey(m).StartsWith("boots")),"Human formations contain shaped bodies, facial details, hands and boots");
+            Check(models.Any(m=>ModelKey(m).StartsWith("horse-hooves"))&&models.Any(m=>ModelKey(m).StartsWith("horse-mane-tail"))&&models.Any(m=>ModelKey(m).StartsWith("horse-eyes")),"Horses have actual hoof, mane, tail and eye geometry");
+            Check(models.Any(m=>ModelKey(m).StartsWith("ground-grass"))&&models.Any(m=>ModelKey(m).StartsWith("bark-"))&&models.Any(m=>ModelKey(m).StartsWith("plant-leaves")),"Forests, grass tufts and smaller leaves have distinct spatial geometry");
+            Check(new[]{"wheat-tuft","iron-ore","horse-coat-","stone-outcrop","salt-crystals","dye-petals"}.All(key=>models.Any(m=>ModelKey(m).StartsWith(key))),"All six resource types have their own recognizable model components");
             Check(models.Select(m=>(MeshGeometry3D)m.Geometry).All(m=>m.Positions.Count<=20001&&m.Normals.All(n=>double.IsFinite(n.X)&&Math.Abs(n.Length-1)<.001)),"New resource and living meshes remain bounded with finite unit normals");
-            Check(!models.Any(m=>SceneSurface.Key(m).StartsWith("resource-Dyes")),"Dyes are represented by flowering plants rather than the former colored sphere");
+            Check(!models.Any(m=>ModelKey(m).StartsWith("resource-Dyes")),"Dyes are represented by flowering plants rather than the former colored sphere");
+            Check(models.Where(m=>ModelKey(m).StartsWith("skin")||ModelKey(m).StartsWith("horse-coat")||ModelKey(m).StartsWith("uniform-")).All(m=>m.Material is DiffuseMaterial {Brush:ImageBrush}),"Skin fur and woven uniforms use actual bitmap materials in the fallback scene");
+            Check(models.Where(m=>ModelKey(m).StartsWith("wheat-tuft")).All(m=>m.Material is DiffuseMaterial {Brush:ImageBrush}&&m.BackMaterial!=null),"Wheat has textured double-sided crossed cards instead of geometric grain balls");
+            int nearTriangles=models.Where(m=>SceneSurface.Key(m).StartsWith("organic-near-")).Sum(m=>((MeshGeometry3D)m.Geometry).TriangleIndices.Count/3);
+            int farTriangles=models.Where(m=>SceneSurface.Key(m).StartsWith("organic-far-")).Sum(m=>((MeshGeometry3D)m.Geometry).TriangleIndices.Count/3);
+            Check(farTriangles>0&&nearTriangles>farTriangles*1.5,"Organic models include a substantially smaller alternative for distant rendering");
+            Check(models.Where(m=>ModelKey(m).StartsWith("skin")||ModelKey(m).StartsWith("horse-coat")).Select(m=>(MeshGeometry3D)m.Geometry).Any(m=>m.TextureCoordinates.Select(p=>p.Y).Distinct().Count()>8),"Organic material coordinates follow detailed model surfaces");
+            var wheat=(BitmapSource)((ImageBrush)((DiffuseMaterial)models.First(m=>ModelKey(m).StartsWith("wheat-tuft")).Material).Brush).ImageSource;
+            var rgba=new FormatConvertedBitmap(wheat,PixelFormats.Bgra32,null,0);var pixels=new byte[rgba.PixelWidth*rgba.PixelHeight*4];rgba.CopyPixels(pixels,rgba.PixelWidth*4,0);
+            Check(Enumerable.Range(0,pixels.Length/4).Any(i=>pixels[i*4+3]==0)&&Enumerable.Range(0,pixels.Length/4).Any(i=>pixels[i*4+3]>240),"The wheat asset contains real transparent cutouts and opaque plants");
+            checks.Add($"PASS Organic geometry evidence: near {nearTriangles} triangles, far {farTriangles} triangles");
             await Capture("models-resources");
             foreach(var tile in deposits)
             {

@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -146,6 +146,7 @@ internal static partial class WorldScene3D
         if (tile.Improvement == Improvement.Farm)
         {
             for (int i = 0; i < 7; i++) Ribbon(batch.Mesh(i % 2 == 0 ? "crop-ochre" : "crop-green", i % 2 == 0 ? "#B8A365" : "#87924C"), s, new(p.X - .6 + i * .17, p.Y - .52), new(p.X - .6 + i * .17, p.Y + .52), .13, .026);
+            for(int row=0;row<5;row++)for(int col=0;col<6;col++)WheatTuft(batch,s,new Point(p.X-.55+col*.17,p.Y-.48+row*.21),.18+((tile.Id+row*7+col*3)%7)*.009);
             House(batch, p.X + .42, Terrain3D.Height(s, p.X + .42, p.Y + .35), p.Y + .35, .18, .12, .22);
         }
         else if (tile.Improvement == Improvement.Mine)

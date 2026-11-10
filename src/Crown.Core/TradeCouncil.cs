@@ -31,7 +31,7 @@ public static class TradeCouncil
         var c=s.TradeCases.FirstOrDefault(c=>c.CaravanId==s.PendingTradeCaseId);if(c==null)return Event;
         var source=Source(s,c);var city=City(s,c);var contract=Contract(s,c);int payment=(int)Math.Ceiling(source.Payment);
         var choices=Event.Choices.ToArray();choices[0]=choices[0] with {Gold=-payment,Text=$"Wypłacimy {payment} złota odszkodowania."};
-        choices[1]=choices[1] with {Text=$"Dostarczymy {source.Quantity:0.##} jednostek: {Markets.Name(contract.Good)}, do fazy rynku T{s.Turn+PromiseTurns}.",
+        choices[1]=choices[1] with {Text=$"Dostarczymy {source.Quantity:0.##} jednostek: {Markets.Name(contract.Good)}, do fazy rynku {CampaignCalendar.At(s, s.Turn+PromiseTurns)}.",
             Consequence=$"Liczą się przyjazdy zagraniczne do miasta {city.Name} po decyzji, również z karawan już w drodze. Sam zakup, zapasy i dostawy krajowe nie wystarczą. "+SuccessEffects+" "+FailureEffects+
                 (ChoiceError(s,1) is string error?" Niedostępne: "+error:"")};
         return Event with {Title=Event.Title+" — "+city.Name,

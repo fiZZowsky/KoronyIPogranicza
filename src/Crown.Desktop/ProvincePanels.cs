@@ -45,13 +45,14 @@ public sealed partial class MainWindow
         var movements = state.Migrations.Where(m => m.Owner == 0).Reverse().Take(8).ToArray();
         if (movements.Length == 0) side.Children.Add(Ui.Label("Nie zanotowano jeszcze migracji. Potrzebne są połączenie drogowe, wyraźnie lepsze warunki i wolne miejsca w mieście docelowym.", 12, Ui.Muted));
         foreach (var m in movements)
-            side.Children.Add(Ui.Label($"T{m.Turn} · {state.Cities.First(c => c.Id == m.Source).Name} → {state.Cities.First(c => c.Id == m.Destination).Name}: {m.People} mieszkaniec", 12, Ui.Muted));
+            side.Children.Add(Ui.Label($"{CampaignCalendar.At(state, m.Turn)} · {state.Cities.First(c => c.Id == m.Source).Name} → {state.Cities.First(c => c.Id == m.Destination).Name}: {m.People} mieszkaniec", 12, Ui.Muted));
     }
 
     private void ShowProvince(City city)
     {
         var food = Regions.PlanFood(state, 0); var status = Regions.Status(state, city, food);
         var p = Ui.Stack(Ui.Eyebrow("SPRAWY MIESZKAŃCÓW"), Ui.Label(city.Name, 35, Ui.Text, true));
+        p.Children.Add(Ui.Button("Rada i stronnictwa prowincji",()=>ShowLocalCouncil(city)));
         Ui.Gap(p, 14);
         Ui.Bar(p, $"Dobrobyt {city.Prosperity}% · docelowo {status.ProsperityTarget}%", city.Prosperity, 100, city.Prosperity < 40 ? Ui.Red : Ui.Green);
         var needs = new System.Windows.Controls.Primitives.UniformGrid { Columns = 3, Margin = new Thickness(0, 0, 0, 16) };
@@ -65,7 +66,7 @@ public sealed partial class MainWindow
         p.Children.Add(Ui.Rule());
         var loyalty=ProvincialPolitics.Report(state,city);
         Ui.Bar(p,$"Lojalność {city.Loyalty}% → {loyalty.Target}% · zmiana {loyalty.Change:+0;-0;0}/turę",city.Loyalty,100,city.Loyalty<30?Ui.Red:Ui.Gold);
-        p.Children.Add(Ui.Label($"Założyciele: {state.Factions[city.OriginalOwner].Name}"+(city.OccupiedUntil>state.Turn?$" · opór po podboju do tury {city.OccupiedUntil}":""),12,Ui.Muted));
+        p.Children.Add(Ui.Label($"Założyciele: {state.Factions[city.OriginalOwner].Name}"+(city.OccupiedUntil>state.Turn?$" · opór po podboju do {CampaignCalendar.At(state,city.OccupiedUntil)}":""),12,Ui.Muted));
         p.Children.Add(Ui.Label("Cel bazowy 55 · "+string.Join(" · ",loyalty.Factors),12,Ui.Muted));
         p.Children.Add(Ui.Label(city.Owner!=city.OriginalOwner?$"Lojalność poniżej 20 przez trzy kolejne tury: powrót do założycieli. Postęp buntu {city.RevoltTurns}/3. Garnizon wycofa się do własnego miasta; bez schronienia zostanie rozwiązany.":"Spadek lojalności zmniejsza wydajność gospodarki. Miasto założone przez własne państwo nie wraca do obcego władcy.",12,city.RevoltTurns>0?Ui.Red:Ui.Muted));
         p.Children.Add(Ui.Eyebrow("USTRÓJ PROWINCJI · "+ProvincialPolitics.Name(city.Governance)));

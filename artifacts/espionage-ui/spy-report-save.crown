@@ -1,5 +1,5 @@
 {
-  "Version": 26,
+  "Version": 27,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16480,6 +16480,22 @@
   ],
   "Cities": [
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 1,
       "Name": "Wysogr\u00F3d",
       "Owner": 0,
@@ -16627,6 +16643,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 4,
       "Name": "Talassar",
       "Owner": 1,
@@ -16774,6 +16806,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 7,
       "Name": "Arven",
       "Owner": 2,
@@ -16921,6 +16969,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 10,
       "Name": "Kar-Dun",
       "Owner": 3,
@@ -17326,12 +17390,12 @@
     },
     {
       "Turn": 1,
-      "Text": "Rozpoznanie miasta #1: Lena Wrona \u2192 Talassar, koszt 55, termin T4.",
+      "Text": "Rozpoznanie miasta #1: Lena Wrona \u2192 Talassar, koszt 55, termin ok. 2\u00A0355 p.n.e..",
       "Category": "wywiad"
     },
     {
       "Turn": 4,
-      "Text": "Rozpoznanie miasta #1 \u2014 Talassar: Sukces. Raport z T4: Talassar, ludno\u015B\u0107 4, zdrowie 100%, projekt W\u0142\u00F3cznicy, praca 90. Skarb pa\u0144stwa Liga Talassu: 2906,3. Garnizon: 0 oddzia\u0142\u00F3w. To stan z chwili rozpoznania, bez sta\u0142ego podgl\u0105du miasta.",
+      "Text": "Rozpoznanie miasta #1 \u2014 Talassar: Sukces. Raport z 2\u00A0355 p.n.e.: Talassar, ludno\u015B\u0107 4, zdrowie 100%, projekt W\u0142\u00F3cznicy, praca 90. Skarb pa\u0144stwa Liga Talassu: 2906,3. Garnizon: 0 oddzia\u0142\u00F3w. To stan z chwili rozpoznania, bez sta\u0142ego podgl\u0105du miasta.",
       "Category": "wywiad"
     }
   ],
@@ -17404,7 +17468,7 @@
       "Detected": false,
       "ResearchId": null,
       "ResultValue": 0,
-      "Report": "Raport z T4: Talassar, ludno\u015B\u0107 4, zdrowie 100%, projekt W\u0142\u00F3cznicy, praca 90. Skarb pa\u0144stwa Liga Talassu: 2906,3. Garnizon: 0 oddzia\u0142\u00F3w. To stan z chwili rozpoznania, bez sta\u0142ego podgl\u0105du miasta.",
+      "Report": "Raport z 2\u00A0355 p.n.e.: Talassar, ludno\u015B\u0107 4, zdrowie 100%, projekt W\u0142\u00F3cznicy, praca 90. Skarb pa\u0144stwa Liga Talassu: 2906,3. Garnizon: 0 oddzia\u0142\u00F3w. To stan z chwili rozpoznania, bez sta\u0142ego podgl\u0105du miasta.",
       "CaptureChoice": null,
       "CaptureDecisionTurn": null,
       "CustodyChoice": null,
@@ -17420,5 +17484,11 @@
   "NextEnergyCaseId": 1,
   "PendingEnergyCaseId": null,
   "LastEnergyPhase": 0,
-  "NextId": 13
+  "NextId": 13,
+  "CalendarYears": {
+    "1": -2400,
+    "2": -2385,
+    "3": -2370,
+    "4": -2355
+  }
 }

@@ -76,7 +76,11 @@ public sealed partial class MainWindow
             map.ResetCamera();map.RenderGpuFrame();await Capture("photographic-strategy");
             var samples=new List<double>();for(int i=0;i<10;i++){map.Orbit(4,0);map.RenderGpuFrame();samples.Add(renderer.LastFrameMilliseconds);}
             checks.Add($"FRAME SAMPLE: median {samples.Order().ElementAt(5):0.0}ms, maximum {samples.Max():0.0}ms; {renderer.Image!.PixelWidth}x{renderer.Image.PixelHeight}; this machine only, not a frame-rate guarantee.");
-            Width=1200;Height=800;await Task.Delay(140);root.UpdateLayout();map.RenderGpuFrame();
+            WindowState=WindowState.Normal;Width=1200;Height=800;
+            // Native WM_SIZE and WPF layout must settle before inspecting the new GPU target.
+            for(int i=0;i<30&&(ActualWidth>1205||Math.Abs(ActualWidth-Width)>2);i++){await Task.Delay(50);await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle);root.UpdateLayout();}
+            root.UpdateLayout();map.RenderGpuFrame();
+            checks.Add($"RESIZE: state {WindowState}; requested {Width}x{Height}; actual {ActualWidth:0}x{ActualHeight:0}; map {map.ActualWidth:0}x{map.ActualHeight:0}; GPU {renderer.Image.PixelWidth}x{renderer.Image.PixelHeight}.");
             Check(renderer.Image.PixelWidth<1100&&renderer.Image.PixelHeight>350,"Resize recreates GPU targets at the compact client's size");await Capture("photographic-compact");
             Width=1600;Height=980;await Task.Delay(140);root.UpdateLayout();renderer.MaximumWidth=900;map.RenderGpuFrame();
             Check(renderer.Image.PixelWidth<=900,"Balanced rendering bounds the GPU output resolution");renderer.MaximumWidth=1600;

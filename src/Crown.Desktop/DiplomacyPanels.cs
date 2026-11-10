@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.Windows.Controls;
 
 namespace Crown.Desktop;
@@ -24,13 +24,13 @@ public sealed partial class MainWindow
             if(war!=null)
             {
                 var score=WarCouncil.Score(state,war,0);
-                p.Children.Add(Ui.Label($"WOJNA OD TURY {war.StartedTurn} · bilans {score.Score:+0;-0;0}",12,score.Score>=0?Ui.Green:Ui.Red));
+                p.Children.Add(Ui.Label($"WOJNA OD {CampaignCalendar.At(state, war.StartedTurn)} · bilans {score.Score:+0;-0;0}",12,score.Score>=0?Ui.Green:Ui.Red));
                 p.Children.Add(Ui.Label($"Cel {state.Factions[war.Aggressor].Name}: {WarCouncil.Goal(state,war)}",12,Ui.Muted));
                 p.Children.Add(Ui.Button("Przebieg wojny: "+f.Name,()=>ShowWarReport(war)));
             }
             else if(state.Wars.LastOrDefault(w=>w.A==0&&w.B==f.Id&&w.EndedTurn!=null) is WarCampaign ended)
             {
-                p.Children.Add(Ui.Label($"OSTATNIA WOJNA · tury {ended.StartedTurn}–{ended.EndedTurn}",11,Ui.Gold));
+                p.Children.Add(Ui.Label($"OSTATNIA WOJNA · {CampaignCalendar.At(state, ended.StartedTurn)}–{CampaignCalendar.At(state,ended.EndedTurn)}",11,Ui.Gold));
                 p.Children.Add(Ui.Label(ended.Outcome,12,Ui.Muted));
             }
             var peace=state.PeaceOffers.LastOrDefault(o=>o.From==f.Id||o.To==f.Id);
@@ -43,8 +43,8 @@ public sealed partial class MainWindow
             var pending = state.Demands.LastOrDefault(d => d.To == f.Id && d.Status == DemandStatus.Pending);
             var reply = state.Demands.LastOrDefault(d => d.To == f.Id && d.Status != DemandStatus.Pending);
             Ui.Gap(p, 8);
-            if (pending != null) p.Children.Add(Ui.Label($"W DRODZE · {DiplomaticCouncil.DemandName(pending.Kind)}\nOdpowiedź w turze {pending.DueTurn}.", 12, Ui.Gold));
-            if (reply != null) p.Children.Add(Ui.Label($"T{reply.ResolvedTurn} · {reply.Reply}", 12, Ui.Muted, true));
+            if (pending != null) p.Children.Add(Ui.Label($"W DRODZE · {DiplomaticCouncil.DemandName(pending.Kind)}\nOdpowiedź w {CampaignCalendar.At(state, pending.DueTurn)}.", 12, Ui.Gold));
+            if (reply != null) p.Children.Add(Ui.Label($"{CampaignCalendar.At(state, reply.ResolvedTurn)} · {reply.Reply}", 12, Ui.Muted, true));
             else p.Children.Add(Ui.Label(r.War ? "„Słowa mają wagę, ale teraz przemawiają armie.”" : r.Trust >= 20 ? "„Dotrzymane słowo otwiera więcej bram niż miecz.”" : "„Rada wysłucha waszych posłów. Nie obiecujemy zgody.”", 12, Ui.Muted, true));
             Ui.Gap(p, 12);
             if (!state.Cities.Any(c => c.Owner == f.Id)) p.Children.Add(Ui.Label("Państwo utraciło swoje miasta.", 12, Ui.Red));
@@ -57,9 +57,9 @@ public sealed partial class MainWindow
                 p.Children.Add(Ui.Button("Rozważ wypowiedzenie wojny…", () => ConfirmWar(f)));
             }
             else p.Children.Add(Ui.Button("Negocjuj pokój: "+f.Name,()=>ShowPeaceConference(f)));
-            if (r.TruceUntil > state.Turn) p.Children.Add(Ui.Label($"Pakt / rozejm do tury {r.TruceUntil}.", 11, Ui.Gold));
+            if (r.TruceUntil > state.Turn) p.Children.Add(Ui.Label($"Pakt / rozejm do {CampaignCalendar.At(state, r.TruceUntil)}.", 11, Ui.Gold));
             int until=TransitCouncil.Until(state,f.Id);
-            if(until>0)p.Children.Add(Ui.Label(until>state.Turn?$"Zgoda na przejazd ładunków Marchii: do początku T{until}. Wojna i embargo mają pierwszeństwo.":$"Zgoda na przejazd wygasła w T{until}.",12,until>state.Turn?Ui.Green:Ui.Muted));
+            if(until>0)p.Children.Add(Ui.Label(until>state.Turn?$"Zgoda na przejazd ładunków Marchii: do początku {CampaignCalendar.At(state, until)}. Wojna i embargo mają pierwszeństwo.":$"Zgoda na przejazd wygasła w {CampaignCalendar.At(state, until)}.",12,until>state.Turn?Ui.Green:Ui.Muted));
             side.Children.Add(Ui.Card(p));
         }
     }

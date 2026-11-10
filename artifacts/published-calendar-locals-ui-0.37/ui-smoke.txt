@@ -1,0 +1,19 @@
+PASS The actual desktop starts with the selected renderer
+PASS The province screen provides the new council entry point
+PASS Three local constituencies expose their real support
+PASS The council explains delivery costs and political failure before signing
+PASS The actual dialogue exposes the food conditions and final signature
+PASS Leaving the conversation preserves money politics and chronology
+PASS The actual signing button starts the mandate and pays once
+PASS Competing groups react immediately to the decision
+PASS The signed decision is shown with its captured historical year
+PASS An ordinary economic turn fulfils and funds the first phase
+PASS Desktop reload preserves exact calendar support and paid phase evidence
+PASS Six actual economic phases establish the permanent food charter
+PASS The final council ledger explains the durable outcome
+PASS The delivered charter affects city yields and political loyalty
+PASS The actual chronicle dates the original decision by its recorded year
+PASS The chronicle contains no abbreviated turn labels
+PASS All local choices and the exit remain reachable in a compact window
+PASS Leaving the council returns to the selected province
+18 calendar and local council desktop integration checks passed.

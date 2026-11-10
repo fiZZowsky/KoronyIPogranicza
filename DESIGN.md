@@ -1,4 +1,26 @@
-﻿# Korony i Pogranicza — kierunek projektu
+# Korony i Pogranicza — kierunek projektu
+
+## Lata, żywy świat i polityka prowincji — 0.37
+
+Kronika, decyzje rady, raporty szpiegów, wojny, pożyczki, traktaty i terminy pokazują **lata p.n.e./n.e.** zamiast kodów T2/T5. Kampania utrwala rok każdej odwiedzonej fazy; późniejsze odkrycia nie przepisują dawnych dat. Daty przyszłe i brakujące daty sprzed formatu v27 mają oznaczenie **„ok.”**. Długość działań nadal wyrażamy w rozliczeniach/turach: tempo upływu lat zmienia się wraz z historią. Nowy zapis przechowuje kalendarz; przy wczytaniu starszej kampanii nie dopisujemy zmyślonych dokładnych dat. Przeliczane są również dawne kody T w tekstach kroniki i zachowanych raportach.
+
+**Ludność → Zarządzaj miastem → Rada i stronnictwa prowincji** otwiera rozmowy z rodzinami, cechami i miejscowymi rodami. Trzy umowy wspierają żywność, rzemiosło lub szkoły. Podpis kosztuje 30 złota i zmienia poparcie konkurujących grup. Stawka wykonania wynosi 3 + indeks epoki + ludność/3 (dzielenie całkowite) i jest utrwalana przy podpisie. Przez sześć rozliczeń potrzebujesz czterech udanych; płacisz wyłącznie za wykonane. Żywność wymaga zapasu ≥12 i braku głodu; rzemiosło czynnego warsztatu, niewstrzymanej produkcji i niepokojów <40; szkoły czynnej biblioteki i niepokojów <40. Sukces ustanawia trwałą kartę: +2 odpowiednio żywności, produkcji lub nauki przed zwykłymi modyfikatorami gospodarki. Karty nie powielają się. Rada zbiera się ponownie dziesięć rozliczeń po podpisie.
+
+Dotrzymanie umowy daje grupie +12 poparcia i miastu +5 lojalności. Porażka: -18 poparcia grupy, +8 niepokojów, -8 lojalności. Łączne poparcie stronnictw wpływa na cel lojalności. Rejestr pokazuje wykonanie, wpłaty, datę podpisu i wynik. AI zaczyna zawierać lokalne umowy po otwarciu tego systemu przez gracza, uwzględniając środki i infrastrukturę. Zmiana właściciela rozwiązuje koalicję i jej karty; zdobywca nie przejmuje niezrealizowanych obietnic.
+
+**Oprawa:** ciągłe wygładzane przekroje tułowia i głowy postaci oraz tułowia, szyi i głowy koni; zwężane kończyny i uszy, szczegóły dłoni oraz twarzy. Nowy atlas skóry, krótkiej sierści, płótna i skóry wyprawionej ma współrzędne UV związane z powierzchnią modeli. Zboże zasobów i farm korzysta z teksturowanych kęp z kłosami, liśćmi i rzeczywistą przezroczystością, poruszanych wiatrem w GPU. Alfa wycina również cień kępy.
+
+**Wydajność:** wspólne tekstury wczytywane raz, grupowanie przestrzenne, pomijanie geometrii poza kadrem i dwa wzajemnie wykluczające się poziomy szczegółowości ludzi oraz koni. Bliskie modele mają gęstsze przekroje; dalekie zachowują sylwetkę mniejszym kosztem. WPF wyświetla tylko jedną, szczegółową wersję. Zachowano adaptacyjną rozdzielczość i limit klatek. To nadal proceduralne modele strategii, nie skanowane postacie ani ukończona oprawa fotorealistyczna; nie dodano animacji szkieletowych.
+
+Format **v27** odczytuje v1–v26. Nadpisanie starszego zapisu tworzy dokładną kopię `.vN.bak`. Wydanie 0.37 ma osobny katalog; poprzednie instalacje i archiwa pozostają dostępne. Szczegóły sprawdzeń: `VERIFICATION.md` w katalogu wydania.
+
+Implementacja: CampaignCalendar przechowuje rzadki słownik rozliczenie→rok; Log i EndTurn utrwalają daty, odczyt UI nie zmienia symulacji. Bieżący format nie uzupełnia brakujących dat przy samym wczytaniu, dzięki czemu round trip jest identyczny także w przygotowanych scenariuszach. Migracja starych formatów zapisuje tylko znany rok wczytania, dawne dane pozostają szacunkowe. Zmiana epoki wpływa na nową fazę, nie zamrożoną datę trwającej fazy.
+
+LocalCouncils.Tick działa po gospodarce, przed ProvincialPolitics.Tick. Każde miasto ma własny rejestr; kolejność Id ustala kolejność wydatków ze wspólnego skarbu. LastPhaseTurn chroni przed ponownym pobraniem opłaty. Błędne dowody wpłat, zakresy poparcia i stany koalicji są odrzucane. Bonus kart wchodzi do BeforeCorruption; wpływ poparcia jest częścią docelowej lojalności. Podpis jest blokowany podczas nierozpatrzonego dialogu i po zakończeniu gry. Transfer używa wspólnej ścieżki zmiany suwerenności i resetuje cały LocalCouncil.
+
+OrganicGeometry interpoluje przekroje Catmulla-Roma; normalne wynikają z pochodnych powierzchni. Sphere i Tube mają lokalne UV i wygładzone normalne. SceneBatch tworzy pary organic-near/organic-far; SpatialRendering wybiera jedną wersję w każdej komórce, próg 18 jednostek od kamery. WPF filtruje far. HLSL t11 wiąże atlas organiczny, t12 pszenicę; to współdzielone zasoby, nie tekstury na pojedyncze obiekty. Materiały są albedo z proceduralną mikronormalną i parametrami szorstkości; nie ma nowych skanowanych siatek ani pełnego zestawu map PBR z zewnętrznego źródła.
+
+Atlas organiczny zachowuje pochodne współrzędnych przed `frac` przy `SampleGrad`, aby wybór mipmapy na szwie powtórzenia nie pobierał sąsiednich ćwiartek. Pszenica trafia do GPU z premultiplikowaną alfą, ma generowane mipmapy z wagą pokrycia i odtwarza kolor po próbkowaniu; niewidoczne barwy otoczenia nie zanieczyszczają pomniejszonych kłosów. Oryginalny plik PNG i jego alfa pozostają bez zmian.
 
 ## Traktaty i rzeczywiste zabezpieczenia — 0.36
 

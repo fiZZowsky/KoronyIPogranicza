@@ -10,11 +10,11 @@ public sealed partial class MainWindow
             Ui.Label(host.Leader+": „Przejazd kupców to sprawa zaufania i dochodów naszej rady. Wasze sztandary pozostaną przed bramą.”",14,Ui.Gold,true),
             Ui.Label("Zgoda obejmuje przez 12 tur wszystkie importy i eksporty Marchii przez ziemie tego państwa, również już wysłane ładunki i rozwiązane kontrakty. Zastępuje wymóg jego traktatów z obiema stronami transportu. Nie zastępuje traktatu kupującego ze sprzedawcą, nie otwiera drogi armii, nie omija wojny z żadną ze stron ani embarga. Każde kolejne państwo na trasie wymaga osobnej zgody.",13,Ui.Muted));
         int until=TransitCouncil.Until(state,host.Id);
-        if(until>0)p.Children.Add(Ui.Label(until>state.Turn?$"ZGODA OBOWIĄZUJE DO POCZĄTKU T{until} · pozostało {until-state.Turn} tur":$"POPRZEDNIA ZGODA WYGASŁA W T{until}",14,Ui.Gold,true));
+        if(until>0)p.Children.Add(Ui.Label(until>state.Turn?$"ZGODA OBOWIĄZUJE DO POCZĄTKU {CampaignCalendar.At(state, until)} · pozostało {until-state.Turn} tur":$"POPRZEDNIA ZGODA WYGASŁA W {CampaignCalendar.At(state, until)}",14,Ui.Gold,true));
         var pending=state.Demands.LastOrDefault(d=>d.To==host.Id&&d.Status==DemandStatus.Pending);
-        if(pending!=null)p.Children.Add(Ui.Label($"Posłowie już w drodze: {DiplomaticCouncil.DemandName(pending.Kind)}. Odpowiedź T{pending.DueTurn}.",13,Ui.Gold));
+        if(pending!=null)p.Children.Add(Ui.Label($"Posłowie już w drodze: {DiplomaticCouncil.DemandName(pending.Kind)}. Odpowiedź {CampaignCalendar.At(state, pending.DueTurn)}.",13,Ui.Gold));
         var reply=state.Demands.LastOrDefault(d=>d.To==host.Id&&TransitCouncil.IsRequest(d.Kind)&&d.Status!=DemandStatus.Pending);
-        if(reply!=null)p.Children.Add(Ui.Label($"T{reply.ResolvedTurn} · {reply.Reply}",13,Ui.Muted,true));
+        if(reply!=null)p.Children.Add(Ui.Label($"{CampaignCalendar.At(state, reply.ResolvedTurn)} · {reply.Reply}",13,Ui.Muted,true));
         var affected=state.Caravans.Where(Caravans.Active).Where(c=>
             TransitCouncil.ClosedBorders(state,state.TradeContracts.First(t=>t.Id==c.ContractId),c.Tile,EscortOrders.Attached(state,c)).Contains(host.Id)).ToArray();
         if(affected.Length>0)p.Children.Add(Ui.Label("Na potencjalnym korytarzu czekają: "+string.Join(", ",affected.Select(c=>$"karawana #{c.Id} (postój {c.BlockedTurns}/3)"))+". Poselstwo nie zatrzymuje licznika postoju.",13,Ui.Red));
@@ -52,7 +52,7 @@ public sealed partial class MainWindow
         {
             int until=TransitCouncil.Until(state,host);
             bool treaties=state.Relation(host,contract.Buyer).Trade&&state.Relation(host,contract.Seller).Trade;
-            p.Children.Add(Ui.Label(state.Factions[host].Name+(treaties?": przejazd dzięki traktatom z obiema stronami.":$": zgoda do początku T{until}; pozostało {until-state.Turn} tur."),14,Ui.Gold));
+            p.Children.Add(Ui.Label(state.Factions[host].Name+(treaties?": przejazd dzięki traktatom z obiema stronami.":$": zgoda do początku {CampaignCalendar.At(state, until)}; pozostało {until-state.Turn} tur."),14,Ui.Gold));
         }
         p.Children.Add(Ui.Label("Raport zamkniętych granic wskazuje państwa na jednym możliwym bezpiecznym korytarzu. Może być potrzebnych kilka zgód. Nie obiecuje dostawy po podpisaniu: terminy, embargo, wojska i granice są sprawdzane przy każdej fazie. Oczekujące karawany przepadają przy trzecim kolejnym postoju; dwie tury podróży posłów mogą minąć zbyt późno. Zgoda na tranzyt nie zezwala na przemarsz eskorty.",13,Ui.Muted));
         p.Children.Add(Ui.Button("Wróć do mapy",CloseModal));Modal(p,810);

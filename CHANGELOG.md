@@ -1,4 +1,13 @@
-﻿# Zmiany
+# Zmiany
+
+## 0.37 — 2026-11-10 · Lata, żywy świat i rady prowincji
+
+- Lata p.n.e./n.e. w kronice, radzie, raportach i terminach zamiast kodów T2/T5; utrwalanie historycznych lat, jawne szacunki przyszłości oraz nieznanych dat starych zapisów.
+- Przebudowane ciągłe powierzchnie ludzi i koni, lokalne UV, wygładzone i zwężane kończyny, uszy oraz szczegóły dłoni i twarzy. Atlas skóry, sierści, tkaniny i skóry wyprawionej w GPU oraz WPF.
+- Teksturowane kępy pszenicy na zasobach i farmach, wycinanie alfa także w cieniach, ruch wiatru. Dwa poziomy szczegółowości ludzi i koni oraz współdzielone zasoby GPU.
+- Rady prowincji: trzy grupy poparcia, dialog i potwierdzany podpis, sześć rozliczeń umowy, rzeczywiste opłaty i warunki, trwałe karty żywności/rzemiosła/szkół oraz koszty polityczne niedotrzymania obietnic.
+- Cel lojalności zależny od miejscowej koalicji; umowy AI po otwarciu systemu, reset koalicji przy zmianie suwerenności. Osobny rejestr wykonania i wpłat.
+- Format v27, odczyt v1–v26 bez zmyślonych dawnych koalicji i dokładna kopia starszego pliku przy nadpisaniu. Osobny katalog wydania, zachowanie starych kampanii i archiwów.
 
 ## 0.36 — 2026-11-10 · Traktaty i zabezpieczone zobowiązania
 

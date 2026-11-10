@@ -1,4 +1,4 @@
-﻿cbuffer Frame : register(b0)
+cbuffer Frame : register(b0)
 {
     row_major float4x4 ViewProjection;
     row_major float4x4 LightProjection;
@@ -23,6 +23,8 @@ Texture2D Reflection : register(t7);
 Texture2D<float> Elevation : register(t8);
 Texture2D Civilization : register(t9);
 Texture2D Facades : register(t10);
+Texture2D Organic : register(t11);
+Texture2D Wheat : register(t12);
 SamplerState TextureSampler : register(s0);
 SamplerComparisonState ShadowSampler : register(s1);
 struct Vertex { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD; float4 color:COLOR; float4 surface:SURFACE; };
@@ -31,6 +33,7 @@ Pixel WorldVS(Vertex v)
 {
     if(v.surface.x>4.5&&v.surface.x<5.5)v.p.xz+=float2(sin(v.p.z*2+EyeTime.w*.7),cos(v.p.x*2+EyeTime.w*.6))*(.012+WeatherSettings.x*.008);
     if(v.surface.x>13.5&&v.surface.x<14.5)v.p.xz+=float2(sin(v.p.z*3+EyeTime.w*.9),cos(v.p.x*3+EyeTime.w*.8))*.005*saturate(v.uv.y)*saturate(v.uv.y);
+    if(v.surface.x>34.5&&v.surface.x<35.5)v.p.xz+=float2(sin(v.p.x*2.3+EyeTime.w*.8),cos(v.p.z*2.1+EyeTime.w*.7))*.014*pow(1-v.uv.y,2);
     Pixel o; o.world=v.p; o.n=v.n; o.uv=v.uv; o.color=v.color; o.surface=v.surface;
     o.p=mul(float4(v.p,1),ViewProjection);o.light=mul(float4(v.p,1),LightProjection);return o;
 }
@@ -40,6 +43,7 @@ Pixel ShadowVS(Vertex v)
 }
 void ShadowPS(Pixel p)
 {
+    if(p.surface.x>34.5&&p.surface.x<35.5)clip(Wheat.Sample(TextureSampler,p.uv).a-.38);
     if(p.surface.x>4.5 && p.surface.x<5.5)clip((p.surface.w>.5?Pine.Sample(TextureSampler,p.uv).a:Foliage.Sample(TextureSampler,p.uv).a)-.44);
 }
 float Hash(float2 p){return frac(sin(dot(p,float2(127.1,311.7)))*43758.5453);}
@@ -113,7 +117,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
 {
     float kind=p.surface.x,rough=p.surface.y,metal=p.surface.z;
     if(Settings.w>.5&&Settings.w<1.5)clip(p.world.y-.055);
-    float3 n=normalize(p.n);if(!front && ((kind>4.5 && kind<5.5)||(kind>13.5&&kind<14.5)||(kind>19.5&&kind<20.5)))n=-n;float3 v=normalize(EyeTime.xyz-p.world),sun=normalize(SunExposure.xyz);
+    float3 n=normalize(p.n);if(!front && ((kind>4.5 && kind<5.5)||(kind>13.5&&kind<14.5)||(kind>19.5&&kind<20.5)||(kind>34.5&&kind<35.5)))n=-n;float3 v=normalize(EyeTime.xyz-p.world),sun=normalize(SunExposure.xyz);
     if(kind>11.5&&kind<13.5)
     {
         float2 uv=p.uv*2-1;float opacity;
@@ -245,6 +249,25 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         n=ReliefNormal(p.world,n,dot(facade,float3(.299,.587,.114)),.0015*Settings.y);
         albedo*=1-SeasonPalette.z*.1;
     }
+    if(kind>30.5&&kind<34.5)
+    {
+        float index=kind-31;float2 quadrant=float2(fmod(index,2),floor(index/2));
+        float2 tiled=p.uv*float2(2,3);float2 uv=(quadrant+.008+frac(tiled)*.984)*.5;
+        // Preserve the unwrapped derivatives: frac seams must not sample other atlas quadrants.
+        float3 sample=Organic.SampleGrad(TextureSampler,uv,ddx(tiled)*.492,ddy(tiled)*.492).rgb;
+        float luminance=dot(sample,float3(.299,.587,.114));
+        if(kind>32.5&&kind<33.5)sample=lerp(sample,luminance.xxx,.7)*(.55+p.color.rgb*.7);
+        if(kind>31.5&&kind<32.5){float pale=saturate((p.color.g-.48)*4);sample=lerp(lerp(sample,luminance.xxx,.25),luminance.xxx*1.35,pale);}
+        if(kind>33.5)sample*=.3+p.color.rgb*.65;
+        albedo=Decode(sample);rough=kind<31.5?.58:kind<32.5?.78:kind<33.5?.94:.63;
+        n=ReliefNormal(p.world,n,Noise(p.world.xy*100+p.world.z*17),.00005*Settings.y);
+    }
+    if(kind>34.5&&kind<35.5)
+    {
+        float4 wheat=Wheat.Sample(TextureSampler,p.uv);clip(wheat.a-.38);alpha=1;
+        albedo=Decode(wheat.rgb/max(wheat.a,.001));rough=.92;
+        albedo=lerp(albedo,Decode(float3(.79,.83,.84)),SeasonPalette.x*.35);
+    }
     float visibility=Visibility(p,n);
     if(kind>.5&&kind<1.5)
     {
@@ -290,7 +313,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     float3 color=direct+albedo*ambient*ao;
     if(metal>.1)color+=Sky(reflect(-v,n))*lerp(.04.xxx,albedo,metal)*(.38*(1-rough*.65));
     if(kind>19.5&&kind<20.5)color+=albedo*pow(saturate(dot(-v,sun)),3)*.10;
-    if(kind>4.5&&kind<5.5)color+=albedo*float3(.6,.62,.32)*pow(saturate(dot(-v,sun)),3)*.22;
+    if((kind>4.5&&kind<5.5)||(kind>34.5&&kind<35.5))color+=albedo*float3(.6,.62,.32)*pow(saturate(dot(-v,sun)),3)*.22;
     if(kind>6.5&&kind<7.5)color+=Sky(reflect(-v,n))*.34;
     float fog=1-exp(-length(EyeTime.xyz-p.world)*Settings.z*exp(-max(0,p.world.y)*.18));
     color=lerp(color,float3(.49,.59,.65),min(.7,fog));return float4(color,alpha);

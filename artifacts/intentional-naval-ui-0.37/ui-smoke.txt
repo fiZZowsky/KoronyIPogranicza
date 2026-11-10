@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional naval diagnostic failure.
+   at Crown.Desktop.MainWindow.NavalSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\NavalSmoke.cs:line 25

@@ -1,4 +1,4 @@
-﻿namespace Crown.Core;
+namespace Crown.Core;
 
 public static partial class Engine
 {
@@ -41,6 +41,7 @@ public static partial class Engine
             case "workshop":prod+=6;break;case "bank":gold+=9;break;case "university":science+=12;break;case "archive":culture+=10;science+=3;break;case "factory":prod+=14;break;case "parliament":culture+=12;break;
         }
         var development=Epochs.Bonus(s,c);food+=development.Food;prod+=development.Production;gold+=development.Gold;science+=development.Science;culture+=development.Culture;
+        var local=LocalCouncils.Bonus(c);food+=local.Food;prod+=local.Production;science+=local.Science;
         var districts=Districts.Yields(s,c);food+=districts.Food;prod+=districts.Production;gold+=districts.Gold;science+=districts.Science;culture+=districts.Culture;
         var legacy=EraEndeavours.Bonus(s,c);food+=legacy.Food;prod+=legacy.Production;gold+=legacy.Gold;science+=legacy.Science;culture+=legacy.Culture;
         culture+=Manufacturing.CultureBonus(c);
@@ -171,6 +172,7 @@ public static partial class Engine
         var completedProjects=new HashSet<int>();
         if(s.Ending!=null)return Result.Fail("Kampania dobiegła końca. Rozpocznij nową historię.");
         if(s.PendingEvent!=null)return Result.Fail("Najpierw odpowiedz na sprawę przedstawioną radzie.");
+        CampaignCalendar.Remember(s);
         WarCouncil.EnsureActive(s);
         s.InvalidateLogistics();
         Treaties.TickDiplomacy(s);
@@ -236,7 +238,7 @@ public static partial class Engine
         Treaties.EconomyPhase(s,treatyScience);
         EraEndeavours.Tick(s,powerPhase.Readings);
         FieldLogistics.Tick(s);
-        ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);Treaties.TickDiplomacy(s);
+        LocalCouncils.Tick(s);ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);Treaties.TickDiplomacy(s);
         AuditCouncil.Tick(s);
         EnergyCouncil.Observe(s,powerPhase.Readings);
         TreasuryLoans.Tick(s);
@@ -248,7 +250,7 @@ public static partial class Engine
         {
             var f=s.Factions[effect.Faction];f.Gold=Math.Max(0,f.Gold+effect.Gold);f.Stability+=effect.Stability;f.Commons+=effect.Commons;f.Nobles+=effect.Nobles;f.Scholars+=effect.Scholars;f.Prestige+=effect.Prestige;Clamp(f);s.Log(effect.Text,"konsekwencja");s.Deferred.Remove(effect);
         }
-        Epochs.Tick(s,powerPhase.Emissions);Explore(s);CheckEnding(s);if(s.Ending==null)Narrative.Schedule(s);return Result.Ok($"Początek tury {s.Turn}. {s.Season}.");
+        Epochs.Tick(s,powerPhase.Emissions);CampaignCalendar.Remember(s);Explore(s);CheckEnding(s);if(s.Ending==null)Narrative.Schedule(s);return Result.Ok($"Początek roku {CampaignCalendar.At(s,s.Turn)}. {s.Season}.");
     }
     private static void RunAi(GameState s,IReadOnlySet<int> completedProjects)
     {

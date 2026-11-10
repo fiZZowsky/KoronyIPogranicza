@@ -59,8 +59,8 @@ public static class EnergyCouncil
         var c = s.EnergyCases.FirstOrDefault(c => c.Id == s.PendingEnergyCaseId); if (c == null) return Event;
         var city = City(s, c); var last = c.Shortages[^1]; var choices = Event.Choices.ToArray();
         choices[0] = choices[0] with { Text = $"Przeznaczymy {c.ReliefCost} złota na pomoc rodzinom.", Gold = -c.ReliefCost };
-        choices[1] = choices[1] with { Text = $"Zapewnimy trzy kolejne fazy pełnego zasilania przed początkiem T{s.Turn + PromiseTurns}.",
-            Consequence = $"Liczą się wyłącznie przyszłe rozliczenia gospodarki od T{s.Turn} do T{s.Turn + PromiseTurns - 1}. Muszą działać wszystkie zakłady wskazane w protokole, a całe aktywne miasto potrzebuje 100% pokrycia. Wyłączenie tych zakładów nie spełnia obietnicy. " + SuccessEffects + " " + FailureEffects };
+        choices[1] = choices[1] with { Text = $"Zapewnimy trzy kolejne fazy pełnego zasilania przed początkiem {CampaignCalendar.At(s, s.Turn + PromiseTurns)}.",
+            Consequence = $"Liczą się wyłącznie przyszłe rozliczenia gospodarki od {CampaignCalendar.At(s, s.Turn)} do {CampaignCalendar.At(s, s.Turn + PromiseTurns - 1)}. Muszą działać wszystkie zakłady wskazane w protokole, a całe aktywne miasto potrzebuje 100% pokrycia. Wyłączenie tych zakładów nie spełnia obietnicy. " + SuccessEffects + " " + FailureEffects };
         return Event with { Title = Event.Title + " — " + city.Name,
             Body = $"W mieście {city.Name} przez trzy kolejne rozliczenia gospodarki pokrycie potrzeb wynosiło mniej niż 75%. Ostatni odczyt: {last.Allocated:0.##}/{last.Demand} mocy ({last.Coverage:P0}). Przestoje obciążają pracowników, naukę i miejskie usługi. Pomoc kosztuje {c.ReliefCost} złota według liczby mieszkańców w chwili zgłoszenia. Możemy złagodzić skutki, złożyć sprawdzalną obietnicę albo utrzymać podział bez gwarancji. Protokół obejmuje: " + string.Join(", ", last.Services.Select(id => Content.Project(id).Name)) + ".", Choices = choices };
     }

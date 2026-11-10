@@ -29,9 +29,9 @@ public static class CustodyCouncil
         var o = s.SpyOperations.FirstOrDefault(o => o.Id == s.PendingSpyOperationId); if (o == null) return Event;
         var agent = s.Spies.First(a => a.Id == o.AgentId); var partner = ExchangePartner(s, o);
         return Event with { Title = Event.Title + " — " + agent.Name,
-            Body = $"Zatrzymana osoba to {agent.Name} z państwa {s.Factions[o.Owner].Name}. Do schwytania doszło w T{o.ResolvedTurn} podczas operacji „{Espionage.Name(o.Mission)}” w mieście {s.Cities.First(c => c.Id == o.CityId).Name}. " +
+            Body = $"Zatrzymana osoba to {agent.Name} z państwa {s.Factions[o.Owner].Name}. Do schwytania doszło w {CampaignCalendar.At(s, o.ResolvedTurn)} podczas operacji „{Espionage.Name(o.Mission)}” w mieście {s.Cities.First(c => c.Id == o.CityId).Name}. " +
                 $"Obcy skarb ma teraz {s.Factions[o.Owner].Gold:0.##} złota. " + (partner == null ? "Nie mają naszego człowieka do wymiany. " : $"Możemy odzyskać agenta {s.Spies.First(a => a.Id == partner.AgentId).Name} (sprawa #{partner.Id}). ") +
-                $"Okup daje środki, wymiana ratuje własnego człowieka, a gest dobrej woli pomaga rozmowom. Internowanie zwiąże miejsce w obcej służbie do początku T{s.Turn + InternmentTurns}, kosztem zaufania. Żadna decyzja nie cofnie skutków wykrycia." };
+                $"Okup daje środki, wymiana ratuje własnego człowieka, a gest dobrej woli pomaga rozmowom. Internowanie zwiąże miejsce w obcej służbie do początku {CampaignCalendar.At(s, s.Turn + InternmentTurns)}, kosztem zaufania. Żadna decyzja nie cofnie skutków wykrycia." };
     }
     public static bool Schedule(GameState s)
     {
@@ -59,12 +59,12 @@ public static class CustodyCouncil
         else if (choice == 2)
         {
             Free(s, o, Released); ChangeTrust(s, o.Owner, 12);
-            o.Report += $" W T{s.Turn} rada zwolniła agenta z listem pojednania; zaufanie +12.";
+            o.Report += $" W {CampaignCalendar.At(s, s.Turn)} rada zwolniła agenta z listem pojednania; zaufanie +12.";
         }
         else
         {
             o.InternedUntil = s.Turn + InternmentTurns; ChangeTrust(s, o.Owner, -8);
-            o.Report += $" W T{s.Turn} rada postanowiła internować agenta do początku T{o.InternedUntil}; zaufanie -8.";
+            o.Report += $" W {CampaignCalendar.At(s, s.Turn)} rada postanowiła internować agenta do początku {CampaignCalendar.At(s, o.InternedUntil)}; zaufanie -8.";
         }
     }
     internal static void Exchange(GameState s, SpyOperation foreign, SpyOperation own)
@@ -72,8 +72,8 @@ public static class CustodyCouncil
         foreign.CustodyChoice = CustodyDecision.Exchange; foreign.CustodyTurn = s.Turn;
         foreign.ExchangeOperationId = own.Id; own.ExchangeOperationId = foreign.Id;
         Free(s, foreign, Exchanged); Free(s, own, Exchanged);
-        foreign.Report += $" W T{s.Turn} wymieniono agenta za jeńca ze sprawy #{own.Id}, bez opłaty.";
-        own.Report += $" W T{s.Turn} agent wrócił w wymianie za jeńca ze sprawy #{foreign.Id}, bez opłaty.";
+        foreign.Report += $" W {CampaignCalendar.At(s, s.Turn)} wymieniono agenta za jeńca ze sprawy #{own.Id}, bez opłaty.";
+        own.Report += $" W {CampaignCalendar.At(s, s.Turn)} agent wrócił w wymianie za jeńca ze sprawy #{foreign.Id}, bez opłaty.";
     }
     private static void Free(GameState s, SpyOperation o, int result)
     { o.CaptureChoice = result; o.CaptureDecisionTurn = s.Turn; s.Spies.First(a => a.Id == o.AgentId).Status = SpyStatus.Available; }
@@ -83,7 +83,7 @@ public static class CustodyCouncil
     {
         foreach (var o in s.SpyOperations.Where(o => o.CustodyChoice == CustodyDecision.Intern && o.CaptureChoice == null && o.InternedUntil <= s.Turn).OrderBy(o => o.Id))
         {
-            Free(s, o, InternmentEnded); o.Report += $" W T{s.Turn} internowanie zakończono; agent wrócił do służby.";
+            Free(s, o, InternmentEnded); o.Report += $" W {CampaignCalendar.At(s, s.Turn)} internowanie zakończono; agent wrócił do służby.";
             s.Log($"Internowanie: {s.Spies.First(a => a.Id == o.AgentId).Name} wrócił do państwa {s.Factions[o.Owner].Name}. Sprawa #{o.Id} zakończona.", "wywiad");
         }
     }

@@ -15,12 +15,12 @@ public sealed partial class MainWindow
         foreach(var c in cases)
         {
             var city=TradeCouncil.City(state,c);var source=TradeCouncil.Source(state,c);var t=TradeCouncil.Contract(state,c);
-            var q=Ui.Stack(Ui.Eyebrow($"KARAWANA #{c.CaravanId} · SPRAWA OD T{c.OpenedTurn}"),Ui.Label(city.Name,23,Ui.Text,true),
+            var q=Ui.Stack(Ui.Eyebrow($"KARAWANA #{c.CaravanId} · SPRAWA OD {CampaignCalendar.At(state, c.OpenedTurn)}"),Ui.Label(city.Name,23,Ui.Text,true),
                 Ui.Label(TradeCouncil.StatusName(c.Status),16,c.Status==TradeCaseStatus.Broken?Ui.Red:Ui.Gold),
                 Ui.Label($"Utracono {source.Quantity:0.##}: {Markets.Name(t.Good)} · zapłacono {source.Payment:0.00} złota",13,Ui.Muted));
             if(c.Decision==1)
             {
-                double progress=TradeCouncil.Progress(state,c);Ui.Bar(q,$"Dostarczono {progress:0.##}/{source.Quantity:0.##} · termin: faza rynku T{c.DeadlineTurn}",progress,source.Quantity,c.Status==TradeCaseStatus.Broken?Ui.Red:Ui.Green);
+                double progress=TradeCouncil.Progress(state,c);Ui.Bar(q,$"Dostarczono {progress:0.##}/{source.Quantity:0.##} · termin: faza rynku {CampaignCalendar.At(state, c.DeadlineTurn)}",progress,source.Quantity,c.Status==TradeCaseStatus.Broken?Ui.Red:Ui.Green);
                 q.Children.Add(Ui.Label("Liczą się zagraniczne przyjazdy po decyzji, także wcześniej wysłanych karawan.\n"+TradeCouncil.SuccessEffects+"\n"+TradeCouncil.FailureEffects,12,Ui.Muted));
                 if(c.CreditedCaravans.Count>0)q.Children.Add(Ui.Label("Rozliczone manifesty: "+string.Join(", ",c.CreditedCaravans.Select(id=>"#"+id)),12,Ui.Gold));
             }

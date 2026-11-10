@@ -1,16 +1,17 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace Crown.Desktop;
 
-internal sealed class SceneMesh
+internal sealed partial class SceneMesh
 {
     private readonly MeshGeometry3D mesh = new();
     private readonly double uvX, uvZ;
     internal Point3D ScaleOrigin;
     internal double ModelScale = 1;
     internal double ModelYaw;
+    internal bool Simplified;
     internal int TileId=-1;
     internal readonly List<int> TileIds=[];
     public SceneMesh(double uvX = .36, double uvZ = .36) { this.uvX = uvX; this.uvZ = uvZ; }
@@ -89,12 +90,15 @@ internal sealed class SceneMesh
     }
     public void Sphere(double x, double y, double z, double rx, double ry, double rz, int sides = 10, int rings = 6)
     {
+        if(Simplified){sides=Math.Min(sides,8);rings=Math.Min(rings,4);}
         Point3D P(int i, int j) { double a = i * Math.PI / rings, b = j * Math.PI * 2 / sides; return new(x + Math.Sin(a) * Math.Cos(b) * rx, y + Math.Cos(a) * ry, z + Math.Sin(a) * Math.Sin(b) * rz); }
         Vector3D N(Point3D p) { var n = new Vector3D((p.X - x) / (rx * rx), (p.Y - y) / (ry * ry), (p.Z - z) / (rz * rz)); n.Normalize(); return n; }
+        Point UV(Point3D p)=>new(.5+Math.Atan2((p.Z-z)/rz,(p.X-x)/rx)/(2*Math.PI),Math.Acos(Math.Clamp((p.Y-y)/ry,-1,1))/Math.PI);
         void Smooth(Point3D a, Point3D b, Point3D c)
         {
             if (Vector3D.DotProduct(Vector3D.CrossProduct(b - a, c - a), a - new Point3D(x, y, z)) < 0) (b, c) = (c, b);
-            Triangle(a, b, c, N(a), N(b), N(c));
+            var ua=UV(a);var ub=UV(b);var uc=UV(c);if(Math.Max(ua.X,Math.Max(ub.X,uc.X))-Math.Min(ua.X,Math.Min(ub.X,uc.X))>.5){if(ua.X<.5)ua.X+=1;if(ub.X<.5)ub.X+=1;if(uc.X<.5)uc.X+=1;}
+            Triangle(a, b, c, N(a), N(b), N(c),ua,ub,uc);
         }
         for (int i = 0; i < rings; i++) for (int j = 0; j < sides; j++)
         {
@@ -125,15 +129,19 @@ internal sealed class SceneMesh
             Tri(new(x,y+last.Height,z+last.OffsetZ),P(sections.Length-1,side),P(sections.Length-1,(side+1)%sides),new(0,1,0),new(0,1,0),new(0,1,0));
         }
     }
-    public void Tube(Point3D start, Point3D end, double radius, int sides = 8)
+    public void Tube(Point3D start, Point3D end, double radius, int sides = 8,double endRadius=-1)
     {
-        var direction = end - start; if (direction.LengthSquared < 1e-12) return; direction.Normalize();
+        if(Simplified)sides=Math.Min(sides,6);
+        var direction = end - start; if (direction.LengthSquared < 1e-12) return; double length=direction.Length;if(endRadius<0)endRadius=radius;double ratio=endRadius/radius,slope=(endRadius-radius)/length;direction.Normalize();
         var u = Vector3D.CrossProduct(direction, Math.Abs(direction.Y) > .9 ? new(1, 0, 0) : new(0, 1, 0)); u.Normalize(); var v = Vector3D.CrossProduct(direction, u);
         for (int i = 0; i < sides; i++)
         {
             double a = i * Math.PI * 2 / sides, b = (i + 1) * Math.PI * 2 / sides;
             var p = (u * Math.Cos(a) + v * Math.Sin(a)) * radius; var q = (u * Math.Cos(b) + v * Math.Sin(b)) * radius;
-            Quad(start + p, start + q, end + q, end + p, p + q); Triangle(end, end + p, end + q);
+            var np=p/radius-direction*slope;np.Normalize();var nq=q/radius-direction*slope;nq.Normalize();
+            Triangle(start+p,start+q,end+q*ratio,np,nq,nq,new(i/(double)sides,0),new((i+1d)/sides,0),new((i+1d)/sides,1));
+            Triangle(start+p,end+q*ratio,end+p*ratio,np,nq,np,new(i/(double)sides,0),new((i+1d)/sides,1),new(i/(double)sides,1));
+            Triangle(end,end+p*ratio,end+q*ratio);
         }
     }
     public MeshGeometry3D Freeze() { mesh.Freeze(); return mesh; }
@@ -142,6 +150,12 @@ internal sealed class SceneMesh
 internal sealed class SceneBatch
 {
     private Point3D scaleOrigin;
+    private string modelPrefix="";
+    internal void Organic(Action build)
+    {
+        string previous=modelPrefix;
+        try{modelPrefix="organic-near-";build();modelPrefix="organic-far-";build();}finally{modelPrefix=previous;}
+    }
     private double modelScale=1;
     private double modelYaw;
     internal int TileId=-1;
@@ -155,21 +169,23 @@ internal sealed class SceneBatch
         var previous=scaleOrigin;double previousYaw=modelYaw;scaleOrigin=origin;modelYaw=radians;
         try{build();}finally{scaleOrigin=previous;modelYaw=previousYaw;}
     }
-    private SceneMesh Configure(SceneMesh mesh){mesh.ScaleOrigin=scaleOrigin;mesh.ModelScale=modelScale;mesh.ModelYaw=modelYaw;mesh.TileId=TileId;return mesh;}
+    private SceneMesh Configure(SceneMesh mesh){mesh.ScaleOrigin=scaleOrigin;mesh.ModelScale=modelScale;mesh.ModelYaw=modelYaw;mesh.TileId=TileId;mesh.Simplified=modelPrefix=="organic-far-";return mesh;}
     private readonly Dictionary<string, SceneMesh> meshes = [];
     private readonly Dictionary<string, Material> materials = [];
+    private readonly Dictionary<string,string> tintColors=[];
     private readonly Dictionary<string, int> chunks = [];
     private string Slot(string key)
     {
         int chunk = chunks.GetValueOrDefault(key); string slot = key + ":" + chunk;
-        if (meshes.TryGetValue(slot, out var m) && m.Triangles >= 5500) { chunks[key] = ++chunk; slot = key + ":" + chunk; }
+        if (meshes.TryGetValue(slot, out var m) && m.Triangles >= (key.StartsWith("organic-")?1800:5500)) { chunks[key] = ++chunk; slot = key + ":" + chunk; }
         return slot;
     }
     public SceneMesh Mesh(string key, string color, bool emissive = false)
     {
-        key = Slot(key);
+        key = Slot(modelPrefix+key);tintColors[key]=color;
         if (meshes.TryGetValue(key, out var existing)) return Configure(existing);
-        Brush brush = key.StartsWith("era-facade-")&&key.Length>11&&key[11] is >='0' and <='3'?ArchitectureMaterials.Facade(key[11]-'0'):Ui.Brush(color); Material m = emissive ? new EmissiveMaterial(brush) : new DiffuseMaterial(brush); m.Freeze(); materials[key] = m;
+        string organicKey=key.StartsWith("organic-near-")?key[13..]:key.StartsWith("organic-far-")?key[12..]:key;int organicIndex=OrganicMaterials.Index(organicKey);
+        Brush brush = organicKey.StartsWith("wheat-tuft")?OrganicMaterials.Wheat:organicIndex>=0?OrganicMaterials.Material(organicIndex):key.StartsWith("era-facade-")&&key.Length>11&&key[11] is >='0' and <='3'?ArchitectureMaterials.Facade(key[11]-'0'):Ui.Brush(color); Material m = emissive ? new EmissiveMaterial(brush) : new DiffuseMaterial(brush); m.Freeze(); materials[key] = m;
         var result = new SceneMesh(); meshes[key] = result; return Configure(result);
     }
     public SceneMesh Terrain(Crown.Core.Terrain terrain, bool remembered)
@@ -210,8 +226,9 @@ internal sealed class SceneBatch
         foreach (var pair in meshes.Where(p => p.Value.Triangles != 0))
         {
             var model = new GeometryModel3D(pair.Value.Freeze(), materials[pair.Key]);
+            if(tintColors.TryGetValue(pair.Key,out var tint))model.SetValue(SceneSurface.TintProperty,tint);
             model.SetValue(SceneSurface.KeyProperty, pair.Key);model.SetValue(SceneSurface.TileIdsProperty,pair.Value.TileIds.ToArray());
-            if(pair.Key.Contains("foliage")||pair.Key.Contains("sail-cloth")||pair.Key.Contains("loom-cloth"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
+            if(pair.Key.Contains("wheat-tuft")||pair.Key.Contains("foliage")||pair.Key.Contains("sail-cloth")||pair.Key.Contains("loom-cloth"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
         }
         group.Freeze(); return group;
     }

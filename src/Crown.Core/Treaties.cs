@@ -1,4 +1,4 @@
-﻿namespace Crown.Core;
+namespace Crown.Core;
 
 public enum TreatyKind { Research, PeaceGuarantee }
 public enum TreatyStatus { Travelling, AwaitingPlayer, Active, Rejected, Expired, Completed, Broken, Cancelled }
@@ -72,7 +72,7 @@ public static class Treaties
         if(OfferError(s,owner,other,kind,duration) is{} error)return Result.Fail(error);
         s.Factions[owner].Gold-=EmbassyFee;var t=new BilateralTreaty{Id=s.NextTreatyId++,From=owner,To=other,Kind=kind,Duration=duration,SentTurn=s.Turn,DueTurn=s.Turn+2,DeadlineTurn=s.Turn+6,Report="Posłowie w drodze. Depozyty nie zostały jeszcze pobrane."};s.Treaties.Add(t);
         if(owner==0)s.Relation(owner,other).LastActionTurn=s.Turn;
-        s.Log($"Propozycja #{t.Id}: {Name(kind)}, {s.Factions[owner].Name} → {s.Factions[other].Name}, {duration} tur. Poselstwo {EmbassyFee} złota; odpowiedź T{t.DueTurn}, podpis najpóźniej przed T{t.DeadlineTurn}.","traktaty");
+        s.Log($"Propozycja #{t.Id}: {Name(kind)}, {s.Factions[owner].Name} → {s.Factions[other].Name}, {duration} tur. Poselstwo {EmbassyFee} złota; odpowiedź {CampaignCalendar.At(s, t.DueTurn)}, podpis najpóźniej przed {CampaignCalendar.At(s, t.DeadlineTurn)}.","traktaty");
         return Result.Ok("Wysłano propozycję. Depozyty będą pobrane dopiero przy obustronnej ratyfikacji.");
     }
     public static string? RatifyError(GameState s,BilateralTreaty t)
@@ -91,7 +91,7 @@ public static class Treaties
     {
         var t=s.Treaties.FirstOrDefault(t=>t.Id==id);if(t==null)return Result.Fail("Brak propozycji.");if(RatifyError(s,t) is{} error)return Result.Fail(error);
         int bond=Bond(t.Kind);s.Factions[t.From].Gold-=bond;s.Factions[t.To].Gold-=bond;t.EscrowFrom=t.EscrowTo=bond;t.SignedTurn=s.Turn;t.ExpiresTurn=s.Turn+t.Duration;t.Status=TreatyStatus.Active;
-        s.Relation(t.From,t.To).LastActionTurn=s.Turn;t.Report=$"Podpisano. Każda strona złożyła {bond} złota. Wygaśnięcie przed gospodarką T{t.ExpiresTurn}.";s.Log(Name(t.Kind)+" #"+t.Id+": "+t.Report,"traktaty");return Result.Ok(t.Report);
+        s.Relation(t.From,t.To).LastActionTurn=s.Turn;t.Report=$"Podpisano. Każda strona złożyła {bond} złota. Wygaśnięcie przed gospodarką {CampaignCalendar.At(s, t.ExpiresTurn)}.";s.Log(Name(t.Kind)+" #"+t.Id+": "+t.Report,"traktaty");return Result.Ok(t.Report);
     }
     public static Result Reject(GameState s,int id)
     {
@@ -147,7 +147,7 @@ public static class Treaties
                 t.ReplyTurn=s.Turn;int other=t.From==0?t.To:t.From;var error=Context(s,t.From,t.To,t.Kind);
                 if(error!=null||AcceptanceScore(s,other,t.Kind,t.Duration)<30){Close(s,t,TreatyStatus.Rejected,error??"Partner odmówił po ocenie bieżącej sytuacji.");continue;}
                 t.Status=TreatyStatus.AwaitingPlayer;t.Report="Partner potwierdza warunki. Czekamy na decyzję gracza; depozyty nadal w skarbcach.";
-                s.Log(Name(t.Kind)+$" #{t.Id}: odpowiedź czeka do początku T{t.DeadlineTurn}.","traktaty");
+                s.Log(Name(t.Kind)+$" #{t.Id}: odpowiedź czeka do początku {CampaignCalendar.At(s, t.DeadlineTurn)}.","traktaty");
             }
         }
     }
@@ -160,13 +160,13 @@ public static class Treaties
             bool a=s.Factions[t.From].Gold>=ResearchFee,b=s.Factions[t.To].Gold>=ResearchFee;t.MissedFrom=a?0:t.MissedFrom+1;t.MissedTo=b?0:t.MissedTo+1;
             if(!a||!b)
             {
-                t.Report=$"Faza T{s.Turn}: brak finansowania; nie pobrano opłat i nie przyznano nauki. Niedobory stron: {t.MissedFrom}/3 i {t.MissedTo}/3.";
+                t.Report=$"Faza {CampaignCalendar.At(s, s.Turn)}: brak finansowania; nie pobrano opłat i nie przyznano nauki. Niedobory stron: {t.MissedFrom}/3 i {t.MissedTo}/3.";
                 if(t.MissedFrom>=3&&t.MissedTo>=3)Close(s,t,TreatyStatus.Cancelled,"Obie strony przez trzy fazy nie finansowały współpracy; zwrot depozytów.");
                 else if(t.MissedFrom>=3||t.MissedTo>=3)Close(s,t,TreatyStatus.Broken,"Trzy kolejne fazy jednostronnego braku finansowania.",t.MissedFrom>=3?t.From:t.To);
                 continue;
             }
             s.Factions[t.From].Gold-=ResearchFee;s.Factions[t.To].Gold-=ResearchFee;t.LastFee=ResearchFee;t.LastScience=Math.Min(t.LastBonusCap,Math.Max(0,Math.Min(t.LastIncomeFrom,t.LastIncomeTo))*.15);t.TotalScience+=t.LastScience;t.FundedPhases++;
-            s.Factions[t.From].Science+=t.LastScience;s.Factions[t.To].Science+=t.LastScience;t.Report=$"Faza T{s.Turn}: każda strona opłaciła {ResearchFee} złota i uzyskała {t.LastScience:0.##} nauki z rzeczywistej pracy obu państw.";
+            s.Factions[t.From].Science+=t.LastScience;s.Factions[t.To].Science+=t.LastScience;t.Report=$"Faza {CampaignCalendar.At(s, s.Turn)}: każda strona opłaciła {ResearchFee} złota i uzyskała {t.LastScience:0.##} nauki z rzeczywistej pracy obu państw.";
         }
     }
     public static void ManageAi(GameState s,int owner)

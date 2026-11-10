@@ -1,19 +1,84 @@
-# Weryfikacja wydania 0.36
+# Korony i Pogranicza 0.37 — weryfikacja
 
-Data: 10 listopada 2026 r. Windows, .NET 10 Desktop. Wersja pliku 0.36.0.0, format kampanii v26.
+Data: 2026-11-10. Windows, .NET 10, WPF, rzeczywisty Direct3D 11 feature level 0xB000. Wydanie framework-dependent; wymaga zainstalowanego .NET Desktop Runtime 10 x64.
 
-- Ostateczny pełny `Zweryfikuj.ps1` zakończył się **kodem 0**: kompilacja Release bez ostrzeżeń i błędów, **705 specyfikacji silnika w 34,0 s i 741 kontroli interfejsu w 23 trybach — razem 1446 PASS, 0 FAIL**. Raport: `artifacts/verification-run-0.36.txt`; kontrola sum: `artifacts/verification-summary-0.36.txt`. To ponowny pełny przebieg po izolacji wejścia; zawiera zaliczony test rzek, ustawień i wszystkie pozostałe tryby. Kod produktu ustalono przed tym przebiegiem.
-- **30 nowych specyfikacji traktatów** sprawdza niemutujący podgląd, rzeczywisty koszt nadawcy, podróż odpowiedzi przez dwie tury, zmianę oceny partnera, walidację stron i warunków, brak podpisu w tle, jednoczesne pobranie obu depozytów i atomowe odrzucenie nieopłacalnej ratyfikacji. W osobnych przypadkach odmowa i wygaśnięcie nie tworzą wypłat. Raport wybranego przebiegu: `artifacts/treaty-core-0.36.txt` — 30 PASS, kod procesu 0.
-- Badania są porównane z identyczną gospodarką bez umowy. Opłaty obu stron i przyrost nauki odpowiadają rzeczywistym dochodom, a ogromny dawny zapas nauki nie mnoży premii. Sprawdzono brak powtórnego podpisu lub pracy przez podgląd, trzy niedobory jednego partnera, wspólną niewypłacalność, dokładnie dwanaście faz i jednokrotny zwrot obu zabezpieczeń. Nie poluzowano zwykłych kosztów gospodarki i zobowiązań.
-- Kontrole gwarancji obejmują legalny podgląd wojny z ostrzeżeniem, jednostronne wypowiedzenie i brak drugiej wypłaty, rzeczywistą akcję wojny gracza, rozliczenie przygotowanej deklarowanej wojny AI w zwykłej turze, rzeczywistą politykę embarga i zachowanie gwarancji pokojowej przy embargo. Utrata państwa zwraca środki bez wymyślania sprawcy. Oferta AI nie obciąża ani nie podpisuje za gracza, a test heurystyki AI otwiera ten kanał po pierwszym rzeczywistym kontakcie. Są także limity zobowiązań i odrzucenie duplikatów.
-- Format v26 zachowuje zarówno podróżujące oferty, jak i podpisane umowy, depozyty oraz dalszą deterministyczną rozgrywkę. Migracja rzeczywistej struktury v25 bez nowych pól zachowuje dziedzictwo epoki i nie tworzy traktatów; jawny zapis tworzy dokładną `.v25.bak`. Próby sfałszowanych depozytów, wypłat, dochodów nauki, dat, podpisu, licznika i starszego schematu są odrzucane. Dotychczasowe migracje pozostają w regresji.
-- **22 nowe kontrole UI** przechodzą rzeczywistą ścieżkę dyplomacji: rejestr, rozmowę, rezygnację, wysłanie, dwie zwykłe tury, odpowiedź bez podpisu, odroczenie decyzji, ratyfikację i wpłaty, sfinansowaną naukę, ostrzeżenie o embargo, zapis i odczyt, dwanaście faz z wypłatą oraz ofertę pochodzącą od AI i jej podpis przez gracza. Następnie otwierają i anulują wypowiedzenie, odczytują ostrzeżenie w ekranie wojny i faktycznie wypowiadają wojnę, rozliczając partnerowi oba depozyty. Kontrola małego okna sprawdza rzeczywistą widoczność przycisku po przewinięciu. Raport: `artifacts/treaty-ui-0.36/ui-smoke.txt`.
-- Obejrzano zrzut rejestru finansowanej współpracy z działającego programu. Scenariusz przyznaje technologie obu stronom, środki, żywność i początkowe relacje; późniejsza podróż, podpis, opłaty, nauka, wygaśnięcie i wojna są zwykłymi operacjami. Oferta AI jest przygotowana publiczną akcją właściciela AI, a nie przypisana graczowi. Jest to kontrola integracji i obiegu pieniędzy, nie dowód balansu naturalnej wielogodzinnej kampanii.
-- Pierwszy pełny przebieg zatrzymał się w dawnym teście rzek na porównaniu stanu kampanii. Zachowany obraz pokazuje turę 3 przy scenariuszu zaczynającym się w turze 1 i niewywołującym końca tury. Pierwszy błąd nie ma różnicy JSON; nie przypisujemy go zmianie geometrii. Natychmiastowe powtórzenie i trzy kolejne osobne przebiegi rzek przeszły 19 kontroli. Zachowano `artifacts/preflight-ui-0.36.txt`, `artifacts/river-initial-failure-0.36.png`, opis `artifacts/river-initial-failure-0.36.txt` i wynik `artifacts/river-repeat-0.36.txt`. Dodano zapis obu stanów przy kolejnym naruszeniu oraz filtr fizycznego wejścia dla automatycznych okien. Celowe zdarzenia testów i zwykła rozgrywka pozostają dostępne. Ostateczny ponowny przebieg całej regresji jest opisany powyżej i zakończył się bez niepowodzeń.
-- Wydanie korzysta z istniejących zasobów 3D i materiałów. Nie powstały nowe bitmapy, modele, dźwięki lub fonty. Nowe panele są WPF, a ich zrzuty przedstawiają rzeczywistą aplikację. Pochodzenie zasobów i przygotowanie scenariusza: `ASSETS.md`.
-- Autozapisy 0.26–0.35 zapisano w wykazie SHA256 przed kopiowaniem (`artifacts/autosave-baselines-0.36.json`). Autozapis i ustawienia do nowego katalogu skopiowano wyłącznie przy braku celu. Kopia 0.36 pozostaje bajtowo zgodna z 0.35: `FDE20C05CA9832CB14A93E958BF6FC18278958CE818C43F59279829CF165A8FB`. To rzeczywisty dawny format v19; przy jego przyszłej migracji powstanie `.v19.bak`, zgodnie z numerem źródła. Diagnostyka korzysta wyłącznie z własnych katalogów.
-- Oddzielne wydanie `wydanie-0.36/KoronyIPogranicza.exe` przeszło **401 kontroli w 15 wybranych trybach GPU**: epoki 38, 3D 34, materiały 21, krajobraz 18, modele 27, renderowanie 27, dzielnice 32, sztab 16, flota 27, transport 22, oblężenia 21, zaopatrzenie 26, warsztaty 26, tożsamość epok 44 i traktaty 22. Każdy proces i cały skrypt zakończyły się kodem 0. Raporty: `artifacts/published-verification-run-0.36.txt` oraz `artifacts/published-durations-0.36.txt`.
-- Wydanie `--no-gpu` przeszło **232 kontrole w dziewięciu trybach WPF**: 3D 34, sztab 16, flota 27, transport 22, oblężenia 21, zaopatrzenie 26, warsztaty 26, epoki 38 i traktaty 22. Wszystkie **23** tryby z `--smoke-force-failure` zwróciły oczekiwane 3 i zapisały zamierzony błąd (`artifacts/process-exit-check-0.36.txt`). Są to ponowne kontrole EXE i backendu, nie nowe unikalne specyfikacje.
-- `artifacts/package-release-0.36.ps1` sprawdza EXE i obie DLL względem finalnej kompilacji, autozapisy względem wykazu, starsze ZIP-y 0.22–0.35 względem zapisanych SHA256 i hash każdego nowego wpisu. Nowa paczka zawiera 14 plików wydania, bez zapisów, ustawień osobistych, kopii i pamięci podręcznej. Wynik, rozmiar i SHA256: `artifacts/package-0.36.txt`.
+## Wynik
 
-Zakres: dwa rodzaje bilateralnych traktatów z udziałem gracza, dwa okresy, depozyty, ratyfikacja, badania, gwarancje pokoju, rozliczenia, prosty kanał ofert AI i historia. Nie dodano wielostronnych sojuszy, własnych klauzul, wojny obronnej w imieniu sojusznika lub nowych kontraktów towarowych. Badania nie przenoszą natychmiast gotowych technologii i nie udzielają dostępu wojskowego przez granice.
+- Końcowy build Release: **0 błędów, 0 ostrzeżeń**.
+- Końcowy silnik: **731 PASS, 0 FAIL**, 35,6 s; w tym 26 nowych specyfikacji kalendarza i polityki prowincji.
+- Pełny zestaw interfejsu: **765 kontroli w 24 sekwencyjnych trybach**, zakończenie procesu 0.
+- Opublikowany EXE: **425 kontroli GPU w 16 trybach**, każde uruchomienie zakończone kodem 0.
+- Opublikowany EXE z `--no-gpu`: **250 kontroli WPF w 10 trybach**, każde uruchomienie zakończone kodem 0.
+- **24 celowe awarie diagnostyczne**: każda zgłosiła błąd i zakończyła proces wymaganym kodem 3.
+- Rzeczywisty autozapis poprzedniego wydania: 7 dodatkowych sprawdzeń migracji, dokładnej kopii, zachowania oryginału i deterministycznego wznowienia.
+- `git -c core.safecrlf=false diff --check`: bez błędów.
+
+Pełny przebieg `Zweryfikuj.ps1` obejmował 730 specyfikacji silnika i wszystkie 765 kontroli UI. Następnie rozszerzono walidację opłaty rady do legalnej maksymalnej populacji, dodano test dużego miasta oraz poprawiono filtrowanie atlasu i mipmap pszenicy. Końcowy silnik uruchomiono ponownie — 731 PASS. Właśnie ten końcowy build opublikowano i sprawdzono w powyższych 16 trybach GPU i 10 trybach WPF. Po tych kontrolach nie zmieniano kodu produktu.
+
+## Pełny interfejs
+
+| Tryb | Kontrole |
+|---|---:|
+| Podstawowa rozgrywka, rada, wojny, handel, pożyczki | 170 |
+| Szpiegostwo | 22 |
+| Jeńcy wywiadu | 18 |
+| Epoki | 38 |
+| Energia | 23 |
+| Obietnice energetyczne | 22 |
+| Integracja 3D | 34 |
+| Materiały i oprawa GPU | 21 |
+| Krajobraz | 18 |
+| Rzeki i mosty | 19 |
+| Pory roku i pogoda | 22 |
+| Ludzie, konie, rośliny i oznaczenia zasobów | 33 |
+| Optymalizacje renderowania | 27 |
+| Ustawienia i menu gry | 44 |
+| Dzielnice | 32 |
+| AI wojskowe | 16 |
+| Flota | 27 |
+| Transport morski | 22 |
+| Oblężenia | 21 |
+| Zapasy marszowe | 26 |
+| Przetwórstwo | 26 |
+| Odrębność epok | 44 |
+| Traktaty i gwarancje | 22 |
+| Kalendarz i rady prowincji | 18 |
+| **Razem** | **765** |
+
+## Zakres nowych sprawdzeń
+
+Kalendarz: utrwalone daty decyzji, niezmienność historii po zmianie epoki, oznaczanie szacunków, dalszy upływ lat po przyspieszonym rozwoju, przewidywanie terminów bez dodawania prehistorycznych odstępów do średniowiecza, stara chronologia, czystość podglądu i round tripu oraz odrzucanie cofającej się osi czasu.
+
+Rady: koszty podpisu i rzeczywistego wykonania, konkurujące poparcie, cztery dostawy na sześć faz, brak darmowej karty bez środków, głód, brak biblioteki, zawieszone szkoły, wstrzymany warsztat, stała stawka, brak podwójnej opłaty za tę samą fazę, różne trwałe premie, niedotrzymanie obietnicy, limity ponownego podpisu, zmiana właściciela, legalne duże miasta, AI, nieprawidłowe dowody wpłat, wznowienie po zapisie i rzeczywista faza gospodarcza.
+
+UI: rzeczywiste przyciski rozmowy, powrót bez kosztu, potwierdzany podpis, zmiana poparcia, sześć zwykłych tur gospodarki, ustanowienie karty, odczyt wpłat, pełne wczytanie przez desktop, daty kroniki i dostępność opcji w oknie 1200×800. To przygotowany scenariusz z większą rezerwą żywności i skarbem, nie dowód naturalnego balansu całej kampanii.
+
+Grafika: rzeczywiste materiały bitmapowe skóry, sierści i tkanin, lokalne UV, jednostkowe skończone normalne, ograniczone porcje geometrii, oba poziomy szczegółowości, teksturowane dwustronne kępy pszenicy, faktyczna przezroczystość, wybieranie pól i zasobów, nieujawnianie nieodkrytych złóż oraz brak zmian symulacji podczas obsługi kamery i legendy. Obejrzano końcowe zrzuty z opublikowanego EXE; zachowanie niezmodyfikowanej alfy PNG potwierdzono w kodzie i kontroli zasobu.
+
+## Pomiary i ograniczenia
+
+Scenariusz modeli: **44 642 trójkąty blisko / 15 778 daleko**, czyli około **65% mniej geometrii organicznej** w oddaleniu. To liczba geometrii modeli w przygotowanej scenie, nie procent przyspieszenia całej gry. Kamera wybiera jedną wersję na komórkę, a WPF usuwa podwójną wersję oddaloną. Materiały są współdzielone.
+
+Końcowy EXE, próba 10 klatek w scenariuszu graficznym: mediana **37,5 ms**, maksimum **40,4 ms**, obraz **1165×758**. Pomiar obejmuje ścieżkę GPU, odczytu i prezentacji na tym komputerze; nie jest gwarancją FPS ani badaniem wielu konfiguracji. Diagnostyka używa ustalonych ustawień, bez adaptacyjnej rozdzielczości. Normalna gra zachowuje adaptacyjną rozdzielczość, limit klatek i oszczędzanie bezczynności.
+
+Zmieniono rozmiar rzeczywistego okna na 1200×800: mapa i cel GPU miały **765×578**; profil z ograniczeniem 900 pikseli również przeszedł. Diagnostyka czeka na zakończenie zmiany natywnego rozmiaru i układu WPF. Nie zmniejszono wymaganej asercji wielkości.
+
+To bardziej szczegółowe modele proceduralne i materiały albedo z mikronormalnymi, a nie skanowane postacie lub gotowa oprawa fotorealistyczna. Nie dodano riggingu, animacji szkieletowej ani pełnego zestawu nowych modeli artystycznych. Pszenica używa powierzchni z alfą. Brak testu wielogodzinnego grania przez człowieka i benchmarku słabszych GPU; pełne symulacje silnika nadal wchodzą do zestawu specyfikacji.
+
+## Zachowanie kampanii
+
+Zweryfikowano niezmienność SHA256 **35 wcześniejszych autozapisów** według osobnych wartości w `autosave-baselines-0.37.json`. Nowy katalog otrzymał kopię autozapisu 0.36 bez nadpisywania wcześniejszych plików. Oryginalny plik to faktycznie format **v19**, mimo że przechowywany jest przy programie 0.36. Jego SHA256: `FDE20C05CA9832CB14A93E958BF6FC18278958CE818C43F59279829CF165A8FB`.
+
+Osobne sprawdzenie odczytało ten plik, migrowało go do v27, wykonało dokładny round trip, zapisało wyłącznie izolowaną kopię z identyczną `.v19.bak`, a potem wznowiło dwa stany z identycznym wynikiem i RNG. Oryginał pozostał bez zmian. Nowy test v26 osobno potwierdza dokładną `.v26.bak`, brak wymyślonych koalicji i zamianę dawnych kodów dat w historii na jawne przybliżenia.
+
+## Artefakty i odtworzenie
+
+- `build-0.37.txt`, `final-core-specs-0.37.txt`, `verification-run-0.37.txt`.
+- `published-verification-run-0.37.txt`, `published-durations-0.37.txt`, `process-exit-check-0.37.txt`.
+- `actual-save-compatibility-0.37.txt` i pomocniczy projekt `save-compatibility-0.37/`.
+- `published-models-ui-0.37/`, `published-calendar-locals-ui-0.37/`, `published-photographic-ui-0.37/`: końcowe zrzuty i rejestry faktycznego EXE.
+- `preflight-verification-0.37.txt`, `resize-preflight-verification-0.37.txt`, `photographic-resize-preflight-0.37.*`: zachowane wcześniejsze nieudane próby. Pierwsza dotyczyła starej asercji tekstu „T…”, druga nieustalonego rozmiaru okna; końcowe przebiegi przeszły.
+- Źródła: `./Zweryfikuj.ps1`. Opublikowany EXE: `./artifacts/verify-published-0.37.ps1`.
+- Archiwum: `package-release-0.37.ps1` sprawdza 14 plików i ich SHA256, zgodność binariów z końcowym buildem, oryginalne autozapisy i wcześniejsze ZIP-y. Wynik oraz SHA256 archiwum zapisuje w `package-0.37.txt`.
+
+Archiwum zawiera program i dokumentację; nie zawiera kampanii gracza, ustawień osobistych, pamięci podręcznej audio ani plików tymczasowych.

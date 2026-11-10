@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional treaty diagnostic failure.
+   at Crown.Desktop.MainWindow.TreatySmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\TreatySmoke.cs:line 23

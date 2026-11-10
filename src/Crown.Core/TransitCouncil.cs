@@ -15,14 +15,14 @@ public static class TransitCouncil
     {
         if(s.Factions[host].TradePolicy==TradePolicy.Embargo||s.Player.TradePolicy==TradePolicy.Embargo)
             return "Najpierw trzeba znieść embargo. Zezwolenie go nie omija.";
-        if(Until(s,host)>s.Turn)return $"Zgoda już obowiązuje; wygasa na początku tury {Until(s,host)}.";
+        if(Until(s,host)>s.Turn)return $"Zgoda już obowiązuje; wygasa na początku {CampaignCalendar.At(s, Until(s,host))}.";
         return null;
     }
 
     public static IReadOnlyList<string> Notices(GameState s)=>s.Factions.Skip(1).Select(f=>(Faction:f,Until:Until(s,f.Id)))
         .Where(p=>p.Until>0&&(p.Until==s.Turn||p.Until==s.Turn+2))
         .Select(p=>p.Until==s.Turn?$"{p.Faction.Name}: zgoda na przejazd wygasła. Sprawdź granice przed kolejnym rozliczeniem rynku.":
-            $"{p.Faction.Name}: zgoda na przejazd wygaśnie za dwie tury, przed rynkiem T{p.Until}. Zaplanuj objazd lub nowe poselstwo po wygaśnięciu.").ToArray();
+            $"{p.Faction.Name}: zgoda na przejazd wygaśnie za dwie tury, przed rynkiem {CampaignCalendar.At(s, p.Until)}. Zaplanuj objazd lub nowe poselstwo po wygaśnięciu.").ToArray();
 
     internal static bool CanCross(GameState s,TradeContract contract,Tile tile,bool previewOpenBorders=false)
     {

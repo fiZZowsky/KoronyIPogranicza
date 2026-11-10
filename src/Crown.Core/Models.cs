@@ -1,4 +1,4 @@
-﻿namespace Crown.Core;
+namespace Crown.Core;
 
 public enum Terrain { Ocean, Coast, Grassland, Forest, Hills, Mountain, Desert, Marsh, Tundra }
 public enum Resource { None, Grain, Iron, Horses, Stone, Salt, Dyes }
@@ -40,6 +40,7 @@ public sealed class Tile
 }
 public sealed class City
 {
+    public LocalCouncil Council {get;set;}=new();
     public int Id { get; set; }
     public string Name { get; set; } = "";
     public int Owner { get; set; }
@@ -301,14 +302,15 @@ public sealed class GameState
     public void InvalidateLogistics() { LogisticsRevision++; LogisticsCache.Clear(); }
     public Faction Player => Factions[0];
     public string Season => (Turn % 4) switch { 1 => "Wiosna", 2 => "Lato", 3 => "Jesień", _ => "Zima" };
-    public int Year => EpochCampaign ? Epochs.WorldYear(this) : -2400 + (Turn - 1) * 15;
+    public Dictionary<int,int> CalendarYears { get; set; } = [];
+    public int Year => CampaignCalendar.CurrentYear(this);
     public int Next(int max)
     {
         RandomState ^= RandomState << 13; RandomState ^= RandomState >> 17; RandomState ^= RandomState << 5;
         return (int)(RandomState % (uint)max);
     }
     public Relation Relation(int a, int b) => Relations.First(r => r.A == Math.Min(a,b) && r.B == Math.Max(a,b));
-    public void Log(string text, string category = "świat") => Chronicle.Add(new() { Turn = Turn, Text = text, Category = category });
+    public void Log(string text, string category = "świat") { CampaignCalendar.Remember(this); Chronicle.Add(new() { Turn = Turn, Text = text, Category = category }); }
 }
 public readonly record struct Yields(double Food, double Production, double Gold, double Science, double Culture);
 public readonly record struct Result(bool Success, string Message)

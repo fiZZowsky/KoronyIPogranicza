@@ -56,7 +56,7 @@ public sealed partial class MainWindow
             Start(Fixture(true)); ShowCouncil(); Click("02   Zapewnimy trzy kolejne fazy"); c = state.EnergyCases.Single(); city = state.Cities[0];
             Check(c.Status == EnergyCaseStatus.Pledged && c.DeadlineTurn == 10 && c.Deliveries.Count == 0, "Promise decision records its deadline without crediting forecasts");
             ShowEnergyCases(); Click("Napraw zasilanie: " + city.Name);
-            Check(Descendants<TextBlock>(overlay!).Any(t => t.Text.Contains("T3: 0/25")), "Operating panel displays real earlier economic readings");
+            Check(Descendants<TextBlock>(overlay!).Any(t => t.Text.Contains(CampaignCalendar.At(state,3)+": 0/25")), "Operating panel displays real earlier economic readings");
             Click("Buduj infrastrukturę: " + city.Name); ShowProjects(city, 10); root.UpdateLayout(); Click("Elektrownia jądrowa"); city.Production = 900; city.ProductionPaused = false; Turn();
             Check(city.Buildings.Contains("atomic_reactor") && c.Deliveries.Count == 1 && EnergyCouncil.Progress(c) == 0 && Epochs.Energy(state, city).Coverage == 1, "Plant construction changes the forecast but does not rewrite that turn's unpowered delivery");
             Turn(); Turn(); Check(c.Status == EnergyCaseStatus.Pledged && EnergyCouncil.Progress(c) == 2, "Two later fully powered desktop phases build a genuine consecutive recovery streak");

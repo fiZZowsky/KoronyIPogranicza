@@ -1,5 +1,22 @@
 ﻿# Oprawa i pochodzenie plików
 
+## Materiały organiczne i pszenica — 0.37
+
+Nowe obrazy wygenerowane 10 listopada 2026 wbudowanym narzędziem **image_gen**, umiejętność **imagegen**, tryb generowania nowych obrazów. Oba pliki skopiowano do zasobów projektu; nie wymagają połączenia z usługą podczas gry. Nie są to skany ani siatki 3D; kształty modeli powstają w kodzie C#.
+
+- `src/Crown.Desktop/Assets/organic-materials-0.37.png`: atlas 2×2 skóry, sierści, płótna i skóry wyprawionej; 3 776 107 bajtów; SHA256 `8858859B7016724FBE69D1CD06AB07E5914E6FBB665D80CEC8F042D44F4D981F`. GPU t11 i współdzielone wycinki WPF, nowe lokalne UV modeli. Plik wersjonowany obok wcześniejszych atlasów.
+- `src/Crown.Desktop/Assets/wheat-tuft-0.37.png`: kępa pszenicy z rzeczywistą alfą; 1 555 944 bajty; SHA256 `AD49DC594666831B0AC4977601666E3C9737CA2006B80EC99BDEEBB82E765B37`. GPU t12, dwie krzyżujące się powierzchnie, wycięcie alfa w kolorze i cieniu. Tę samą alfę wykorzystuje ImageBrush WPF.
+
+Pełny prompt atlasu:
+
+> Production game material atlas, photorealistic-natural. Square image, precisely four equal quadrants without margins or separators. Top left: seamless neutral beige human skin macro texture, fine pores and subtle warm variations, NO face or body parts. Top right: seamless bay horse short brown hair coat, dense fine directional short fur, NO animal silhouette. Bottom left: seamless undyed weathered olive linen cloth with fine woven thread, understated natural wrinkles. Bottom right: seamless chestnut leather, fine grain and subtle creases. Every quadrant fills its full quarter edge to edge. Orthographic flat albedo capture, diffuse shadow-free neutral illumination, no perspective, no baked highlights, no text, no border, no symbols. High frequency natural microstructure but restrained broad color variance, suitable for UV wrapping smooth 3D models in a realistic historical strategy game.
+
+Pełny prompt pszenicy (`transparent_background=true`, zachowano oryginalną alfę):
+
+> Photorealistic game foliage texture, a single dense natural tuft of 7 ripe wheat stems with golden ears, long fine awns and several slender dry green leaves, full plants from roots to tips isolated on genuinely transparent alpha background. Wheat ears anatomically realistic with overlapping kernels and fine hair bristles, graceful curved stems, natural variation in height. Orthographic front view, plants occupy central 85% of square canvas, ample transparent margin around all extremities, entire tuft visible no cropping, no soil, no pot, no text, no outline or glow. Neutral soft diffuse lighting, no cast shadow, warm straw ochre colors with olive green lower leaves, high detail. Asset for crossed alpha cards in a realistic 3D historical strategy game. Not an illustration, not low poly, not a wheat bundle tied together, stems grow independently.
+
+Nie wykonywano obróbki obrazów Pythonem. Oryginały narzędzia pozostały na dysku; projekt używa powyższych własnych kopii. Model pszenicy jest optymalizowaną roślinnością na powierzchniach z alfą, nie pojedynczą siatką każdego ziarna. Skóra i sierść nie zastępują dalszej pracy nad rzeźbionymi postaciami, riggingiem i animacją.
+
 ## Ilustracja doliny
 
 Plik projektu: `src/Crown.Desktop/Assets/valley.png`. Używany jako tło menu, wbudowany w zasoby WPF. Powstał przy użyciu wbudowanego narzędzia **image_gen**, w trybie umiejętności **imagegen**, 21 października 2026 r. Jest koncepcją wizualną świata, nie zrzutem rozgrywki.

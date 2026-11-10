@@ -60,10 +60,13 @@ internal static partial class WorldScene3D
     }
     private static void WheatPlant(SceneBatch batch,GameState s,Point p,double height)
     {
-        double y=Terrain3D.Height(s,p.X,p.Y);var stem=batch.Mesh("crop-stems-wood","#B9A268");stem.Tube(new(p.X,y,p.Y),new(p.X+.014,y+height,p.Y),.0026,4);
-        var grain=batch.Mesh("wheat-grain","#D4BA79");
-        for(int i=0;i<3;i++)foreach(int side in new[]{-1,1})grain.Sphere(p.X+.014+side*.008,y+height-.035+i*.014,p.Y,.009,.012,.006,6,3);
-        Blade(batch,new(p.X,y+height*.3,p.Y),.052,height*.35,"crop-leaves","#939953",.6);
+        WheatTuft(batch,s,p,height);
+    }
+    private static void WheatTuft(SceneBatch batch,GameState s,Point p,double height)
+    {
+        double y=Terrain3D.Height(s,p.X,p.Y);var center=new Point3D(p.X,y+height*.5,p.Y);var mesh=batch.Mesh("wheat-tuft","#FFFFFF");
+        double yaw=(p.X*17+p.Y*11)%Math.PI;
+        for(int i=0;i<2;i++){double a=yaw+i*Math.PI/2;mesh.FoliageCard(center,new Vector3D(Math.Cos(a)*height*.40,0,Math.Sin(a)*height*.40),new Vector3D(0,height*.5,0));}
     }
     private static void FlowerPlant(SceneBatch batch,GameState s,Point p,double height,bool dye)
     {

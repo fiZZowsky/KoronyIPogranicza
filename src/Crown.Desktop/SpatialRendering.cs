@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+using System.Numerics;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace Crown.Desktop;
@@ -17,7 +18,8 @@ internal sealed partial class PhotographicRenderer
     {
         var mesh=(MeshGeometry3D)model.Geometry;if(meshCache.TryGetValue(mesh,out var cached))return cached;
         string key=SceneSurface.Key(model);var material=ReadMaterial(model.Material);var c=material.Color;float kind=Kind(key,material.Emissive);
-        byte detail=key.StartsWith("detail-")?(byte)4:key.StartsWith("lod-")?(byte)2:key.StartsWith("bark")||key.StartsWith("foliage")?(byte)1:key.StartsWith("ground-grass")||key.StartsWith("wild-")?(byte)3:(byte)0;
+        if(kind>=31&&kind<35&&model.GetValue(SceneSurface.TintProperty) is string tint)c=(Color)ColorConverter.ConvertFromString(tint);
+        byte detail=key.StartsWith("organic-near-")?(byte)5:key.StartsWith("organic-far-")?(byte)6:key.StartsWith("detail-")?(byte)4:key.StartsWith("lod-")?(byte)2:key.StartsWith("bark")||key.StartsWith("foliage")?(byte)1:key.StartsWith("ground-grass")||key.StartsWith("wild-")?(byte)3:(byte)0;
         var ids=(int[]?)model.GetValue(SceneSurface.TileIdsProperty);
         var groups=new Dictionary<(int X,int Z),List<GpuVertex>>();
         for(int triangle=0;triangle<mesh.TriangleIndices.Count/3;triangle++)
@@ -52,8 +54,8 @@ internal sealed partial class PhotographicRenderer
     }
     private bool UseDetail(DrawMesh mesh,Vector3 eye)
     {
-        if(!AutomaticDetail)return mesh.Detail!=2;
+        if(!AutomaticDetail)return mesh.Detail is not (2 or 6);
         float distance=Vector3.Distance(eye,new(mesh.Cell.X,(float)(field?.Sample(mesh.Cell.X,mesh.Cell.Y)??0),mesh.Cell.Y));
-        return mesh.Detail switch{1=>distance<25,2=>distance>=25,3=>distance<18,4=>distance<16,_=>true};
+        return mesh.Detail switch{1=>distance<25,2=>distance>=25,3=>distance<18,4=>distance<16,5=>distance<18,6=>distance>=18,_=>true};
     }
 }

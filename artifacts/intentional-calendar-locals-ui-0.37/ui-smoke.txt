@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional local council diagnostic failure.
+   at Crown.Desktop.MainWindow.LocalCouncilSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\LocalCouncilSmoke.cs:line 23

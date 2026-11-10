@@ -1,0 +1,27 @@
+PASS The real market entry opens the crafting and regional input panel
+PASS Browsing the complete processing forecast preserves stocks and RNG
+PASS The actual workshop button selects ordinary construction
+PASS A normal economic turn completes the prepared workshop without free goods
+PASS The guild conversation explains the processing tradeoff
+PASS Leaving the guild conversation changes no materials or work
+PASS The actual tool plan commits a policy without instant output
+PASS The production dialogue enforces the once-per-turn plan change
+PASS An ordinary city turn converts actual work into tools
+PASS Processing draws real iron from the connected warehouse and names its source
+PASS Actual anvils and produced-goods stacks appear in the 3D scene
+PASS The second actual construction path completes a weaving facility
+PASS The real plan switch produces two textiles per consumed dye unit
+PASS The actual weaving facility has visible cloth and loom geometry
+PASS A newly completed guildhall cannot claim unearned zero-demand benefits
+PASS Actual subsequent product consumption activates the guildhall's economic benefits
+PASS The real contract selector exposes both manufactured products alongside raw materials
+PASS The export form shows the chosen product route and current price quote
+PASS The actual signature creates the intended processed-goods export
+PASS Paid manufactured exports enter an actual caravan rather than arriving instantly
+PASS The actual caravan delivers manufactured tools to the foreign guildhall
+PASS Desktop current-format reload preserves manufacturing receipts stocks and shipment history
+PASS The actual processing panel explains loss of the disconnected supplier
+PASS A real subsequent turn cannot manufacture through a missing road
+PASS The requested rendering backend displays workshop geometry: no GPU error
+PASS A complete crafting and receipt panel remains scrollable at compact window size
+26 manufacturing desktop integration checks passed.

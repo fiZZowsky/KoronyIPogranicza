@@ -66,7 +66,7 @@ public sealed partial class MainWindow
             LoadPath(path); int internTrust = state.Relation(0, 1).Trust, internTurn = state.Turn; Click("04   Internujemy");
             Check(state.SpyOperations[0].InternedUntil == internTurn + 8 && state.Spies[0].Status == SpyStatus.Captured && state.Relation(0, 1).Trust == internTrust - 8, "Internment button binds the agent until the exact deadline and reduces trust");
             ShowEspionage(); root.UpdateLayout();
-            Check(Descendants<TextBlock>(overlay!).Any(t => t.Text.Contains("internowany do początku T")) && !Descendants<Button>(overlay!).Any(b => b.Content?.ToString()?.StartsWith("Rozpatrz obcego jeńca") == true), "Agency lists the interned captive and prevents reversing the decision"); await Capture("custody-internment");
+            Check(Descendants<TextBlock>(overlay!).Any(t => t.Text.Contains("internowany do początku "+CampaignCalendar.At(state,state.SpyOperations[0].InternedUntil))) && !Descendants<Button>(overlay!).Any(b => b.Content?.ToString()?.StartsWith("Rozpatrz obcego jeńca") == true), "Agency lists the interned captive and prevents reversing the decision"); await Capture("custody-internment");
             string internPath = Path.Combine(folder, "custody-interned-save.crown"); SaveGame.Write(state, internPath); before = SaveGame.Serialize(state); LoadPath(internPath);
             Check(SaveGame.Serialize(state) == before, "Desktop reload retains the internment deadline and custody history");
             CloseModal(); state.Turn = state.SpyOperations[0].InternedUntil!.Value - 1; Turn();

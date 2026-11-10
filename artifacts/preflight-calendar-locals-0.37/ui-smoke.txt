@@ -1,0 +1,17 @@
+PASS The actual desktop starts with the selected renderer
+PASS The province screen provides the new council entry point
+PASS Three local constituencies expose their real support
+PASS The council explains delivery costs and political failure before signing
+PASS The actual dialogue exposes the food conditions and final signature
+PASS Leaving the conversation preserves money politics and chronology
+PASS The actual signing button starts the mandate and pays once
+PASS Competing groups react immediately to the decision
+PASS The signed decision is shown with its captured historical year
+PASS An ordinary economic turn fulfils and funds the first phase
+PASS Desktop reload preserves exact calendar support and paid phase evidence
+PASS Six actual economic phases establish the permanent food charter
+PASS The final council ledger explains the durable outcome
+PASS The delivered charter affects city yields and political loyalty
+System.InvalidOperationException: The actual chronicle dates the original decision by its recorded year
+   at Crown.Desktop.MainWindow.<>c__DisplayClass38_0.<LocalCouncilSmoke>g__Check|0(Boolean ok, String text) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\LocalCouncilSmoke.cs:line 15
+   at Crown.Desktop.MainWindow.LocalCouncilSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\LocalCouncilSmoke.cs:line 40

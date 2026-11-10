@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using Catalog = Crown.Core.Content;
 using System.Windows.Controls;
 
@@ -10,7 +10,7 @@ public sealed partial class MainWindow
     {
         var f = state.Player; int index = selected ?? f.Era; var e = EpochCatalog.All[index];
         var p = Ui.Stack(Ui.Eyebrow("HISTORIA I MOŻLIWA PRZYSZŁOŚĆ"), Ui.Label("Epoki i rozwój świata", 30, Ui.Text, true),
-            Ui.Label($"{Catalog.Era(f.Era)} · odkrycia {f.Technologies.Count}/90 · tura {state.Turn}/{state.MaxTurns}", 16, Ui.Gold, true));
+            Ui.Label($"{Catalog.Era(f.Era)} · odkrycia {f.Technologies.Count}/90 · {CampaignCalendar.At(state, state.Turn)}", 16, Ui.Gold, true));
         if (!state.EpochCampaign)
             p.Children.Add(Ui.Button("Rozszerz kampanię do 18 epok i 1600 tur", () => { var r = Engine.ExtendCampaign(state); Do(r); if (r.Success) { TryAutoSave(false); ShowEpochs(); } }, true));
         var select = Ui.Combo(EpochCatalog.All.Select(x => $"{x.Index + 1:00} · {x.Name}" + (x.Speculative ? " · możliwa przyszłość" : "")).ToArray(), index);

@@ -92,7 +92,7 @@ internal static class StageFifteenSpecs
         {
             var s = Fresh(); var target = s.Cities[1]; var near = s.Tiles.First(t => World.Distance(t, s.Tiles[target.Tile]) == 3); var far = s.Tiles.First(t => World.Distance(t, s.Tiles[target.Tile]) == 4); near.Explored = far.Explored = false;
             var operation = Launch(s, SpyMission.Reconnaissance); Finish(s, operation);
-            Assert(near.Explored && !far.Explored && !Engine.Visible(s).Contains(target.Tile) && operation.Report.Contains("Raport z T4") && operation.Report.Contains("praca 90") && s.Spies[0].Experience == 2, "Recon radius, snapshot or experience wrong.");
+            Assert(near.Explored && !far.Explored && !Engine.Visible(s).Contains(target.Tile) && operation.Report.Contains("Raport z "+CampaignCalendar.At(s,4)) && operation.Report.Contains("praca 90") && s.Spies[0].Experience == 2, "Recon radius, snapshot or experience wrong.");
             string report = operation.Report; target.Production = 5; target.Population++; s.Turn++; Espionage.Tick(s); Assert(operation.Report == report, "Intelligence snapshot updated live."); SaveGame.Deserialize(SaveGame.Serialize(s));
         });
         test("Research theft copies actual available research into science without an automatic discovery", () =>

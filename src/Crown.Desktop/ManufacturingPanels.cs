@@ -28,7 +28,7 @@ public sealed partial class MainWindow
                 card.Children.Add(Ui.Button("Plan warsztatów: "+c.Name,()=>ShowCraftPolicy(c),true));
                 if(c.LastIndustryTurn>0)
                 {
-                    var last=Manufacturing.Type(c.LastIndustryRecipe);card.Children.Add(Ui.Label($"Ostatnia produkcja T{c.LastIndustryTurn}: {c.LastIndustryBatches} partii · {c.LastIndustryBatches*last.OutputAmount} {last.Name.ToLowerInvariant()} · praca {c.LastIndustryWork:0}",13,Ui.Gold));card.Children.Add(Ui.Label(c.LastIndustryMessage,12,Ui.Muted));
+                    var last=Manufacturing.Type(c.LastIndustryRecipe);card.Children.Add(Ui.Label($"Ostatnia produkcja {CampaignCalendar.At(state, c.LastIndustryTurn)}: {c.LastIndustryBatches} partii · {c.LastIndustryBatches*last.OutputAmount} {last.Name.ToLowerInvariant()} · praca {c.LastIndustryWork:0}",13,Ui.Gold));card.Children.Add(Ui.Label(c.LastIndustryMessage,12,Ui.Muted));
                     foreach(var input in c.LastIndustryInputs)card.Children.Add(Ui.Label($"Zużyto z {state.Cities.Single(x=>x.Id==input.CityId).Name}: {input.Quantity:0.##} {Markets.Name(input.Good).ToLowerInvariant()}",12,Ui.Muted));
                 }
             }

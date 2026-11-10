@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.Text;
 
 internal static class EpochDocumentation
@@ -7,7 +7,8 @@ internal static class EpochDocumentation
     {
         var text = new StringBuilder();
         void Line(string value = "") => text.AppendLine(value);
-        Line("# Epoki i możliwe przyszłości — podręcznik wydania 0.36"); Line();
+        Line("# Epoki i możliwe przyszłości — podręcznik wydania 0.37"); Line();
+        Line("Od 0.37 kronika i raporty pokazują utrwalone lata decyzji zamiast kodów tur; przyszłość i nieznana historia starszych zapisów są oznaczone jako przybliżone. W Ludności otwórz radę prowincji: trzy miejscowe grupy, umowy na sześć rozliczeń i trwałe karty za co najmniej cztery wykonane zobowiązania. Podpis kosztuje 30 złota, kolejne wykonane fazy wymagają opłaty. Modele ludzi i koni mają nowe powierzchnie i tekstury; pszenica używa kęp z alfą. Format v27 zachowuje kalendarz i koalicje.");Line();
         Line("Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 modele wojsk lądowych, dziewięć modeli okrętów i pięć programów pozaziemskich. Port morski jest dodatkowym projektem nadbrzeżnym. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii."); Line();
         Line("Otwórz **Nauka → Epoki i rozwój świata**. Każdy etap ma cztery dziedziny i odkrycie zamykające dorobek. Badania następnego etapu wymagają tego zamknięcia. Dodatkowe wymagania technologii nadal obowiązują. Państwa rozwijają się oddzielnie i zachowują całą wcześniejszą wiedzę, miasta oraz instytucje."); Line();
         Line("Nowa kampania zaczyna się w paleolicie i ma limit 1600 tur. Kalendarz jest umowny: stopniowo zwalnia i uwzględnia najbardziej zaawansowane państwo; jego skala sięga roku 5000. Tempo wiedzy nie jest historycznym rozkładem dat. Stare kampanie zachowują zasady i limit 320 tur do wybrania **Rozszerz kampanię do 18 epok i 1600 tur**. Wtedy uznajemy zamknięcia epok poprzedzających posiadany już dorobek, zachowując miasta, środki, wywiad, długi, jednostki i plany."); Line();

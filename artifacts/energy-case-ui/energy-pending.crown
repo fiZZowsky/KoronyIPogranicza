@@ -1,5 +1,5 @@
 {
-  "Version": 26,
+  "Version": 27,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": true,
@@ -16480,6 +16480,22 @@
   ],
   "Cities": [
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 1,
       "Name": "Wysogr\u00F3d",
       "Owner": 0,
@@ -16654,6 +16670,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 4,
       "Name": "Talassar",
       "Owner": 1,
@@ -16820,6 +16852,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 7,
       "Name": "Arven",
       "Owner": 2,
@@ -16986,6 +17034,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 10,
       "Name": "Kar-Dun",
       "Owner": 3,
@@ -17651,5 +17715,11 @@
   "NextEnergyCaseId": 2,
   "PendingEnergyCaseId": 1,
   "LastEnergyPhase": 3,
-  "NextId": 13
+  "NextId": 13,
+  "CalendarYears": {
+    "1": -40000,
+    "2": 3000,
+    "3": 3001,
+    "4": 3002
+  }
 }

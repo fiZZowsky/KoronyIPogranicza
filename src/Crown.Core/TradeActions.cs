@@ -1,4 +1,4 @@
-﻿namespace Crown.Core;
+namespace Crown.Core;
 
 public static partial class Engine
 {
@@ -28,7 +28,7 @@ public static partial class Engine
         if(new[]{buyer.Owner,seller.Owner}.Any(id=>s.TradeContracts.Count(c=>c.Status==ContractStatus.Active&&(c.Buyer==id||c.Seller==id))>=3))return Result.Fail("Jedna ze stron osiągnęła limit trzech aktywnych umów.");
         if(s.Factions[owner].Gold<Markets.ContractPrice)return Result.Fail("Przygotowanie umowy kosztuje 15 złota.");
         s.Factions[owner].Gold-=Markets.ContractPrice;draft.Id=s.NextContractId++;draft.StartedTurn=s.Turn;draft.ExpiresTurn=s.Turn+12;s.TradeContracts.Add(draft);
-        s.Log($"Umowa #{draft.Id}: {seller.Name} → {buyer.Name}, {Markets.Name(good)} do {quantity}/karawanę, do tury {draft.ExpiresTurn}. Zakup opłacany przy wysyłce; nabywca ponosi ryzyko utraty ładunku.","handel");
+        s.Log($"Umowa #{draft.Id}: {seller.Name} → {buyer.Name}, {Markets.Name(good)} do {quantity}/karawanę, do {CampaignCalendar.At(s, draft.ExpiresTurn)}. Zakup opłacany przy wysyłce; nabywca ponosi ryzyko utraty ładunku.","handel");
         return Result.Ok("Podpisano umowę na 12 tur. Załadunek przy kolejnym rozliczeniu, jedna karawana w drodze na umowę.");
     }
 

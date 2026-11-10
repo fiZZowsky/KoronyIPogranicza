@@ -1,11 +1,11 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Crown.Core;
 
 public static class SaveGame
 {
-    public const int CurrentVersion=26;
+    public const int CurrentVersion=27;
     private static readonly JsonSerializerOptions Options=new(){WriteIndented=true,IgnoreReadOnlyProperties=true,Converters={new JsonStringEnumConverter()}};
     public static string Serialize(GameState state)=>JsonSerializer.Serialize(state,Options);
     public static GameState Deserialize(string json)
@@ -123,6 +123,8 @@ public static class SaveGame
         Manufacturing.Validate(s);
         EraEndeavours.Validate(s);
         TreatySaveRules.Validate(s);
+        CampaignCalendar.Validate(s);
+        LocalCouncils.Validate(s);
         s.Version=CurrentVersion;
         return s;
     }

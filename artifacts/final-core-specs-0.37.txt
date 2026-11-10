@@ -1,0 +1,739 @@
+PASS Seed determinism and distinct worlds
+PASS Hex topology, symmetry, distance
+PASS Capital land connections across seeds
+PASS All events retain an affordable option and known effects
+PASS Council blocks turn and choices are irreversible
+PASS Promises mature once and survive save/load
+PASS Unaffordable choices make no mutation
+PASS Technology prerequisites and retained science
+PASS Production, population cost, improvements
+PASS Winter, taxation and institutions affect the economy
+PASS Policy cooldown and social cost
+PASS Movement spends terrain cost and respects water
+PASS Combat requires war; ranged units cannot capture
+PASS Supply limits and healing
+PASS Diplomacy, trade income, cooldown and truce
+PASS Settling validates distance and creates territory
+PASS Save round trip and deterministic continuation
+PASS Malformed save is rejected
+PASS Scientific, cultural and turn-limit endings
+  seed 17421: 154 turns, 16 cities, 45 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 2026: 175 turns, 16 cities, 50 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 8: 175 turns, 15 cities, 58 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+  seed 99: 163 turns, 16 cities, 43 units; Twoje ostatnie miasto upadło. Marchie przetrwają w opowieściach rozproszonych mieszkańców.
+PASS Campaign soak: multiple seeds, complete campaigns and AI expansion
+PASS Road movement, full reach and compatible improvements
+PASS Road quotes, atomic funding and economy reconciliation
+PASS Supplies follow passable routes and roads extend reach
+PASS Winter increases off-road logistics cost
+PASS Enemy interdiction cuts trade connections and moving removes blockade
+PASS Road pillaging spends movement and breaks the segment
+PASS Multi-turn orders survive saving and arrive without free healing
+PASS Blocked march stops without attacking and cancellation preserves movement
+PASS Movement discovers ruins on intermediate tiles
+PASS Combat preview is pure and exactly matches damage
+PASS Ranged preview respects mountains and movement requirements
+PASS Infrastructure dialogue changes permanent logistics policy
+PASS Legacy v1 migration, backup and v2 order validation
+PASS Food exchange conserves output and respects road components
+PASS Provincial exchange works without capital access
+PASS Blockade interrupts provincial food and luxury access
+PASS Food allocation prioritizes urgent shortages deterministically
+PASS Turn processing uses food transfers before starvation
+PASS Housing and healthcare relieve pressure and prosperity affects yields
+PASS City focus has costs, tradeoffs and a per-turn cooldown
+PASS Emergency aid charges once and cannot bypass its cooldown
+PASS Migration needs safe roads and conserves inhabitants
+PASS Migration refuses overcrowded and unhealthy destinations
+PASS Provincial dialogue targets the affected city and prevents replay
+PASS Local charters persist and integration changes later arrivals
+PASS Local guild charters and bonded labor retain economic tradeoffs
+PASS AI prioritizes food relief and missing housing
+PASS V2 migration preserves roads and orders and backs up the original
+PASS V3 validation rejects corrupt needs, context and migration records
+PASS V3 continuation deterministically preserves provincial decisions and trade
+PASS War justification previews are pure and illegal declarations spend nothing
+PASS Conquest costs domestic support and third-party trust
+PASS Redress spends a directed grievance and liberation recognizes founders
+PASS Diplomatic missions resolve once after two turns and survive reload
+PASS Mission replies use the situation on arrival and refusals do not invent claims
+PASS Non-aggression pacts enforce the same truce for player and AI
+PASS Demand cooldowns, treasury limits and war cancellation are atomic
+PASS Governance changes trade income for loyalty and honor their cooldown
+PASS Military administration depends on a real military garrison
+PASS Capture establishes occupation and recapture restores original sovereignty
+PASS Revolt gives two warnings then transfers borders and evacuates the garrison
+PASS Recovering loyalty resets rebellion and native cities cannot defect
+PASS Autonomy dialogue affects one province and leaves a political legacy
+PASS V3 migration preserves provincial history and creates an original backup
+PASS Corrupt political state and forged diplomatic missions are rejected
+PASS Combat capture and road pillaging create grievances for the actual victim
+PASS AI honors an active pact even with a hostile and stronger army
+PASS Pending embassies and political consequences resume deterministically
+PASS War declarations record an explicit target and reject illegal targets atomically
+PASS War reports are pure and recapture reverses territorial score
+PASS Real combat records exact losses and bounds its war-score contribution
+PASS Peace proposal checks are atomic and charge a single embassy fee
+PASS Peace is ratified after two turns, pays once and enforces the truce
+PASS Reparation goals reward fulfillment once and record failed promises
+PASS Returning an occupied city preserves work and evacuates foreign troops
+PASS Last cities and unrelated territory cannot be ceded
+PASS Changed ownership and insolvency cancel the whole travelling treaty
+PASS Rejected proposals produce a delayed counteroffer requiring player consent
+PASS Ignoring or rejecting counteroffers preserves the war
+PASS AI initiates a peace proposal when exhausted instead of forcing an armistice
+PASS Defeating a state closes its war and cancels outstanding negotiations
+PASS The first negotiated peace generates a consequential reconstruction council
+PASS V4 migration preserves grievances, occupation and embassies without invented goals
+PASS V5 rejects corrupt war ledgers, deadlines, parties and duplicate treaties
+PASS War history and delayed peace replies continue deterministically after reload
+PASS Extraction assigns a worked resource once even when city radii overlap
+PASS Market forecasts are pure and conserve every commodity globally
+PASS Regional prices respond to stocks and demand within explicit limits
+PASS Road markets deliver real domestic surplus without minting foreign payments
+PASS A military blockade separates goods markets and cuts regional consumption
+PASS Market processing consumes stocks once and stores a valid detailed ledger
+PASS Warehouse capacity preserves otherwise lost surplus
+PASS Foreign contracts transfer matching goods and gold without double taxation
+PASS Domestic reserve protects inhabitants while free exports can cause shortages
+PASS Embargo and war pause deliveries and restored treaties resume them
+PASS Poor buyers receive affordable partial shipments and never overdraft
+PASS Contracts reject duplicate, unrelated, oversized and unfunded agreements atomically
+PASS Contracts expire, cancel and terminate after city capture without replaying payments
+PASS Market policy has real costs and a cooldown and the council records its tradeoff
+PASS Commodity consumption affects production, prosperity and the treasury
+PASS Contract limits require player consent and release slots after cancellation
+PASS AI imports from another AI market to address a real commodity shortage
+PASS V5 migration preserves war and peace history and starts with empty warehouses
+PASS V6 rejects corrupt warehouses, physical ledgers and contract payments
+PASS Markets and active contracts continue deterministically after reload
+PASS Caravan dispatch pays once and arrival is delayed by actual terrain distance
+PASS Road speed and terrain-aware ETA match movement phase boundaries
+PASS One caravan per contract prevents repeated purchases while cargo is travelling
+PASS Physical cargo is conserved across warehouses, transit, consumption and overflow
+PASS Transit requires both parties' treaties and avoids embargoed third countries
+PASS Temporary blockades pause movement then resume without buying a second manifest
+PASS Three consecutive blocked phases lose prepaid cargo without refund
+PASS A hostile zone captures an exposed caravan but a nearby military guard protects it
+PASS An enemy occupying the caravan tile overrides adjacent escort protection
+PASS Civilian settlers cannot intercept cargo or substitute for a military escort
+PASS Closed paths reroute through safe terrain without teleporting
+PASS Contract expiry leaves prepaid cargo travelling until arrival
+PASS A captured endpoint terminates cargo while preserving its historical payment
+PASS Reload during travel preserves positions, manifests and deterministic arrival
+PASS V6 migration keeps paid trade history and never invents retroactive caravans
+PASS Save validation rejects duplicate, unbacked and impossible caravan manifests
+PASS A real import loss opens one contextual petition with local political cost
+PASS Compensation spends the exact rounded loss once without inventing goods
+PASS Unfunded compensation is atomic and a free refusal remains available
+PASS A replacement promise requires actual arrivals and settles its reward once
+PASS Partial arrival manifests accumulate across shipments before the deadline
+PASS Wrong commodities and pre-existing warehouse stocks do not satisfy a promise
+PASS Earlier arrivals cannot be reused for a promise made after their market phase
+PASS Deliveries to another own city do not satisfy the named province's promise
+PASS An already travelling caravan can fulfill a later promise upon its arrival
+PASS Deadline failure applies political and local penalties exactly once
+PASS Arrival during the final permitted market phase fulfills rather than breaks the pledge
+PASS Arrivals after the deadline never repair a broken promise retroactively
+PASS Losing the petition city closes an undecided case without blocking the council
+PASS Losing a promised city breaks the word without changing the new owner's province
+PASS Repeated losses from one province respect the ten-turn delegation interval
+PASS Export losses do not create a domestic buyer's petition
+PASS Overlapping promises for one city and commodity are rejected before applying effects
+PASS Presenting a trade petition cannot overwrite another pending council event
+PASS Trade petitions and partially fulfilled promises continue deterministically after reload
+PASS V7 migration preserves caravan losses without inventing retroactive petitions
+PASS Save validation rejects forged losses, deadlines, progress and council context
+PASS Escort assignment replaces a march without moving, spending or duplicating an order
+PASS Escorts reject remote, civilian, unrelated, foreign-controlled and exhausted units atomically
+PASS Only one designated escort can serve a caravan and a unit cannot escort two
+PASS Joint forecasts are pure and real caravan and escort movement match them
+PASS Slow escorts limit speed while cavalry and connected roads preserve faster movement
+PASS Spent movement can delay an escort but no movement is borrowed from the next phase
+PASS Terrain-aware escort ETA matches arrival and the military stops before a peaceful foreign city
+PASS A designated escort carries protection through a hostile zone without attacking
+PASS Direct occupation still loses cargo and releases the designated escort
+PASS Commercial transit rights never grant military entry and the convoy can continue alone
+PASS Detaching at a border recalculates safety rather than carrying phantom protection onward
+PASS Earlier convoys move their guards before later convoys evaluate shared protection
+PASS Escort orders reserve marches, attacks and pillaging until explicitly cancelled
+PASS Cancelling after joint movement never refunds spent points
+PASS An escort discovers real intermediate ruins once while the forecast grants no rewards
+PASS Embargo holds the escort in place and an active assignment prevents passive healing
+PASS Cargo loss and displacement release an escort without inventing a retreat move
+PASS AI may assign its own colocated scout but cannot take control of a player's unit
+PASS Capture evacuates a designated guard and immediately clears its invalid escort order
+PASS Joint movement and persistent escort orders resume deterministically after reload
+PASS V8 migration preserves promises and caravans without retroactive escort assignments
+PASS Save validation rejects unknown, remote, civilian, duplicated and conflicting escort orders
+PASS Transit embassy takes two turns and grants exactly twelve market phases
+PASS Paid transit changes acceptance and transfers its price exactly once on reply
+PASS Rejected transit charges only the embassy and leaves the border closed
+PASS Spending the offered passage money before reply causes a recorded refusal
+PASS An embargo introduced while envoys travel prevents acceptance without taking passage money
+PASS War cancels a travelling paid embassy before passage can be charged
+PASS Transit validation rejects duplicate rights, poor offers, cooldowns and embargo atomically
+PASS A closed corridor reports every missing host and one permission cannot open two borders
+PASS Available neutral detours avoid spurious border disputes
+PASS Host treaties with both parties still allow transit after a temporary permit expires
+PASS Safe conduct covers exports and imports but cannot subsidize unrelated AI cargo
+PASS A permit never overrides host embargo or host war against either trading party
+PASS Trade between buyer and seller remains mandatory even with every host's consent
+PASS Transit replies reopen stopped prepaid cargo before its third waiting phase
+PASS A late transit reply cannot resurrect a caravan already abandoned
+PASS Expired permissions strand cargo inside the host until normal three-phase loss
+PASS Civilian passage ends escorts at the foreign gate without moving the army across
+PASS Transit permission never bypasses enemy occupation or grants phantom protection
+PASS Pending offers and accepted rights continue identically through save and reload
+PASS V9 migration preserves escorts and promises without inventing transit consent
+PASS Forged transit replies, future grants and unknown embassy variants are rejected
+PASS Expiry notices are pure, warn two turns ahead and reach the turn chronicle
+PASS Corruption removes only the exact share of city gold and forecasts remain pure
+PASS A completely corrupt office remains finite and economy totals do not subtract losses twice
+PASS Actual revenue loss enters the local ledger once per collected turn
+PASS Distance, unrest and governance increase corruption while courts and institutions reduce it
+PASS Independent supervision lowers the target only before its exclusive end turn
+PASS Audit takes three turns, charges once and freezes only actual accumulated shortages
+PASS Invalid, poor, duplicate and unsupported audits are rejected atomically
+PASS Twelve-turn audit interval survives resolution and cannot be bypassed with low corruption
+PASS Delaying a ruling never adds subsequent losses to the frozen report
+PASS Public prosecution restores three quarters and carries the authored political costs
+PASS Office reform costs additional money, forgoes recovery and grants local twelve-turn supervision
+PASS Settlement restores a quarter with smaller corruption relief and favors the nobles
+PASS An empty treasury can still choose prosecution or settlement but cannot finance reform
+PASS Closed audit rulings cannot be replayed or re-presented for another payment
+PASS Audit reports queue behind an existing council instead of replacing it
+PASS Different provinces keep separate reports in deterministic completion order
+PASS Capturing an investigated city cancels its audit without transferring money or applying a ruling
+PASS Capture closes a ready council and ends supervision, while recapture cannot revive its report
+PASS AI finances local integrity measures but never takes a player's administrative decision
+PASS Audit investigation and unresolved findings resume identically after save and reload
+PASS V10 migration preserves accepted transit and merchant promises without invented shortages
+PASS Save validation rejects corrupt ledgers, forged recovery, unknown cities and stale council context
+PASS Future orders leave the current project, treasury and accumulated work intact
+PASS Automatic transitions preserve all overflow and finish only one project per city and turn
+PASS A planned unknown technology waits without producing and resumes when discovered
+PASS Settlers wait for inhabitants rather than skipping later orders or borrowing population
+PASS A planned cavalry order remains blocked until the faction controls horses
+PASS Repeating recruitment rotates behind other orders and retains barracks training
+PASS A repeating current order respects eight waiting slots through save and completion
+PASS Repeating public works pay exactly once and disarming repetition restores normal fallback
+PASS Repeating settlers stop after reducing the city below the recruitment threshold
+PASS Pausing preserves work and plans while food, inhabitants and treasury continue normally
+PASS Resuming production cannot bypass an unmet technology requirement
+PASS Manual project replacement retains the historical loss but preserves the future plan and pause
+PASS Starting the queue applies loss only when replacing a different current project
+PASS Reordering and removing pending work do not alter production, cash or the active project
+PASS Clearing pending orders leaves current production and its repetition intact
+PASS Permanent projects cannot repeat or be enqueued twice or after completion
+PASS Completed buildings left in a plan are skipped once rather than rebuilt or softlocking it
+PASS An already completed first queued building cannot be started manually for a second reward
+PASS Invalid indexes, foreign cities, unknown projects and finished campaigns reject changes atomically
+PASS Changing sovereignty clears inherited queue, repetition and pause during capture and peaceful return
+PASS Planning forecasts and repeated presentation never change accumulated work or order state
+PASS Paused, repeated and blocked queues continue deterministically after reload
+PASS V11 migration preserves an unanswered audit and active project without inventing queue orders
+PASS Save validation rejects oversized, unknown, null and impossible repeating production plans
+PASS Fortification spends all movement, replaces a march and grants no instant bonus
+PASS Fortification grows once per completed turn and caps at forty percent
+PASS Wake and repeated preparation cannot refund movement or create readiness
+PASS Orders reject exhausted, foreign, settler, unknown and ended inputs atomically
+PASS A duplicate standing order neither consumes readiness nor starts it again
+PASS Pure combat preview multiplies unit defense before adding terrain
+PASS Actual combat matches fortified preview and preserves the defender's position
+PASS Ranged damage respects fortifications without a counterattack
+PASS Prepared nearby troops never multiply an ungarrisoned city's walls
+PASS Launching an attack abandons works and never boosts offensive strength
+PASS A successful march clears works while rejected movement preserves them
+PASS Queued movement breaks preparation even before its first step without healing
+PASS Pillaging a road consumes movement and abandons fortifications
+PASS Escort assignment abandons works and prevents conflicting rest commands
+PASS Recovery heals faster, finishes at full health and wakes exactly once
+PASS Medicine improves supplied recovery and ordinary rest at their own rates
+PASS Ordinary fortification heals normally rather than receiving recovery twice
+PASS Unsupplied recovery applies weak healing then attrition and never falsely completes
+PASS Unsupplied scout recovery retains its existing attrition exemption
+PASS Enemy fire interrupts recovery without granting any defensive works
+PASS Switching from entrenchment to recovery discards all old preparation
+PASS Full-health units cannot buy unnecessary recovery
+PASS Evacuation after sovereignty transfer removes works from the displaced unit
+PASS AI prepares stationary garrisons and treats its supplied wounded
+PASS Peace withdrawal removes prepared works instead of transporting them home
+PASS Market projections retain and never mutate standing military orders
+PASS Standing orders and partially completed works continue identically after reload
+PASS V12 migration retains production and audit data without inventing prepared positions
+PASS Military save validation rejects impossible readiness and conflicting orders
+PASS Loans transfer real principal and preserve combined treasury balances
+PASS Credit requirements reject missing technology, war, treaty, trust and lender funds atomically
+PASS Invalid creditors, unsupported principals, fallen states and completed campaigns cannot borrow
+PASS Only two obligations and one per creditor can remain open
+PASS Early repayment charges full agreed interest exactly once and transfers it to the creditor
+PASS Repayment refuses insufficient gold, unknown ids and an ended campaign atomically
+PASS Early settlement does not bypass the eight-turn funding interval
+PASS Maturity warnings and due transitions are idempotent without seizing treasury
+PASS Real end-turn processing schedules the due debt and the council blocks further time
+PASS An existing council keeps precedence while overdue obligations wait without invented interest
+PASS Due hearing uses the named creditor and actual terms without mutating the state
+PASS Council repayment transfers the quoted amount once and increases trust
+PASS One extension pays a real fee and adds fixed interest with a new six-turn term
+PASS A second extension is refused atomically and the remaining debt still has two outcomes
+PASS War and a fallen creditor stop extensions but never erase principal or block repayment
+PASS Empty treasury has a default option with political, diplomatic and credit consequences
+PASS Credit freeze applies to every lender and expires at its exclusive boundary
+PASS Debt defaults stop treaty-dependent paid cargo without refunding its purchase
+PASS Outstanding debts stay distinct from recurring income and pure economic forecasts
+PASS Two matured loans are presented separately and cannot overwrite each other
+PASS Borrowed gold creates no free victory points and repayment preserves net wealth
+PASS Malformed and finished council requests cannot mutate finance
+PASS Ongoing, extended and due loans continue identically across save and reload
+PASS V13 migration keeps military preparation, production and audits without inventing debt
+PASS Loan validation rejects unknown terms, impossible dates, fake payments and bad contexts
+PASS Loan validation rejects duplicate records, null registries and unsettled terminal amounts
+PASS Intelligence recruitment charges sixty, gives unique agents and enforces the roster limit
+PASS Recruitment rejects unavailable technology, money, state and owner without mutations
+PASS Each mission charges its own cost and deadline once without rolling or immediate effects
+PASS Mission previews are pure and agent rank improves both chances with a cap
+PASS Invalid mission, ownership, fog, target, knowledge and funds fail atomically
+PASS Recall returns the agent without refund or bypassing the eight-turn city interval
+PASS Reconnaissance reveals three hexes and retains a dated snapshot without live visibility
+PASS Research theft copies actual available research into science without an automatic discovery
+PASS Research theft cannot exceed one hundred twenty science for a costly technology
+PASS Previously learned target research cancels without reward, refund or a random draw
+PASS Sabotage removes only accumulated work and preserves buildings, queue and pause
+PASS Real end-turn processing resolves reconnaissance on its third turn exactly once
+PASS Successful detected missions keep their effect and cause diplomatic consequences
+PASS Undetected failure returns the agent with experience but without an effect or incident
+PASS Capture creates a named council and still occupies one of the three roster slots
+PASS Ransom transfers one hundred exactly once and returns the same agent
+PASS Public apology trades money and prestige for recovery and improved relations
+PASS Wartime and empty treasuries keep a free denial choice without enabling an apology
+PASS Existing councils and completed campaigns cannot be overwritten by spy requests
+PASS Counterintelligence spends sixty, adds twenty-five defense and expires exclusively
+PASS Protection, courts and stability change risks for an operation already underway
+PASS Counterintelligence rejects foreign cities, missing technology and insufficient money
+PASS Sovereignty changes cancel active missions and clear the former owner's protection
+PASS Captives remain held by the original state when their former target city is conquered
+PASS Hostile AI pays for its own operations while peaceful states and player control stay untouched
+PASS AI spies can sabotage the player without revealing attribution when undetected
+PASS Captured AI agents in another AI state pay ransom or are abandoned without funds
+PASS AI strengthens defense only after detected intrusion and pays its own protection cost
+PASS In-flight outcomes and captured decisions continue identically after reload
+PASS V14 migration preserves debt, army orders and production without inventing spies
+PASS Spy validation rejects invalid identities, ownership, status, chance, dates and rolls
+PASS Spy validation rejects invented effects, reversed capture decisions and resurrected agents
+PASS Foreign capture leaves funds and the prisoner's fate under player control
+PASS Custody council describes the actual agent, state, city and exchange candidate
+PASS Ransom demand transfers exactly a hundred from the sender once
+PASS An insolvent sender blocks ransom without blocking the free decisions
+PASS Foreign captive exchange returns the same two agents without gold or erased grievances
+PASS Own captive dialogue offers the same atomic exchange during war and with an empty treasury
+PASS Exchange rejects missing, resolved, interned or wrong-country partners atomically
+PASS An exchange consumes one prisoner pair and leaves other people in custody
+PASS Release improves trust, costs noble support and rewards prestige without transferring gold
+PASS Release trust is clamped and is available during war
+PASS Internment keeps the person and roster slot for eight turns with a diplomatic cost
+PASS Internment expires once at the start of its final turn and frees the same agent
+PASS A real end turn releases an interned agent through the normal intelligence phase
+PASS Conquest changes neither the captor nor an internment deadline
+PASS Custody waits behind an existing council and precedes own ransom when both are waiting
+PASS Present rejects wrong ids, already-decided cases, other councils and ended campaigns
+PASS No captor decision is offered for undetected failures or detected successes
+PASS Save and reload preserve open custody, exchange links and delayed release identically
+PASS V15 migration preserves captured people and old ransom decisions without invented custody
+PASS Custody validation rejects false context, missing decisions and invalid imprisonment dates
+PASS V15 migration keeps previously resolved foreign captives closed
+PASS V15 migration rejects a missing spy registry with a controlled invalid-data error
+PASS Custody validation rejects early freedom, stale captivity and forged prisoner exchanges
+PASS Returned captives can deploy again while both sides of an exchange remain valid history
+PASS New campaigns begin in the Paleolithic with 1600 turns and historical continuity
+PASS Eighteen eras contain ninety unique technologies and all original discoveries
+PASS The full technology graph is reachable in order without cyclic prerequisites
+PASS A later era cannot be researched by accumulating unrelated technology counts
+PASS Every new discovery has an observable city bonus or usable project unlock
+PASS All epoch buildings and 34 models have actual effects and valid prerequisites
+PASS Energy shortage reduces the actual yield of powered infrastructure
+PASS Energy is shared by connected domestic cities and an interdiction can cut it
+PASS Powered facilities retain full upkeep when energy is scarce
+PASS Emissions from foreign factories affect global climate and domestic crops
+PASS Climate restoration reverses pressure without going below zero
+PASS Housing, sanitation, defense and supply bonuses reach their existing systems
+PASS Era choices have lasting different effects, survive reload and cannot be repeated
+PASS Era councils reject future contexts and keep a free affordable branch
+PASS Models are produced with their own combat strength, movement and name
+PASS Modernization transfers gold once and preserves health and experience
+PASS Modernization rejects wrong role, insufficient funds, movement and foreign location
+PASS Late artillery uses model range and cannot capture cities
+PASS Programs require technology, the right facility and their predecessor
+PASS All five space programs finish through real production and persist as national milestones
+PASS Atlas no longer ends an extended world before future eras
+PASS Final program pauses for inadequate stability or power without losing work
+PASS The calendar is monotonic, reaches the future and old campaigns retain their dates
+PASS Old campaigns explicitly extend without erasing cities, people, treasury or discovered knowledge
+PASS V16 migration preserves espionage and custody without inventing new era decisions
+PASS Validation rejects impossible eras, milestones, climate values and mismatched models
+PASS A real campaign researches every epoch, resolves its institutions and keeps deterministic saves
+  extended development T200: AI eras 8,8,7; techs 36,36,35
+  extended development T400: AI eras 15,12,12; techs 74,57,57
+  future reached after 461 turns; highest AI era 18; cities 13
+PASS AI develops from prehistoric income into future eras without granted research or buildings
+PASS Army model forecasts remain pure and preserve modern movement metadata
+PASS V16 save overwrite creates a faithful backup with the old custody context
+PASS Completed national programs cannot be queued and another city's redundant work moves on
+PASS Future or repeated era councils are rejected during load rather than trapping the player
+PASS Every new building can be ordered, completed once and used by a real city
+PASS Veteran material bonuses cannot turn a paid modernization into a downgrade
+PASS Modernization price uses the actual material-adjusted base strength
+PASS Equal power priorities retain proportional sharing and conserve generation
+PASS A critical city receives power before ordinary and reduced cities
+PASS Priority decisions change real science in both cities without generating power
+PASS A shortage within the highest priority is proportional rather than city-order dependent
+PASS Idle networks preserve unused capacity and zero-demand cities require no power
+PASS Power priority cannot bypass a disconnected road network
+PASS An occupied generator cannot connect two otherwise separated consumers
+PASS Power controls reject foreign cities, invalid priorities and repeat changes atomically
+PASS Suspending a factory removes its output, energy demand and emissions
+PASS A suspended generator loses supply and retains one quarter of its actual upkeep
+PASS Shutdown frees scarce power for another city's data centre
+PASS Restart costs gold once, requires the next turn and preserves production plans
+PASS Insufficient restart funds and unsupported buildings are rejected without mutation
+PASS Suspended service buildings keep physical housing but stop sanitation and supply
+PASS Suspending the required space facility blocks work without removing accumulated production
+PASS Prioritising the spaceport enables its real program at the expense of another city
+PASS A plant completed this phase powers other cities only from the next economic phase
+PASS Climate charges the same operating phase rather than plants finished or retired by AI later
+PASS Four renewable sources have usable technology unlocks and geographical descriptions
+PASS Hydropower requires a river belonging to the city owner during actual production
+PASS A queued renewable project waits for its geographic requirements without losing work
+PASS Solar generation follows winter and desert modifiers without consuming RNG
+PASS Wind uses winter, summer and local hills while repeated forecasts remain pure
+PASS AI retires redundant emitting capacity without causing shortages or restarting it repeatedly
+PASS AI marks its active space program as critical and can restart an inherited source
+PASS Sovereignty resets allocation orders but retains physically suspended facilities
+PASS V17 migration keeps the extended world and resets only newly introduced power directives
+PASS Power save reload retains operating costs, priorities and same-turn locks exactly
+PASS V17 overwrite retains a faithful backup of the player's previous campaign
+PASS Validation rejects unsupported shutdowns, future dates, undefined priorities and null registers
+PASS Legacy games and ended campaigns reject industrial commands atomically
+PASS An energy petition requires three real consecutive phases below seventy-five percent
+PASS Shortages apply pressure to all countries while only the player receives a council
+PASS Exactly seventy-five percent coverage does not trigger a crisis
+PASS A powered phase resets the consecutive-shortage requirement
+PASS Historical coverage uses the frozen economic phase rather than a newly completed plant
+PASS Power forecasts never create observations or petitions
+PASS Energy observations are bounded, consecutive and preserved by save reload
+PASS Relief pays the displayed opening quote once and does not invent electricity
+PASS An empty treasury still has both a promise and an explicit refusal
+PASS Promise decisions alone never count existing or forecast power as delivery
+PASS Three fully powered future phases settle a pledge through actual turn execution
+PASS One interruption resets promise progress and success wins on the final allowed phase
+PASS Two full phases at the deadline break the promise and cannot later resurrect its reward
+PASS Turning off promised services cannot satisfy a restoration pledge with zero demand
+PASS Powering a substitute does not erase the named services in the original promise
+PASS A pledge checks the entire active city's power rather than only its old demand
+PASS A real priority change can recover a pledged city by shifting power from its neighbour
+PASS A case keeps its original protocol after the recent city history has rolled over
+PASS Repeated shortages respect sixteen turns after resolution and one open case per city
+PASS An unresolved older council is never overwritten by a new energy delegation
+PASS Losing a pledged city breaks the national word but does not punish its new local owner
+PASS Losing a city closes its pending delegation and clears only that council context
+PASS A recovered city does not inherit its previous owner's shortage observations
+PASS V18 migration preserves power directives without inventing old outages or promises
+PASS V18 overwrite retains an exact backup before introducing the new save format
+PASS A mid-pledge save retains evidence and follows the same future political outcome
+PASS Malformed observations, impossible success and missing council contexts are rejected
+PASS Legacy campaigns neither accumulate energy evidence nor permit fabricated petitions
+PASS Live pledges cannot hide an observed phase or forge an earlier successful streak
+PASS District placement reserves an actual field and charges public financing once
+PASS District legality rejects resources improvements ruins cities and foreign territory atomically
+PASS District placement requires knowledge money free construction and population slots
+PASS Guild and public charters have different lasting yields costs and political effects
+PASS District adjacency responds to mountains forests rivers roads and workshops resources
+PASS Unknown neighboring terrain never contributes to the player's preview
+PASS Construction diverts exactly the allocated production from the ordinary project
+PASS Finishing a district returns unused allocation to the ordinary project
+PASS Paused production and zero allocation preserve district work
+PASS District labor policy allows one actual change per turn
+PASS Active districts produce actual city output housing and treasury maintenance
+PASS Canceled construction frees its field without refunding money or accumulated work
+PASS District fields reject improvements while roads can coexist
+PASS Hostile occupation halts district construction without consuming project production
+PASS Wartime pillage disables yields spends movement and grants loot only once
+PASS Rebuilding a looted district requires safety and half its original production
+PASS City conquest inherits its district records and future income
+PASS V20 preserves unfinished work charter allocation and deterministic continuation
+PASS V19 migration retains campaign and writes an exact predecessor backup
+PASS District save validation rejects forged IDs tiles work enums and duplicate projects
+PASS AI uses actual urban sites and paid construction in the full campaign
+PASS Military sight matches the player's existing map visibility
+PASS Threat assessment counts only currently observed wartime combat troops
+PASS AI observation does not depend on the player's explored flags
+PASS An observed hostile scout still counts as a fighting threat to a city
+PASS Military plans are read only deterministic and consume no campaign RNG
+PASS Settlers scouts and convoy escorts never receive field army assignments
+PASS Wartime city security reserves infantry before ranged field troops
+PASS A threatened city receives defenders before an offensive army is released
+PASS Future-era defense requirements scale with contemporary unit strength
+PASS An isolated weak force assembles instead of declaring an unsupported assault
+PASS A combined healthy field force can advance while preserving a garrison
+PASS An all-ranged army does not plan to capture a city by itself
+PASS Strategic objectives discard cities whose approaches cannot be reached
+PASS Player assessment never names an unexplored hostile city objective
+PASS Recruitment fills a missing capture role instead of always buying strongest cavalry
+PASS Wartime recruitment includes siege support once infantry is available
+PASS Recruitment accounts for units already being produced by another city
+PASS Recruitment stops an unaffordable peaceful arms buildup
+PASS Recruitment chooses a legal contemporary model for the missing role
+PASS AI preserves invested production on a legal project without an emergency
+PASS A completed civilian project permits real AI recruitment without locking the next automatic project
+PASS A free production boundary permits expansion without abandoning an invested project
+PASS Emergency military replanning pays the existing twenty percent work loss
+PASS Tactical ranged fire prioritizes a kill rather than list insertion order
+PASS Tactical melee refuses a preview that would kill its attacker
+PASS Ranged fire followed by infantry captures a weakened city through real combat
+PASS An injured supplied army uses the existing recovery order without free healing
+PASS A damaged unsupplied army spends ordinary movement retreating toward supplies
+PASS The AI executor cannot issue orders to the player's army
+PASS Existing v20 saves reproduce the same plans and future military turns
+PASS A prepared combined army can complete an actual multi-turn offensive while retaining city security
+PASS The complete naval catalog references legal technologies and distinct ship roles
+PASS A seaport requires a coastal city and the full epoch campaign
+PASS Ships require their actual technology and a completed launch port
+PASS A port is built through real city production and adds actual food gold and upkeep
+PASS Shipbuilding spends production and launches on water instead of the city center
+PASS Unavailable launch berths block new work without discarding invested production
+PASS Naval movement spends one point per water field and never walks onto land
+PASS Land infantry cannot sail and early galleys cannot cross deep ocean
+PASS Ocean capable models can cross open sea using the same route engine
+PASS Naval routes respect unexplored fields and foreign peaceful waters
+PASS Multi-turn naval orders preserve water destinations through a save reload
+PASS Ship supply comes from active seaports rather than inland city roads
+PASS An isolated water basin cannot receive supplies across land
+PASS A wartime blockade disables port output and ship supply while maintenance remains
+PASS A peaceful foreign ship does not impose a blockade or erase port income
+PASS Lifting a blockade immediately restores port activity and supply
+PASS An enemy ship does not directly cut land road supply through naval adjacency
+PASS Ship combat requires war and spends ordinary attack actions
+PASS Early galleys cannot bombard land while ocean warships can
+PASS Naval bombardment can reduce a coastal city to zero but cannot capture it
+PASS Melee infantry cannot attack ships across the shoreline but ranged troops can
+PASS Ships reject fortification and convoy escort but can use ordinary recovery
+PASS Naval modernization requires a safe active home port and pays actual gold
+PASS A supplied ship away from a port cannot modernize at sea
+PASS Ships do not consume land army garrison assignments
+PASS Coastal AI chooses legal port construction then a technology appropriate fleet
+PASS Naval AI fires through normal combat and never gives itself free movement or health
+PASS The naval AI executor cannot take control of the player's fleet
+PASS V21 preserves fleets water orders blockades and deterministic future turns
+PASS V20 migration retains the old world without inventing ships and preserves its exact backup
+PASS Save validation rejects wrong naval domains models orders and forged old formats
+PASS Saved ports on inland cities are rejected
+PASS Repeated real naval turns keep every ship afloat and every land army on land
+PASS Naval carrying capacity scales by model and heavy troops use two slots
+PASS Embarkation preserves identity and health while spending actions and clearing orders
+PASS Rejected boarding is atomic for insufficient capacity movement ownership and port access
+PASS Ships cannot be nested inside ships and a passenger cannot board twice
+PASS A blocked port cannot embark new troops
+PASS Actual ship movement carries every passenger without extra independent movement
+PASS Passengers cannot move march attack or create military orders independently
+PASS An embarked scout does not extend the carrier's reconnaissance radius
+PASS Passengers use carrier supply and pay their normal unit maintenance
+PASS EndTurn does not heal passengers or grant them movement while at sea
+PASS Landing spends ship movement and leaves the soldier exhausted until the next turn
+PASS Landing requires a neighboring passable discovered and empty shore
+PASS Military landings respect peaceful borders and allow empty hostile shores during war
+PASS Settlers cannot land on foreign owned shores even during war
+PASS Enemy cities must be captured on land rather than taken by a landing command
+PASS Passengers never become independent field garrisons or visible enemy targets
+PASS Sinking a loaded ship removes its complete manifest and records the loss
+PASS An insolvent carrier desertion never leaves dangling passengers
+PASS Passengers and ships cannot provide phantom guards for land caravans
+PASS A peace treaty withdraws a loaded carrier onto water with its manifest intact
+PASS A real crossing and two landings can establish a coastal colony on a new shore
+PASS AI transports a settler and founds a colony through ordinary economic turns
+PASS Wartime AI boarding retains a land defender at its embarkation city
+PASS The transport AI cannot commandeer the player's ships or passengers
+PASS Current saves preserve cargo identity and deterministic continuation across a voyage
+PASS V21 migration preserves existing ships and ports without inventing a manifest
+PASS Save validation rejects forged carriers capacity positions orders and old format cargo
+PASS Assault previews preserve state and expose the landing penalty
+PASS Successful assault lands the original troop and charges the carrier
+PASS Repelled assault keeps survivors aboard with exactly forecast casualties
+PASS Dead assault troops do not corrupt surviving passenger links
+PASS Several defenders require separate assaults
+PASS Settlers scouts and artillery cannot assault a defended coast
+PASS Invalid assault targets reject atomically
+PASS Assault owner guards prevent foreign manifest control
+PASS A repelled passenger cannot repeat its assault within the same turn
+PASS Empty shores require normal exhausted landing
+PASS Coastal assault captures weakened cities with normal occupation
+PASS City garrisons must fall before their city can be captured
+PASS Assault respects a third party's peaceful territory
+PASS AI performs favorable assaults and never commandeers the player
+PASS Three inland siege fronts stop actual economic repairs
+PASS Three troops stacked together form only one siege front
+PASS Partial siege slows repairs and coastal encirclement requires naval closure
+PASS Civilians escorts and severely wounded troops cannot besiege
+PASS Wall damage affects full campaigns while legacy defense stays unchanged
+PASS Landing and full preparation establish a beachhead through ordinary turns
+PASS Beachheads supply two land steps without creating trade connections
+PASS Loss movement or enemy interdiction of the carrier immediately cuts a beachhead
+PASS Weakening or waking the entrenched infantry ends its beachhead
+PASS A beachhead cannot invent supply for its own carrier
+PASS Assaults and sieges preserve deterministic save continuation
+PASS Military depots require engineering and an extended campaign
+PASS A depot consumes real construction production and starts with no invented stocks
+PASS Quartermaster allocation changes no production immediately and rejects repeat changes atomically
+PASS Supply manufacture subtracts the exact production it spends from ordinary construction
+PASS Full stocks return all unused production to the ordinary project
+PASS District construction receives work before supply allocation without double spending
+PASS Pausing city production halts supply manufacture without deleting existing stocks
+PASS A full siege halts manufacture even with a funded unpaused depot
+PASS Manual loading charges finite stocks movement and clears prior orders
+PASS Heavy cavalry and artillery need two packs for each reserve turn
+PASS Scarce stocks load only affordable reserve turns without fractional supplies
+PASS Refill rejects missing stocks movement foreign control and civil units atomically
+PASS Blocked land routes prevent remote loading even near a depot
+PASS An ordinary turn automatically loads units in stable ID order without creating stocks
+PASS Connected troops retain their carried reserve without ongoing stock consumption
+PASS Three carried rations protect an isolated army and then restore normal attrition
+PASS Carried supply does not fabricate a physical route or commercial connection
+PASS Embarked reserves neither refill nor consume and cannot supply their own carrier
+PASS A convoy raid forecast leaves stocks RNG and campaign unchanged
+PASS Executing a raid destroys finite stocks pays exact loot and preserves the road
+PASS Raids cannot destroy or loot more than the target actually stores
+PASS Defenders and destroyed road links protect the stockpile from remote raids
+PASS Peaceful borders empty depots and unready raiders reject without side effects
+PASS A three-step depot requires current reconnaissance before a raid
+PASS Capture salvages half a depot and resets its policy within the new owner's capacity
+PASS AI builds and funds depots through actual project and economic turns
+PASS Military AI raids an exposed supply road without controlling player orders
+PASS Current saves preserve stock policies carried reserves and deterministic future
+PASS V22 migration preserves a naval manifest without inventing reserves and backs up exact input
+PASS Save validation rejects invalid reserves stocks allocation dates roles and old-format depots
+PASS Processing projects have legal technologies and cannot be built in legacy campaigns
+PASS A real city project builds a workshop with no invented goods or active policy
+PASS The crafting policy commits no immediate materials work or goods
+PASS Policy changes validate owner recipe and cooldown without partial mutation
+PASS Manufacturing forecasts preserve exact stocks campaign and RNG
+PASS Tools spend real iron and work and keep every commodity ledger balanced
+PASS Weaving converts each dye unit into two textiles at the quoted work cost
+PASS A partial work budget never creates a fractional batch
+PASS Missing ingredients leave the entire processing budget to ordinary construction
+PASS Full product storage blocks work and prevents manufacturing overflow
+PASS A two-item textile batch requires room for both items
+PASS Repeated market previews and market ticks never manufacture early products
+PASS Districts and military supply receive work before manufacturing without double spending
+PASS Connected own warehouses supply ingredients with explicit source receipts
+PASS A broken road prevents production from a disconnected warehouse
+PASS Enemy interdiction separates the industrial input network
+PASS A foreign stockpile cannot feed workshops without a delivered import
+PASS Paused workshops retain their ingredients apart from normal household consumption
+PASS A full siege suspends processing even with labor and ingredients
+PASS A newly built guildhall cannot claim bonuses from zero historical demand
+PASS Actual product consumption grants the guildhall's production culture and prosperity benefits
+PASS Newly manufactured tools reach guild consumption only in the following market phase
+PASS Processed export prices reflect both markets while raw commodity pricing stays unchanged
+PASS Products are dispatched after production and arrive by an actual paid caravan
+PASS Imported iron feeds production only after its caravan arrives
+PASS Embargo still stops and destroys an already paid processed-goods caravan
+PASS Capture retains physical workshops and goods but resets plans and accounting context
+PASS AI builds and funds a real input-backed workshop through ordinary turns
+PASS Current manufacturing saves preserve deterministic economic and shipment continuation
+PASS V23 migration retains military reserves and old ledgers without inventing processed goods
+PASS Validation rejects forged recipes work dates input sources and inconsistent industrial ledgers
+PASS Older formats cannot smuggle new facilities products or product contracts
+PASS Era endeavour completes paid real phases: Paleolit
+PASS Era endeavour completes paid real phases: Neolit
+PASS Era endeavour completes paid real phases: Epoka brązu
+PASS Era endeavour completes paid real phases: Epoka żelaza
+PASS Era endeavour completes paid real phases: Starożytność klasyczna
+PASS Era endeavour completes paid real phases: Średniowiecze
+PASS Era endeavour completes paid real phases: Renesans
+PASS Era endeavour completes paid real phases: Oświecenie
+PASS Era endeavour completes paid real phases: Rewolucja przemysłowa
+PASS Era endeavour completes paid real phases: Nowoczesność
+PASS Era endeavour completes paid real phases: Epoka atomowa
+PASS Era endeavour completes paid real phases: Epoka informacyjna
+PASS Era endeavour completes paid real phases: Epoka automatyzacji
+PASS Era endeavour completes paid real phases: Epoka planetarna
+PASS Era endeavour completes paid real phases: Epoka orbitalna
+PASS Era endeavour completes paid real phases: Epoka międzyplanetarna
+PASS Era endeavour completes paid real phases: Epoka Układu Słonecznego
+PASS Era endeavour completes paid real phases: Epoka międzygwiezdna
+PASS Every era has a distinct task legacy and architectural purpose
+PASS Commissioning spends only the explicit start cost and grants no instant legacy
+PASS Rejected future duplicate owner and pace choices are atomic
+PASS Advancing an era preserves an unfinished historical commission
+PASS An established legacy cannot be replayed for repeated rewards
+PASS Foreign institutions cannot satisfy a domestic endeavour
+PASS Forecasting all requirements preserves the complete campaign and RNG
+PASS Each funded phase spends the exact fee beyond ordinary economy
+PASS Missing conditions reset continuity while retaining already paid costs
+PASS The gradual plan actually needs six consecutive phases
+PASS A cash shortage resets the plan without creating debt
+PASS Cancellation has no refund and cannot be used to restart in the same turn
+PASS Unpowered and suspended infrastructure never satisfies a powered endeavour
+PASS A newly built service cannot claim a phase before it actually received energy
+PASS Legacy production is earned and follows the actual operating building
+PASS Transport housing and climate legacies change their actual systems
+PASS AI funds a legal available endeavour without steering the player
+PASS A current save resumes the exact paid endeavour and future world
+PASS Actual v24 shape migrates without invented legacies and keeps an exact backup
+PASS Validation rejects forged completed plans progress dates and legacy formats
+PASS Treaty previews and registry remain read-only including RNG
+PASS A proposal charges only its sender's embassy fee
+PASS A treaty reply actually travels for two turns and awaits explicit player signature
+PASS A deteriorating diplomatic situation can reject a previously promising offer
+PASS Unaffordable malformed legacy and duplicate proposals are atomic
+PASS Research diplomacy requires writing and respects existing wars and embargoes
+PASS Both deposits are actually locked together without instant science
+PASS Failed ratification never partially charges the solvent party
+PASS Rechecking trust at signature prevents stale consent
+PASS Declining or timing out never confiscates unsigned deposits
+PASS A funded research phase derives science from actual income rather than banked science
+PASS Researchers cannot magnify the same phase by repeated forecasting
+PASS Three unilateral unfunded phases compensate the solvent partner without debt
+PASS Mutual funding failure returns each bond without inventing an aggressor
+PASS A completed research treaty refunds both deposits once at its exact boundary
+PASS Peace guarantees lock funds without blocking the legitimate war preview
+PASS Breaking a guarantee pays the victim both real deposits exactly once
+PASS The actual war action automatically forfeits the aggressor's guarantee
+PASS A recorded AI declaration is settled by the ordinary turn before economic effects
+PASS The actual embargo action breaks research but retains a peace guarantee
+PASS War cancels travelling proposals without inventing a signed bond
+PASS Elimination returns signed security without fabricating an offender
+PASS Incoming AI proposals cannot automatically spend player funds or sign
+PASS Optional AI negotiations begin after a real first contact
+PASS Two pending commitments enforce the global party limit
+PASS Saving mid-negotiation and during paid cooperation preserves deterministic continuation
+PASS Real v25 data migrates without agreements and keeps an exact v25 backup
+PASS The war forecast explicitly warns about the same confiscated bond
+PASS Validation rejects duplicate pending negotiations
+PASS Validation rejects forged deposits payouts scientific evidence and older schemas
+PASS Large late-campaign populations retain valid scaled council fees
+PASS Era acceleration keeps years advancing and forecasts do not add ancient centuries
+PASS AI provincial councils require the player channel and pay from their own treasury
+PASS V26 migration retains exact predecessor bytes and replaces old abbreviated history
+PASS A calendar cannot rewrite an earlier phase to be later than its successor
+PASS Captured years survive later eras and save round trips
+PASS Future dates are explicitly estimated and do not mutate the campaign
+PASS Old histories retain uncertainty instead of invented exact dates
+PASS Legacy campaign retains its original calendar
+PASS Invalid calendars cannot enter a current save
+PASS Reading and saving an undated current phase preserve exact state
+PASS Local preview and rejected agreement do not spend money or change politics
+PASS Signing a local coalition pays exactly once and shifts competing support
+PASS Delivered food agreement establishes a permanent economic charter
+PASS Four real deliveries suffice while failed phases are never charged
+PASS Unfunded promises fail with political consequences and no free charter
+PASS Paused workshops cannot fulfil a craft agreement
+PASS Missing or suspended schools cannot fulfil an education promise
+PASS School and craft charters provide different permanent yields
+PASS A mandate uses a fixed fee and settles each phase at most once
+PASS Current local agreements resume deterministically after reload
+PASS Ownership changes dissolve promises and charters without charging the conqueror
+PASS Local charters cannot be farmed by signing the same agreement repeatedly
+PASS Foreign cities and pending narrative choices block player signatures
+PASS Malformed payment evidence and impossible local supports are rejected
+PASS A real economic turn delivers a food pledge and keeps a valid save
+731 specifications passed in 35,6s.

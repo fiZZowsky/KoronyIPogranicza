@@ -1,5 +1,5 @@
 {
-  "Version": 26,
+  "Version": 27,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16480,6 +16480,22 @@
   ],
   "Cities": [
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 1,
       "Name": "Wysogr\u00F3d",
       "Owner": 0,
@@ -16627,6 +16643,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 4,
       "Name": "Talassar",
       "Owner": 1,
@@ -16774,6 +16806,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 7,
       "Name": "Arven",
       "Owner": 2,
@@ -16921,6 +16969,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 10,
       "Name": "Kar-Dun",
       "Owner": 3,
@@ -17321,7 +17385,7 @@
     },
     {
       "Turn": 27,
-      "Text": "Wysogr\u00F3d: wzmocniony kontrwywiad do pocz\u0105tku T35, koszt 60 z\u0142ota.",
+      "Text": "Wysogr\u00F3d: wzmocniony kontrwywiad do pocz\u0105tku ok. 1\u00A0890 p.n.e., koszt 60 z\u0142ota.",
       "Category": "wywiad"
     },
     {
@@ -17414,5 +17478,13 @@
   "NextEnergyCaseId": 1,
   "PendingEnergyCaseId": null,
   "LastEnergyPhase": 0,
-  "NextId": 13
+  "NextId": 13,
+  "CalendarYears": {
+    "1": -2400,
+    "27": -2010,
+    "28": -1995,
+    "29": -1980,
+    "30": -1965,
+    "31": -1950
+  }
 }

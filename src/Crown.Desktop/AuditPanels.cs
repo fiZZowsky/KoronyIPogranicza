@@ -10,12 +10,12 @@ public sealed partial class MainWindow
             Ui.Label($"Korupcja {city.Corruption}% → cel {Administration.Target(state,city)}% · zmiana o 1 punkt na turę",18,Ui.Gold,true),
             Ui.Label($"Dochód miasta po korupcji: {Engine.CityYields(state,city).Gold:0.00} złota/turę\nBieżący ubytek: {Administration.Loss(state,city):0.00} złota/turę · ostatnio utracono: {city.LastRevenueLoss:0.00}\nNieujęte dochody od poprzedniego raportu: {city.HiddenGold:0.00} złota",14,Ui.Muted),
             Ui.Label("Korupcja odbiera wskazany procent dochodu miasta. Nie pomniejsza osobno podatków rynkowych, opłat kupieckich ani pieniędzy z traktatów. Oddalenie od stolicy, niepokoje, niska stabilność i ustrój autonomiczny lub wojskowy zwiększają jej cel. Sąd, Służba publiczna, Konstytucja i czasowy nadzór go obniżają. Pieniądze do odzyskania pochodzą wyłącznie z faktycznie minionych rozliczeń.",13,Ui.Muted));
-        if(city.AuditProtectionUntil>state.Turn)p.Children.Add(Ui.Label($"Nadzór niezależnego urzędu: cel korupcji -20 do początku T{city.AuditProtectionUntil}.",14,Ui.Green));
+        if(city.AuditProtectionUntil>state.Turn)p.Children.Add(Ui.Label($"Nadzór niezależnego urzędu: cel korupcji -20 do początku {CampaignCalendar.At(state, city.AuditProtectionUntil)}.",14,Ui.Green));
         Ui.Gap(p,14);
         var active=state.Audits.FirstOrDefault(a=>a.CityId==city.Id&&Administration.Open(a));
         if(active!=null)
         {
-            p.Children.Add(Ui.Label($"KONTROLA #{active.Id} · {Administration.StatusName(active.Status)}\nWysłana T{active.StartedTurn} · termin raportu T{active.DueTurn}",16,Ui.Gold,true));
+            p.Children.Add(Ui.Label($"KONTROLA #{active.Id} · {Administration.StatusName(active.Status)}\nWysłana {CampaignCalendar.At(state, active.StartedTurn)} · termin raportu {CampaignCalendar.At(state, active.DueTurn)}",16,Ui.Gold,true));
             if(active.Status==AuditStatus.AwaitingCouncil)p.Children.Add(AuditReplyButton(active));
         }
         else
@@ -46,7 +46,7 @@ public sealed partial class MainWindow
         {
             var q=Ui.Stack(Ui.Eyebrow($"KONTROLA #{audit.Id} · {Administration.StatusName(audit.Status)}"),
                 Ui.Label(AuditCouncil.City(state,audit).Name,22,Ui.Text,true),
-                Ui.Label($"Wysłano T{audit.StartedTurn} · raport {(audit.CompletedTurn==null?"najwcześniej T"+audit.DueTurn:"T"+audit.CompletedTurn)}\nUstalone braki: {audit.AssessedGold:0.00} złota · odzyskano {audit.RecoveredGold}\n"+(audit.ResolvedTurn==null?"Sprawa otwarta.":"Zamknięto T"+audit.ResolvedTurn+"."),13,Ui.Muted));
+                Ui.Label($"Wysłano {CampaignCalendar.At(state, audit.StartedTurn)} · raport {(audit.CompletedTurn==null?"najwcześniej "+CampaignCalendar.At(state,audit.DueTurn):CampaignCalendar.At(state,audit.CompletedTurn))}\nUstalone braki: {audit.AssessedGold:0.00} złota · odzyskano {audit.RecoveredGold}\n"+(audit.ResolvedTurn==null?"Sprawa otwarta.":"Zamknięto "+CampaignCalendar.At(state,audit.ResolvedTurn)+"."),13,Ui.Muted));
             if(audit.Status==AuditStatus.AwaitingCouncil){var reply=AuditReplyButton(audit);q.Children.Add(reply);if(!reply.IsEnabled)q.Children.Add(Ui.Label("Najpierw rozstrzygnij aktualną sprawę rady.",12,Ui.Gold));}
             p.Children.Add(Ui.Card(q));
         }

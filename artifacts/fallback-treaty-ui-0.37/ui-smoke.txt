@@ -1,0 +1,23 @@
+PASS The real diplomacy entry opens the new treaty registry
+PASS Browsing treaty history preserves campaign and RNG
+PASS The diplomatic conversation exposes both agreements and real securities
+PASS Leaving the proposal conversation costs nothing
+PASS The actual send button pays only embassy costs
+PASS The first ordinary turn cannot deliver an instant treaty reply
+PASS The reply arrives after two real turns without automatic signature
+PASS The ratification dialogue shows bonds recurring costs and liability
+PASS Deferring ratification preserves both treasuries
+PASS The real signature locks both deposits atomically
+PASS An ordinary funded phase produces auditable scientific cooperation
+PASS The actual embargo screen warns about forfeiting research security
+PASS Desktop current-format reload preserves signatures bonds and phase evidence
+PASS Twelve actual economic phases complete the treaty and refund both securities
+PASS An AI-originated proposal pays its own embassy without charging the player
+PASS The incoming guarantee awaits an informed player decision
+PASS Explicitly signing the incoming guarantee locks actual security
+PASS The withdrawal confirmation exposes the financial and political costs
+PASS Cancelling withdrawal preserves the entire campaign
+PASS The existing war dialogue includes the current guarantee liability
+PASS The real declaration of war compensates the guaranteed victim exactly once
+PASS The complete treaty ledger and exit remain reachable in a compact window
+22 treaty desktop integration checks passed.

@@ -72,7 +72,7 @@ public sealed partial class MainWindow
             Turn(); Turn(); SetNextOutcome(1, true, false); Turn();
             Check(state.SpyOperations[0].Outcome == SpyOutcome.Succeeded && state.Spies[0].Experience == 2 && state.Tiles.Where(t => World.Distance(t, state.Tiles[state.Cities[1].Tile]) <= 3).All(t => t.Explored), "Third real turn delivers reconnaissance, explored terrain and agent experience");
             tab = "diplomacy"; RefreshSide(); Click("Wywiad i kontrwywiad"); Click("Raport #1"); root.UpdateLayout();
-            Check(Descendants<TextBlock>(overlay!).Any(t => t.Text.Contains("Raport z T4") && t.Text.Contains("projekt")), "Report dialog displays a dated city snapshot"); await Capture("spy-recon-report");
+            Check(Descendants<TextBlock>(overlay!).Any(t => t.Text.Contains("Raport z "+CampaignCalendar.At(state,4)) && t.Text.Contains("projekt")), "Report dialog displays a dated city snapshot"); await Capture("spy-recon-report");
             string reportPath = Path.Combine(folder, "spy-report-save.crown"); SaveGame.Write(state, reportPath); string reportBefore = SaveGame.Serialize(state); LoadPath(reportPath); CloseModal();
             Check(SaveGame.Serialize(state) == reportBefore, "Desktop reload retains the intelligence snapshot and experience"); ShowEspionage(); Click("Zaplanuj operację agenta #1"); SelectMission(1, SpyMission.StealResearch); Click("Rozpocznij wybraną operację");
             Turn(); Turn(); Turn(); double stolenBefore = state.Player.Science; SetNextOutcome(2, true, false); Turn();

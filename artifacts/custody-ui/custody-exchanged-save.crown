@@ -1,5 +1,5 @@
 {
-  "Version": 26,
+  "Version": 27,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16480,6 +16480,22 @@
   ],
   "Cities": [
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 1,
       "Name": "Wysogr\u00F3d",
       "Owner": 0,
@@ -16627,6 +16643,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 4,
       "Name": "Talassar",
       "Owner": 1,
@@ -16774,6 +16806,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 7,
       "Name": "Arven",
       "Owner": 2,
@@ -16921,6 +16969,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 10,
       "Name": "Kar-Dun",
       "Owner": 3,
@@ -17323,7 +17387,7 @@
     },
     {
       "Turn": 1,
-      "Text": "Sabota\u017C produkcji #1: Lena Wrona \u2192 Talassar, koszt 95, termin T5.",
+      "Text": "Sabota\u017C produkcji #1: Lena Wrona \u2192 Talassar, koszt 95, termin ok. 2\u00A0340 p.n.e..",
       "Category": "wywiad"
     },
     {
@@ -17419,7 +17483,7 @@
       "Detected": true,
       "ResearchId": null,
       "ResultValue": 0,
-      "Report": "Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu. W T5 agent wr\u00F3ci\u0142 w wymianie za je\u0144ca ze sprawy #2, bez op\u0142aty.",
+      "Report": "Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu. W 2\u00A0340 p.n.e. agent wr\u00F3ci\u0142 w wymianie za je\u0144ca ze sprawy #2, bez op\u0142aty.",
       "CaptureChoice": 3,
       "CaptureDecisionTurn": 5,
       "CustodyChoice": null,
@@ -17445,7 +17509,7 @@
       "Detected": true,
       "ResearchId": null,
       "ResultValue": 0,
-      "Report": "Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu. W T5 wymieniono agenta za je\u0144ca ze sprawy #1, bez op\u0142aty.",
+      "Report": "Nie uzyskano efektu operacji. Wykrycie: zaufanie -15, krzywdy poszkodowanych \u002B25, presti\u017C wysy\u0142aj\u0105cego -2. Agent pozostaje w niewoli do rozstrzygni\u0119cia jego losu. W 2\u00A0340 p.n.e. wymieniono agenta za je\u0144ca ze sprawy #1, bez op\u0142aty.",
       "CaptureChoice": 3,
       "CaptureDecisionTurn": 5,
       "CustodyChoice": "Exchange",
@@ -17461,5 +17525,10 @@
   "NextEnergyCaseId": 1,
   "PendingEnergyCaseId": null,
   "LastEnergyPhase": 0,
-  "NextId": 13
+  "NextId": 13,
+  "CalendarYears": {
+    "1": -2400,
+    "4": -2355,
+    "5": -2340
+  }
 }

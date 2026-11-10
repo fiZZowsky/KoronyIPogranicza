@@ -17,11 +17,11 @@ public sealed partial class MainWindow
         foreach(var t in state.Treaties.OrderByDescending(t=>Treaties.Open(t)).ThenByDescending(t=>t.Id))
         {
             int other=t.From==0?t.To:t.From;var c=Ui.Stack(Ui.Label($"#{t.Id} · {Treaties.Name(t.Kind)} · {state.Factions[other].Name}",21,Ui.Text,true),
-                Ui.Label(TreatyStatusName(t.Status)+$" · propozycja T{t.SentTurn} · {t.Duration} tur",14,Ui.Gold),Ui.Label(t.Report,13,Ui.Muted));
-            if(Treaties.Open(t))c.Children.Add(Ui.Label($"Odpowiedź T{t.DueTurn}; ratyfikacja przed T{t.DeadlineTurn}. Depozyt każdej strony: {Treaties.Bond(t.Kind)} złota.",13,Ui.Muted));
+                Ui.Label(TreatyStatusName(t.Status)+$" · propozycja {CampaignCalendar.At(state, t.SentTurn)} · {t.Duration} tur",14,Ui.Gold),Ui.Label(t.Report,13,Ui.Muted));
+            if(Treaties.Open(t))c.Children.Add(Ui.Label($"Odpowiedź {CampaignCalendar.At(state, t.DueTurn)}; ratyfikacja przed {CampaignCalendar.At(state, t.DeadlineTurn)}. Depozyt każdej strony: {Treaties.Bond(t.Kind)} złota.",13,Ui.Muted));
             if(t.Status==TreatyStatus.AwaitingPlayer)c.Children.Add(Ui.Button("Przeczytaj warunki #"+t.Id,()=>ShowTreatyReply(t.Id),true));
-            if(t.SignedTurn!=null)c.Children.Add(Ui.Label($"Podpis T{t.SignedTurn} · wygaśnięcie przed gospodarką T{t.ExpiresTurn}\nDepozyty: {t.EscrowFrom} / {t.EscrowTo} · wypłaty dla stron: {t.PayoutFrom} / {t.PayoutTo}",13,Ui.Muted));
-            if(t.Kind==TreatyKind.Research&&t.SignedTurn!=null)c.Children.Add(Ui.Label($"Sfinansowane fazy: {t.FundedPhases} · opłaty każdej strony łącznie {t.FundedPhases*Treaties.ResearchFee} złota · nauka każdej strony łącznie {t.TotalScience:0.##}\nOstatnia faza T{t.LastPhaseTurn}: rzeczywista nauka stron {t.LastIncomeFrom:0.##} / {t.LastIncomeTo:0.##}, premia {t.LastScience:0.##}, opłata {t.LastFee} złota/osobę.",13,Ui.Green));
+            if(t.SignedTurn!=null)c.Children.Add(Ui.Label($"Podpis {CampaignCalendar.At(state, t.SignedTurn)} · wygaśnięcie przed gospodarką {CampaignCalendar.At(state, t.ExpiresTurn)}\nDepozyty: {t.EscrowFrom} / {t.EscrowTo} · wypłaty dla stron: {t.PayoutFrom} / {t.PayoutTo}",13,Ui.Muted));
+            if(t.Kind==TreatyKind.Research&&t.SignedTurn!=null)c.Children.Add(Ui.Label($"Sfinansowane fazy: {t.FundedPhases} · opłaty każdej strony łącznie {t.FundedPhases*Treaties.ResearchFee} złota · nauka każdej strony łącznie {t.TotalScience:0.##}\nOstatnia faza {CampaignCalendar.At(state, t.LastPhaseTurn)}: rzeczywista nauka stron {t.LastIncomeFrom:0.##} / {t.LastIncomeTo:0.##}, premia {t.LastScience:0.##}, opłata {t.LastFee} złota/osobę.",13,Ui.Green));
             if(Treaties.Active(state,t))c.Children.Add(Ui.Button("Rozważ zerwanie #"+t.Id,()=>ConfirmTreatyBreak(t.Id)));
             p.Children.Add(Ui.Card(c));
         }
@@ -50,7 +50,7 @@ public sealed partial class MainWindow
     {
         var t=state.Treaties.Single(t=>t.Id==id);int other=t.From==0?t.To:t.From;var error=Treaties.RatifyError(state,t);
         var p=Ui.Stack(Ui.Eyebrow("RATYFIKACJA · OSTATNIA DECYZJA NALEŻY DO CIEBIE"),Ui.Label(Treaties.Name(t.Kind),29,Ui.Text,true),
-            Ui.Label($"Partner: {state.Factions[other].Name}. Czas: {t.Duration} tur od podpisu. Depozyt: po {Treaties.Bond(t.Kind)} złota, pobrany z obu skarbców dopiero teraz. Podpis przed T{t.DeadlineTurn}.",15,Ui.Gold),
+            Ui.Label($"Partner: {state.Factions[other].Name}. Czas: {t.Duration} tur od podpisu. Depozyt: po {Treaties.Bond(t.Kind)} złota, pobrany z obu skarbców dopiero teraz. Podpis przed {CampaignCalendar.At(state, t.DeadlineTurn)}.",15,Ui.Gold),
             Ui.Label("„Potwierdzamy otrzymane warunki. Wasza zgoda zabezpieczy wspólną przyszłość; odmowę również zapiszemy w historii rozmów.”",15,Ui.Text),
             Ui.Label(t.Kind==TreatyKind.Research?"Koszt kolejnej fazy: 2 złota dla każdego. Premia zależy od rzeczywistych dochodów naukowych obu państw; przy niedoborze jednej strony nie powstaje. Trzy jednostronne niedobory, wojna lub embargo oznaczają utratę depozytu sprawcy.":"Pokój jest zobowiązaniem zabezpieczonym majątkiem. Zwykły pakt lub rozejm nadal ma własne zasady. Ta gwarancja nie blokuje przycisku wojny, lecz rozlicza jej sprawcę.",14,Ui.Muted),
             Ui.Label("Przy dotrzymaniu terminu każda strona odzyskuje własny depozyt. Przy zerwaniu poszkodowany otrzymuje oba depozyty; sprawca traci 3 stabilności za badania lub 6 za gwarancję, do 8 prestiżu, 25 relacji i daje 30 krzywd. Pozostałe państwa tracą do sprawcy 8 zaufania na umowę. Opłaty za posłów i badania nie są zwracane.",13,Ui.Muted));

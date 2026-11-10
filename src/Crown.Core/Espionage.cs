@@ -43,7 +43,7 @@ public static class Espionage
     {
         if (s.Ending != null || owner is < 0 or > 3 || city == null || city.Owner != owner) return "Wybierz własne miasto.";
         if (!s.Factions[owner].Technologies.Contains("writing")) return "Kontrwywiad wymaga Pisma.";
-        if (city.CounterIntelligenceUntil > s.Turn) return $"Wzmocniona ochrona działa do początku T{city.CounterIntelligenceUntil}.";
+        if (city.CounterIntelligenceUntil > s.Turn) return $"Wzmocniona ochrona działa do początku {CampaignCalendar.At(s, city.CounterIntelligenceUntil)}.";
         return s.Factions[owner].Gold < ProtectionCost ? "Wzmocnienie kontrwywiadu kosztuje 60 złota." : null;
     }
     public static void Cancel(GameState s, SpyOperation operation, string reason)
@@ -104,7 +104,7 @@ public static class Espionage
             return $"Usunięto {operation.ResultValue:0.##} punktów zgromadzonej produkcji. Budynki i kolejka pozostają; efekt zależy od pracy obecnej w chwili akcji.";
         }
         if (operation.Owner == 0) foreach (var tile in s.Tiles.Where(t => World.Distance(t, s.Tiles[city.Tile]) <= 3)) tile.Explored = true;
-        return $"Raport z T{s.Turn}: {city.Name}, ludność {city.Population}, zdrowie {city.Health:0}%, projekt {Content.Project(city.Project).Name}, praca {city.Production:0.##}. " +
+        return $"Raport z {CampaignCalendar.At(s, s.Turn)}: {city.Name}, ludność {city.Population}, zdrowie {city.Health:0}%, projekt {Content.Project(city.Project).Name}, praca {city.Production:0.##}. " +
             $"Skarb państwa {s.Factions[city.Owner].Name}: {s.Factions[city.Owner].Gold:0.##}. Garnizon: {s.Units.Count(u => u.Owner == city.Owner && u.Tile == city.Tile)} oddziałów. " +
             "To stan z chwili rozpoznania, bez stałego podglądu miasta.";
     }
@@ -142,7 +142,7 @@ public static partial class Engine
         var operation = new SpyOperation { Id = s.NextSpyOperationId++, AgentId = agentId, Owner = owner, CityId = cityId, TargetOwner = city!.Owner, Mission = mission,
             StartedTurn = s.Turn, DueTurn = s.Turn + Espionage.Duration(mission), SuccessChance = forecast.SuccessChance, DetectionChance = forecast.DetectionChance, ResearchId = forecast.ResearchId };
         s.SpyOperations.Add(operation);
-        if (owner == 0) s.Log($"{Espionage.Name(mission)} #{operation.Id}: {agent.Name} → {city.Name}, koszt {Espionage.Cost(mission)}, termin T{operation.DueTurn}.", "wywiad");
+        if (owner == 0) s.Log($"{Espionage.Name(mission)} #{operation.Id}: {agent.Name} → {city.Name}, koszt {Espionage.Cost(mission)}, termin {CampaignCalendar.At(s, operation.DueTurn)}.", "wywiad");
         return Result.Ok("Operacja rozpoczęta. Ryzyko zależy od obrony miasta w chwili rozstrzygnięcia.");
     }
     public static Result RecallSpy(GameState s, int operationId)
@@ -155,7 +155,7 @@ public static partial class Engine
     {
         var city = s.Cities.FirstOrDefault(c => c.Id == cityId); string? error = Espionage.ProtectionError(s, city, owner); if (error != null) return Result.Fail(error);
         s.Factions[owner].Gold -= Espionage.ProtectionCost; city!.CounterIntelligenceUntil = s.Turn + Espionage.ProtectionTurns;
-        if (owner == 0) s.Log($"{city.Name}: wzmocniony kontrwywiad do początku T{city.CounterIntelligenceUntil}, koszt 60 złota.", "wywiad");
+        if (owner == 0) s.Log($"{city.Name}: wzmocniony kontrwywiad do początku {CampaignCalendar.At(s, city.CounterIntelligenceUntil)}, koszt 60 złota.", "wywiad");
         return Result.Ok("Obrona przed wywiadem +25 przez osiem tur. Działa także na rozpoczęte operacje.");
     }
 }

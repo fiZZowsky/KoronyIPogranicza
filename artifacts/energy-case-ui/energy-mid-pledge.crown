@@ -1,5 +1,5 @@
 {
-  "Version": 26,
+  "Version": 27,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": true,
@@ -16480,6 +16480,22 @@
   ],
   "Cities": [
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 1,
       "Name": "Wysogr\u00F3d",
       "Owner": 0,
@@ -16681,6 +16697,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 4,
       "Name": "Talassar",
       "Owner": 1,
@@ -16865,6 +16897,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 7,
       "Name": "Arven",
       "Owner": 2,
@@ -17049,6 +17097,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 10,
       "Name": "Kar-Dun",
       "Owner": 3,
@@ -17598,7 +17662,7 @@
     },
     {
       "Turn": 4,
-      "Text": "Gdy sie\u0107 zawodzi \u2014 Wysogr\u00F3d \u2014 \u201EZapewnimy trzy kolejne fazy pe\u0142nego zasilania przed pocz\u0105tkiem T10.\u201D Lud \u002B2\nLicz\u0105 si\u0119 wy\u0142\u0105cznie przysz\u0142e rozliczenia gospodarki od T4 do T9. Musz\u0105 dzia\u0142a\u0107 wszystkie zak\u0142ady wskazane w protokole, a ca\u0142e aktywne miasto potrzebuje 100% pokrycia. Wy\u0142\u0105czenie tych zak\u0142ad\u00F3w nie spe\u0142nia obietnicy. Sukces: lud \u002B6, stabilno\u015B\u0107 \u002B2, presti\u017C \u002B8; miasto: dobrobyt \u002B6, niepokoje -6. Pora\u017Cka: lud -10, stabilno\u015B\u0107 -4, presti\u017C -8 (minimum 0); w\u0142asne miasto: dobrobyt -6, niepokoje \u002B10. Utrata miasta \u0142amie obietnic\u0119.",
+      "Text": "Gdy sie\u0107 zawodzi \u2014 Wysogr\u00F3d \u2014 \u201EZapewnimy trzy kolejne fazy pe\u0142nego zasilania przed pocz\u0105tkiem ok. 3\u00A0008 n.e..\u201D Lud \u002B2\nLicz\u0105 si\u0119 wy\u0142\u0105cznie przysz\u0142e rozliczenia gospodarki od 3\u00A0002 n.e. do ok. 3\u00A0007 n.e.. Musz\u0105 dzia\u0142a\u0107 wszystkie zak\u0142ady wskazane w protokole, a ca\u0142e aktywne miasto potrzebuje 100% pokrycia. Wy\u0142\u0105czenie tych zak\u0142ad\u00F3w nie spe\u0142nia obietnicy. Sukces: lud \u002B6, stabilno\u015B\u0107 \u002B2, presti\u017C \u002B8; miasto: dobrobyt \u002B6, niepokoje -6. Pora\u017Cka: lud -10, stabilno\u015B\u0107 -4, presti\u017C -8 (minimum 0); w\u0142asne miasto: dobrobyt -6, niepokoje \u002B10. Utrata miasta \u0142amie obietnic\u0119.",
       "Category": "decyzja"
     },
     {
@@ -17783,5 +17847,14 @@
   "NextEnergyCaseId": 2,
   "PendingEnergyCaseId": null,
   "LastEnergyPhase": 6,
-  "NextId": 13
+  "NextId": 13,
+  "CalendarYears": {
+    "1": -40000,
+    "2": 3000,
+    "3": 3001,
+    "4": 3002,
+    "5": 3003,
+    "6": 3004,
+    "7": 3005
+  }
 }

@@ -1,4 +1,6 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.36
+# Epoki i możliwe przyszłości — podręcznik wydania 0.37
+
+Od 0.37 kronika i raporty pokazują utrwalone lata decyzji zamiast kodów tur; przyszłość i nieznana historia starszych zapisów są oznaczone jako przybliżone. W Ludności otwórz radę prowincji: trzy miejscowe grupy, umowy na sześć rozliczeń i trwałe karty za co najmniej cztery wykonane zobowiązania. Podpis kosztuje 30 złota, kolejne wykonane fazy wymagają opłaty. Modele ludzi i koni mają nowe powierzchnie i tekstury; pszenica używa kęp z alfą. Format v27 zachowuje kalendarz i koalicje.
 
 Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 modele wojsk lądowych, dziewięć modeli okrętów i pięć programów pozaziemskich. Port morski jest dodatkowym projektem nadbrzeżnym. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
 

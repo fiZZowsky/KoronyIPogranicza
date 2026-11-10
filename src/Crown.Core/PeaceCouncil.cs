@@ -43,7 +43,7 @@ public static class PeaceCouncil
         var offer=new PeaceOffer {Id=s.NextPeaceId++,WarId=war.Id,From=from,To=to,Gold=gold,ReturnCityId=cityId,InReplyTo=inReplyTo,
             SentTurn=s.Turn,DueTurn=s.Turn+2,DeadlineTurn=s.Turn+6,Status=PeaceStatus.Travelling};
         s.PeaceOffers.Add(offer);s.Relation(from,to).LastPeaceTurn=s.Turn;
-        s.Log($"{s.Factions[from].Leader} wysyła warunki pokoju do {s.Factions[to].Name}: {Terms(s,from,to,gold,cityId)}. Posłowie dotrą w turze {offer.DueTurn}.","negocjacje");
+        s.Log($"{s.Factions[from].Leader} wysyła warunki pokoju do {s.Factions[to].Name}: {Terms(s,from,to,gold,cityId)}. Posłowie dotrą w {CampaignCalendar.At(s, offer.DueTurn)}.","negocjacje");
         return offer;
     }
 
@@ -93,7 +93,7 @@ public static class PeaceCouncil
             var preview=Preview(s,offer.From,offer.To,offer.Gold,offer.ReturnCityId);
             if(!preview.Valid){Close(s,offer,PeaceStatus.Cancelled,"Warunki utraciły ważność: "+preview.Error);continue;}
             if(offer.To==0)
-            {offer.Status=PeaceStatus.AwaitingPlayer;offer.Reply="„Nasza rada proponuje zakończenie wojny. Czekamy na waszą odpowiedź.”";s.Log($"{s.Factions[offer.From].Leader}: {offer.Reply} Termin: tura {offer.DeadlineTurn}.","negocjacje");continue;}
+            {offer.Status=PeaceStatus.AwaitingPlayer;offer.Reply="„Nasza rada proponuje zakończenie wojny. Czekamy na waszą odpowiedź.”";s.Log($"{s.Factions[offer.From].Leader}: {offer.Reply} Termin: {CampaignCalendar.At(s, offer.DeadlineTurn)}.","negocjacje");continue;}
             if(preview.Acceptance>=AcceptanceThreshold)
             {
                 Close(s,offer,PeaceStatus.Accepted,"„Przyjmujemy warunki. Niech posłowie opieczętują traktat.”");

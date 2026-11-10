@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -74,7 +74,7 @@ public sealed partial class MainWindow
     private void ShowPause()
     {
         if(!InCampaign||busy)return;
-        var p=Ui.Stack(Ui.Eyebrow("KORONY I POGRANICZA"),Ui.Label("Menu gry",34,Ui.Text,true),Ui.Label($"Tura {state.Turn} · {state.Season}\nRozgrywka czeka na Twój powrót.",13,Ui.Muted));Ui.Gap(p,18);
+        var p=Ui.Stack(Ui.Eyebrow("KORONY I POGRANICZA"),Ui.Label("Menu gry",34,Ui.Text,true),Ui.Label($"{CampaignCalendar.At(state, state.Turn)} · {state.Season}\nRozgrywka czeka na Twój powrót.",13,Ui.Muted));Ui.Gap(p,18);
         p.Children.Add(Ui.Button("Powrót do rozgrywki",CloseModal,true));p.Children.Add(Ui.Button("Zapisz grę",Save));p.Children.Add(Ui.Button("Ustawienia",()=>ShowSettings(true)));
         p.Children.Add(Ui.Button("Wyjście do menu głównego",()=>{if(!TryAutoSave(true)){if(pauseStatus!=null){pauseStatus.Text="Nie udało się wykonać autozapisu. Zapisz grę ręcznie przed wyjściem.";pauseStatus.Foreground=Ui.Red;}return;}Landing();}));
         pauseStatus=Ui.Label(preferences.AutoSave?"Autozapis włączony. Esc wraca do rozgrywki.":"Autozapis wyłączony. Pamiętaj o ręcznym zapisie. Esc wraca do rozgrywki.",12,Ui.Muted);p.Children.Add(pauseStatus);

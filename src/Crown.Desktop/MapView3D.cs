@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -257,7 +257,7 @@ public sealed partial class MapView : Grid
         group.Children.Add(new AmbientLight(Color.FromRgb(76, 89, 99)));
         group.Children.Add(new DirectionalLight(Color.FromRgb(255, 243, 213), new(-.55, -1, -.35)));
         group.Children.Add(new DirectionalLight(Color.FromRgb(68, 94, 115), new(.65, -.35, .65)));
-        group.Children.Add(scene.Terrain); group.Children.Add(scene.Objects); group.Freeze(); worldVisual.Content = group;
+        group.Children.Add(scene.Terrain); var fallbackObjects=new Model3DGroup();foreach(var child in scene.Objects.Children)if(child is not GeometryModel3D g||!SceneSurface.Key(g).StartsWith("organic-far-"))fallbackObjects.Children.Add(child);fallbackObjects.Freeze();group.Children.Add(fallbackObjects); group.Freeze(); worldVisual.Content = group;
     }
     public new void InvalidateVisual()
     {

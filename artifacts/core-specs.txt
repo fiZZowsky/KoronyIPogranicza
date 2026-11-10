@@ -710,4 +710,30 @@ PASS Real v25 data migrates without agreements and keeps an exact v25 backup
 PASS The war forecast explicitly warns about the same confiscated bond
 PASS Validation rejects duplicate pending negotiations
 PASS Validation rejects forged deposits payouts scientific evidence and older schemas
-705 specifications passed in 34,0s.
+PASS Large late-campaign populations retain valid scaled council fees
+PASS Era acceleration keeps years advancing and forecasts do not add ancient centuries
+PASS AI provincial councils require the player channel and pay from their own treasury
+PASS V26 migration retains exact predecessor bytes and replaces old abbreviated history
+PASS A calendar cannot rewrite an earlier phase to be later than its successor
+PASS Captured years survive later eras and save round trips
+PASS Future dates are explicitly estimated and do not mutate the campaign
+PASS Old histories retain uncertainty instead of invented exact dates
+PASS Legacy campaign retains its original calendar
+PASS Invalid calendars cannot enter a current save
+PASS Reading and saving an undated current phase preserve exact state
+PASS Local preview and rejected agreement do not spend money or change politics
+PASS Signing a local coalition pays exactly once and shifts competing support
+PASS Delivered food agreement establishes a permanent economic charter
+PASS Four real deliveries suffice while failed phases are never charged
+PASS Unfunded promises fail with political consequences and no free charter
+PASS Paused workshops cannot fulfil a craft agreement
+PASS Missing or suspended schools cannot fulfil an education promise
+PASS School and craft charters provide different permanent yields
+PASS A mandate uses a fixed fee and settles each phase at most once
+PASS Current local agreements resume deterministically after reload
+PASS Ownership changes dissolve promises and charters without charging the conqueror
+PASS Local charters cannot be farmed by signing the same agreement repeatedly
+PASS Foreign cities and pending narrative choices block player signatures
+PASS Malformed payment evidence and impossible local supports are rejected
+PASS A real economic turn delivers a food pledge and keeps a valid save
+731 specifications passed in 35,6s.

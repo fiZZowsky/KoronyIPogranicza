@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.Windows.Controls;
 
 namespace Crown.Desktop;
@@ -35,7 +35,7 @@ public sealed partial class MainWindow
         {
             var buyer=state.Cities.First(c=>c.Id==contract.BuyerCity);var seller=state.Cities.First(c=>c.Id==contract.SellerCity);
             var p=Ui.Stack(Ui.Eyebrow($"UMOWA #{contract.Id} · {(contract.Status==ContractStatus.Active?"AKTYWNA":contract.Status==ContractStatus.Expired?"WYGASŁA":"ROZWIĄZANA")}"),
-                Ui.Label($"{seller.Name} → {buyer.Name}",17,Ui.Text,true),Ui.Label($"{Markets.Name(contract.Good)} · do {contract.Quantity}/karawanę · koniec T{contract.ExpiresTurn}\n{contract.Message}",12,Ui.Muted),
+                Ui.Label($"{seller.Name} → {buyer.Name}",17,Ui.Text,true),Ui.Label($"{Markets.Name(contract.Good)} · do {contract.Quantity}/karawanę · koniec {CampaignCalendar.At(state, contract.ExpiresTurn)}\n{contract.Message}",12,Ui.Muted),
                 Ui.Label($"Ostatni załadunek: {contract.LastDelivered:0.##} × {contract.LastPrice:0.00} = {contract.LastPayment:0.00} złota",12,Ui.Gold));
             if(contract.Status==ContractStatus.Active)p.Children.Add(Ui.Button("Rozwiąż umowę #"+contract.Id,()=>{Do(Engine.CancelTradeContract(state,contract.Id));TryAutoSave(false);}));
             side.Children.Add(Ui.Card(p));
@@ -54,7 +54,7 @@ public sealed partial class MainWindow
             q.Children.Add(Ui.Label($"Zapas {line.Opening:0.##} + produkcja {line.Produced:0.##}\nKraj: import {line.DomesticIn:0.##}, eksport {line.DomesticOut:0.##} · zagranica: import {line.ForeignIn:0.##}, eksport {line.ForeignOut:0.##}\nZużycie {line.Consumed:0.##}/{line.Demand:0.##} · utrata {line.Lost:0.##} · pozostanie {line.Closing:0.##}/{Markets.Capacity(city):0}",13,Ui.Muted));
             Ui.Bar(q,$"Zaspokojenie popytu {line.Coverage*100:0}%",line.Coverage,1,line.Coverage<.5?Ui.Red:Ui.Green);p.Children.Add(Ui.Card(q));
         }
-        p.Children.Add(Ui.Label($"Ostatnie rozliczenie: {(city.LastMarketTurn==0?"brak":"tura "+city.LastMarketTurn)} · podatek {city.LastMarketTax:0.00}\nWpływ ostatnich dostaw: cel dobrobytu {Markets.ProsperityEffect(city):+0;-0;0}, produkcja ×{Markets.IndustryMultiplier(city):0.00}.",13,Ui.Gold));
+        p.Children.Add(Ui.Label($"Ostatnie rozliczenie: {(city.LastMarketTurn==0?"brak":CampaignCalendar.At(state,city.LastMarketTurn))} · podatek {city.LastMarketTax:0.00}\nWpływ ostatnich dostaw: cel dobrobytu {Markets.ProsperityEffect(city):+0;-0;0}, produkcja ×{Markets.IndustryMultiplier(city):0.00}.",13,Ui.Gold));
         p.Children.Add(Ui.Label("Skład towarowy dodaje 100 miejsc na każdy towar. Targowisko dodaje 25 do początkowych 50. Żywność nadal ma własne spichlerze i system przesyłek.",12,Ui.Muted));
         foreach(var line in city.LastMarketLines.Where(l=>l.IndustrialUsed>0))p.Children.Add(Ui.Label($"Ostatni bilans — zużycie przemysłowe: {Markets.Name(line.Good)} {line.IndustrialUsed:0.##}.",13,Ui.Gold));
         p.Children.Add(Ui.Button("Warsztaty i łańcuchy produkcji",()=>ShowManufacturing()));
@@ -124,7 +124,7 @@ public sealed partial class MainWindow
             string arrival=Caravans.Suspension(state,contract)!=null||eta<0?"Trasa wstrzymana":$"Pozostało około {eta} tur (bez nowych blokad)";
             var q=Ui.Stack(Ui.Eyebrow($"KARAWANA #{cargo.Id} · {Caravans.StatusName(cargo.Status).ToUpperInvariant()}"),
                 Ui.Label($"{state.Cities.First(c=>c.Id==contract.SellerCity).Name} → {state.Cities.First(c=>c.Id==contract.BuyerCity).Name}",22,Ui.Text,true),
-                Ui.Label($"{Markets.Name(contract.Good)} {cargo.Quantity:0.##} · zapłacono {cargo.Payment:0.00} · wysłano T{cargo.DepartedTurn}\n{cargo.Message}",13,cargo.Status==CaravanStatus.Lost?Ui.Red:Ui.Muted));
+                Ui.Label($"{Markets.Name(contract.Good)} {cargo.Quantity:0.##} · zapłacono {cargo.Payment:0.00} · wysłano {CampaignCalendar.At(state, cargo.DepartedTurn)}\n{cargo.Message}",13,cargo.Status==CaravanStatus.Lost?Ui.Red:Ui.Muted));
             if(Caravans.Active(cargo))
             {
                 q.Children.Add(Ui.Label(escort==null?"Brak rozkazu eskorty; pobliskie wojska nadal zapewniają osłonę.":

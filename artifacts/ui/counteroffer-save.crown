@@ -1,5 +1,5 @@
 {
-  "Version": 26,
+  "Version": 27,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16480,6 +16480,22 @@
   ],
   "Cities": [
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 1,
       "Name": "Wysogr\u00F3d",
       "Owner": 0,
@@ -16627,6 +16643,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 4,
       "Name": "Talassar",
       "Owner": 1,
@@ -16774,6 +16806,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 7,
       "Name": "Arven",
       "Owner": 2,
@@ -16921,6 +16969,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 10,
       "Name": "Kar-Dun",
       "Owner": 3,
@@ -17478,7 +17542,7 @@
     },
     {
       "Turn": 2,
-      "Text": "Ty \u2014 Stra\u017Cnik Marchii wysy\u0142a warunki pokoju do Liga Talassu: Liga Talassu p\u0142aci 200 z\u0142ota pa\u0144stwu Marchie Veyru \u00B7 bez zwrotu miast \u00B7 rozejm 12 tur. Pos\u0142owie dotr\u0105 w turze 4.",
+      "Text": "Ty \u2014 Stra\u017Cnik Marchii wysy\u0142a warunki pokoju do Liga Talassu: Liga Talassu p\u0142aci 200 z\u0142ota pa\u0144stwu Marchie Veyru \u00B7 bez zwrotu miast \u00B7 rozejm 12 tur. Pos\u0142owie dotr\u0105 w ok. 2\u00A0355 p.n.e..",
       "Category": "negocjacje"
     },
     {
@@ -17488,7 +17552,7 @@
     },
     {
       "Turn": 4,
-      "Text": "Irena z Talassu wysy\u0142a warunki pokoju do Marchie Veyru: Bez reparacji \u00B7 bez zwrotu miast \u00B7 rozejm 12 tur. Pos\u0142owie dotr\u0105 w turze 6.",
+      "Text": "Irena z Talassu wysy\u0142a warunki pokoju do Marchie Veyru: Bez reparacji \u00B7 bez zwrotu miast \u00B7 rozejm 12 tur. Pos\u0142owie dotr\u0105 w ok. 2\u00A0325 p.n.e..",
       "Category": "negocjacje"
     },
     {
@@ -17503,7 +17567,7 @@
     },
     {
       "Turn": 6,
-      "Text": "Irena z Talassu: \u201ENasza rada proponuje zako\u0144czenie wojny. Czekamy na wasz\u0105 odpowied\u017A.\u201D Termin: tura 10.",
+      "Text": "Irena z Talassu: \u201ENasza rada proponuje zako\u0144czenie wojny. Czekamy na wasz\u0105 odpowied\u017A.\u201D Termin: ok. 2\u00A0265 p.n.e..",
       "Category": "negocjacje"
     }
   ],
@@ -17610,5 +17674,13 @@
   "NextEnergyCaseId": 1,
   "PendingEnergyCaseId": null,
   "LastEnergyPhase": 0,
-  "NextId": 15
+  "NextId": 15,
+  "CalendarYears": {
+    "1": -2400,
+    "2": -2385,
+    "3": -2370,
+    "4": -2355,
+    "5": -2340,
+    "6": -2325
+  }
 }

@@ -1,4 +1,4 @@
-﻿namespace Crown.Core;
+namespace Crown.Core;
 
 public static class DiplomaticCouncil
 {
@@ -32,7 +32,7 @@ public static class DiplomaticCouncil
             return Fail("Nieprawidłowy adresat wypowiedzenia wojny.");
         var r = s.Relation(0, other);
         if (r.War) return Fail("Wojna już trwa.");
-        if (r.TruceUntil > s.Turn) return Fail($"Rozejm obowiązuje do tury {r.TruceUntil}.");
+        if (r.TruceUntil > s.Turn) return Fail($"Rozejm obowiązuje do {CampaignCalendar.At(s, r.TruceUntil)}.");
         if (r.LastActionTurn == s.Turn) return Fail("Posłowie odbyli już rozmowę w tej turze.");
         if (reason == WarReason.Redress && Grievances(s, 0, other) < 30) return Fail("Potrzeba co najmniej 30 punktów krzywd.");
         if (reason == WarReason.Liberation && !s.Cities.Any(c => c.Owner == other && c.OriginalOwner == 0)) return Fail("Rozmówca nie zajmuje żadnego miasta założonego przez Marchie.");
@@ -104,10 +104,10 @@ public static class DiplomaticCouncil
                 else if(TransitCouncil.IsRequest(d.Kind))
                 {
                     if(d.Kind==DemandKind.PaidTransit){s.Player.Gold-=TransitCouncil.PassagePrice;s.Factions[d.To].Gold+=TransitCouncil.PassagePrice;}
-                    d.Reply=$"„Nasze bramy stoją otworem dla ładunków Marchii do początku tury {s.Turn+TransitCouncil.Duration}. Zgoda dotyczy importu i eksportu, także po rozwiązaniu kontraktu. Wojsko pozostaje za granicą. Wojna i embargo wstrzymują przejazd.”";
+                    d.Reply=$"„Nasze bramy stoją otworem dla ładunków Marchii do początku {CampaignCalendar.At(s, s.Turn+TransitCouncil.Duration)}. Zgoda dotyczy importu i eksportu, także po rozwiązaniu kontraktu. Wojsko pozostaje za granicą. Wojna i embargo wstrzymują przejazd.”";
                 }
                 else
-                { r.TruceUntil = Math.Max(r.TruceUntil, s.Turn + 15); d.Reply = $"„Przyjmujemy pakt. Nasze miecze pozostaną w pochwach do tury {r.TruceUntil}.”"; }
+                { r.TruceUntil = Math.Max(r.TruceUntil, s.Turn + 15); d.Reply = $"„Przyjmujemy pakt. Nasze miecze pozostaną w pochwach do {CampaignCalendar.At(s, r.TruceUntil)}.”"; }
                 r.Trust = Math.Min(100, r.Trust + 5);
             }
             else
@@ -132,7 +132,7 @@ public static partial class Engine
         var r = s.Relation(0, other);
         s.Player.Gold -= 20; r.LastActionTurn = r.LastDemandTurn = s.Turn;
         s.Demands.Add(new() { Id = s.NextDemandId++, From = 0, To = other, Kind = kind, SentTurn = s.Turn, DueTurn = s.Turn + 2 });
-        s.Log($"Posłowie do {s.Factions[other].Name}: {DiplomaticCouncil.DemandName(kind)}. Odpowiedź w turze {s.Turn + 2}.", "poselstwo");
+        s.Log($"Posłowie do {s.Factions[other].Name}: {DiplomaticCouncil.DemandName(kind)}. Odpowiedź w {CampaignCalendar.At(s, s.Turn + 2)}.", "poselstwo");
         return Result.Ok("Wysłano posłów. Odpowiedź nadejdzie za dwie tury.");
     }
 

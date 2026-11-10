@@ -23,7 +23,7 @@ public static class SpyCouncil
         var operation = s.SpyOperations.FirstOrDefault(o => o.Id == s.PendingSpyOperationId); if (operation == null) return Event;
         var agent = s.Spies.First(a => a.Id == operation.AgentId); var city = s.Cities.First(c => c.Id == operation.CityId);
         return Event with { Title = Event.Title + " — " + agent.Name,
-            Body = $"Agenta ({agent.Name}) schwytano podczas operacji „{Espionage.Name(operation.Mission)}” w mieście {city.Name}, w T{operation.ResolvedTurn}. " +
+            Body = $"Agenta ({agent.Name}) schwytano podczas operacji „{Espionage.Name(operation.Mission)}” w mieście {city.Name}, w {CampaignCalendar.At(s, operation.ResolvedTurn)}. " +
                 $"Agenta przetrzymuje państwo {s.Factions[operation.TargetOwner].Name}. Cena powrotu to 100 złota albo publiczne przeprosiny z opłatą 40 złota w czasie pokoju. " +
                 "Wyparcie się agenta zwolni miejsce w służbie, lecz ten człowiek już do nas nie wróci. Jeśli trzymamy ich agenta z nierozstrzygniętą sprawą, możemy wymienić jeńców bez opłaty. Samo wykrycie przyniosło już utratę zaufania i nowe krzywdy. Jaką odpowiedź wyślemy?" };
     }
@@ -59,6 +59,6 @@ public static class SpyCouncil
         s.Factions[operation.TargetOwner].Gold += cost;
         if (choice == 1) { var r = s.Relation(operation.Owner, operation.TargetOwner); r.Trust = Math.Min(100, r.Trust + 8); }
         agent.Status = choice == 2 ? SpyStatus.Lost : SpyStatus.Available; operation.CaptureChoice = choice; operation.CaptureDecisionTurn = s.Turn;
-        operation.Report += choice == 2 ? $" W T{s.Turn} państwo wyparło się agenta." : $" W T{s.Turn} wpłacono {cost} złota; agent wrócił do służby.";
+        operation.Report += choice == 2 ? $" W {CampaignCalendar.At(s, s.Turn)} państwo wyparło się agenta." : $" W {CampaignCalendar.At(s, s.Turn)} wpłacono {cost} złota; agent wrócił do służby.";
     }
 }

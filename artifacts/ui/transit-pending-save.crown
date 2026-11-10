@@ -1,5 +1,5 @@
 {
-  "Version": 26,
+  "Version": 27,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -16480,6 +16480,22 @@
   ],
   "Cities": [
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 1,
       "Name": "Wysogr\u00F3d",
       "Owner": 0,
@@ -16629,6 +16645,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 4,
       "Name": "Talassar",
       "Owner": 1,
@@ -16778,6 +16810,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 7,
       "Name": "Arven",
       "Owner": 2,
@@ -16925,6 +16973,22 @@
       "LastIndustryMessage": ""
     },
     {
+      "Council": {
+        "Established": false,
+        "Families": 50,
+        "Guilds": 50,
+        "Landholders": 50,
+        "Mandate": "None",
+        "StartedTurn": 0,
+        "LastDecisionTurn": -10,
+        "LastPhaseTurn": 0,
+        "Phases": 0,
+        "Delivered": 0,
+        "Paid": 0,
+        "PhaseFee": 0,
+        "Charters": [],
+        "Report": "Rada nie zosta\u0142a jeszcze zwo\u0142ana."
+      },
       "Id": 10,
       "Name": "Kar-Dun",
       "Owner": 3,
@@ -17343,7 +17407,7 @@
     },
     {
       "Turn": 1,
-      "Text": "Umowa #1: Wysogr\u00F3d \u2192 Talassar, S\u00F3l do 4/karawan\u0119, do tury 13. Zakup op\u0142acany przy wysy\u0142ce; nabywca ponosi ryzyko utraty \u0142adunku.",
+      "Text": "Umowa #1: Wysogr\u00F3d \u2192 Talassar, S\u00F3l do 4/karawan\u0119, do ok. 2\u00A0220 p.n.e.. Zakup op\u0142acany przy wysy\u0142ce; nabywca ponosi ryzyko utraty \u0142adunku.",
       "Category": "handel"
     },
     {
@@ -17363,7 +17427,7 @@
     },
     {
       "Turn": 3,
-      "Text": "Pos\u0142owie do Arwe\u0144ska Unia: P\u0142atny tranzyt \u00B7 60 z\u0142ota \u00B7 12 tur. Odpowied\u017A w turze 5.",
+      "Text": "Pos\u0142owie do Arwe\u0144ska Unia: P\u0142atny tranzyt \u00B7 60 z\u0142ota \u00B7 12 tur. Odpowied\u017A w ok. 2\u00A0340 p.n.e..",
       "Category": "poselstwo"
     }
   ],
@@ -17462,5 +17526,10 @@
   "NextEnergyCaseId": 1,
   "PendingEnergyCaseId": null,
   "LastEnergyPhase": 0,
-  "NextId": 14
+  "NextId": 14,
+  "CalendarYears": {
+    "1": -2400,
+    "2": -2385,
+    "3": -2370
+  }
 }

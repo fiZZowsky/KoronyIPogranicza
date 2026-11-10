@@ -22,7 +22,7 @@ public sealed partial class MainWindow
             if (agent.Status == SpyStatus.Deployed)
             {
                 var operation = state.SpyOperations.Single(o => o.AgentId == agent.Id && o.Outcome == SpyOutcome.Active);
-                q.Children.Add(Ui.Button($"Operacja #{operation.Id} · termin T{operation.DueTurn}", () => ShowSpyReport(operation)));
+                q.Children.Add(Ui.Button($"Operacja #{operation.Id} · termin {CampaignCalendar.At(state, operation.DueTurn)}", () => ShowSpyReport(operation)));
             }
             if (agent.Status == SpyStatus.Captured)
             {
@@ -38,17 +38,17 @@ public sealed partial class MainWindow
         foreach (var captive in captives)
         {
             var agent = state.Spies.First(a => a.Id == captive.AgentId);
-            p.Children.Add(Ui.Label($"{agent.Name} · {state.Factions[captive.Owner].Name}" + (captive.InternedUntil == null ? " · czeka na decyzję" : $" · internowany do początku T{captive.InternedUntil}"), 16, Ui.Gold, true));
+            p.Children.Add(Ui.Label($"{agent.Name} · {state.Factions[captive.Owner].Name}" + (captive.InternedUntil == null ? " · czeka na decyzję" : $" · internowany do początku {CampaignCalendar.At(state, captive.InternedUntil)}"), 16, Ui.Gold, true));
             if (CustodyCouncil.Open(captive)) p.Children.Add(CustodyReplyButton(captive));
             p.Children.Add(Ui.Button("Raport o jeńcu #" + captive.Id, () => ShowSpyReport(captive)));
         }
         p.Children.Add(Ui.Rule()); p.Children.Add(Ui.Eyebrow("OCHRONA WŁASNYCH MIAST"));
-        p.Children.Add(Ui.Label("Sąd daje +15 obrony wywiadowczej, Pismo +5, stabilność co najmniej 70 kolejne +5. Wzmocniony kontrwywiad dodaje +25 przez osiem tur, także wobec operacji już w drodze. Zmiana właściciela kończy ochronę. Wrogie państwa od T20 mogą prowadzić kradzież badań i sabotaż.", 13, Ui.Muted));
+        p.Children.Add(Ui.Label($"Sąd daje +15 obrony wywiadowczej, Pismo +5, stabilność co najmniej 70 kolejne +5. Wzmocniony kontrwywiad dodaje +25 przez osiem tur, także wobec operacji już w drodze. Zmiana właściciela kończy ochronę. Wrogie państwa od {CampaignCalendar.At(state,20)} mogą prowadzić kradzież badań i sabotaż.", 13, Ui.Muted));
         foreach (var city in state.Cities.Where(c => c.Owner == 0).OrderBy(c => c.Id))
         {
             var protect = Ui.Button("Kontrwywiad: " + city.Name + " · 60 złota", () => { var result = Engine.ProtectCity(state, city.Id); Do(result); if (result.Success) { TryAutoSave(false); ShowEspionage(); } });
             string? error = Espionage.ProtectionError(state, city); protect.IsEnabled = error == null;
-            p.Children.Add(Ui.Label($"{city.Name} · obrona {Espionage.Defense(state, city)}" + (city.CounterIntelligenceUntil > state.Turn ? $" · ochrona do początku T{city.CounterIntelligenceUntil}" : ""), 14, Ui.Gold));
+            p.Children.Add(Ui.Label($"{city.Name} · obrona {Espionage.Defense(state, city)}" + (city.CounterIntelligenceUntil > state.Turn ? $" · ochrona do początku {CampaignCalendar.At(state, city.CounterIntelligenceUntil)}" : ""), 14, Ui.Gold));
             p.Children.Add(protect); if (error != null) p.Children.Add(Ui.Label(error, 12, Ui.Muted));
         }
         p.Children.Add(Ui.Rule()); p.Children.Add(Ui.Eyebrow("RAPORTY I WYKRYTE INGERENCJE · OSTATNIE 20"));
@@ -87,7 +87,7 @@ public sealed partial class MainWindow
             {
                 var city = cities[target.SelectedIndex]; var kind = missions[mission.SelectedIndex]; var forecast = Espionage.Forecast(state, agent, city, kind);
                 string? error = Espionage.MissionError(state, agent, city, kind); launch.IsEnabled = error == null;
-                quote.Text = $"Sukces obecnie {forecast.SuccessChance}% · wykrycie {forecast.DetectionChance}% · obrona {forecast.Defense}\nKoszt {Espionage.Cost(kind)} · rozstrzygnięcie T{state.Turn + Espionage.Duration(kind)}\n" + (error ?? "Można rozpocząć operację.");
+                quote.Text = $"Sukces obecnie {forecast.SuccessChance}% · wykrycie {forecast.DetectionChance}% · obrona {forecast.Defense}\nKoszt {Espionage.Cost(kind)} · rozstrzygnięcie {CampaignCalendar.At(state, state.Turn + Espionage.Duration(kind))}\n" + (error ?? "Można rozpocząć operację.");
                 detail.Text = (kind == SpyMission.Reconnaissance ? "Odkrycie pól do trzech heksów od miasta i raport o projekcie, pracy, ludności, garnizonie oraz skarbie. Raport nie aktualizuje się po zakończeniu misji." :
                     kind == SpyMission.StealResearch ? forecast.ResearchId == null ? "Brak nowych badań do skopiowania." : $"Cel badań: {Crown.Core.Content.Tech(forecast.ResearchId).Name}. Nagroda: {Math.Min(120, Math.Ceiling(Crown.Core.Content.Tech(forecast.ResearchId).Cost * .35)):0} nauki, bez natychmiastowego odkrycia. Jeśli poznasz tę technologię wcześniej, operacja zostanie odwołana bez zwrotu." :
                     "Sabotaż odbierze do 60 punktów pracy obecnych przy rozstrzygnięciu. Ukończony wcześniej projekt może ograniczyć stratę nawet do zera. Nie usuwa budynku ani planu produkcji.") +
@@ -102,7 +102,7 @@ public sealed partial class MainWindow
     {
         var agent = state.Spies.First(a => a.Id == operation.AgentId); var city = state.Cities.First(c => c.Id == operation.CityId);
         var p = Ui.Stack(Ui.Eyebrow($"OPERACJA #{operation.Id} · {Espionage.StatusName(operation.Outcome)}"), Ui.Label(Espionage.Name(operation.Mission), 30, Ui.Text, true),
-            Ui.Label($"Agent {agent.Name} · cel {city.Name}\nWysłano T{operation.StartedTurn} · termin T{operation.DueTurn}" + (operation.ResolvedTurn == null ? "" : $" · rozstrzygnięto T{operation.ResolvedTurn}"), 15, Ui.Gold, true));
+            Ui.Label($"Agent {agent.Name} · cel {city.Name}\nWysłano {CampaignCalendar.At(state, operation.StartedTurn)} · termin {CampaignCalendar.At(state, operation.DueTurn)}" + (operation.ResolvedTurn == null ? "" : $" · rozstrzygnięto {CampaignCalendar.At(state, operation.ResolvedTurn)}"), 15, Ui.Gold, true));
         if (operation.Outcome == SpyOutcome.Active)
         {
             var forecast = Espionage.Forecast(state, agent, city, operation.Mission);
@@ -112,8 +112,8 @@ public sealed partial class MainWindow
         else p.Children.Add(Ui.Label(operation.Report, 15, Ui.Text));
         if (operation.Outcome == SpyOutcome.Captured && operation.Owner == 0 && operation.CaptureChoice == null) p.Children.Add(SpyReplyButton(operation));
         if (CustodyCouncil.Open(operation)) p.Children.Add(CustodyReplyButton(operation));
-        if (operation.InternedUntil != null) p.Children.Add(Ui.Label($"Internowanie do początku T{operation.InternedUntil}" + (operation.CaptureChoice == null ? " · agent nadal w niewoli" : " · zakończone"), 14, Ui.Gold));
-        if (operation.CaptureChoice is int choice) p.Children.Add(Ui.Label($"Powrót lub utrata w T{operation.CaptureDecisionTurn}: " + CustodyCouncil.DecisionName(choice), 14, Ui.Gold));
+        if (operation.InternedUntil != null) p.Children.Add(Ui.Label($"Internowanie do początku {CampaignCalendar.At(state, operation.InternedUntil)}" + (operation.CaptureChoice == null ? " · agent nadal w niewoli" : " · zakończone"), 14, Ui.Gold));
+        if (operation.CaptureChoice is int choice) p.Children.Add(Ui.Label($"Powrót lub utrata w {CampaignCalendar.At(state, operation.CaptureDecisionTurn)}: " + CustodyCouncil.DecisionName(choice), 14, Ui.Gold));
         p.Children.Add(Ui.Button("Wróć do wywiadu", ShowEspionage)); p.Children.Add(Ui.Button("Wróć do mapy", CloseModal)); Modal(p, 810);
     }
 }

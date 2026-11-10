@@ -22,7 +22,7 @@ public static class Administration
         if(s.Ending!=null||city==null)return "Wskaż własną prowincję w trwającej kampanii.";
         if(!s.Player.Technologies.Contains("writing"))return "Kontrola rachunków wymaga Pisma.";
         if(s.Audits.Any(a=>a.CityId==cityId&&Open(a)))return "Ta prowincja ma już otwartą kontrolę.";
-        if(s.Turn-city.LastAuditTurn<AuditInterval)return $"Kolejna kontrola najwcześniej w T{city.LastAuditTurn+AuditInterval}.";
+        if(s.Turn-city.LastAuditTurn<AuditInterval)return $"Kolejna kontrola najwcześniej w {CampaignCalendar.At(s, city.LastAuditTurn+AuditInterval)}.";
         if(city.Corruption<10&&city.HiddenGold<10)return "Brak podstaw do kontroli: potrzeba korupcji co najmniej 10% lub 10 złota nieujętych dochodów.";
         if(s.Player.Gold<AuditPrice)return "Wysłanie kontrolerów kosztuje 35 złota.";
         return null;
@@ -52,7 +52,7 @@ public static partial class Engine
         var city=s.Cities.First(c=>c.Id==cityId);
         s.Player.Gold-=Administration.AuditPrice;city.LastAuditTurn=s.Turn;
         s.Audits.Add(new(){Id=s.NextAuditId++,CityId=cityId,StartedTurn=s.Turn,DueTurn=s.Turn+Administration.AuditTurns});
-        s.Log($"{city.Name}: wysłano kontrolerów za 35 złota. Raport w T{s.Turn+Administration.AuditTurns}. Ubytek dochodów trwa podczas kontroli.","administracja");
+        s.Log($"{city.Name}: wysłano kontrolerów za 35 złota. Raport w {CampaignCalendar.At(s, s.Turn+Administration.AuditTurns)}. Ubytek dochodów trwa podczas kontroli.","administracja");
         return Result.Ok("Kontrolerzy zbadają rachunki w ciągu trzech tur. Wynik trafi do rady.");
     }
 }
