@@ -34,6 +34,17 @@ public sealed partial class MainWindow
         preferences=diagnostic?new(){AdaptiveResolution=false,FrameLimit=10}:PreferencesStore.Read(preferencesPath,out preferencesWarning);
         audio=new InterfaceAudio(diagnostic?arguments.Last():Path.Combine(AppContext.BaseDirectory,"cache"),diagnostic);audio.Configure(preferences);
         AddHandler(Button.ClickEvent,new RoutedEventHandler((_,e)=>{if(e.OriginalSource is not Button{Content:"Sprawdź dźwięk"})audio.Play(preferences);}),true);
+        if(diagnostic)
+        {
+            // Real desktop input must not advance a prepared automated scenario.
+            // Smoke tests raise their own zero-timestamp routed events or call actions directly.
+            PreviewKeyDown+=(_,e)=>{if(e.Timestamp!=0&&!injectingSettingsKey)e.Handled=true;};
+            PreviewKeyUp+=(_,e)=>{if(e.Timestamp!=0)e.Handled=true;};
+            PreviewMouseDown+=(_,e)=>{if(e.Timestamp!=0)e.Handled=true;};
+            PreviewMouseUp+=(_,e)=>{if(e.Timestamp!=0)e.Handled=true;};
+            PreviewMouseWheel+=(_,e)=>{if(e.Timestamp!=0)e.Handled=true;};
+            PreviewTextInput+=(_,e)=>{if(e.Timestamp!=0)e.Handled=true;};
+        }
         PreviewKeyDown+=PreferencesKey;Closed+=(_,_)=>audio.Dispose();SizeChanged+=(_,_)=>{if(landingScroll!=null)landingScroll.MaxHeight=Math.Max(400,ActualHeight-70);};ApplyDisplayMode();
     }
     private void ApplyDisplayMode()
@@ -144,6 +155,7 @@ public sealed partial class MainWindow
     private void LeaveSettings(){bool pause=settingsFromPause;CloseModal();if(pause&&InCampaign)ShowPause();}
     private void PreferencesKey(object sender,KeyEventArgs e)
     {
+        if(diagnostic&&e.Timestamp!=0&&!injectingSettingsKey)return;
         var modifiers=injectingSettingsKey?ModifierKeys.None:Keyboard.Modifiers;
         if(capturingBinding is{} action&&settingsDraft!=null)
         {

@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.Windows.Controls;
 
 namespace Crown.Desktop;
@@ -67,6 +67,7 @@ public sealed partial class MainWindow
         var feedback=Ui.Label("",12,Ui.Red);
         foreach(var policy in Enum.GetValues<TradePolicy>())
         {
+            if(policy==TradePolicy.Embargo&&Treaties.BreachWarning(state,0,researchOnly:true) is {Length:>0} warning)p.Children.Add(Ui.Label(warning,13,Ui.Red));
             p.Children.Add(Ui.Label(Markets.PolicyName(policy),22,Ui.Gold,true));p.Children.Add(Ui.Label(Markets.PolicyDescription(policy),13,Ui.Muted));
             var button=Ui.Button("Przyjmij: "+Markets.PolicyName(policy),()=>{var result=Engine.SetTradePolicy(state,policy);if(result.Success){CloseModal();Do(result);TryAutoSave(false);}else feedback.Text=result.Message;});
             button.IsEnabled=policy!=state.Player.TradePolicy&&state.Turn-state.Player.LastTradePolicyTurn>=8&&state.Player.Gold>=30&&state.PendingEvent!="market_charter";p.Children.Add(button);

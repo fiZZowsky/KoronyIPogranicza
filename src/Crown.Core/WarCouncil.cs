@@ -1,4 +1,4 @@
-namespace Crown.Core;
+﻿namespace Crown.Core;
 
 public static class WarCouncil
 {
@@ -6,6 +6,7 @@ public static class WarCouncil
 
     internal static WarCampaign Start(GameState s, int aggressor, int other, WarReason reason, int? target, bool declared=true)
     {
+        if(declared)Treaties.OnWar(s,aggressor,other);
         var war=new WarCampaign { Id=s.NextWarId++, A=Math.Min(aggressor,other), B=Math.Max(aggressor,other), Aggressor=aggressor,
             Reason=reason, TargetCityId=target, GoalDeclared=declared, StartedTurn=s.Turn };
         war.StartingCitiesA=s.Cities.Where(c=>c.Owner==war.A).Select(c=>c.Id).ToList();

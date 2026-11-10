@@ -1,4 +1,4 @@
-namespace Crown.Core;
+﻿namespace Crown.Core;
 
 public static class Narrative
 {
@@ -128,7 +128,7 @@ public static class Narrative
         if(f.Gold+c.Gold<0) return Result.Fail("Skarb nie wystarczy na tę obietnicę.");
         f.Gold+=c.Gold; f.Stability+=c.Stability; f.Commons+=c.Commons; f.Nobles+=c.Nobles; f.Scholars+=c.Scholars; f.Prestige+=c.Prestige;
         if(c.Flag!=null) f.Flags.Add(c.Flag);
-        if(e.Id=="market_charter"){f.TradePolicy=(TradePolicy)choice;f.LastTradePolicyTurn=s.Turn;}
+        if(e.Id=="market_charter"){if(choice==(int)TradePolicy.Embargo)Treaties.OnEmbargo(s,0);f.TradePolicy=(TradePolicy)choice;f.LastTradePolicyTurn=s.Turn;}
         if(e.Id==TradeCouncil.Event.Id)TradeCouncil.Apply(s,choice);
         if(e.Id==AuditCouncil.Event.Id)AuditCouncil.Apply(s,choice);
         if(e.Id==DebtCouncil.Event.Id)DebtCouncil.Apply(s,choice);

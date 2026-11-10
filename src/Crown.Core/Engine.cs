@@ -173,13 +173,16 @@ public static partial class Engine
         if(s.PendingEvent!=null)return Result.Fail("Najpierw odpowiedz na sprawę przedstawioną radzie.");
         WarCouncil.EnsureActive(s);
         s.InvalidateLogistics();
+        Treaties.TickDiplomacy(s);
         Markets.Tick(s);
+        var treatyScience=new Dictionary<int,double>();
         using var powerPhase = new PowerGrid.EconomicPhase(s);
         foreach(var f in s.Factions)
         {
             if(!s.Cities.Any(c=>c.Owner==f.Id))continue;
             var income=Income(s,f.Id);double modifier=f.Id==0?1:s.Difficulty=="Wymagający"?1.3:s.Difficulty=="Spokojny"?.85:1;
             f.Gold+=income.Gold*modifier;f.Science+=income.Science*modifier;f.Culture+=income.Culture;f.Prestige+=income.Culture*.045;
+            treatyScience[f.Id]=Math.Max(0,income.Science*modifier);
             Administration.Collect(s,f.Id,modifier);
             if(f.Gold<0){f.Stability-=3;f.Commons-=2;f.Gold=0;if(s.Turn%3==0){var u=s.Units.LastOrDefault(u=>u.Owner==f.Id);if(u!=null){SeaTransport.Sink(s,u,"Dezercja załogi");s.Units.Remove(u);}}if(f.Id==0)s.Log("Niewypłacalność: niepokoje i dezercje. Zwiększ dochody lub zmniejsz armię.","gospodarka");}
             var tech=Content.Technologies.FirstOrDefault(t=>t.Id==f.Research);
@@ -230,9 +233,10 @@ public static partial class Engine
         }
         powerPhase.Dispose();
         foreach(var u in s.Units.ToArray())MilitaryOrders.FinishTurn(s,u);
+        Treaties.EconomyPhase(s,treatyScience);
         EraEndeavours.Tick(s,powerPhase.Readings);
         FieldLogistics.Tick(s);
-        ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);
+        ProvincialPolitics.Tick(s);RunAi(s,completedProjects);s.Turn++;s.InvalidateLogistics();PeaceCouncil.Tick(s);DiplomaticCouncil.Tick(s);Treaties.TickDiplomacy(s);
         AuditCouncil.Tick(s);
         EnergyCouncil.Observe(s,powerPhase.Readings);
         TreasuryLoans.Tick(s);
@@ -250,7 +254,7 @@ public static partial class Engine
     {
         foreach(var f in s.Factions.Skip(1))
         {
-            var cities=s.Cities.Where(c=>c.Owner==f.Id).ToArray();if(cities.Length==0)continue;EpochCouncils.ManageAi(s,f);EraEndeavours.ManageAi(s,f);Districts.ManageAi(s,f);FieldLogistics.ManageAi(s,f.Id);
+            var cities=s.Cities.Where(c=>c.Owner==f.Id).ToArray();if(cities.Length==0)continue;EpochCouncils.ManageAi(s,f);Treaties.ManageAi(s,f.Id);EraEndeavours.ManageAi(s,f);Districts.ManageAi(s,f);FieldLogistics.ManageAi(s,f.Id);
             var choices=Epochs.ResearchOptions(s,f).ToArray();
             if(choices.Length>0&&(s.Turn%4==0||f.Research==""))f.Research=choices[s.Next(choices.Length)].Id;
             if(f.Gold>130&&f.Technologies.Contains("pottery"))
@@ -292,7 +296,7 @@ public static partial class Engine
                 if(s.Turn%8==0)r.Trust=Math.Clamp(r.Trust+(r.Trade?2:r.War?-2:0),-100,100);
                 if(s.Turn%16==0&&!r.War&&!r.Trade&&f.Id==3&&s.Turn>=r.TruceUntil)r.Trust=Math.Max(-100,r.Trust-3);
                 if(other>0&&!r.Trade&&!r.War&&r.Trust>=10&&s.Turn%15==0){r.Trade=true;r.Trust=Math.Min(100,r.Trust+3);}
-                if(!r.War&&s.Turn>25&&s.Turn>=r.TruceUntil&&r.Trust< -15&&Military(s,f.Id)>Military(s,other)*1.3+15&&s.Next(30)==0)
+                if(!r.War&&(!Treaties.HasGuarantee(s,f.Id,other)||r.Trust< -60)&&s.Turn>25&&s.Turn>=r.TruceUntil&&r.Trust< -15&&Military(s,f.Id)>Military(s,other)*1.3+15&&s.Next(30)==0)
                 {
                     r.War=true;r.Trade=false;r.Trust=Math.Max(-100,r.Trust-20);DiplomaticCouncil.AddGrievance(s,other,f.Id,40);
                     WarCouncil.Start(s,f.Id,other,WarReason.Conquest,WarCouncil.DefaultTarget(s,f.Id,other,WarReason.Conquest)?.Id);

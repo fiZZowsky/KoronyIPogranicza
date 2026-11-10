@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional rendering diagnostic failure.
+   at Crown.Desktop.MainWindow.RenderingSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\RenderingSmoke.cs:line 38

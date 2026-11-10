@@ -1,5 +1,16 @@
 ﻿# Zmiany
 
+## 0.36 — 2026-11-10 · Traktaty i zabezpieczone zobowiązania
+
+- Współpraca badawcza i gwarancja pokoju na 12/24 tury. Poselstwo kosztuje 10 złota i podróżuje dwie tury; odpowiedź wymaga osobnej ratyfikacji gracza przed terminem.
+- Rzeczywiste depozyty obu stron po 50/80 złota, jednoczesna wpłata przy podpisie i zwrot przy dotrzymaniu umowy. Brak automatycznego obciążenia gracza ofertą AI.
+- Badania kosztują po 2 złota na stronę i fazę. Premia pochodzi z mniejszego rzeczywistego dochodu naukowego, z limitem zależnym od epok; dawna nauka i sama ratyfikacja jej nie tworzą.
+- Osobne liczniki braku finansowania, wstrzymanie opłat i premii, rozliczenie po trzech niedoborach bez tworzenia długu. Wspólna niewypłacalność zwraca zabezpieczenia obu stron.
+- Potwierdzane wypowiedzenie, wojna i embargo rozliczają naruszenie, rekompensatę oraz reputację. Dotychczasowe rozejmy zachowują swoje blokady. Utrata miast kończy umowę bez wymyślania sprawcy.
+- Rejestr warunków, historii, depozytów, wypłat i dowodów nauki. Ostrzeżenia w ekranie wojny i polityki handlowej, wiadomość o nadejściu warunków i koszty w prognozie skarbu.
+- AI ocenia warunki i składa opcjonalne oferty po pierwszym kontakcie nowego kanału. Gracz zachowuje decyzję o podpisie. Limit dwóch zobowiązań i odstęp ośmiu tur między ofertami do tego samego partnera.
+- Format v26, odczyt v1–v25 bez dopisywania umów i dokładna .v25.bak. 30 nowych specyfikacji oraz 22 kontrole rzeczywistego interfejsu.
+
 ## 0.35 — 2026-11-09 · Tożsamość epok i oprawa miast
 
 - 18 odrębnych przedsięwzięć opartych na rzeczywistym świecie oraz 18 trwałych dziedzictw. Warunki obejmują lasy, zapasy, farmy, instytucje, drogi, poparcie, zasilanie, emisje i programy pozaziemskie.

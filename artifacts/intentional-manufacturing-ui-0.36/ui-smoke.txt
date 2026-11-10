@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional manufacturing diagnostic failure.
+   at Crown.Desktop.MainWindow.ManufacturingSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\ManufacturingSmoke.cs:line 24

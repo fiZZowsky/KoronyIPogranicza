@@ -264,6 +264,8 @@ public sealed class GameState
     public string? PendingEvent { get; set; } = "founding";
     public int? PendingCityId { get; set; }
     public List<MigrationRecord> Migrations { get; set; } = [];
+    public List<BilateralTreaty> Treaties { get; set; } = [];
+    public int NextTreatyId { get; set; } = 1;
     public List<DiplomaticDemand> Demands { get; set; } = [];
     public int NextDemandId { get; set; } = 1;
     public List<WarCampaign> Wars { get; set; } = [];

@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional river diagnostic failure.
+   at Crown.Desktop.MainWindow.RiverSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\RiverSmoke.cs:line 30

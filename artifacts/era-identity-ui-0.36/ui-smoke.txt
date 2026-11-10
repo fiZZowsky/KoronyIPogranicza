@@ -1,0 +1,46 @@
+PASS The new GPU material shader initializes successfully or the requested WPF backend is selected
+PASS The real epoch entry opens era-specific conditions and legacy
+PASS Reading the endeavour panel preserves campaign and RNG
+PASS The council explains the two paid commitments
+PASS Leaving the council incurs no costs
+PASS A real council decision pays startup cost without an instant legacy
+PASS A second plan decision is blocked in the same turn
+PASS The first actual economic phase records only one paid success
+PASS Three actual qualified phases establish the legacy through the UI
+PASS The earned hunter legacy changes the city's actual food yield
+PASS The actual desktop reload preserves paid plans and earned legacies
+PASS Distinct finite read-only architecture: Paleolit
+PASS Distinct finite read-only architecture: Neolit
+PASS Distinct finite read-only architecture: Epoka brązu
+PASS Distinct finite read-only architecture: Epoka żelaza
+PASS Distinct finite read-only architecture: Starożytność klasyczna
+PASS Distinct finite read-only architecture: Średniowiecze
+PASS Distinct finite read-only architecture: Renesans
+PASS Distinct finite read-only architecture: Oświecenie
+PASS Distinct finite read-only architecture: Rewolucja przemysłowa
+PASS Distinct finite read-only architecture: Nowoczesność
+PASS Distinct finite read-only architecture: Epoka atomowa
+PASS Distinct finite read-only architecture: Epoka informacyjna
+PASS Distinct finite read-only architecture: Epoka automatyzacji
+PASS Distinct finite read-only architecture: Epoka planetarna
+PASS Distinct finite read-only architecture: Epoka orbitalna
+PASS Distinct finite read-only architecture: Epoka międzyplanetarna
+PASS Distinct finite read-only architecture: Epoka Układu Słonecznego
+PASS Distinct finite read-only architecture: Epoka międzygwiezdna
+PASS All 18 civic silhouettes differ within a bounded geometry budget
+PASS Photographic facade textures are shared by the GPU scene and WPF fallback
+PASS The requested rendering backend actually renders the new architecture
+PASS Sustained slow frames lower detail resolution to its bounded floor
+PASS Sustained spare frame budget gradually restores native resolution
+PASS Invalid timing never corrupts the adaptive controller
+PASS World-space contact shading changes actual GPU pixels
+PASS A stationary animated frame reuses valid shadow and reflection passes
+PASS Orbiting refreshes reflections while retaining valid world-space shadows
+PASS Moving the camera focus invalidates cached shadow coverage
+PASS Distant facade and foliage details reduce real submitted geometry
+PASS The actual renderer applies the measured resolution budget
+MEASURED: full passes 17,2ms; cached 11,5ms; ten warm frames per path; 1165x758; 83851 main triangles; 263 extra draws refreshed only when needed. CPU+GPU+readback; one machine, no temperature or FPS guarantee.
+PASS The real settings controls persist frame budget and idle energy saving
+PASS An unfulfilled future commitment remains a paid plan rather than a free reward
+PASS Era requirements and decisions remain reachable in the compact window
+44 era identity desktop integration checks passed.

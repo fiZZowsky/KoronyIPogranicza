@@ -36,6 +36,7 @@ public sealed partial class MainWindow : Window
         InitializePreferences();Closing+=(o,e)=>{if(state!=null)TryAutoSave(false);};
         Loaded+=(o,e)=>
         {
+            if(args.Contains("--ui-smoke-treaties")){Dispatcher.BeginInvoke(async()=>await TreatySmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-era-identity")){Dispatcher.BeginInvoke(async()=>await EraIdentitySmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-manufacturing")){Dispatcher.BeginInvoke(async()=>await ManufacturingSmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
             if(args.Contains("--ui-smoke-field-supply")){Dispatcher.BeginInvoke(async()=>await FieldSupplySmoke(args.Last()),DispatcherPriority.ApplicationIdle);return;}
@@ -78,7 +79,7 @@ public sealed partial class MainWindow : Window
         scene.Children.Add(new Border{Background=new LinearGradientBrush(Colors.Transparent,Color.FromArgb(225,7,19,25),90)});
         var p=new StackPanel{Width=500,HorizontalAlignment=HorizontalAlignment.Left,VerticalAlignment=VerticalAlignment.Center,Margin=new Thickness(84,10,0,0)};
         landingScroll=new ScrollViewer{Content=p,Width=620,MaxHeight=Math.Max(400,ActualHeight-70),VerticalAlignment=VerticalAlignment.Center,HorizontalAlignment=HorizontalAlignment.Left,VerticalScrollBarVisibility=ScrollBarVisibility.Auto,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled};scene.Children.Add(landingScroll);
-        p.Children.Add(Ui.Eyebrow("AUTORSKA STRATEGIA TUROWA  /  0.35"));Ui.Gap(p,14);
+        p.Children.Add(Ui.Eyebrow("AUTORSKA STRATEGIA TUROWA  /  0.36"));Ui.Gap(p,14);
         p.Children.Add(Ui.Label("Korony\ni Pogranicza",59,Ui.Text,true));Ui.Gap(p,18);
         p.Children.Add(Ui.Label("Każde państwo ma początek.\nKażda decyzja ma swoją przyszłość.",21,Ui.Gold,true));Ui.Gap(p,14);
         p.Children.Add(Ui.Label("Poprowadź Marchie Veyru przez stulecia. Buduj miasta, negocjuj z sąsiadami i słuchaj tych, którzy ponoszą ciężar Twoich wyborów.",14,Ui.Brush("#BFCDC9")));Ui.Gap(p,25);
@@ -141,7 +142,7 @@ public sealed partial class MainWindow : Window
         var word=Ui.Stack(Ui.Label("KORONY",23,Ui.Text,true),Ui.Label("I   P O G R A N I C Z A",9,Ui.Gold));word.Margin=new Thickness(26,10,0,0);header.Children.Add(word);
         var inc=Engine.Income(state,0);var stats=new UniformGridEx{Columns=5,Margin=new Thickness(0,12,15,8)};Grid.SetColumn(stats,1);header.Children.Add(stats);
         void Stat(string title,string value,string suffix,Brush color){var p=Ui.Stack(Ui.Label(title.ToUpperInvariant(),9,Ui.Muted),Ui.Label(value,21,color),Ui.Label(suffix,10,Ui.Muted));p.Margin=new Thickness(15,0,0,0);stats.Children.Add(p);}
-        Stat("Skarb",Ui.Number(state.Player.Gold),$"{Ui.Signed(inc.Gold-EraEndeavours.PlannedFee(state,0)+(state.TradeContracts.Any(c=>c.Status==ContractStatus.Active&&(c.Buyer==0||c.Seller==0))?Markets.Plan(state).Cash[0]:0))} / turę",Ui.Gold);Stat("Nauka",Ui.Number(state.Player.Science),$"{Ui.Signed(inc.Science)} / turę",Ui.Brush("#91BFCD"));Stat("Kultura",Ui.Number(state.Player.Culture),$"{Ui.Signed(inc.Culture)} / turę",Ui.Brush("#BCA6CE"));Stat("Stabilność",state.Player.Stability+"%",$"cel: {Engine.StabilityTarget(state,state.Player)}%",Ui.Green);Stat("Prestiż",Ui.Number(state.Player.Prestige),Catalog.Era(state.Player.Era),Ui.Gold);
+        Stat("Skarb",Ui.Number(state.Player.Gold),$"{Ui.Signed(inc.Gold-EraEndeavours.PlannedFee(state,0)-Treaties.PlannedFees(state,0)+(state.TradeContracts.Any(c=>c.Status==ContractStatus.Active&&(c.Buyer==0||c.Seller==0))?Markets.Plan(state).Cash[0]:0))} / turę",Ui.Gold);Stat("Nauka",Ui.Number(state.Player.Science),$"{Ui.Signed(inc.Science)} / turę",Ui.Brush("#91BFCD"));Stat("Kultura",Ui.Number(state.Player.Culture),$"{Ui.Signed(inc.Culture)} / turę",Ui.Brush("#BCA6CE"));Stat("Stabilność",state.Player.Stability+"%",$"cel: {Engine.StabilityTarget(state,state.Player)}%",Ui.Green);Stat("Prestiż",Ui.Number(state.Player.Prestige),Catalog.Era(state.Player.Era),Ui.Gold);
         string year=state.Year<0?$"{-state.Year} p.n.e.":$"{state.Year} n.e.";var date=Ui.Stack(Ui.Label($"TURA {state.Turn:000}  /  {state.MaxTurns}",10,Ui.Gold),Ui.Label(year,22,Ui.Text,true),Ui.Label($"{state.Season} · {state.Difficulty}",10,Ui.Muted));date.Margin=new Thickness(12,10,20,0);Grid.SetColumn(date,2);header.Children.Add(date);
     }
     private void RefreshSide()
@@ -229,6 +230,7 @@ public sealed partial class MainWindow : Window
             var replies=state.Demands.Where(d=>d.ResolvedTurn==state.Turn).ToArray();
             var peaceNews=state.PeaceOffers.Any(o=>o.ResolvedTurn==state.Turn||o.Status==PeaceStatus.AwaitingPlayer&&o.DueTurn==state.Turn);
             if(peaceNews){tab="diplomacy";Toast("Wieści z rokowań. Sprawdź odpowiedź lub propozycję pokoju w dyplomacji.");}
+            else if(state.Treaties.Any(t=>t.Status==TreatyStatus.AwaitingPlayer&&t.ReplyTurn==state.Turn)){tab="diplomacy";Toast("Przybyły warunki traktatu. Otwórz Traktaty i gwarancje; podpis wymaga twojej decyzji.");}
             else if(replies.Length>0){tab="diplomacy";Toast($"Powrót posłów. Otrzymane odpowiedzi: {replies.Length}. Warunki i słowa sąsiadów znajdziesz w dyplomacji.");}
             else if(state.Chronicle.Any(e=>e.Turn==state.Turn&&e.Category=="wywiad")){tab="diplomacy";Toast("Nowe raporty wywiadu lub wykryta ingerencja. Otwórz Wywiad i kontrwywiad w Dyplomacji.",false);}
             else if(state.Chronicle.LastOrDefault(e=>e.Turn==state.Turn&&e.Category=="skarb") is ChronicleEntry debtNews){tab="logistics";Toast(debtNews.Text,false);}
@@ -257,6 +259,7 @@ public sealed partial class MainWindow : Window
         var speaker=Ui.Stack(Ui.Label(e.Speaker,17,Ui.Gold,true),Ui.Label(e.Role,11,Ui.Muted));p.Children.Add(speaker);Ui.Gap(p,18);p.Children.Add(Ui.Label("„"+e.Body+"”",17,Ui.Text,true));p.Children.Add(Ui.Rule());
         for(int i=0;i<e.Choices.Length;i++)
         {
+            if(e.Id=="market_charter"&&i==(int)TradePolicy.Embargo&&Treaties.BreachWarning(state,0,researchOnly:true) is {Length:>0} warning)p.Children.Add(Ui.Label(warning,13,Ui.Red));
             int index=i;var c=e.Choices[i];var text=Ui.Stack(Ui.Label($"{i+1:00}   {c.Text}",15,Ui.Text),new Border{Height=5},Ui.Label(Narrative.Effects(c,e.Id,index),12,Ui.Muted));var button=Ui.Button("",()=>{var result=Narrative.Resolve(state,index);if(result.Success){CloseModal();TryAutoSave(false);}Do(result);});button.Content=text;button.IsEnabled=state.Player.Gold+c.Gold>=0&&(e.Id!=TradeCouncil.Event.Id||TradeCouncil.ChoiceError(state,index)==null)&&(e.Id!=AuditCouncil.Event.Id||AuditCouncil.ChoiceError(state,index)==null)&&(e.Id!=DebtCouncil.Event.Id||DebtCouncil.ChoiceError(state,index)==null)&&(e.Id!=SpyCouncil.Event.Id||SpyCouncil.ChoiceError(state,index)==null)&&(e.Id!=CustodyCouncil.Event.Id||CustodyCouncil.ChoiceError(state,index)==null)&&(e.Id!=EnergyCouncil.Event.Id||EnergyCouncil.ChoiceError(state,index)==null)&&(EpochCouncils.Index(e.Id)<0||EpochCouncils.ChoiceError(state,index)==null);p.Children.Add(button);
         }
         p.Children.Add(Ui.Label("Rada zapamięta tę odpowiedź. Wybory i ich następstwa trafiają do kroniki.",11,Ui.Gold));Ui.Gap(p,14);p.Children.Add(Ui.Button("Wróć do mapy — odpowiedz później",CloseModal));Modal(p,800);

@@ -1,4 +1,4 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.35
+# Epoki i możliwe przyszłości — podręcznik wydania 0.36
 
 Kampania obejmuje 18 głównych etapów, 90 technologii, 58 budynków rozwoju epok, 34 modele wojsk lądowych, dziewięć modeli okrętów i pięć programów pozaziemskich. Port morski jest dodatkowym projektem nadbrzeżnym. Historyczne nazwy porządkują fikcyjny świat; regionalne podokresy grupujemy w większe bloki. Przyszłe epoki są scenariuszami gry, a nie prognozą lub obietnicą dostępności technologii.
 
@@ -30,6 +30,8 @@ W przeglądzie epok otwórz **Przedsięwzięcia i dziedzictwo epok**. Jedno prze
 | Epoka międzyplanetarna | Most między planetami | Baza księżycowa, osada marsjańska i zasilana farma pozaziemska. | +20 żywności w stolicy przy zachowanej osadzie marsjańskiej. |
 | Epoka Układu Słonecznego | Samowystarczalny Układ | Osada pasa asteroid, habitat biosferyczny i sieć dalekiego kosmosu, pełna energia. | +35 produkcji w stolicy przy zachowanej osadzie pasa. |
 | Epoka międzygwiezdna | Dziedzictwo dalekiej podróży | Statek pokoleniowy, zasilane archiwum cywilizacji i stabilność ≥65. | +50 kultury w stolicy przy zachowanym programie międzygwiezdnym. |
+
+Od 0.36 Pismo u obu stron pozwala negocjować **współpracę badawczą** i **gwarancję pokoju** w **Dyplomacja → Traktaty i gwarancje**. Czas 12 lub 24 tur, poselstwo 10 złota, odpowiedź po dwóch turach i osobna ratyfikacja gracza w cztery tury. Depozyt każdej strony: 50 złota dla badań lub 80 dla gwarancji; pobierany dopiero przy podpisie. Badania kosztują po 2 złota za sfinansowaną fazę i dają każdej stronie 15% mniejszego rzeczywistego dochodu naukowego, do 5 + niższy indeks epoki. Premia trafia do następnych badań. Brak pieniędzy zatrzymuje opłatę i premię; trzy jednostronne niedobory zrywają umowę. Wspólny niedobór zwraca oba depozyty. Dotrzymany termin zwraca własne zabezpieczenia, zerwanie oddaje oba poszkodowanemu i szkodzi reputacji sprawcy. Gwarancja nie zastępuje twardego rozejmu; napastnik ponosi koszt jej złamania. Wojna kończy obie umowy, embargo tylko badania. Format v26 przechowuje negocjacje i rozliczenia; nadpisanie v25 zachowuje .v25.bak, a starsze kampanie nie otrzymują fikcyjnych traktatów.
 
 ## Zasady wspólne
 

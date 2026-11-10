@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional siege diagnostic failure.
+   at Crown.Desktop.MainWindow.SiegeSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\SiegeSmoke.cs:line 26

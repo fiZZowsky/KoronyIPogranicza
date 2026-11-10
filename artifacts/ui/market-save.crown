@@ -1,5 +1,5 @@
 {
-  "Version": 25,
+  "Version": 26,
   "Districts": [],
   "NextDistrictId": 1,
   "EpochCampaign": false,
@@ -17781,6 +17781,8 @@
   "PendingEvent": null,
   "PendingCityId": null,
   "Migrations": [],
+  "Treaties": [],
+  "NextTreatyId": 1,
   "Demands": [],
   "NextDemandId": 1,
   "Wars": [],

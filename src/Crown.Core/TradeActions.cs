@@ -1,4 +1,4 @@
-namespace Crown.Core;
+﻿namespace Crown.Core;
 
 public static partial class Engine
 {
@@ -9,6 +9,7 @@ public static partial class Engine
         if(s.PendingEvent=="market_charter")return Result.Fail("Najpierw odpowiedz radzie w sprawie handlu.");
         if(s.Turn-f.LastTradePolicyTurn<8)return Result.Fail("Zmiana polityki jest możliwa raz na osiem tur.");
         if(f.Gold<Markets.PolicyPrice)return Result.Fail("Zmiana polityki kosztuje 30 złota.");
+        if(policy==TradePolicy.Embargo)Treaties.OnEmbargo(s,0);
         f.Gold-=Markets.PolicyPrice;f.TradePolicy=policy;f.LastTradePolicyTurn=s.Turn;
         s.Log($"Polityka handlowa: {Markets.PolicyName(policy)}. {Markets.PolicyDescription(policy)}","decyzja");
         return Result.Ok("Przyjęto politykę handlową. Obowiązuje od następnego rozliczenia rynku.");

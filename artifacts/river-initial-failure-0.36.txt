@@ -1,0 +1,6 @@
+Initial full regression: river UI exited 3 after the exact-save invariant failed.
+The preserved failure image shows turn 3; the prepared river scenario starts at turn 1 and contains no end-turn actions.
+No JSON diff was recorded in the initial run. Added automatic before/after snapshots for future failures.
+The immediate isolated repeat and three consecutive isolated repeats passed. See river-repeat-0.36.txt.
+Diagnostic windows now filter physical keyboard/mouse input while preserving deliberate zero-timestamp routed test events. Normal gameplay is unaffected.
+The subsequent full regression remains required.

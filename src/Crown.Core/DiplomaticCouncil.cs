@@ -1,4 +1,4 @@
-namespace Crown.Core;
+﻿namespace Crown.Core;
 
 public static class DiplomaticCouncil
 {
@@ -36,8 +36,9 @@ public static class DiplomaticCouncil
         if (r.LastActionTurn == s.Turn) return Fail("Posłowie odbyli już rozmowę w tej turze.");
         if (reason == WarReason.Redress && Grievances(s, 0, other) < 30) return Fail("Potrzeba co najmniej 30 punktów krzywd.");
         if (reason == WarReason.Liberation && !s.Cities.Any(c => c.Owner == other && c.OriginalOwner == 0)) return Fail("Rozmówca nie zajmuje żadnego miasta założonego przez Marchie.");
-        return reason == WarReason.Conquest ? new(true, "Podbój nie ma uzasadnienia. Inne państwa stracą zaufanie.", 8, 6, 12) :
+        WarDeclaration preview = reason == WarReason.Conquest ? new(true, "Podbój nie ma uzasadnienia. Inne państwa stracą zaufanie.", 8, 6, 12) :
             new(true, reason == WarReason.Redress ? "Wykorzystasz 30 punktów krzywd." : "Prawo powrotu do zajętych miast uzasadnia wojnę.", 2, 1, 0);
+        string warning=Treaties.BreachWarning(s,0,other);return warning.Length==0?preview:preview with {Reason=preview.Reason+" "+warning};
     }
 
     // A public forecast uses the same calculation as the eventual reply. No hidden random roll.

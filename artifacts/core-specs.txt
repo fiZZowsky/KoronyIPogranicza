@@ -680,4 +680,34 @@ PASS AI funds a legal available endeavour without steering the player
 PASS A current save resumes the exact paid endeavour and future world
 PASS Actual v24 shape migrates without invented legacies and keeps an exact backup
 PASS Validation rejects forged completed plans progress dates and legacy formats
-675 specifications passed in 29,1s.
+PASS Treaty previews and registry remain read-only including RNG
+PASS A proposal charges only its sender's embassy fee
+PASS A treaty reply actually travels for two turns and awaits explicit player signature
+PASS A deteriorating diplomatic situation can reject a previously promising offer
+PASS Unaffordable malformed legacy and duplicate proposals are atomic
+PASS Research diplomacy requires writing and respects existing wars and embargoes
+PASS Both deposits are actually locked together without instant science
+PASS Failed ratification never partially charges the solvent party
+PASS Rechecking trust at signature prevents stale consent
+PASS Declining or timing out never confiscates unsigned deposits
+PASS A funded research phase derives science from actual income rather than banked science
+PASS Researchers cannot magnify the same phase by repeated forecasting
+PASS Three unilateral unfunded phases compensate the solvent partner without debt
+PASS Mutual funding failure returns each bond without inventing an aggressor
+PASS A completed research treaty refunds both deposits once at its exact boundary
+PASS Peace guarantees lock funds without blocking the legitimate war preview
+PASS Breaking a guarantee pays the victim both real deposits exactly once
+PASS The actual war action automatically forfeits the aggressor's guarantee
+PASS A recorded AI declaration is settled by the ordinary turn before economic effects
+PASS The actual embargo action breaks research but retains a peace guarantee
+PASS War cancels travelling proposals without inventing a signed bond
+PASS Elimination returns signed security without fabricating an offender
+PASS Incoming AI proposals cannot automatically spend player funds or sign
+PASS Optional AI negotiations begin after a real first contact
+PASS Two pending commitments enforce the global party limit
+PASS Saving mid-negotiation and during paid cooperation preserves deterministic continuation
+PASS Real v25 data migrates without agreements and keeps an exact v25 backup
+PASS The war forecast explicitly warns about the same confiscated bond
+PASS Validation rejects duplicate pending negotiations
+PASS Validation rejects forged deposits payouts scientific evidence and older schemas
+705 specifications passed in 34,0s.

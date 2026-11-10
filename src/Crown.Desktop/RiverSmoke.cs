@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.IO;
 using System.Security.Cryptography;
 using System.Windows;
@@ -65,6 +65,7 @@ public sealed partial class MainWindow
             Check(pick==Terrain3D.TileAt(s,crossing.Position.X,crossing.Position.Y),"Picking the visible bridge returns the underlying logical tile");
             map.RenderGpuFrame();string still=Hash();map.RenderGpuFrame(8);Check(Hash()!=still,"Visual time changes the actual water and environment pixels");map.RenderGpuFrame();Check(Hash()==still,"Fixed visual time keeps river rendering deterministic");
             await Capture("river-bridge");int meshes=map.Photographic!.ResourceMeshes;for(int i=0;i<6;i++){map.Orbit(4,0);map.RenderGpuFrame();}Check(map.Photographic.ResourceMeshes==meshes,"Camera movement does not accumulate river GPU buffers");
+            if(SaveGame.Serialize(state)!=original){File.WriteAllText(Path.Combine(folder,"state-before.crown"),original);File.WriteAllText(Path.Combine(folder,"state-after.crown"),SaveGame.Serialize(state));}
             Check(SaveGame.Serialize(state)==original,"Bridges, river animation and camera motion do not change the save");
             Width=1200;Height=800;await Task.Delay(140);root.UpdateLayout();map.RenderGpuFrame();Check(map.Photographic.Image!.PixelWidth>500,"Rivers and bridges remain available in the compact window");await Capture("river-compact");
             Width=1600;Height=980;await Task.Delay(120);root.UpdateLayout();map.Center(east.Id);map.ResetCamera();map.Orbit(150,-8);map.Zoom(.58);await Capture("river-final");

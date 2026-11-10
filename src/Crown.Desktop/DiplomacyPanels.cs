@@ -1,4 +1,4 @@
-using Crown.Core;
+﻿using Crown.Core;
 using System.Windows.Controls;
 
 namespace Crown.Desktop;
@@ -7,9 +7,10 @@ public sealed partial class MainWindow
 {
     private void DiplomacyPanel()
     {
-        TitlePanel("SŁOWO I ODPOWIEDZIALNOŚĆ", "Poselstwa i układy", "Jedna rozmowa z państwem na turę. Poselstwo kosztuje 20 złota; odpowiedź wraca po dwóch turach. Krzywdy wygasają o 1 co osiem tur.");
+        TitlePanel("SŁOWO I ODPOWIEDZIALNOŚĆ", "Poselstwa i układy", "Jedna rozmowa z państwem na turę. Dawne poselstwa kosztują 20 złota, nowe propozycje traktatów 10 złota; odpowiedź wraca po dwóch turach. Krzywdy wygasają o 1 co osiem tur.");
         side.Children.Add(Ui.Button("Pożyczki i zobowiązania", () => ShowLoans()));
         side.Children.Add(Ui.Button("Wywiad i kontrwywiad", ShowEspionage));
+        side.Children.Add(Ui.Button("Traktaty i gwarancje",()=>ShowTreaties()));
         foreach (var f in state.Factions.Skip(1))
         {
             var r = state.Relation(0, f.Id);
@@ -17,6 +18,8 @@ public sealed partial class MainWindow
             Ui.Gap(p, 12);
             p.Children.Add(Ui.Label($"{(r.War ? "WOJNA" : r.Trade ? "TRAKTAT HANDLOWY" : "POKÓJ")} · relacje {r.Trust:+0;-0;0}", 12, r.War ? Ui.Red : Ui.Green));
             p.Children.Add(Ui.Label($"Nasze krzywdy: {DiplomaticCouncil.Grievances(state, 0, f.Id)} · ich krzywdy: {DiplomaticCouncil.Grievances(state, f.Id, 0)}", 12, Ui.Gold));
+            int awaiting=state.Treaties.Count(t=>Treaties.Pair(t,0,f.Id)&&t.Status==TreatyStatus.AwaitingPlayer);
+            if(awaiting>0)p.Children.Add(Ui.Button("Traktaty oczekujące na podpis: "+awaiting,()=>ShowTreaties()));
             var war=WarCouncil.Current(state,0,f.Id);
             if(war!=null)
             {
@@ -94,7 +97,7 @@ public sealed partial class MainWindow
             var preview = DiplomaticCouncil.PreviewWar(state, f.Id, reason);
             p.Children.Add(Ui.Label(DiplomaticCouncil.WarName(reason), 20, Ui.Gold, true));
             p.Children.Add(Ui.Label(preview.Reason, 13, preview.Allowed ? Ui.Muted : Ui.Red));
-            if (preview.Allowed) p.Children.Add(Ui.Label($"Lud -{preview.CommonsCost} · stabilność -{preview.StabilityCost} · zaufanie innych państw -{preview.ForeignTrustCost}", 12, Ui.Muted));
+            if (preview.Allowed) p.Children.Add(Ui.Label($"Koszt samej wojny: lud -{preview.CommonsCost} · stabilność -{preview.StabilityCost} · zaufanie innych państw -{preview.ForeignTrustCost}", 12, Ui.Muted));
             var targets=state.Cities.Where(c=>c.Owner==f.Id&&(reason!=WarReason.Liberation||c.OriginalOwner==0)).OrderBy(c=>c.Id).ToArray();
             ComboBox? target=null;
             if(reason!=WarReason.Redress&&targets.Length>0)
