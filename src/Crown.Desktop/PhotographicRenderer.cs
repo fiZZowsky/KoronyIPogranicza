@@ -24,6 +24,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
     private readonly NativeGpu gpu;
     private readonly nint worldVs, worldPs, shadowVs, shadowPs, fullVs, skyPs, postPs, layout, constants;
     private readonly nint raster, shadowRaster, sampler, shadowSampler, depthWrite, depthRead, opaque, alpha;
+    private readonly nint understoryTexture,understoryView;
     private readonly nint surfacesTexture, surfacesView, leavesTexture, leavesView, pineTexture, pineView, shadowTexture, shadowView, shadowDepth;
     private nint landTexture, landView, hdrTexture, hdrTarget, hdrView, depthTexture, depthTarget, depthView, finalTexture, finalTarget, staging;
     private nint reflectionTexture,reflectionTarget,reflectionView,reflectionDepthTexture,reflectionDepth;
@@ -86,6 +87,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
             (civilizationTexture,civilizationView)=Upload(Asset("civilization-materials-0.35.png"));
             (facadesTexture,facadesView)=Upload(Asset("building-facades-0.35.png"));
             (organicTexture,organicView)=Upload(Asset("organic-materials-0.37.png"));
+            (understoryTexture,understoryView)=Upload(UnderstoryMaterials.Image,premultiply:true);
             (wheatTexture,wheatView)=Upload(Asset("wheat-tuft-0.37.png"),premultiply:true);
             shadowTexture = gpu.Texture(ShadowSize, ShadowSize, 39, 0x48); shadowDepth = gpu.View(shadowTexture, 10, 40); shadowView = gpu.View(shadowTexture, 7, 41);
         }
@@ -116,6 +118,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
         if(key.StartsWith("organic-near-"))key=key[13..];
         if(key.StartsWith("organic-far-"))key=key[12..];
         int actor=ActorAssets.MaterialId(key);if(actor>=0)return 36+actor;
+        if(UnderstoryMaterials.Index(key)>=0)return 46;
         if(key.StartsWith("wheat-tuft"))return 35;
         if(key.StartsWith("camp-hide"))return 45;
         int organicIndex=OrganicMaterials.Index(key);if(organicIndex>=0)return 31+organicIndex;
@@ -211,6 +214,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
         var environment=Environment;frame.SeasonPalette=new(environment.SnowCover,environment.Autumn,environment.Wetness,environment.Spring);frame.WeatherSettings=new(environment.Rain,environment.Snowfall,environment.Fog,environment.Light);frame.Settings.Z*=environment.Fog;frame.SunExposure.W*=environment.Light;
         gpu.Update(constants, frame); gpu.Constants(constants); gpu.Samplers(sampler, shadowSampler); gpu.Layout(layout); gpu.Blend(opaque); gpu.Depth(depthWrite);
         gpu.Resources(landView, surfacesView, leavesView, 0, 0, 0,pineView,0,elevationView,civilizationView,facadesView,organicView,wheatView);
+        gpu.UnderstoryResource(understoryView);
         if(!Shadows)shadowValid=false;
         bool refreshShadow=Shadows&&(!shadowValid||!ReferenceEquals(shadowScene,lastScene)||!cachedLight.Equals(lp)||!cachedSun.Equals(Sun)||time==0||time<shadowTime||time-shadowTime>=.25);
         if (refreshShadow)

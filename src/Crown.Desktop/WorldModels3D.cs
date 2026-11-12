@@ -50,6 +50,7 @@ internal static partial class WorldScene3D
             }
         }
         EraCivic(batch,s,city,era);
+        if(era==0)CampActivity(batch,s,city);
         if (city.Buildings.Contains("walls"))
         {
             var stone = batch.Mesh("fortifications", "#A5A28C");

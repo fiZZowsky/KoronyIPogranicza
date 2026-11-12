@@ -19,7 +19,7 @@ internal sealed partial class PhotographicRenderer
         var mesh=(MeshGeometry3D)model.Geometry;if(meshCache.TryGetValue(mesh,out var cached))return cached;
         string key=SceneSurface.Key(model);var material=ReadMaterial(model.Material);var c=material.Color;float kind=Kind(key,material.Emissive);
         if(kind>=31&&kind<35&&model.GetValue(SceneSurface.TintProperty) is string tint)c=(Color)ColorConverter.ConvertFromString(tint);
-        byte detail=key.StartsWith("organic-near-")?(byte)5:key.StartsWith("organic-far-")?(byte)6:key.StartsWith("detail-")?(byte)4:key.StartsWith("lod-")?(byte)2:key.StartsWith("bark")||key.StartsWith("foliage")?(byte)1:key.StartsWith("ground-grass")||key.StartsWith("wild-")?(byte)3:(byte)0;
+        byte detail=key.StartsWith("organic-near-")?(byte)5:key.StartsWith("organic-far-")?(byte)6:key.StartsWith("detail-")?(byte)4:key.StartsWith("lod-")?(byte)2:key.StartsWith("bark")||key.StartsWith("foliage")?(byte)1:key.StartsWith("river-reeds-textured")||key.StartsWith("ground-grass")||key.StartsWith("wild-")?(byte)3:(byte)0;
         var ids=(int[]?)model.GetValue(SceneSurface.TileIdsProperty);
         var groups=new Dictionary<(int X,int Z),List<GpuVertex>>();
         for(int triangle=0;triangle<mesh.TriangleIndices.Count/3;triangle++)
@@ -36,7 +36,7 @@ internal sealed partial class PhotographicRenderer
             {
                 int id=mesh.TriangleIndices[triangle*3+corner];var p=mesh.Positions[id];var n=mesh.Normals[id];var uv=mesh.TextureCoordinates[id];
                 vertices.Add(new GpuVertex{Position=new((float)p.X,(float)p.Y,(float)p.Z),Normal=new((float)n.X,(float)n.Y,(float)n.Z),Uv=new((float)uv.X,(float)uv.Y),
-                    Color=new(c.R/255f,c.G/255f,c.B/255f,c.A/255f),Surface=new(kind,.85f,0,key.Contains("spruce")?1:key.StartsWith("rivers")?2:0)});
+                    Color=new(c.R/255f,c.G/255f,c.B/255f,c.A/255f),Surface=new(kind,.85f,0,kind==46?UnderstoryMaterials.Index(key):key.Contains("spruce")?1:key.StartsWith("rivers")?2:0)});
             }
         }
         var draws=new List<DrawMesh>();
@@ -46,6 +46,7 @@ internal sealed partial class PhotographicRenderer
             {
                 var data=vertices.ToArray();var minimum=new Vector3(float.MaxValue);var maximum=new Vector3(float.MinValue);
                 foreach(var vertex in data){minimum=Vector3.Min(minimum,vertex.Position);maximum=Vector3.Max(maximum,vertex.Position);}
+                if(kind==46){minimum-=new Vector3(.025f,0,.025f);maximum+=new Vector3(.025f,0,.025f);}
                 draws.Add(new(gpu.Buffer<GpuVertex>(data,1),data.Length,(minimum+maximum)*.5f,kind,c.A<255,minimum,maximum,new((cell.X+.5f)*CellSize,(cell.Z+.5f)*CellSize),detail));
             }
         }

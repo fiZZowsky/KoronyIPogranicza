@@ -139,6 +139,7 @@ internal sealed unsafe class NativeGpu : IDisposable
     internal void Shaders(nint vs,nint ps){((delegate* unmanaged[Stdcall]<nint,nint,nint,uint,void>)V(Context,11))(Context,vs,0,0);((delegate* unmanaged[Stdcall]<nint,nint,nint,uint,void>)V(Context,9))(Context,ps,0,0);}
     internal void Layout(nint layout){((delegate* unmanaged[Stdcall]<nint,nint,void>)V(Context,17))(Context,layout);((delegate* unmanaged[Stdcall]<nint,uint,void>)V(Context,24))(Context,4);}
     internal void Constants(nint buffer){((delegate* unmanaged[Stdcall]<nint,uint,uint,nint*,void>)V(Context,7))(Context,0,1,&buffer);((delegate* unmanaged[Stdcall]<nint,uint,uint,nint*,void>)V(Context,16))(Context,0,1,&buffer);}
+    internal void UnderstoryResource(nint view)=>((delegate* unmanaged[Stdcall]<nint,uint,uint,nint*,void>)V(Context,8))(Context,16,1,&view);
     internal void ActorResources(nint[] views){fixed(nint* p=views)((delegate* unmanaged[Stdcall]<nint,uint,uint,nint*,void>)V(Context,8))(Context,13,(uint)views.Length,p);}
     internal void Resources(params nint[] views){fixed(nint* p=views)((delegate* unmanaged[Stdcall]<nint,uint,uint,nint*,void>)V(Context,8))(Context,0,(uint)views.Length,p);}
     internal void Samplers(nint regular,nint shadow){nint* p=stackalloc nint[2]{regular,shadow};((delegate* unmanaged[Stdcall]<nint,uint,uint,nint*,void>)V(Context,10))(Context,0,2,p);}

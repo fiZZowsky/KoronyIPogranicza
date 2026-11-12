@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.41 — 2026-11-12 · Roślinność, woda i detale obozu
+
+- Atlas czterech roślin z kanałem alfa: trawy, paprocie, turzyce i zioła. Wspólne materiały, wycinanie także w cieniach, wiatr, sezonowe barwy i ograniczenie geometrii na odległość.
+- Rozmieszczenie zależne od terenu, ochrona odkrytej geografii, poprawne przypisanie roślin brzegowych do pól i pomijanie dekoracji przy trafianiu myszą.
+- Krótsze, zagłębione korzenie drzew; otwarte kosze, drewno, odłupki i rośliny przy początkowym obozie. Detale nie przyznają zasobów.
+- Kierunek drobnych fal zgodny z przebiegiem rzeki, silniejsze tłumienie widocznego dna z głębokością i cienie brzegów na wodzie.
+- Nowy przebieg kontroli materiałów, alfa, animacji, buforów, odległych detali i zachowania stanu kampanii.
+- Format v28 i reguły gry bez zmian; osobny katalog wydania 0.41.
+
 ## 0.40 — 2026-11-12 · Korekta początkowej sceny 3D
 
 - Baza anatomiczna MakeHuman CC0 i dopasowana skóra zamiast postaci fantasy w pierwszych dwóch epokach. Statyczna poza, strój ze skóry, dwa poziomy szczegółowości. Późniejsze postacie pozostają dotychczasowe.

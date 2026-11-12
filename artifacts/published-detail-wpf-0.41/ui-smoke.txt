@@ -1,0 +1,21 @@
+PASS The shared vegetation atlas is frozen, detailed and square
+PASS Vegetation quadrant 0 contains real alpha gaps and solid leaf detail
+PASS Vegetation variant 0 reuses a frozen material
+PASS Vegetation quadrant 1 contains real alpha gaps and solid leaf detail
+PASS Vegetation variant 1 reuses a frozen material
+PASS Vegetation quadrant 2 contains real alpha gaps and solid leaf detail
+PASS Vegetation variant 2 reuses a frozen material
+PASS Vegetation quadrant 3 contains real alpha gaps and solid leaf detail
+PASS Vegetation variant 3 reuses a frozen material
+PASS The requested backend renders the vegetation scene: System.InvalidOperationException: Tryb zgodności wybrany parametrem --no-gpu.
+   at Crown.Desktop.MapView.RenderGpuFrame(Double visualTime) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\MapView3D.cs:line 289
+PASS Meadow grass, woodland ferns, bank sedges and herbs all have actual scene geometry
+PASS Every vegetation card has its matching texture and a visible back face
+PASS Vegetation geometry has finite unit normals
+PASS Vegetation batches are attached only to explored logical tiles
+PASS The initial camp contains real storage baskets and stacked wood
+PASS New plants, props, forest selection and close inspection preserve campaign state and RNG
+PASS Unknown woodland creates no revealing vegetation
+PASS The detailed environment retains a usable compact viewport
+PASS The complete detail diagnostic leaves the exact original campaign unchanged
+19 environment detail desktop integration checks passed. Inspect PNGs separately for visual quality.

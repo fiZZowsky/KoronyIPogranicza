@@ -186,7 +186,8 @@ internal sealed class SceneBatch
         if (meshes.TryGetValue(key, out var existing)) return Configure(existing);
         string organicKey=key.StartsWith("organic-near-")?key[13..]:key.StartsWith("organic-far-")?key[12..]:key;int organicIndex=OrganicMaterials.Index(organicKey);
         int actorId=ActorAssets.MaterialId(key);
-        Brush brush = actorId>=0?ActorAssets.Brush(actorId):organicKey.StartsWith("wheat-tuft")?OrganicMaterials.Wheat:organicIndex>=0?OrganicMaterials.Material(organicIndex):key.StartsWith("era-facade-")&&key.Length>11&&key[11] is >='0' and <='3'?ArchitectureMaterials.Facade(key[11]-'0'):Ui.Brush(color); Material m = emissive ? new EmissiveMaterial(brush) : new DiffuseMaterial(brush); m.Freeze(); materials[key] = m;
+        int understory=UnderstoryMaterials.Index(key);
+        Brush brush = understory>=0?UnderstoryMaterials.Brush(understory):actorId>=0?ActorAssets.Brush(actorId):organicKey.StartsWith("wheat-tuft")?OrganicMaterials.Wheat:organicIndex>=0?OrganicMaterials.Material(organicIndex):key.StartsWith("era-facade-")&&key.Length>11&&key[11] is >='0' and <='3'?ArchitectureMaterials.Facade(key[11]-'0'):Ui.Brush(color); Material m = emissive ? new EmissiveMaterial(brush) : new DiffuseMaterial(brush); m.Freeze(); materials[key] = m;
         var result = new SceneMesh(); meshes[key] = result; return Configure(result);
     }
     public SceneMesh Terrain(Crown.Core.Terrain terrain, bool remembered)
@@ -229,7 +230,7 @@ internal sealed class SceneBatch
             var model = new GeometryModel3D(pair.Value.Freeze(), materials[pair.Key]);
             if(tintColors.TryGetValue(pair.Key,out var tint))model.SetValue(SceneSurface.TintProperty,tint);
             model.SetValue(SceneSurface.KeyProperty, pair.Key);model.SetValue(SceneSurface.TileIdsProperty,pair.Value.TileIds.ToArray());
-            if(ActorAssets.MaterialId(pair.Key)>=0||pair.Key.Contains("flag-fabric")||pair.Key.Contains("camp-hide")||pair.Key.Contains("wheat-tuft")||pair.Key.Contains("foliage")||pair.Key.Contains("sail-cloth")||pair.Key.Contains("loom-cloth"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
+            if(UnderstoryMaterials.Index(pair.Key)>=0||ActorAssets.MaterialId(pair.Key)>=0||pair.Key.Contains("flag-fabric")||pair.Key.Contains("camp-hide")||pair.Key.Contains("wheat-tuft")||pair.Key.Contains("foliage")||pair.Key.Contains("sail-cloth")||pair.Key.Contains("loom-cloth"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
         }
         group.Freeze(); return group;
     }

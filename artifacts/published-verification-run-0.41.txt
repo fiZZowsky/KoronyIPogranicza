@@ -1,0 +1,5 @@
+detail-gpu: 23 checks; exit 0; 15,4s
+detail-wpf: 19 checks; exit 0; 11,1s
+models-gpu: 36 checks; exit 0; 16,1s
+river-gpu: 19 checks; exit 0; 8,5s
+detail-forced: 0 checks; exit 3; 0,6s

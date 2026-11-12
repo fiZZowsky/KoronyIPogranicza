@@ -1,0 +1,47 @@
+PASS Main menu has no seed editor or upfront difficulty controls
+PASS New game first opens three difficulty choices without generating a campaign
+PASS Cancelling difficulty returns to menu without creating a world
+PASS A new campaign opens welcome before its founding decision
+PASS Welcome is centered in the actual game window
+PASS Welcome pauses map input until the player responds
+PASS Do not show again persists to the real isolated preferences file
+PASS Starting the tutorial changes no campaign data or RNG and leaves the map usable
+PASS First task highlights the actual council button
+PASS Coach yields its space to the council dialog
+PASS Deferring the council does not falsely complete the decision task
+PASS Any real council answer completes the task and records its actual consequences
+PASS Production task scrolls the actual city project button into view
+PASS Merely closing production does not count as planning it
+PASS Keeping the existing project advances without losing production or changing the save
+PASS Opening research waits for a deliberate research decision
+PASS Keeping existing research preserves science and campaign RNG
+PASS The actual next-unit button selects a real unit and starts movement training
+PASS A no-op order does not falsely complete movement training
+PASS The actual map order handler moves the unit before completing its task
+PASS Ending the first period advances the actual campaign exactly once
+PASS Opening the real chronicle reaches the final lesson
+PASS Finishing removes coaching and highlights without changing the campaign
+PASS Reference guide starts with collapsed topics rather than a wall of text
+PASS Guide restarts the interactive tutorial after it was completed or dismissed
+PASS Esc pauses the game while preserving tutorial progress
+PASS Returning from the main menu resumes the existing tutorial without another welcome
+PASS Stopping a tutorial preserves all gameplay state
+PASS Gameplay settings reflect the welcome dismissal preference
+PASS Leaving settings discards an unapplied welcome preference
+PASS Settings can re-enable the welcome and persist it
+PASS Another campaign gets a fresh automatic world and the selected challenge
+PASS Skipping goes to the founding council without consuming its decision
+PASS Disabled welcome starts a standard campaign directly at its council
+PASS An existing save can receive onboarding without losing campaign data
+PASS A preference write failure stays visible and never claims dismissal was saved
+PASS Tutorial on a progressed save handles an already resolved council
+PASS Coach and actual project target fit the compact game window
+PASS Tutorial exit remains reachable in the compact layout
+PASS A campaign with no available units can proceed without a tutorial soft lock
+PASS Selecting an actual project also completes the production lesson
+PASS Selecting a new available technology also completes the research lesson
+PASS Movement training can be explicitly skipped without requiring a risky order
+PASS A completed campaign can finish its interface tour without an impossible turn
+PASS An existing save without active research has an explicit way forward
+PASS Older preference files default to showing onboarding without a settings migration
+46 onboarding desktop integration checks passed.

@@ -32,8 +32,8 @@ internal static partial class WorldScene3D
         bark.Hull(x,y,z,[(0,height*.038,height*.034,0),(height*.13,height*.025,height*.024,0),(height*.52,height*.016,height*.015,height*.018),(height*.92,height*.005,height*.005,height*.025)],9);
         for(int root=0;root<(broadleaf?5:3);root++)
         {
-            double angle=root*Math.PI*2/(broadleaf?5:3);double rx=x+Math.Cos(angle)*height*.13,rz=z+Math.Sin(angle)*height*.13;
-            bark.Tube(new(rx,Terrain3D.Height(s,rx,rz)+.005,rz),new(x,y+height*.10,z),height*.012,5);
+            double angle=root*Math.PI*2/(broadleaf?5:3);double rx=x+Math.Cos(angle)*height*.060,rz=z+Math.Sin(angle)*height*.060;
+            bark.Tube(new(rx,Terrain3D.Height(s,rx,rz)-.003,rz),new(x,y+height*.032,z),height*.006,6);
         }
         if(birch)for(int mark=1;mark<5;mark++)batch.Mesh("bark-birch-marks","#615D4F").Tube(new(x-height*.024,y+mark*height*.13,z-.014),new(x+height*.014,y+mark*height*.13+.008,z-.014),height*.003,4);
         // Individually oriented branch sprays retain volume from every camera direction.

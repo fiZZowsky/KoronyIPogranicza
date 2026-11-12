@@ -1,5 +1,11 @@
 # Oprawa i pochodzenie plików
 
+## 0.41 — atlas roślinności
+
+`src/Crown.Desktop/Assets/understory-atlas-0.41.png` został wygenerowany narzędziem imagegen i skopiowany do projektu bez zmiany obrazu. To materiał 2×2 z rzeczywistym kanałem alfa: trawa, paproć, turzyca, zioła. Nie jest fotografią ani skanem botanicznym. Kanał alfa jest wycinany w scenie i w cieniach; tekstura GPU ma premultiplikowane kolory przy tworzeniu mipmap, a shader odzyskuje kolor przy próbkowaniu. WPF korzysta z zamrożonych wycinków tego samego pliku. Kod tworzy cztery trójkąty na kępę; gęstość jest ograniczona, a małe rośliny pomijane przy większej odległości.
+
+Pochodzenie, dokładny prompt i SHA256: `artifacts/assets-0.41/vegetation-manifest.json`. Pozostałe tekstury i modele mają źródła opisane poniżej. Kosze, drewno i detale kamienne są geometrią projektu. Zrzuty środowiska w artifacts są rzeczywistymi renderami gry.
+
 ## 0.40 — anatomiczna postać i korekta obozu
 
 Model ciała: MakeHuman hm08 `base.obj`, [oficjalne źródło](https://github.com/makehumancommunity/makehuman/blob/master/makehuman/data/3dobjs/base.obj). Plik jawnie deklaruje CC0; [licencja MakeHuman](https://github.com/makehumancommunity/makehuman/blob/master/LICENSE.md) rozdziela kod AGPL i zasoby CC0. Kod MakeHuman nie jest kopiowany ani używany w grze.

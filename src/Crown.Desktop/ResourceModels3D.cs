@@ -90,13 +90,15 @@ internal static partial class WorldScene3D
         if(tile.Improvement!=Improvement.None||tile.Ruin||Navigation.RoadNode(s,tile.Id)||s.Cities.Any(c=>c.Tile==tile.Id))return;
         if(tile.Terrain is not (Terrain.Grassland or Terrain.Marsh or Terrain.Tundra or Terrain.Forest))return;
         var center=Terrain3D.Center(tile);var random=new Random(unchecked(s.Seed+tile.Id*7723));
-        for(int i=0;i<4;i++)
+        int count=tile.Terrain==Terrain.Forest?10:tile.Terrain==Terrain.Marsh?16:15;
+        for(int i=0;i<count;i++)
         {
-            var p=new Point(center.X+(random.NextDouble()-.5)*1.3,center.Y+(random.NextDouble()-.5)*1.3);
-            if(TerrainField.Current(s).Rivers.Distance(p)<.45||tile.Resource!=Resource.None&&(ResourceAnchor(s,tile)-p).Length<.38)continue;
-            double y=Terrain3D.Height(s,p.X,p.Y);if(y<Terrain3D.SeaLevel+.02)continue;
-            for(int j=0;j<6;j++)Blade(batch,new(p.X+(random.NextDouble()-.5)*.07,y,p.Y+(random.NextDouble()-.5)*.07),.028,.04+random.NextDouble()*.05,"ground-grass",tile.Terrain==Terrain.Tundra?"#969575":"#8A9A62",random.NextDouble()*Math.PI);
-            if(tile.Terrain==Terrain.Grassland&&i==1&&tile.Resource==Resource.None)FlowerPlant(batch,s,p,.10,false);
+            var p=new Point(center.X+(random.NextDouble()-.5)*1.45,center.Y+(random.NextDouble()-.5)*1.45);
+            if(Terrain3D.TileAt(s,p.X,p.Y)!=tile.Id||TerrainField.Current(s).Rivers.Distance(p)<.40||tile.Resource!=Resource.None&&(ResourceAnchor(s,tile)-p).Length<.42)continue;
+            if(Terrain3D.Height(s,p.X,p.Y)<Terrain3D.SeaLevel+.025)continue;
+            int variant=tile.Terrain==Terrain.Forest&&i%3==0?1:i%7==0?3:0;
+            double height=variant==1?.10+random.NextDouble()*.045:.025+random.NextDouble()*.030;
+            UnderstoryClump(batch,s,p,height,variant,random.NextDouble()*Math.PI);
         }
     }
 }

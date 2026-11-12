@@ -1,0 +1,9 @@
+{
+  "generator": "imagegen, built-in tool",
+  "transparentBackground": true,
+  "asset": "src\\Crown.Desktop\\Assets\\understory-atlas-0.41.png",
+  "sha256": "8bb8a93f05c735bf908f7a58910fbf0849319470ea91a53421e9d5a9a66aaae4",
+  "bytes": 2787177,
+  "prompt": "Create one square 2 by 2 texture atlas for a realistic 3D historical strategy game, transparent background with true alpha. NO checkerboard drawn into the image, NO ground, NO text, NO frame, NO cast shadow. Four separate FRONT-VIEW cutout clumps, one centered strictly inside each equal quadrant, no overlap across quadrant boundaries, 6 percent transparent margins on every quadrant. All roots exactly at 92 percent down within their own quadrant; tops around 8 percent. TOP LEFT: dense short meadow grass tuft of many fine curved natural narrow blades, muted fresh olive-green mixed with straw tips, irregular silhouette. TOP RIGHT: mature small fern clump, detailed branching pinnate fronds, subdued deep green. BOTTOM LEFT: bank sedge tuft with slender arching blades and a few delicate dry seed stalks, natural olive and tan. BOTTOM RIGHT: low broad-leaf woodland herbs with subtle tiny cream flowers. Natural botanical proportions and photographic surface detail, diffuse overcast neutral lighting without hard directional shadows, sharp realistic alpha edges including gaps between individual blades and fronds. Real plant texture photography aesthetic, not illustration, not cartoon, not low-poly. Pack the four quadrants consistently for GPU sampling.",
+  "usage": "Four cutout cards, shared texture, premultiplied GPU mipmaps, cropped frozen WPF brushes. Alpha tested in every quadrant."
+}

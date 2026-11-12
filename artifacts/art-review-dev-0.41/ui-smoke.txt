@@ -1,0 +1,16 @@
+PASS The scene uses the requested rendering backend: 
+PASS The initial era uses the anatomical human mesh instead of its fantasy warrior
+PASS No fantasy armor is rendered in the initial Paleolithic scene
+PASS Closed eight-sided cone placeholders are absent from the initial city
+PASS Open curved shelters have textured, double-sided hide surfaces
+PASS Shelters include distinct timber ribs and seams rather than a color-only silhouette
+PASS Shelter placement rejects every sampled channel center
+PASS The capital center remains a usable dry camp site
+PASS River banks use graduated silt geometry instead of the broad gravel carpet
+PASS Faction banners use curved cloth geometry rather than rectangular solid boxes
+PASS New camp, river and human geometry stays bounded with finite unit normals
+PASS Anatomical people use bounded 12000 and 1600 triangle detail levels
+PASS Visual geometry, anatomical actors and inspection preserve exact campaign state and RNG
+PASS Orbiting the rebuilt scene does not re-upload meshes
+PASS The scene remains usable in a compact game window
+15 art review desktop integration checks passed. Visual quality requires reviewing the PNGs.

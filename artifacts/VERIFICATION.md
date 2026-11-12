@@ -1,30 +1,32 @@
-﻿# Korony i Pogranicza 0.40 — weryfikacja
+﻿# Korony i Pogranicza 0.41 — weryfikacja
 
-Data: 2026-11-12. C#/.NET 10, Windows, WPF, Direct3D 11.
-
-## Zakres i ograniczenia
-
-To korekta sceny początkowej po zrzucie gracza, **nie osiągnięty fotorealizm**. Nowy człowiek obejmuje pierwsze dwie epoki; późniejsi aktorzy pozostają dotychczasowi. Pozy są statyczne, ubranie jest proste, roślinność i woda nadal wymagają dalszej produkcji. Materiały zgodności WPF są prostsze niż GPU. Testy sprawdzają działanie i integralność, nie przyznają jakości artystycznej.
+Data: 2026-11-12. Windows, .NET 10, WPF i Direct3D 11.
 
 ## Wyniki
 
-- Build Release: 0 błędów, 0 ostrzeżeń (`build-0.40.txt`).
-- Silnik: **752 PASS, 0 FAIL**, 32,3 s. Reguły kampanii nie zmieniały się.
-- **282 kontrole w 10 kolejnych trybach**: scena początkowa 15, 3D 34, renderer 21, rzeki 19, krajobraz 18, otoczenie 22, modele 36, optymalizacja 27, odrębność epok 44, samouczek 46. Wszystkie procesy zakończyły się kodem 0. To zestaw celowany w zmiany graficzne; pełnych 27 trybów w tej wersji nie uruchamiano.
-- Opublikowany EXE: **85 kontroli GPU i 14 WPF**. Scena początkowa 15 GPU + 14 WPF, modele 36, rzeki 19 oraz 15 dodatkowych kontroli rzeczywistego zapisu z 0.39. Każdy pomyślny proces zakończył się kodem 0.
-- Wymuszona awaria nowego przeglądu: oczekiwany kod 3 i raport.
-- **8 kontroli rzeczywistego autozapisu v28 z 0.39**: pełny round trip, zapis izolowanej kopii, rada, rzeczywista kontynuacja i identyczna losowość. Oryginał pozostał bez zmian.
-- SHA256 wszystkich **38** poprzednich plików kampanii zgadza się ze snapshotem.
+- Build Release: **0 błędów i 0 ostrzeżeń** (`build-0.41.txt`).
+- Silnik: **752 PASS, 0 FAIL**, 34,1 s. Reguły symulacji i format v28 nie zmieniały się.
+- **305 kontroli w 11 kolejnych trybach**: detale środowiska 23, scena początkowa 15, 3D 34, renderer 21, rzeki 19, krajobraz 18, otoczenie 22, modele 36, optymalizacja 27, epoki 44, samouczek 46. Każdy proces zakończony kodem 0. To zestaw celowany w zmiany; pełnych 28 trybów nie uruchamiano.
+- Opublikowany EXE: **93 kontrole GPU i 19 WPF**. Nowe detale 23 GPU + 19 WPF, modele 36, rzeki 19 i rzeczywisty poprzedni zapis 15. Wszystkie pomyślne procesy zakończone kodem 0.
+- Celowa awaria nowego trybu: oczekiwany **kod 3** i raport błędu.
+- **8 kontroli** rzeczywistego autozapisu v28 z 0.40: dokładny round trip, izolowana kopia, rada, kontynuacja z identyczną losowością oraz zachowanie oryginału.
+- SHA256 wszystkich **39** poprzednich plików kampanii pozostaje zgodny ze snapshotem.
 - `git -c core.safecrlf=false diff --check`: bez błędów.
 
-## Obejrzane obrazy i pomiar
+## Nowe kontrole i ocena wizualna
 
-Obejrzano rzeczywiste rendery zbliżenia obozu i ludzi przed oraz po korekcie, a także końcowy `published-user-scene-0.40/camp-close.png` z rzeczywistego autozapisu 0.39. Końcowy widok pokazuje otwarte schronienia, brak postaci fantasy, mniej nasycony teren, cieńsze zaznaczenie i stopniowane brzegi wraz z zakończeniem.
+Każda ćwiartka atlasu ma rzeczywisty kanał alfa z przezroczystymi otworami i nieprzezroczystymi fragmentami. Materiały są współdzielone i zamrożone. Rośliny mają obie strony, skończone normalne i identyfikatory odkrytych pól. Test wykrył brak przypisania roślin brzegowych do pola; poprawiono przypisanie i ochronę nieodkrytej geografii, po czym pełny wybrany zestaw przeszedł.
 
-Lokalny pomiar gotowego EXE podczas obrotu kamery w tym zapisie: mediana **16,4 ms**, maksimum **29,9 ms**, 1165 × 758. Obejmuje odczyt obrazu na CPU i dotyczy jednego urządzenia oraz jednego ujęcia. Nie jest gwarancją FPS, temperatur ani wydajności innych scen. Bufory sceny nie są ponownie wysyłane przy obrocie; aktorzy i schronienia mają warianty odległe.
+Sprawdzono deterministyczny czas wizualny, zmianę obrazu przy podmuchach, stałą liczbę zasobów i brak ponownego wysyłania sceny podczas animacji oraz obrotów, zmniejszenie faktycznie wysyłanej geometrii na odległość, układ kompaktowy i niezmieniony zapis gry.
 
-## Odtworzenie
+Obejrzano zrzuty obozu i lasu w nowym trybie oraz końcowy zbliżony widok rzeczywistej kampanii z opublikowanego EXE (`published-user-scene-0.41/camp-close.png`). Pierwszy render pokazywał zbyt wysokie, zwarte kępy i nadmiernie widoczny wzór dna; zmniejszono wysokość traw, rozszerzono kępy i silniej stłumiono obraz dna z głębokością.
 
-`verify-graphics-0.40.ps1`, `graphics-results-0.40.txt`, `graphics-verification-run-0.40.txt`, `core-specs-0.40.txt`, `verify-published-0.40.ps1`, `published-verification-0.40.txt`, `save-compatibility-0.40.txt`. Dodatkowy przegląd istniejącego zapisu: `--ui-smoke-art-review --review-save <plik.crown> <katalog raportu>`; odczyt jest bezpieczny dla oryginału, zapisy testów są izolowane.
+Lokalny pomiar końcowego EXE podczas obrotu kamery: mediana **17,0 ms**, maksimum **27,0 ms**, 1168 × 765. To jeden zapis i jedno urządzenie, z odczytem obrazu na CPU. Nie jest gwarancją FPS lub temperatur dla innych komputerów i kampanii.
 
-Format kampanii pozostaje v28. Wydanie ma osobny katalog i kopię poprzednich zapisów oraz ustawień, bez nadpisywania istniejących plików. ZIP zawiera wyłącznie program i dokumentację, bez osobistych ustawień i kampanii. Zgodność binariów, starych archiwów oraz wpisów ZIP sprawdza `package-release-0.40.ps1`; hash i rozmiar są w `package-0.40.txt`.
+## Odtworzenie i ograniczenia
+
+Źródła wyników: `core-specs-0.41.txt`, `graphics-results-0.41.txt`, `graphics-verification-run-0.41.txt`, `published-verification-0.41.txt`, `save-compatibility-0.41.txt`. Skrypty: `verify-graphics-0.41.ps1` i `verify-published-0.41.ps1`. Nowy tryb: `--ui-smoke-environment-detail <katalog raportu>`. Rzeczywisty zapis: `--ui-smoke-art-review --review-save <plik.crown> <katalog raportu>`.
+
+Przebiegi używają oddzielnych zapisów i ustawień, a rzeczywisty input nie ingeruje w przygotowane scenariusze. WPF zachowuje statyczne karty z alfą i prostsze materiały; pełny wiatr, woda i cienie korzystają z GPU. Atlas roślin został wygenerowany przez imagegen, nie jest skanem botanicznym. Postacie nadal korzystają ze statycznych póz. Testy nie są oceną fotorealizmu, którego nadal nie osiągnięto.
+
+Wydanie 0.41 ma osobny katalog oraz kopie poprzednich kampanii i ustawień. Paczka ZIP ma wyłącznie program i dokumentację, bez kampanii, osobistych ustawień i cache. Hash, rozmiar i zgodność 14 wpisów sprawdza `package-release-0.41.ps1`; wyniki w `package-0.41.txt`.

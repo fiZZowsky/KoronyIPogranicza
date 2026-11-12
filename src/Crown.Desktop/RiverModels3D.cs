@@ -73,12 +73,11 @@ internal static partial class WorldScene3D
         int tile=Terrain3D.TileAt(s,p.X,p.Y);if(tile<0||!s.Tiles[tile].Explored||!s.Tiles[tile].Passable||Navigation.RoadNode(s,tile))return;
         double y=Terrain3D.Height(s,p.X,p.Y);if(y<Terrain3D.SeaLevel)return;
         var random=new Random(unchecked(s.Seed+seed*3571));
-        for(int i=0;i<5;i++)
+        for(int i=0;i<3;i++)
         {
-            double x=p.X+(random.NextDouble()-.5)*.12,z=p.Y+(random.NextDouble()-.5)*.12,h=.10+random.NextDouble()*.15,ground=Terrain3D.Height(s,x,z);
-            var reed=batch.Mesh("river-reeds","#7D8A4F");reed.Tube(new(x,ground,z),new(x+.025,ground+h,z-.018),.0035,4);
-            reed.Tube(new(x+.025,ground+h*.55,z-.018),new(x-.035,ground+h*.8,z+.018),.006,3);
-            if(i%2==0)batch.Mesh("reed-heads","#8C7960").Cylinder(x+.025,ground+h,z-.018,.007,.035,sides:5);
+            double x=p.X+(random.NextDouble()-.5)*.13,z=p.Y+(random.NextDouble()-.5)*.13;
+            if(Terrain3D.TileAt(s,x,z)!=tile)continue;
+            UnderstoryClump(batch,s,new(x,z),.11+random.NextDouble()*.07,2,random.NextDouble()*Math.PI);
         }
         if(seed%3==0)batch.Mesh("river-pebbles","#93998D").Sphere(p.X+.04,y+.018,p.Y,.055,.035,.04,7,4);
     }

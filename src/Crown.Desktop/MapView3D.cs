@@ -212,7 +212,7 @@ public sealed partial class MapView : Grid
             if (result is RayMeshGeometry3DHitTestResult hit && hit.DistanceToRayOrigin < nearest)
             {
                 // Leaf cards include transparent holes; decorative canopies must not intercept orders.
-                if(hit.ModelHit is GeometryModel3D foliage&&SceneSurface.Key(foliage).StartsWith("foliage"))return HitTestResultBehavior.Continue;
+                if(hit.ModelHit is GeometryModel3D foliage&&(SceneSurface.Key(foliage).StartsWith("foliage")||UnderstoryMaterials.Index(SceneSurface.Key(foliage))>=0))return HitTestResultBehavior.Continue;
                 int candidate = Terrain3D.TileAt(State, hit.PointHit.X, hit.PointHit.Z);
                 if(hit.ModelHit is GeometryModel3D model&&model.GetValue(SceneSurface.TileIdsProperty) is int[] ids&&hit.VertexIndex1/3<ids.Length&&ids[hit.VertexIndex1/3]>=0)candidate=ids[hit.VertexIndex1/3];
                 if (candidate >= 0) { tile = candidate; nearest = hit.DistanceToRayOrigin; }

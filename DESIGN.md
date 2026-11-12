@@ -1,5 +1,15 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Roślinność, woda i życie obozu — 0.41
+
+Nowy atlas zawiera cztery warianty roślin: niskie trawy łąkowe, paprocie, turzyce brzegowe i zioła. To tekstury z prawdziwym kanałem alfa na skrzyżowanych płaszczyznach 3D, używane również przez cienie. Podmuchy poruszają górnymi częściami kęp, a korzenie pozostają przy terenie. Rozmieszczenie korzysta z lokalnego ziarna i nie zużywa losowości kampanii. Rośliny nie przechwytują kliknięć i nie ujawniają nieodkrytych pól.
+
+Zagęszczenie zależy od terenu. Dalsze plany pomijają małe rośliny, a bliskie modele korzystają ze współdzielonego atlasu i buforów. Korzenie drzew są krótsze i mocniej zagłębione w ziemi. Obóz w paleolicie otrzymuje otwarte kosze, stosy drewna, odłupki kamienia i rośliny na obrzeżach; są to detale wizualne, a nie dodatkowe zasoby do zebrania.
+
+Marszczenie rzek jest ustawione względem kierunku przepływu. Zanurzone dno stopniowo znika z głębokością, a powierzchnia uwzględnia cień brzegów. Zmniejszono widoczność kamiennego wzoru na całej szerokości wody. Nie zmieniono geografii zapisanych rzek ani zasad przekraczania i bonusów pól. Efekty wody i wiatr są pełniejsze w D3D11; WPF zachowuje statyczne rośliny z alfą i prostsze materiały.
+
+Format zapisu pozostaje v28. Postacie i ich ograniczenia z 0.40 nie zmieniają się w tej wersji. Docelowy fotorealizm oraz animacje postaci pozostają do dalszej produkcji.
+
 ## Korekta sceny początkowej — 0.40
 
 Ta wersja usuwa konkretne błędy widoczne w zbliżeniu. **Nie oznacza osiągnięcia fotorealizmu.** W paleolicie i neolicie model wojownika fantasy zastępuje anatomiczna baza MakeHuman CC0, ze skórą dopasowaną do UV, prostym strojem ze skóry i statyczną pozą. Pozostałe modele epok zachowują dotychczasowe zasoby; pełna animacja, zróżnicowanie ludzi i docelowe ubrania wymagają dalszej pracy.

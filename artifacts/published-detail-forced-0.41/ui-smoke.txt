@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional environment detail diagnostic failure.
+   at Crown.Desktop.MainWindow.EnvironmentDetailSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\EnvironmentDetailSmoke.cs:line 26
