@@ -1,0 +1,18 @@
+{
+  "source": "https://raw.githubusercontent.com/makehumancommunity/makehuman/master/makehuman/data/3dobjs/base.obj",
+  "sha256": "8e761e6624b8f54536409135d1636da63b32486a90d4897f84e121d144f6fb4c",
+  "license": "CC0-1.0",
+  "pose": "offline lowered arms, static",
+  "lods": [
+    {
+      "vertices": 6611,
+      "triangles": 12000,
+      "error": 0.0005458530504256487
+    },
+    {
+      "vertices": 992,
+      "triangles": 1600,
+      "error": 0.005071771331131458
+    }
+  ]
+}

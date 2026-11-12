@@ -1,31 +1,30 @@
-﻿# Korony i Pogranicza 0.39 — weryfikacja
+﻿# Korony i Pogranicza 0.40 — weryfikacja
 
-Data: 2026-11-10. Windows, C#/.NET 10, WPF i Direct3D 11.
+Data: 2026-11-12. C#/.NET 10, Windows, WPF, Direct3D 11.
+
+## Zakres i ograniczenia
+
+To korekta sceny początkowej po zrzucie gracza, **nie osiągnięty fotorealizm**. Nowy człowiek obejmuje pierwsze dwie epoki; późniejsi aktorzy pozostają dotychczasowi. Pozy są statyczne, ubranie jest proste, roślinność i woda nadal wymagają dalszej produkcji. Materiały zgodności WPF są prostsze niż GPU. Testy sprawdzają działanie i integralność, nie przyznają jakości artystycznej.
 
 ## Wyniki
 
-- Build Release: **0 błędów, 0 ostrzeżeń** (`build-0.39.txt`).
-- Silnik: **752 PASS, 0 FAIL**, 34,1 s.
-- Interfejs: **833 kontrole w 26 kolejnych trybach**. Każdy pomyślny przebieg zakończył się kodem procesu 0.
-- Samouczek i nowa gra: **46 kontroli** rzeczywistych przycisków, decyzji i rozkazów, w tym zachowanie stanu/RNG, zapis preferencji, ich błąd zapisu, starsze ustawienia, pauza, powrót z menu, pominięcia i kompaktowy układ.
-- Opublikowany EXE: **128 kontroli GPU** (samouczek 46, ustawienia 44, epoki 38) oraz **46 kontroli WPF** (`--no-gpu`). Wszystkie cztery procesy zakończone kodem 0.
-- Celowo wymuszona awaria diagnostyki samouczka: oczekiwany **kod 3** i raport błędu.
-- Rzeczywisty autozapis z katalogu 0.38 (zachowany format v27): **7 kontroli** odczytu/migracji do v28, dokładnego backupu izolowanej kopii, ponownego zapisu i deterministycznej kontynuacji. Oryginał niezmieniony.
-- Obejrzane rendery: centralne powitanie, wybór trudności oraz doradca z podświetlonym projektem miasta przy 1200 × 800.
+- Build Release: 0 błędów, 0 ostrzeżeń (`build-0.40.txt`).
+- Silnik: **752 PASS, 0 FAIL**, 32,3 s. Reguły kampanii nie zmieniały się.
+- **282 kontrole w 10 kolejnych trybach**: scena początkowa 15, 3D 34, renderer 21, rzeki 19, krajobraz 18, otoczenie 22, modele 36, optymalizacja 27, odrębność epok 44, samouczek 46. Wszystkie procesy zakończyły się kodem 0. To zestaw celowany w zmiany graficzne; pełnych 27 trybów w tej wersji nie uruchamiano.
+- Opublikowany EXE: **85 kontroli GPU i 14 WPF**. Scena początkowa 15 GPU + 14 WPF, modele 36, rzeki 19 oraz 15 dodatkowych kontroli rzeczywistego zapisu z 0.39. Każdy pomyślny proces zakończył się kodem 0.
+- Wymuszona awaria nowego przeglądu: oczekiwany kod 3 i raport.
+- **8 kontroli rzeczywistego autozapisu v28 z 0.39**: pełny round trip, zapis izolowanej kopii, rada, rzeczywista kontynuacja i identyczna losowość. Oryginał pozostał bez zmian.
+- SHA256 wszystkich **38** poprzednich plików kampanii zgadza się ze snapshotem.
 - `git -c core.safecrlf=false diff --check`: bez błędów.
 
-Pełny zestaw UI: podstawy 170, wywiad 22, jeńcy 18, epoki 38, energia 23, obietnice energetyczne 22, 3D 34, materiały GPU 21, krajobraz 18, rzeki 19, pogoda 22, modele 36, optymalizacje 27, ustawienia 44, dzielnice 32, AI wojskowe 16, flota 27, transport 22, oblężenia 21, zapasy 26, przetwórstwo 26, odrębność epok 44, traktaty 22, rady prowincji 18, inwestycje 19 i samouczek 46.
+## Obejrzane obrazy i pomiar
 
-## Raporty i powtarzalność
+Obejrzano rzeczywiste rendery zbliżenia obozu i ludzi przed oraz po korekcie, a także końcowy `published-user-scene-0.40/camp-close.png` z rzeczywistego autozapisu 0.39. Końcowy widok pokazuje otwarte schronienia, brak postaci fantasy, mniej nasycony teren, cieńsze zaznaczenie i stopniowane brzegi wraz z zakończeniem.
 
-`verification-run-0.39.txt` zawiera silnik oraz podstawy, wywiad i jeńców. Pierwszy przebieg zatrzymał stary test epok, który oczekiwał natychmiastowego utworzenia kampanii po kliknięciu nowej gry. Dostosowano ten test do rzeczywistego wyboru trudności; `verification-remaining-0.39.txt` dokumentuje pomyślne wznowienie od epok do samouczka. Reguł symulacji nie zmieniano. `Zweryfikuj.ps1` zawiera kompletny przebieg wszystkich 26 trybów.
+Lokalny pomiar gotowego EXE podczas obrotu kamery w tym zapisie: mediana **16,4 ms**, maksimum **29,9 ms**, 1165 × 758. Obejmuje odczyt obrazu na CPU i dotyczy jednego urządzenia oraz jednego ujęcia. Nie jest gwarancją FPS, temperatur ani wydajności innych scen. Bufory sceny nie są ponownie wysyłane przy obrocie; aktorzy i schronienia mają warianty odległe.
 
-Gotowy EXE sprawdza `verify-published-0.39.ps1`; wyniki w `published-verification-0.39.txt`. Suma 752 + 833 kontroli i brak linii FAIL zostały niezależnie sprawdzone (`verification-counts-0.39.json`). Diagnostyka używa własnych katalogów zapisów i ustawień; rzeczywisty input nie ingeruje w przygotowane scenariusze.
+## Odtworzenie
 
-## Zapisy i paczka
+`verify-graphics-0.40.ps1`, `graphics-results-0.40.txt`, `graphics-verification-run-0.40.txt`, `core-specs-0.40.txt`, `verify-published-0.40.ps1`, `published-verification-0.40.txt`, `save-compatibility-0.40.txt`. Dodatkowy przegląd istniejącego zapisu: `--ui-smoke-art-review --review-save <plik.crown> <katalog raportu>`; odczyt jest bezpieczny dla oryginału, zapisy testów są izolowane.
 
-Format kampanii pozostaje **v28**. Żadne pole samouczka nie trafia do zapisu świata. Powitanie jest domyślnie włączoną preferencją lokalną, zgodną z plikami ustawień v1. Postęp nauki pozostaje w pamięci podczas pauzy i powrotu z menu; po wczytaniu innej kampanii lub ponownym uruchomieniu gracz może zacząć samouczek z Poradnika.
-
-Snapshot obejmuje **37** istniejących plików kampanii; kontrola SHA256 potwierdza brak zmian. Nowe wydanie otrzymuje kopię dotychczasowych zapisów i ustawień bez nadpisywania istniejących plików. Testy nie zapisują w poprzednich wydaniach.
-
-`package-release-0.39.ps1` sprawdza zgodność EXE i bibliotek z buildem, stare kampanie i archiwa oraz każdy plik wewnątrz ZIP-a. ZIP zawiera 14 plików programu i dokumentacji w katalogu `wydanie-0.39/`; pomija kampanie, ustawienia osobiste, cache i pliki tymczasowe. Hash i rozmiar gotowej paczki: `package-0.39.txt`.
+Format kampanii pozostaje v28. Wydanie ma osobny katalog i kopię poprzednich zapisów oraz ustawień, bez nadpisywania istniejących plików. ZIP zawiera wyłącznie program i dokumentację, bez osobistych ustawień i kampanii. Zgodność binariów, starych archiwów oraz wpisów ZIP sprawdza `package-release-0.40.ps1`; hash i rozmiar są w `package-0.40.txt`.

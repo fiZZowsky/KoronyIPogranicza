@@ -132,7 +132,9 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     if(kind<.5)
     {
         float3 region=Land.Sample(TextureSampler,p.uv).rgb;
-        float3 grass=Tile(p.world.xz*1.65,float2(0,0));
+        float2 grassUV=p.world.xz*1.35;
+        float macro=Noise(p.world.xz*.47);
+        float3 grass=lerp(Tile(grassUV,float2(0,0)),Tile(grassUV*.73+float2(3.47,7.13),float2(0,0)),smoothstep(.25,.75,macro)*.65);
         float3 rock=grass;
         [branch]if(1-saturate(n.y)>.015||p.world.y>.95)rock=Triplanar(p.world,n,float2(1,0),.65);
         [branch]if(Settings.y>.5&&length(EyeTime.xyz-p.world)<30){float soil=smoothstep(.52,.78,Noise(p.world.xz*.72))* .32;grass=lerp(grass,CivilTile(p.world.xz*2,float2(0,0)),soil);}
@@ -140,7 +142,9 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         float snow=smoothstep(3.1,4.4,p.world.y)*saturate(n.y*1.5-.3);
         float3 detail=lerp(grass,rock,stone);
         float known=step(.02,abs(region.g-region.b));
-        float3 base=region*(.55+detail*.9);base=lerp(base,lerp(float3(.27,.28,.25),float3(.64,.65,.62),rock.r),stone*.72);
+        float3 base=region*(.48+detail*.72);
+        float luma=dot(base,float3(.299,.587,.114));base=lerp(luma.xxx,base,.72);
+        base*=lerp(float3(.78,.83,.74),float3(1.05,1.02,.94),smoothstep(.2,.8,macro));base=lerp(base,lerp(float3(.27,.28,.25),float3(.64,.65,.62),rock.r),stone*.72);
         base=lerp(base,float3(.84,.86,.86),snow);base=lerp(region,base,known*Settings.y);
         float wet=(1-smoothstep(.05,.19,p.world.y))*VisualOptions.x*known;
         base=lerp(base,float3(.27,.25,.18)+rock*.15,wet*.7);
@@ -211,6 +215,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
     {
         float weave=sin(p.world.x*780)*sin(p.world.y*780+p.world.z*230);
         float wear=Noise(p.world.xy*31+p.world.z*7);
+        weave*=1-saturate(fwidth(p.world.x*780)+fwidth(p.world.y*780+p.world.z*230));
         albedo*=.78+wear*.18+weave*.025;rough=.97;
         n=ReliefNormal(p.world,n,weave,.00015*Settings.y);
     }
@@ -271,7 +276,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         albedo=Decode(wheat.rgb/max(wheat.a,.001));rough=.92;
         albedo=lerp(albedo,Decode(float3(.79,.83,.84)),SeasonPalette.x*.35);
     }
-    if(kind>35.5&&kind<42.5)
+    if(kind>35.5&&kind<43.5)
     {
         albedo=Decode(ActorBase.Sample(TextureSampler,p.uv).rgb);
         float3 orm=ActorOrm.Sample(TextureSampler,p.uv).rgb;rough=clamp(orm.g,.12,.98);metal=saturate(orm.b);
@@ -285,6 +290,23 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
             float3 detail=ActorNormal.Sample(TextureSampler,p.uv).xyz*2-1;
             n=normalize(tangent*detail.x+bitangent*detail.y+n*detail.z);
         }
+    }
+    if(kind>43.5&&kind<44.5)
+    {
+        float3 region=Land.Sample(TextureSampler,p.world.xz/(TerrainMap.zw-9)).rgb;
+        float3 grass=Tile(p.world.xz*1.35,float2(0,0));
+        float3 edge=region*(.48+grass*.72);float luma=dot(edge,float3(.299,.587,.114));edge=lerp(luma.xxx,edge,.72)*.9;
+        float grit=Noise(p.world.xz*90)*.045;
+        albedo=Decode(lerp(float3(.22,.215,.18)+grit,edge,smoothstep(.1,1,p.uv.x)));
+        rough=lerp(.57,.94,p.uv.x);
+    }
+    if(kind>44.5&&kind<45.5)
+    {
+        float2 tiled=p.uv*float2(2,2);float2 uv=(float2(1,1)+.008+frac(tiled)*.984)*.5;
+        float3 hide=Organic.SampleGrad(TextureSampler,uv,ddx(tiled)*.492,ddy(tiled)*.492).rgb;
+        float grain=dot(hide,float3(.299,.587,.114));
+        albedo=Decode(float3(.41,.34,.255)*(.64+grain*.55));rough=.95;
+        n=ReliefNormal(p.world,n,grain,.0002*Settings.y);
     }
     float visibility=Visibility(p,n);
     if(kind>.5&&kind<1.5)
@@ -318,7 +340,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
             float foam=(1-smoothstep(.005,.07,depth))*saturate(Noise(w*18+EyeTime.w*.08)*1.7-.5);
             float shoreBand=sin(depth*110-time*1.8+ripple*2);
             foam=max(foam,smoothstep(.50,.94,shoreBand)*(1-smoothstep(.015,.16,depth))*.55);
-            if(p.surface.w>1.5)foam=max(foam,pow(saturate(abs(p.uv.x-.5)*2),6)*smoothstep(-.15,.35,ripple)*.5);
+            if(p.surface.w>1.5)foam*=.35;
             water=lerp(water,float3(.51,.59,.55),foam*.28);
         }
         float3 glint=Brdf(.02.xxx,n,v,sun,.14+WeatherSettings.x*.08,.0)*float3(4.6,3.9,2.8)*visibility;
@@ -327,7 +349,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         return float4(lerp(ocean,float3(.49,.59,.65),min(.7,haze)),1);
     }
     float3 ambient=lerp(float3(.14,.16,.12),float3(.34,.40,.46),saturate(n.y*.5+.5));
-    float3 direct=Brdf(albedo,n,v,sun,rough,metal)*float3(4.7,4.05,3.0)*visibility;
+    float3 direct=Brdf(albedo,n,v,sun,rough,metal)*float3(3.4,3.3,3.05)*visibility;
     float3 color=direct+albedo*ambient*ao;
     if(metal>.1)color+=Sky(reflect(-v,n))*lerp(.04.xxx,albedo,metal)*(.38*(1-rough*.65));
     if(kind>19.5&&kind<20.5)color+=albedo*pow(saturate(dot(-v,sun)),3)*.10;

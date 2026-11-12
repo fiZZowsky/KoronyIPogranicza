@@ -7,6 +7,7 @@ internal static partial class WorldScene3D
 {
     private static void Person(SceneBatch batch,double x,double y,double z,string color,int era,UnitKind role,bool rider=false)
     {
+        if(era<2&&!rider){Forager(batch,x,y,z);return;}
         int id=rider?(era>=5?2:1):era>=14?6:era>=12?4:era>=8?3:era>=5&&role is UnitKind.Spearmen or UnitKind.Cavalry?2:1;
         if(role==UnitKind.Settler&&era>=8)id=5;
         ActorAssets.Draw(batch,id,x,y,z,.43,rider);

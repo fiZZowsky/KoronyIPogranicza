@@ -1,0 +1,722 @@
+[
+  {
+    "path": "app/assets/scenery/population",
+    "size": null
+  },
+  {
+    "path": "app/assets/scenery/population/crossover.glb",
+    "size": 1012736
+  },
+  {
+    "path": "app/assets/scenery/population/crossover.glb.import",
+    "size": 1222
+  },
+  {
+    "path": "app/assets/scenery/population/hatch.glb",
+    "size": 964732
+  },
+  {
+    "path": "app/assets/scenery/population/hatch.glb.import",
+    "size": 1209
+  },
+  {
+    "path": "app/assets/scenery/population/people",
+    "size": null
+  },
+  {
+    "path": "app/assets/scenery/population/people/casual_jacket_standing.glb",
+    "size": 307188
+  },
+  {
+    "path": "app/assets/scenery/population/people/casual_jacket_standing.glb.import",
+    "size": 1265
+  },
+  {
+    "path": "app/assets/scenery/population/people/casual_shirt_standing.glb",
+    "size": 276624
+  },
+  {
+    "path": "app/assets/scenery/population/people/casual_shirt_standing.glb.import",
+    "size": 1263
+  },
+  {
+    "path": "app/assets/scenery/population/people/casual_shirt_working.glb",
+    "size": 276684
+  },
+  {
+    "path": "app/assets/scenery/population/people/casual_shirt_working.glb.import",
+    "size": 1260
+  },
+  {
+    "path": "app/assets/scenery/population/people/mechanic_overalls_standing.glb",
+    "size": 276160
+  },
+  {
+    "path": "app/assets/scenery/population/people/mechanic_overalls_standing.glb.import",
+    "size": 1278
+  },
+  {
+    "path": "app/assets/scenery/population/people/mechanic_overalls_working.glb",
+    "size": 276132
+  },
+  {
+    "path": "app/assets/scenery/population/people/mechanic_overalls_working.glb.import",
+    "size": 1275
+  },
+  {
+    "path": "app/assets/scenery/population/people/pilot_polo_pilot.glb",
+    "size": 399796
+  },
+  {
+    "path": "app/assets/scenery/population/people/pilot_polo_pilot.glb.import",
+    "size": 1246
+  },
+  {
+    "path": "app/assets/scenery/population/people/textures",
+    "size": null
+  },
+  {
+    "path": "app/assets/scenery/population/people/textures/2bf58eced3b3df3b099ac9307e5456f0ff1ca1e123d7bd7ee6db4b3900c7cf80.png",
+    "size": 697419
+  },
+  {
+    "path": "app/assets/scenery/population/people/textures/2bf58eced3b3df3b099ac9307e5456f0ff1ca1e123d7bd7ee6db4b3900c7cf80.png.import",
+    "size": 1589
+  },
+  {
+    "path": "app/assets/scenery/population/people/textures/422b4a26924743194596fa3df3609a45594da959344a5448ed498a4e14ad8206.png",
+    "size": 11683681
+  },
+  {
+    "path": "app/assets/scenery/population/people/textures/422b4a26924743194596fa3df3609a45594da959344a5448ed498a4e14ad8206.png.import",
+    "size": 1589
+  },
+  {
+    "path": "app/assets/scenery/population/people/veteran_cap_pilot.glb",
+    "size": 439864
+  },
+  {
+    "path": "app/assets/scenery/population/people/veteran_cap_pilot.glb.import",
+    "size": 1251
+  },
+  {
+    "path": "app/assets/scenery/population/people/veteran_cap_sitting.glb",
+    "size": 314768
+  },
+  {
+    "path": "app/assets/scenery/population/people/veteran_cap_sitting.glb.import",
+    "size": 1256
+  },
+  {
+    "path": "app/assets/scenery/population/people/woman_tee_sitting.glb",
+    "size": 289956
+  },
+  {
+    "path": "app/assets/scenery/population/people/woman_tee_sitting.glb.import",
+    "size": 1251
+  },
+  {
+    "path": "app/assets/scenery/population/people/woman_tee_standing.glb",
+    "size": 290100
+  },
+  {
+    "path": "app/assets/scenery/population/people/woman_tee_standing.glb.import",
+    "size": 1254
+  },
+  {
+    "path": "app/assets/scenery/population/people/woman_tee_working.glb",
+    "size": 290652
+  },
+  {
+    "path": "app/assets/scenery/population/people/woman_tee_working.glb.import",
+    "size": 1250
+  },
+  {
+    "path": "app/assets/scenery/population/sedan.glb",
+    "size": 1039656
+  },
+  {
+    "path": "app/assets/scenery/population/sedan.glb.import",
+    "size": 1210
+  },
+  {
+    "path": "app/assets/scenery/population/textures",
+    "size": null
+  },
+  {
+    "path": "app/assets/scenery/population/textures/12a3d374853b3258a7bfcc26ed6203e763aa12b5fbd1e3001bb471a5a1cbbc87.png",
+    "size": 238
+  },
+  {
+    "path": "app/assets/scenery/population/textures/12a3d374853b3258a7bfcc26ed6203e763aa12b5fbd1e3001bb471a5a1cbbc87.png.import",
+    "size": 1235
+  },
+  {
+    "path": "app/assets/scenery/population/textures/1378ca82c299dfea07686596d13a4a80583081a3a7bb436ba00c9894c10bf2bf.png",
+    "size": 239
+  },
+  {
+    "path": "app/assets/scenery/population/textures/1378ca82c299dfea07686596d13a4a80583081a3a7bb436ba00c9894c10bf2bf.png.import",
+    "size": 1236
+  },
+  {
+    "path": "app/assets/scenery/population/textures/161979d40c8341dd719ffd00ad3e1074102348bc313f6095a7d1cb10b783d2c9.png",
+    "size": 239
+  },
+  {
+    "path": "app/assets/scenery/population/textures/161979d40c8341dd719ffd00ad3e1074102348bc313f6095a7d1cb10b783d2c9.png.import",
+    "size": 1236
+  },
+  {
+    "path": "app/assets/scenery/population/textures/3c43b0952b394597e91e5b54b82138e04748502e451e33c12d1d72ba0024b8a0.png",
+    "size": 239
+  },
+  {
+    "path": "app/assets/scenery/population/textures/3c43b0952b394597e91e5b54b82138e04748502e451e33c12d1d72ba0024b8a0.png.import",
+    "size": 1236
+  },
+  {
+    "path": "app/assets/scenery/population/textures/62ae4fa1ac6d4a10fa205dff41984db50c36cc7a15b19689c9f2ee664fabc6a5.png",
+    "size": 241
+  },
+  {
+    "path": "app/assets/scenery/population/textures/62ae4fa1ac6d4a10fa205dff41984db50c36cc7a15b19689c9f2ee664fabc6a5.png.import",
+    "size": 1236
+  },
+  {
+    "path": "app/assets/scenery/population/textures/8ec37aa2f1c327c850cd51016641d89f5d1399c269ca27482457e5a004d5a0cf.png",
+    "size": 240
+  },
+  {
+    "path": "app/assets/scenery/population/textures/8ec37aa2f1c327c850cd51016641d89f5d1399c269ca27482457e5a004d5a0cf.png.import",
+    "size": 1235
+  },
+  {
+    "path": "app/assets/scenery/population/textures/9f711cb90662f168c363313635237b293305f952e85d9b8aab9d3c177d42eb59.png",
+    "size": 240
+  },
+  {
+    "path": "app/assets/scenery/population/textures/9f711cb90662f168c363313635237b293305f952e85d9b8aab9d3c177d42eb59.png.import",
+    "size": 1235
+  },
+  {
+    "path": "app/assets/scenery/population/textures/ab86ea01ace182ed83c51fe5f606b0362e7d88f0e9b74e41f366952ae5ce3e52.png",
+    "size": 239
+  },
+  {
+    "path": "app/assets/scenery/population/textures/ab86ea01ace182ed83c51fe5f606b0362e7d88f0e9b74e41f366952ae5ce3e52.png.import",
+    "size": 1235
+  },
+  {
+    "path": "app/assets/scenery/population/textures/b5e7423f9328d5d4c0087944b729db3161c0e1310aa1299b5b749921880ec23a.png",
+    "size": 240
+  },
+  {
+    "path": "app/assets/scenery/population/textures/b5e7423f9328d5d4c0087944b729db3161c0e1310aa1299b5b749921880ec23a.png.import",
+    "size": 1236
+  },
+  {
+    "path": "app/assets/scenery/population/textures/ee59a04be3fb4dacc766a1d0b59c4c619750aa0520caf52018114ef8ca76c9bd.png",
+    "size": 238
+  },
+  {
+    "path": "app/assets/scenery/population/textures/ee59a04be3fb4dacc766a1d0b59c4c619750aa0520caf52018114ef8ca76c9bd.png.import",
+    "size": 1236
+  },
+  {
+    "path": "app/assets/scenery/population/textures/f4993edc4d1129f136a6d12b3119d3eeb9045604b99409700662f1170fb3927f.png",
+    "size": 240
+  },
+  {
+    "path": "app/assets/scenery/population/textures/f4993edc4d1129f136a6d12b3119d3eeb9045604b99409700662f1170fb3927f.png.import",
+    "size": 1235
+  },
+  {
+    "path": "app/assets/scenery/population/textures/f7febd142101fb41e524d38fed097330e75ff7c09d57bc0c13a0de3dc34c0b36.png",
+    "size": 239
+  },
+  {
+    "path": "app/assets/scenery/population/textures/f7febd142101fb41e524d38fed097330e75ff7c09d57bc0c13a0de3dc34c0b36.png.import",
+    "size": 1236
+  },
+  {
+    "path": "app/scenery/population.gd",
+    "size": 17200
+  },
+  {
+    "path": "app/scenery/population.gd.uid",
+    "size": 19
+  },
+  {
+    "path": "app/scenery/population_person.gdshader",
+    "size": 5657
+  },
+  {
+    "path": "app/scenery/population_person.gdshader.uid",
+    "size": 20
+  },
+  {
+    "path": "app/tests/capture_population_assets.gd",
+    "size": 4797
+  },
+  {
+    "path": "app/tests/capture_population_assets.gd.uid",
+    "size": 20
+  },
+  {
+    "path": "app/tests/test_field_population_collection.gd",
+    "size": 11549
+  },
+  {
+    "path": "app/tests/test_field_population_collection.gd.uid",
+    "size": 20
+  },
+  {
+    "path": "app/tests/test_landscape_population.gd",
+    "size": 10977
+  },
+  {
+    "path": "app/tests/test_landscape_population.gd.uid",
+    "size": 19
+  },
+  {
+    "path": "app/tests/test_landscape_population_assets.gd",
+    "size": 15248
+  },
+  {
+    "path": "app/tests/test_landscape_population_assets.gd.uid",
+    "size": 19
+  },
+  {
+    "path": "assets/scenery/population",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/HUMAN_LICENSES.md",
+    "size": 3276
+  },
+  {
+    "path": "assets/scenery/population/HUMAN_SOURCES.json",
+    "size": 22248
+  },
+  {
+    "path": "assets/scenery/population/LICENSES.md",
+    "size": 2160
+  },
+  {
+    "path": "assets/scenery/population/RUNTIME_MANIFEST.json",
+    "size": 37160
+  },
+  {
+    "path": "assets/scenery/population/SOURCE_MANIFEST.json",
+    "size": 6534
+  },
+  {
+    "path": "assets/scenery/population/source",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/cars",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/cars/sage-five-door-crossover-suv.glb",
+    "size": 5034660
+  },
+  {
+    "path": "assets/scenery/population/source/cars/silver-five-door-compact-hatchback.glb",
+    "size": 5044784
+  },
+  {
+    "path": "assets/scenery/population/source/cars/white-four-door-sedan.glb",
+    "size": 5063600
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/clothes",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/clothes/male_casualsuit04",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/clothes/male_casualsuit04/male_casualsuit04.mhclo",
+    "size": 116682
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/clothes/male_casualsuit04/male_casualsuit04.mhmat",
+    "size": 1396
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/clothes/shoes02",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/clothes/shoes02/shoes02.mhclo",
+    "size": 110217
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/clothes/shoes02/shoes02.mhmat",
+    "size": 1184
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/eyebrows",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/eyebrows/eyebrow001",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/eyebrows/eyebrow001/eyebrow001.mhclo",
+    "size": 9141
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/eyebrows/eyebrow001/eyebrow001.mhmat",
+    "size": 1098
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/eyes",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/eyes/low-poly",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/eyes/low-poly/low-poly.mhclo",
+    "size": 1344
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/hair",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/hair/short01",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/hair/short01/short01.mhclo",
+    "size": 201588
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/hair/short01/short01.mhmat",
+    "size": 1314
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/proxymeshes",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/proxymeshes/male1591",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/proxymeshes/male1591/male1591.proxy",
+    "size": 108133
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/skins",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/skins/middleage_caucasian_male",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/makehuman_system_assets/skins/middleage_caucasian_male/middleage_caucasian_male.mhmat",
+    "size": 1469
+  },
+  {
+    "path": "assets/scenery/population/source/poses",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/poses/anrico_sitting03",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/poses/anrico_sitting03/anrico_sitting03.bvh",
+    "size": 44119
+  },
+  {
+    "path": "assets/scenery/population/source/poses/anrico_sitting03/anrico_sitting03.meta",
+    "size": 85
+  },
+  {
+    "path": "assets/scenery/population/source/poses/anrico_sitting03/anrico_sitting03.thumb",
+    "size": 58619
+  },
+  {
+    "path": "assets/scenery/population/source/poses/standing02",
+    "size": null
+  },
+  {
+    "path": "assets/scenery/population/source/poses/standing02/standing02.bvh",
+    "size": 42275
+  },
+  {
+    "path": "assets/scenery/population/source/poses/standing02/standing02.meta",
+    "size": 174
+  },
+  {
+    "path": "assets/scenery/population/source/poses/standing02/standing02.thumb",
+    "size": 45006
+  },
+  {
+    "path": "docs/research/ground-physics/GP-11/broad-suite/R5/population-attribution.json",
+    "size": 12860
+  },
+  {
+    "path": "docs/research/ground-physics/GP-11/broad-suite/R6/population-check.log",
+    "size": 110
+  },
+  {
+    "path": "docs/research/ground-physics/GP-11/broad-suite/R6/population-manifest.diff",
+    "size": 5221
+  },
+  {
+    "path": "docs/research/ground-physics/GP-11/broad-suite/R6/population-normalization.json",
+    "size": 7614
+  },
+  {
+    "path": "docs/research/ground-physics/GP-11/broad-suite/R6/source-before/assets/scenery/population",
+    "size": null
+  },
+  {
+    "path": "docs/research/ground-physics/GP-11/broad-suite/R6/source-before/assets/scenery/population/RUNTIME_MANIFEST.json",
+    "size": 38085
+  },
+  {
+    "path": "docs/research/ground-physics/GP-11/broad-suite/R6/source/assets/scenery/population",
+    "size": null
+  },
+  {
+    "path": "docs/research/ground-physics/GP-11/broad-suite/R6/source/assets/scenery/population/RUNTIME_MANIFEST.json",
+    "size": 38085
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-06/population-polish.log",
+    "size": 2504
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-06/regression-final-logs/test_landscape_population.log",
+    "size": 2504
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-06/regression-initial-logs/test_landscape_population.log",
+    "size": 2327
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-07/checks/test_landscape_population.log",
+    "size": 2504
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-11/checks/root-test_landscape_population.log",
+    "size": 2504
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/budget-20261016/population-assets.log",
+    "size": 5541
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/budget-20261016/population-native.log",
+    "size": 7974
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/evidence/final-population-test.log",
+    "size": 5541
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/evidence/fresh-checkout/population.log",
+    "size": 5541
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/evidence/installed-population-native.log",
+    "size": 7348
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/evidence/regression-corrections/test_landscape_population.log",
+    "size": 2694
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/evidence/regression-corrections/test_landscape_population_assets.log",
+    "size": 5541
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/evidence/regression/continuation/test_landscape_population.log",
+    "size": 2694
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-21/evidence/regression/continuation/test_landscape_population_assets.log",
+    "size": 5541
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-31/checks/test_landscape_population_assets-wrhw4u9e",
+    "size": null
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-31/checks/test_landscape_population_assets-wrhw4u9e/engine.log",
+    "size": 6213
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-31/checks/test_landscape_population_assets-wrhw4u9e/report.json",
+    "size": 1619
+  },
+  {
+    "path": "docs/research/landscape-upgrade/LU-31/population.before.gd",
+    "size": 8325
+  },
+  {
+    "path": "docs/research/physics-audit-2026-10-14/remediation/R11/next-candidate/materialized-20261015-07-01/diagnostic-remainder-01/logs/test_landscape_population.log",
+    "size": 2717
+  },
+  {
+    "path": "docs/research/physics-audit-2026-10-14/remediation/R11/next-candidate/materialized-20261015-07-01/diagnostic-remainder-01/logs/test_landscape_population_assets.log",
+    "size": 5541
+  },
+  {
+    "path": "docs/research/scenery-implementation/SC-08-R1/test_landscape_population.log",
+    "size": 2717
+  },
+  {
+    "path": "docs/research/scenery-implementation/SC-09-R1/checks/population",
+    "size": null
+  },
+  {
+    "path": "docs/research/scenery-implementation/SC-09-R1/checks/population/engine.log",
+    "size": 4337
+  },
+  {
+    "path": "docs/research/scenery-implementation/SC-09-R1/checks/population/report.json",
+    "size": 1665
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/L6a-R1/mature-oak/checks/population-comparison.json",
+    "size": 1081
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/L6c/vegetation-renewal/checks/test_landscape_population.log",
+    "size": 5677
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow",
+    "size": null
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/README.md",
+    "size": 5018
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/candidate.gd.gz",
+    "size": 3505
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/evidence-manifest.json",
+    "size": 3674
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/field-shadows-headless.log",
+    "size": 128
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/field-shadows-native.log",
+    "size": 224
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/home-preview-cache.log",
+    "size": 113
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/home-ui.log",
+    "size": 3902
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/native-1.json",
+    "size": 6606
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/native-1.log",
+    "size": 337
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/native-2.json",
+    "size": 6606
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/native-2.log",
+    "size": 337
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/native-3.json",
+    "size": 6607
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/native-3.log",
+    "size": 337
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/projected-shadow.log",
+    "size": 919
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/reference.gd.gz",
+    "size": 3461
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/runner-check",
+    "size": null
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/runner-check/manifest.json",
+    "size": 937
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/runner-check/native-1.json",
+    "size": 6606
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/runner-check/native-1.log",
+    "size": 337
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/source-after.json",
+    "size": 594
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/source-before.json",
+    "size": 484
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/population-shadow/summary.json",
+    "size": 1409
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/shadow-geometry/triangle-runs-2026-10-21/checks/test_field_population_collection-a6fh8x52",
+    "size": null
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/shadow-geometry/triangle-runs-2026-10-21/checks/test_field_population_collection-a6fh8x52/engine.log",
+    "size": 122
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/shadow-geometry/triangle-runs-2026-10-21/checks/test_field_population_collection-a6fh8x52/report.json",
+    "size": 1173
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/shadow-geometry/triangle-runs-2026-10-21/exploration/population-draft-nzuzag3c",
+    "size": null
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/shadow-geometry/triangle-runs-2026-10-21/exploration/population-draft-nzuzag3c/engine.log",
+    "size": 128
+  },
+  {
+    "path": "docs/research/visual-quality-implementation/VQ-01c/loading/shadow-geometry/triangle-runs-2026-10-21/exploration/population-draft-nzuzag3c/report.json",
+    "size": 1147
+  }
+]

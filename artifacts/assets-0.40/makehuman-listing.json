@@ -1,0 +1,17 @@
+[
+  {
+    "name": "default.mhmat",
+    "type": "file",
+    "download_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/master/makehuman/data/skins/default.mhmat"
+  },
+  {
+    "name": "default.thumb",
+    "type": "file",
+    "download_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/master/makehuman/data/skins/default.thumb"
+  },
+  {
+    "name": "notfound.thumb",
+    "type": "file",
+    "download_url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/master/makehuman/data/skins/notfound.thumb"
+  }
+]

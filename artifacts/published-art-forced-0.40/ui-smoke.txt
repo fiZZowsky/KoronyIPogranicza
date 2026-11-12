@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional art review diagnostic failure.
+   at Crown.Desktop.MainWindow.ArtReviewSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\ArtReviewSmoke.cs:line 24

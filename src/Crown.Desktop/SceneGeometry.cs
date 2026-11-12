@@ -229,7 +229,7 @@ internal sealed class SceneBatch
             var model = new GeometryModel3D(pair.Value.Freeze(), materials[pair.Key]);
             if(tintColors.TryGetValue(pair.Key,out var tint))model.SetValue(SceneSurface.TintProperty,tint);
             model.SetValue(SceneSurface.KeyProperty, pair.Key);model.SetValue(SceneSurface.TileIdsProperty,pair.Value.TileIds.ToArray());
-            if(ActorAssets.MaterialId(pair.Key)>=0||pair.Key.Contains("wheat-tuft")||pair.Key.Contains("foliage")||pair.Key.Contains("sail-cloth")||pair.Key.Contains("loom-cloth"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
+            if(ActorAssets.MaterialId(pair.Key)>=0||pair.Key.Contains("flag-fabric")||pair.Key.Contains("camp-hide")||pair.Key.Contains("wheat-tuft")||pair.Key.Contains("foliage")||pair.Key.Contains("sail-cloth")||pair.Key.Contains("loom-cloth"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
         }
         group.Freeze(); return group;
     }

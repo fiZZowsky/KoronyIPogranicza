@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.Windows.Media.Media3D;
 
 namespace Crown.Desktop;
@@ -17,9 +17,12 @@ internal static partial class WorldScene3D
         switch(era)
         {
             case 0:
-                for(int i=0;i<7;i++){double a=i*Math.PI*2/7;stone.Cylinder(x+Math.Cos(a)*.19,y,z+Math.Sin(a)*.19,.023,.07+i%3*.025,.018,6);}
-                foreach(int side in new[]{-1,1})wood.Tube(new(x+side*.09,y,z),new(x,y+.23,z),.014,6);
-                wood.Tube(new(x,y+.23,z-.12),new(x,y+.23,z+.12),.012,6);break;
+                var fire=b.Mesh("camp-hearth-stone","#79796D");
+                for(int i=0;i<11;i++){double a=i*Math.PI*2/11;fire.Sphere(x+Math.Cos(a)*.058,y+.007,z+Math.Sin(a)*.058,.013,.010,.012,8,5);}
+                var logs=b.Mesh("camp-charred-wood","#39352D");
+                for(int i=0;i<3;i++){double a=i*Math.PI/3;logs.Tube(new(x+Math.Cos(a)*.045,y+.015,z+Math.Sin(a)*.045),new(x-Math.Cos(a)*.045,y+.015,z-Math.Sin(a)*.045),.009,8);}
+                foreach(int side in new[]{-1,1})wood.Tube(new(x+side*.09,y,z-.15),new(x+side*.09,y+.15,z-.15),.005,8);
+                wood.Tube(new(x-.10,y+.15,z-.15),new(x+.10,y+.15,z-.15),.004,8);break;
             case 1:
                 House(b,x,y+.045,z,.3,.16,.5,"#B4A47F");
                 for(int i=-1;i<=1;i++)wood.Box(x+i*.1,y,z,.025,.07,.43);

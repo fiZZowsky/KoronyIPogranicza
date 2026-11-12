@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.Windows.Media.Media3D;
 
 namespace Crown.Desktop;
@@ -7,8 +7,15 @@ internal static partial class WorldScene3D
 {
     private static void Flag(SceneBatch batch, double x, double y, double z, string color, double height = .5)
     {
-        batch.Mesh("flag-poles", "#736A53").Cylinder(x, y, z, .012, height, sides: 6);
-        batch.Mesh("flag-" + color, color).Box(x + .08, y + height * .67, z, .16, height * .25, .012);
+        batch.Mesh("flag-poles", "#655644").Cylinder(x,y,z,.006,height,sides:10);
+        var cloth=batch.Mesh("flag-fabric-"+color,color);double w=height*.32,h=height*.24;
+        Point3D P(int i,int j){double u=i/8d,v=j/3d;return new(x+u*w,y+height-v*h-.025*u,z+Math.Sin(u*Math.PI*2.4)*.012*u);}
+        for(int i=0;i<8;i++)for(int j=0;j<3;j++)
+        {
+            var a=P(i,j);var b=P(i+1,j);var c=P(i+1,j+1);var d=P(i,j+1);
+            cloth.Triangle(a,b,c,null,null,null,new(i/8d,j/3d),new((i+1)/8d,j/3d),new((i+1)/8d,(j+1)/3d));
+            cloth.Triangle(a,c,d,null,null,null,new(i/8d,j/3d),new((i+1)/8d,(j+1)/3d),new(i/8d,(j+1)/3d));
+        }
     }
     private static void City(SceneBatch batch, GameState s, City city)
     {
@@ -16,7 +23,8 @@ internal static partial class WorldScene3D
         if(era>=2&&era<9){HistoricCity(batch,s,city,era);return;}
         string color = s.Factions[city.Owner].Color; var random = new Random(city.Tile * 571 + 19);
         double y = Terrain3D.Height(s, p.X, p.Y);
-        batch.Mesh("town-square", "#A79D7F").Cylinder(p.X, y - .035, p.Y, .23, .04, sides: 16);
+        if(era<2)CampGround(batch,s,p.X,p.Y);
+        else batch.Mesh("town-square", "#A79D7F").Cylinder(p.X, y - .035, p.Y, .23, .04, sides: 16);
         int count = era<2?Math.Clamp(4+city.Population,6,14):Math.Clamp(10+city.Population*2,12,46);
         bool depotYard=ReserveDepotYard(s,city);
         bool craftYard=ReserveCraftYard(s,city);
@@ -28,7 +36,8 @@ internal static partial class WorldScene3D
             if(craftYard&&InCraftYard(x-p.X,z-p.Y))continue;
             if (era == 0)
             {
-                batch.Mesh("tents", "#B1A080").Cylinder(x, baseY, z, .12, .20 + random.NextDouble() * .08, .012, 8);
+                if(!CampSiteDry(s,new(x,z)))continue;
+                HideShelter(batch,s,x,z,angle+.4,i+city.Tile);
             }
             else if (era < 9) House(batch, x, baseY, z, .12 + random.NextDouble() * .065, .13 + random.NextDouble() * .13, .13 + random.NextDouble() * .085, era < 3 ? "#B0A07F" : "#C6B797");
             else
@@ -52,7 +61,7 @@ internal static partial class WorldScene3D
             }
         }
         CityIndustry(batch,s,city);
-        Flag(batch, p.X - .1, y + (era >= 9 ? .60 : .32), p.Y, color, .36);
+        Flag(batch,p.X-.1,y+(era<2?0:era>=9?.60:.32),p.Y,color,era<2?.24:.36);
     }
     private static void CityIndustry(SceneBatch batch,GameState s,City city)
     {
@@ -120,10 +129,10 @@ internal static partial class WorldScene3D
             else if (unit.Kind == UnitKind.Spearmen)
             {
                 batch.Mesh("spear-shafts-wood", "#9C855E").Tube(new(xx + .11, yy, zz), new(xx + .11, yy + .62, zz), .007);
-                batch.Mesh("spear-heads", "#B0B6AE").Cylinder(xx + .11, yy + .6, zz, .021, .07, 0, 6);
+                batch.Mesh(era<2?"flint-spear-heads":"spear-heads", era<2?"#777C73":"#B0B6AE").Cylinder(xx + .11, yy + .6, zz, .021, .07, 0, 6);
             }
         }
-        if (unit.Kind != UnitKind.Scout) Flag(batch, x - .20, y, z + .14, color, .56);
+        if (era>=2&&unit.Kind != UnitKind.Scout) Flag(batch, x - .20, y, z + .14, color, .56);
     }
     private static void Vehicle(SceneBatch batch, double x, double y, double z, string color, bool future)
     {

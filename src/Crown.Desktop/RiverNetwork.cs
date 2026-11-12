@@ -20,7 +20,19 @@ internal sealed class RiverNetwork
         {
             var delta=b-a;if(delta.Length<.05)return;var side=new Vector(-delta.Y,delta.X);side.Normalize();
             double bend=(Terrain3D.Noise(a.X*.2,b.Y*.2,s.Seed+71)-.5)*.34;
-            Point Curve(double t)=>t<=0?a:t>=1?b:a+delta*t+side*(Math.Sin(t*Math.PI)*bend+Math.Sin(t*Math.PI*2)*.035);
+            Point? Other(int node,int excluded)
+            {
+                var points=World.Neighbors(s,node).Where(t=>t.Id!=excluded&&t.Explored&&t.Passable&&t.River).Select(Center).ToArray();
+                return points.Length==0?null:new Point(points.Average(p=>p.X),points.Average(p=>p.Y));
+            }
+            Vector m0=from==to?delta:(b-(Other(from,to)??a))*.5,m1=from==to?delta:((Other(to,from)??b)-a)*.5;
+            if(Other(from,to)==null)m0=delta;if(Other(to,from)==null)m1=delta;
+            Point Curve(double t)
+            {
+                if(t<=0)return a;if(t>=1)return b;double t2=t*t,t3=t2*t;
+                return new Point((2*t3-3*t2+1)*a.X+(t3-2*t2+t)*m0.X+(-2*t3+3*t2)*b.X+(t3-t2)*m1.X,
+                    (2*t3-3*t2+1)*a.Y+(t3-2*t2+t)*m0.Y+(-2*t3+3*t2)*b.Y+(t3-t2)*m1.Y)+side*(Math.Pow(Math.Sin(t*Math.PI),2)*bend);
+            }
             int steps=Math.Max(12,(int)Math.Ceiling(delta.Length/.075));var samples=new List<RiverSample>();double along=0;
             double ay=Math.Max(Terrain3D.SeaLevel+.004,height(a.X,a.Y)-.025),by=Math.Max(Terrain3D.SeaLevel+.004,height(b.X,b.Y)-.025);
             for(int i=0;i<=steps;i++)

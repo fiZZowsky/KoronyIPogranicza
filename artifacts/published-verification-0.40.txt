@@ -1,0 +1,6 @@
+art-gpu: 15 checks; exit 0; 10,9s
+art-wpf: 14 checks; exit 0; 9,5s
+models-gpu: 36 checks; exit 0; 16,1s
+river-gpu: 19 checks; exit 0; 8,7s
+art-forced: 0 checks; exit 3; 0,7s
+user-scene-gpu: 15 checks; exit 0

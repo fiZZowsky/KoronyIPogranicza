@@ -1,0 +1,10 @@
+art: 15 checks; exit 0; 10,8s
+3d: 34 checks; exit 0; 36,3s
+photographic: 21 checks; exit 0; 18,4s
+river: 19 checks; exit 0; 8,8s
+landscape: 18 checks; exit 0; 11,9s
+environment: 22 checks; exit 0; 21,8s
+models: 36 checks; exit 0; 21,4s
+rendering: 27 checks; exit 0; 18,1s
+era-identity: 44 checks; exit 0; 17,9s
+onboarding: 46 checks; exit 0; 22,3s

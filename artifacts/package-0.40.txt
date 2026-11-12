@@ -1,0 +1,8 @@
+Korony i Pogranicza 0.40; Windows; framework-dependent .NET 10 Desktop
+Bytes: 37877192
+Entries: 14; all under wydanie-0.40/; every file SHA256 matches release
+SHA256: E14E1B483F3A1043F70C0B70EC80FFC366E660FE46F778FBEE08821F537374E2
+No saves, personal settings, audio cache, backups or temporary files included.
+EXE, Desktop DLL and Crown.Core DLL match final source build.
+Previous autosaves match the per-file snapshot; the 0.40 copy matches 0.39: 55B4BF47FA04E91519DFFABE61C87528CA421483C399A3C95CECB509CA5DD4E5
+Older ZIPs 0.39, 0.38, 0.37, 0.36, 0.35, 0.34, 0.33, 0.32, 0.31, 0.30, 0.29, 0.28, 0.27, 0.26, 0.25, 0.24, 0.23 and 0.22 match recorded SHA256 baselines.

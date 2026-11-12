@@ -19,7 +19,7 @@ internal sealed class TerrainField
     private TerrainField(GameState s)
     {
         SpanX=s.Width*Math.Sqrt(3)+11;SpanZ=s.Height*1.5+11;
-        Width=(int)Math.Ceiling(SpanX*8)+1;Height=(int)Math.Ceiling(SpanZ*8)+1;values=new float[Width*Height];
+        Width=(int)Math.Ceiling(SpanX*12)+1;Height=(int)Math.Ceiling(SpanZ*12)+1;values=new float[Width*Height];
         var basis=new double[s.Tiles.Count];var known=new bool[basis.Length];var mountain=new bool[basis.Length];var water=new bool[basis.Length];
         foreach(var t in s.Tiles)
         {

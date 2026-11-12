@@ -1,5 +1,15 @@
 # Oprawa i pochodzenie plików
 
+## 0.40 — anatomiczna postać i korekta obozu
+
+Model ciała: MakeHuman hm08 `base.obj`, [oficjalne źródło](https://github.com/makehumancommunity/makehuman/blob/master/makehuman/data/3dobjs/base.obj). Plik jawnie deklaruje CC0; [licencja MakeHuman](https://github.com/makehumancommunity/makehuman/blob/master/LICENSE.md) rozdziela kod AGPL i zasoby CC0. Kod MakeHuman nie jest kopiowany ani używany w grze.
+
+Skóra `young_lightskinned_male_diffuse.png` z zestawu `young_caucasian_male`: [oficjalny katalog CC0](https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html), paczka `https://files2.makehumancommunity.org/asset_packs/makehuman_system_assets/makehuman_system_assets_cc0.zip`. Pobrano wybrane wpisy ZIP przez HTTPS; skóra została przekonwertowana do JPEG. Prawidłowe UV, anatomiczna geometria i statyczne opuszczenie ramion są zapisane w `forager.cmesh` (12 000 / 1600 trójkątów). Normalna i ORM to małe stałe mapy techniczne, **nie skanowane mapy detalu**.
+
+Prosty strój, pas, osłona skóry głowy, schronienia, ognisko, sztandary i osad rzeczny są geometrią projektu. Nie są historyczną rekonstrukcją konkretnej kultury. Poszycie wykorzystuje dotychczasowy atlas organiczny; materiały GPU otrzymują neutralniejszą barwę. Nowe obrazy AI nie powstawały w tej wersji. Zrzuty `art-review-*/` i `graphics-art-0.40/` są renderami aplikacji, a nie ilustracjami promocyjnymi.
+
+Pochodzenie, hashe plików źródłowych i parametry uproszczenia: `artifacts/assets-0.40/source-manifest.json`, `forager-manifest.json`, `bake-forager.mjs`. Uproszczenie korzysta z dotychczasowego meshoptimizer MIT. Postać nie ma animacji szkieletowej w czasie gry. Pozostałe siedem typów aktorów i ich ograniczenia pozostają opisane poniżej.
+
 ## Importowane postacie i konie — 0.38
 
 Wersja 0.38 zastępuje modele anatomiczne budowane z brył **zewnętrznymi siatkami 3D Grab3D, udostępnionymi jako CC0 1.0**. Pochodzenie i warunki: https://grab3d.com/license/ oraz https://grab3d.com/how-we-make-models/. Są to modele publikowane przez Grab3D, nie skany fotogrametryczne ani nasza ręczna rzeźba. Zestaw obejmuje konia, wikinga, rycerza, współczesnego żołnierza, żołnierza przyszłości, cywila i robota. Nie należy utożsamiać oznaczenia High Detail ze skanem lub ukończonym fotorealizmem gry.

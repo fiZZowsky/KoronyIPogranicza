@@ -9,7 +9,7 @@ namespace Crown.Desktop;
 
 internal static class ActorAssets
 {
-    internal static readonly string[] Names=["horse","viking","knight","modern","soldier","civilian","robot"];
+    internal static readonly string[] Names=["horse","viking","knight","modern","soldier","civilian","robot","forager"];
     internal sealed record Model(Point3D[] Positions,Vector3D[] Normals,Point[] UV,int[] Indices);
     private static readonly Dictionary<string,Model[]> models=[];
     private static readonly Dictionary<(int,string),BitmapSource> images=[];
@@ -27,7 +27,7 @@ internal static class ActorAssets
     internal static int MaterialId(string key)
     {
         if(key.StartsWith("organic-near-"))key=key[13..];else if(key.StartsWith("organic-far-"))key=key[12..];
-        return key.StartsWith("actor-")&&key.Length>6&&key[6] is >='0' and <='6'?key[6]-'0':-1;
+        return key.StartsWith("actor-")&&key.Length>6&&key[6] is >='0' and <='7'?key[6]-'0':-1;
     }
     internal static Model[] Load(int id,bool rider=false)
     {

@@ -16,7 +16,7 @@ internal static class OrganicMaterials
             var brush=new ImageBrush(crop){TileMode=TileMode.Tile,Viewport=new Rect(0,0,1,1)};brush.Freeze();return brush;
         }).ToArray();
     });
-    internal static int Index(string key)=>key.StartsWith("skin")?0:key.StartsWith("horse-coat")?1:key.StartsWith("uniform-")||key.StartsWith("cloak-fabric")?2:key.StartsWith("saddle-leather")||key.StartsWith("boots")?3:-1;
+    internal static int Index(string key)=>key.StartsWith("skin")?0:key.StartsWith("horse-coat")?1:key.StartsWith("uniform-")||key.StartsWith("cloak-fabric")?2:key.StartsWith("camp-hide")||key.StartsWith("saddle-leather")||key.StartsWith("boots")?3:-1;
     internal static ImageBrush Material(int i)=>atlas.Value[i];
     private static readonly Lazy<ImageBrush> wheat=new(()=>
     {

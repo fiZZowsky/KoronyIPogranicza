@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
@@ -22,10 +22,19 @@ internal static partial class WorldScene3D
                 {
                     Point3D Bank(RiverSample sample,double offset)
                     {
-                        double variation=offset>.1?(Terrain3D.Noise(sample.Position.X*9,sample.Position.Y*9,s.Seed+301)-.5)*.11:0;
-                        var point=sample.Position+sample.Side*(side*(sample.HalfWidth+offset+variation));return Terrain3D.Ground(s,point.X,point.Y,.009);
+                        double noise=(Terrain3D.Noise(sample.Position.X*5,sample.Position.Y*5,s.Seed+301)-.5)*.035;
+                        var point=sample.Position+sample.Side*(side*(sample.HalfWidth+offset+noise));return Terrain3D.Ground(s,point.X,point.Y,.003);
                     }
-                    batch.Mesh("river-bank-gravel","#7C8069").Quad(Bank(a,.015),Bank(b,.015),Bank(b,.18),Bank(a,.18),up);
+                    // Graduated wet silt blends into vegetation instead of a rectangular gravel carpet.
+                    var bank=batch.Mesh("river-bank-silt","#8B8975");var upBank=new Vector3D(0,1,0);
+                    for(int strip=0;strip<4;strip++)
+                    {
+                        double u=strip/4d,v=(strip+1d)/4d;
+                        var aa=Bank(a,-.015+u*.20);var bb=Bank(b,-.015+u*.20);var cc=Bank(b,-.015+v*.20);var dd=Bank(a,-.015+v*.20);
+                        if(Vector3D.DotProduct(Vector3D.CrossProduct(bb-aa,cc-aa),upBank)<0)
+                        {bank.Triangle(aa,cc,bb,upBank,upBank,upBank,new(u,a.Along),new(v,b.Along),new(u,b.Along));bank.Triangle(aa,dd,cc,upBank,upBank,upBank,new(u,a.Along),new(v,a.Along),new(v,b.Along));}
+                        else{bank.Triangle(aa,bb,cc,upBank,upBank,upBank,new(u,a.Along),new(u,b.Along),new(v,b.Along));bank.Triangle(aa,cc,dd,upBank,upBank,upBank,new(u,a.Along),new(v,b.Along),new(v,a.Along));}
+                    }
                 }
                 if(i%7==0)RiverBankDetails(batch,s,b,path.From+i);
             }
@@ -46,7 +55,14 @@ internal static partial class WorldScene3D
                     double angle=-Math.PI/2+i*Math.PI/16;var dir=outward*Math.Cos(angle)+sample.Side*Math.Sin(angle);var point=sample.Position+dir*(sample.HalfWidth+extra);
                     return Terrain3D.Ground(s,point.X,point.Y,.01);
                 }
-                for(int i=0;i<16;i++)batch.Mesh("river-bank-gravel","#7C8069").Quad(Bank(i,.015),Bank(i+1,.015),Bank(i+1,.18),Bank(i,.18),up);
+                var cap=batch.Mesh("river-bank-silt","#8B8975");
+                for(int i=0;i<16;i++)for(int strip=0;strip<4;strip++)
+                {
+                    double u=strip/4d,v=(strip+1d)/4d;var a=Bank(i,-.015+u*.20);var b=Bank(i+1,-.015+u*.20);var c=Bank(i+1,-.015+v*.20);var d=Bank(i,-.015+v*.20);
+                    void Tri(Point3D p,Point3D q,Point3D r,Point uv,Point uq,Point ur)
+                    {if(Vector3D.DotProduct(Vector3D.CrossProduct(q-p,r-p),up)<0){(q,r)=(r,q);(uq,ur)=(ur,uq);}cap.Triangle(p,q,r,up,up,up,uv,uq,ur);}
+                    Tri(a,b,c,new(u,0),new(u,0),new(v,0));Tri(a,c,d,new(u,0),new(v,0),new(v,0));
+                }
             }
         }
     }

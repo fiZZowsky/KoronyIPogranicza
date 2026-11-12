@@ -1,4 +1,14 @@
-﻿# Korony i Pogranicza — kierunek projektu
+# Korony i Pogranicza — kierunek projektu
+
+## Korekta sceny początkowej — 0.40
+
+Ta wersja usuwa konkretne błędy widoczne w zbliżeniu. **Nie oznacza osiągnięcia fotorealizmu.** W paleolicie i neolicie model wojownika fantasy zastępuje anatomiczna baza MakeHuman CC0, ze skórą dopasowaną do UV, prostym strojem ze skóry i statyczną pozą. Pozostałe modele epok zachowują dotychczasowe zasoby; pełna animacja, zróżnicowanie ludzi i docelowe ubrania wymagają dalszej pracy.
+
+Stożki w obozowiskach zastępują zakrzywione, otwarte schronienia z poszyciem, żebrami i szwami. Rozmieszczenie odrzuca koryto rzeki. Pod ogniskiem jest plama ubitej ziemi dopasowana do powierzchni, zamiast jasnego dysku. Wczesne oddziały nie mają dodatkowych sztandarów; kamienne groty zastępują metaliczne. Sztandary korzystają z cienkiej, pofałdowanej powierzchni.
+
+Brzegi mają przejście od osadu do trawy, także na zakończeniach, a połączone odcinki korzystają z wygładzonych krzywych. Gęstsza siatka terenu jest używana w pobliżu znanych rzek. Nie zmieniono zapisanych flag rzek ani reguł bonusów pól. Materiał trawy miesza dwie skale próbki, szersze plamy koloru i mniej nasyconą paletę. Obrys zaznaczenia jest cieńszy i mniej uniesiony nad terenem.
+
+Postacie mają 12 000 / 1600 trójkątów, schronienia również mają wariant odległy. Ruch kamery nie odbudowuje sceny. Tryb zgodności WPF zachowuje geometrię, lecz ma prostsze materiały niż D3D11. Format kampanii pozostaje v28. Zmiany wizualne nie zużywają losowości ani zasobów kampanii.
 
 ## Pierwsza kampania i samouczek — 0.39
 

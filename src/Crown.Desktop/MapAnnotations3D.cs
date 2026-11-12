@@ -35,12 +35,12 @@ public sealed partial class MapView
             }
         }
         if (SelectedTile >= 0 && SelectedTile < State.Tiles.Count && State.Tiles[SelectedTile].Explored)
-            WorldScene3D.HexOutline(batch.Mesh("selected", "#F4D18E", true), State, State.Tiles[SelectedTile], .047, .085);
+            WorldScene3D.HexOutline(batch.Mesh("selected", "#BFD1B273", true), State, State.Tiles[SelectedTile], .016, .022);
         var unit = State.Units.FirstOrDefault(u => u.Id == SelectedUnit && u.Owner == 0);
         if (unit != null)
         {
             foreach (int id in Navigation.ForUnit(State, unit, unit.Actions).Costs.Keys.Where(id => State.Tiles[id].Explored && id != unit.Tile))
-                WorldScene3D.HexOutline(batch.Mesh("reachable", "#90B6D3C3", true), State, State.Tiles[id], .018, .07, .87);
+                WorldScene3D.HexOutline(batch.Mesh("reachable", "#90B6D3C3", true), State, State.Tiles[id], .010, .023, .87);
             if (unit.Destination is int goal) Route(batch, Navigation.Route(State, unit, goal), "march", "#E8CF8C");
             if (hoverTile >= 0 && State.Tiles[hoverTile].Explored && hoverTile != unit.Tile) Route(batch, Navigation.Route(State, unit, hoverTile), "preview", "#BCD8DB");
         }

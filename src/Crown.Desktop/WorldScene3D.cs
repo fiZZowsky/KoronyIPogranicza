@@ -20,7 +20,7 @@ internal static partial class WorldScene3D
         {
             var center = Terrain3D.Center(tile);
             var mesh = reuseTerrain == null ? ground.Landscape(s) : null;
-            const int subdivisions = 6;
+            int subdivisions=tile.Explored&&(tile.River||World.Neighbors(s,tile.Id).Any(n=>n.Explored&&n.River))?14:6;
             for (int side = 0; mesh != null && side < 6; side++)
             {
                 double angle = (30 + 60 * side) * Math.PI / 180, next = angle + Math.PI / 3;
@@ -49,7 +49,7 @@ internal static partial class WorldScene3D
                 {
                     var np = Terrain3D.Center(n); var middle = new Point((np.X + center.X) / 2, (np.Y + center.Y) / 2);
                     var direction = np - center; direction.Normalize(); var tangent = new Vector(-direction.Y, direction.X) * .48;
-                    Ribbon(objects.Mesh("border-" + tile.Owner, color), s, middle - tangent, middle + tangent, .022, .04);
+                    Ribbon(objects.Mesh("border-" + tile.Owner, color,true), s, middle - tangent, middle + tangent, .010, .015);
                 }
             }
             objects.TileId=tile.Id;

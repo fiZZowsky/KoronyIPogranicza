@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.IO;
 using System.Security.Cryptography;
 using System.Windows;
@@ -60,7 +60,7 @@ public sealed partial class MainWindow
             Check(map.Photographic!=null,"River scene renders on the real Direct3D device: "+map.GpuFailure);
             var models=Models(map.Scene!.Objects).ToArray();var decks=models.Where(m=>SceneSurface.Key(m).StartsWith("bridge-deck-wood")).ToArray();
             Check(decks.Length>0&&models.Any(m=>SceneSurface.Key(m).StartsWith("bridge-fortification")),"Existing roads generate a planked bridge with stone supports and parapets");
-            Check(models.Any(m=>SceneSurface.Key(m).StartsWith("river-reeds"))&&models.Any(m=>SceneSurface.Key(m).StartsWith("river-bank-gravel")),"The river contains actual bank and reed geometry");
+            Check(models.Any(m=>SceneSurface.Key(m).StartsWith("river-reeds"))&&models.Any(m=>SceneSurface.Key(m).StartsWith("river-bank-silt")),"The river contains actual bank and reed geometry");
             double deck=decks.SelectMany(m=>((MeshGeometry3D)m.Geometry).Positions).Max(p=>p.Y);var screen=map.Project(new(crossing!.Position.X,deck-.008,crossing.Position.Y));int pick=screen==null?-1:map.Pick(screen.Value);
             Check(pick==Terrain3D.TileAt(s,crossing.Position.X,crossing.Position.Y),"Picking the visible bridge returns the underlying logical tile");
             map.RenderGpuFrame();string still=Hash();map.RenderGpuFrame(8);Check(Hash()!=still,"Visual time changes the actual water and environment pixels");map.RenderGpuFrame();Check(Hash()==still,"Fixed visual time keeps river rendering deterministic");

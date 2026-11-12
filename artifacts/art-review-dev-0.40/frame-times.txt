@@ -1,0 +1,1 @@
+median 45,4 ms; max 48,2 ms; local device only; 1165x758

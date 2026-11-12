@@ -1,0 +1,11 @@
+  Trwa określanie projektów do przywrócenia...
+  Wszystkie projekty są aktualne na potrzeby przywrócenia.
+  Crown.Core -> C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Core\bin\Release\net10.0\Crown.Core.dll
+  Crown.Desktop -> C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\bin\Release\net10.0-windows\KoronyIPogranicza.dll
+  Crown.Specs -> C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\tests\Crown.Specs\bin\Release\net10.0\Crown.Specs.dll
+
+Kompilacja powiodła się.
+    Ostrzeżenia: 0
+    Liczba błędów: 0
+
+Czas, który upłynął: 00:00:06.21

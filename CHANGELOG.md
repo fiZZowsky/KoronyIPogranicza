@@ -1,4 +1,14 @@
-﻿# Zmiany
+# Zmiany
+
+## 0.40 — 2026-11-12 · Korekta początkowej sceny 3D
+
+- Baza anatomiczna MakeHuman CC0 i dopasowana skóra zamiast postaci fantasy w pierwszych dwóch epokach. Statyczna poza, strój ze skóry, dwa poziomy szczegółowości. Późniejsze postacie pozostają dotychczasowe.
+- Otwarte, zakrzywione schronienia zamiast stożków; żebra, szwy, odmiana odległa i odrzucanie miejsc w korycie. Ognisko i ziemia dopasowana do terenu zamiast monolitów oraz jasnego dysku.
+- Cienka pofałdowana tkanina sztandarów, mniej markerów nad wczesnym oddziałem, kamienne groty i subtelniejsze zaznaczenia.
+- Wygładzone odcinki rzek, zagęszczenie terenu przy wodzie, stopniowane brzegi i zakończenia zamiast szerokiego żwirowego pasa.
+- Mieszanie skal trawy, większa zmienność plam i mniej nasycona paleta. Neutralniejsze światło dzienne.
+- Nowy przegląd rzeczywistych zbliżeń i kontrole geometrii; testy nie są oceną fotorealizmu. Nie osiągnięto docelowej jakości fotograficznej.
+- Format v28 i reguły kampanii pozostają niezmienione. Osobny katalog wydania 0.40.
 
 ## 0.39 — 2026-11-10 · Pierwsze kroki z doradcą
 

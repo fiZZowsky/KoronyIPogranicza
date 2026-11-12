@@ -117,6 +117,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
         if(key.StartsWith("organic-far-"))key=key[12..];
         int actor=ActorAssets.MaterialId(key);if(actor>=0)return 36+actor;
         if(key.StartsWith("wheat-tuft"))return 35;
+        if(key.StartsWith("camp-hide"))return 45;
         int organicIndex=OrganicMaterials.Index(key);if(organicIndex>=0)return 31+organicIndex;
         if(key.StartsWith("lod-"))key=key[4..];
         if(key.StartsWith("detail-"))key=key[7..];
@@ -128,6 +129,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
         if(key.StartsWith("era-concrete"))return 26;
         if(key.StartsWith("era-metal"))return 19;
         if(key.StartsWith("roads:"))return 22;
+        if(key.StartsWith("flag-fabric"))return 20;
         if(key.StartsWith("naval-sail-cloth")||key.StartsWith("naval-rope")||key.StartsWith("frontline-sandbags"))return 20;
         if(key.StartsWith("naval-")&&key.Contains("metal"))return 21;
         if(key.StartsWith("logistics-")&&key.Contains("metal"))return 21;
@@ -135,6 +137,8 @@ internal sealed partial class PhotographicRenderer : IDisposable
         if(key.StartsWith("crafting-loom-cloth"))return 20;
         if(key.StartsWith("distant-mountains"))return 9;
         if(key.StartsWith("streets"))return 10;
+        if(key.StartsWith("flint-spear"))return 15;
+        if(key.StartsWith("camp-ground")||key.StartsWith("river-bank-silt"))return 44;
         if(key.StartsWith("river-bank")||key.StartsWith("river-pebbles"))return 11;
         if(key.StartsWith("ground-grass")||key.StartsWith("crop-leaves")||key.StartsWith("plant-leaves")||key.StartsWith("wild-leaves"))return 14;
         if(key.StartsWith("stone-outcrop")||key.StartsWith("salt-bed"))return 15;
