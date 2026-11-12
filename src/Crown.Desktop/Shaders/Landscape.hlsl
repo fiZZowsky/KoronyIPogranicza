@@ -11,6 +11,7 @@ cbuffer Frame : register(b0)
     float4 VisualOptions; // shore bathymetry, edge smoothing
     float4 SeasonPalette; // snow cover, deciduous autumn, wet surfaces, spring green
     float4 WeatherSettings; // rain, snowfall, fog multiplier, light multiplier
+    float4 CharacterClock;
 };
 Texture2D Land : register(t0);
 Texture2D Surfaces : register(t1);
@@ -33,8 +34,33 @@ SamplerState TextureSampler : register(s0);
 SamplerComparisonState ShadowSampler : register(s1);
 struct Vertex { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD; float4 color:COLOR; float4 surface:SURFACE; };
 struct Pixel { float4 p:SV_POSITION; float3 world:WORLD; float3 n:NORMAL; float2 uv:TEXCOORD; float4 color:COLOR; float4 surface:SURFACE; float4 light:LIGHT; };
+Vertex CharacterIdle(Vertex v)
+{
+    if(v.color.a>=0)return v;
+    float height=-v.color.a;float3 origin=v.surface.yzw;
+    float phase=frac(v.surface.x)*25.1327412;v.surface.x=floor(v.surface.x+.5);
+    v.color.a=1;v.surface.yzw=float3(.85,0,0);
+    if(VisualOptions.w<.5)return v;
+    float time=CharacterClock.x;
+    float3 local=(v.p-origin)/height;float level=local.y;
+    float head=(sin(time*.63+phase)-sin(phase))*.05*smoothstep(.82,.91,level);
+    float sway=(sin(time*.83+phase*1.3)-sin(phase*1.3))*.006*smoothstep(.06,.32,level);
+    float breath=(sin(time*1.51+phase)-sin(phase))*.004;
+    float chest=smoothstep(.44,.60,level)*(1-smoothstep(.76,.86,level));
+    float expansion=1+breath*chest;
+    local.xz*=expansion;v.n.xz/=expansion;
+    local.y+=breath*.20*smoothstep(.45,.80,level);
+    float c=cos(head),s=sin(head);float2 offset=local.xz-float2(0,-.03);
+    local.xz=float2(offset.x*c-offset.y*s,offset.x*s+offset.y*c)+float2(0,-.03);
+    v.n.xz=float2(v.n.x*c-v.n.z*s,v.n.x*s+v.n.z*c);
+    c=cos(sway);s=sin(sway);
+    local.xy=float2(local.x*c-local.y*s,local.x*s+local.y*c);
+    v.n.xy=float2(v.n.x*c-v.n.y*s,v.n.x*s+v.n.y*c);
+    v.p=origin+local*height;v.n=normalize(v.n);return v;
+}
 Pixel WorldVS(Vertex v)
 {
+    v=CharacterIdle(v);
     if(v.surface.x>4.5&&v.surface.x<5.5)v.p.xz+=float2(sin(v.p.z*2+EyeTime.w*.7),cos(v.p.x*2+EyeTime.w*.6))*(.012+WeatherSettings.x*.008);
     if(v.surface.x>13.5&&v.surface.x<14.5)v.p.xz+=float2(sin(v.p.z*3+EyeTime.w*.9),cos(v.p.x*3+EyeTime.w*.8))*.005*saturate(v.uv.y)*saturate(v.uv.y);
     if(v.surface.x>34.5&&v.surface.x<35.5)v.p.xz+=float2(sin(v.p.x*2.3+EyeTime.w*.8),cos(v.p.z*2.1+EyeTime.w*.7))*.014*pow(1-v.uv.y,2);
@@ -317,7 +343,7 @@ float4 WorldPS(Pixel p,bool front:SV_IsFrontFace):SV_TARGET
         float2 tiled=p.uv*float2(2,2);float2 uv=(float2(1,1)+.008+frac(tiled)*.984)*.5;
         float3 hide=Organic.SampleGrad(TextureSampler,uv,ddx(tiled)*.492,ddy(tiled)*.492).rgb;
         float grain=dot(hide,float3(.299,.587,.114));
-        albedo=Decode(float3(.41,.34,.255)*(.64+grain*.55));rough=.95;
+        albedo=Decode(float3(.41,.34,.255)*(.65+p.color.rgb*.7)*(.64+grain*.55));rough=.95;
         n=ReliefNormal(p.world,n,grain,.0002*Settings.y);
     }
     if(kind>45.5&&kind<46.5)

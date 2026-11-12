@@ -1,4 +1,4 @@
-﻿using Crown.Core;
+using Crown.Core;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -120,7 +120,8 @@ public sealed partial class MainWindow
                 Choose("Limit klatek",["10 FPS","20 FPS","30 FPS","60 FPS"],Array.IndexOf(new[]{10,20,30,60},p.FrameLimit),v=>p.FrameLimit=new[]{10,20,30,60}[v]);
                 Toggle("Adaptacyjna rozdzielczość",p.AdaptiveResolution,v=>p.AdaptiveResolution=v);Toggle("Oszczędzanie energii przy bezczynności",p.EcoRendering,v=>p.EcoRendering=v);Toggle("Cienie kontaktowe",p.ContactShadows,v=>p.ContactShadows=v);
                 Range("Jasność",p.Brightness,.6,1.4,v=>p.Brightness=v);Toggle("Cienie",p.Shadows,v=>p.Shadows=v);Toggle("Odbicia wody",p.Reflections,v=>p.Reflections=v);Toggle("Wygładzanie krawędzi",p.EdgeSmoothing,v=>p.EdgeSmoothing=v);
-                Toggle("Brzegi i głębokość wody",p.ShoreEffects,v=>p.ShoreEffects=v);Toggle("Barwy pór roku",p.SeasonalColors,v=>p.SeasonalColors=v);Toggle("Automatyczne szczegóły otoczenia",p.AutomaticDetail,v=>p.AutomaticDetail=v);Toggle("Pomijanie geometrii poza kadrem",p.VisibilityCulling,v=>p.VisibilityCulling=v);Toggle("Animowane otoczenie",p.AnimateEnvironment,v=>p.AnimateEnvironment=v);
+                Toggle("Brzegi i głębokość wody",p.ShoreEffects,v=>p.ShoreEffects=v);Toggle("Barwy pór roku",p.SeasonalColors,v=>p.SeasonalColors=v);Toggle("Automatyczne szczegóły otoczenia",p.AutomaticDetail,v=>p.AutomaticDetail=v);Toggle("Pomijanie geometrii poza kadrem",p.VisibilityCulling,v=>p.VisibilityCulling=v);Toggle("Animowane otoczenie",p.AnimateEnvironment,v=>p.AnimateEnvironment=v);Toggle("Animacje spoczynku postaci",p.AnimateCharacters,v=>p.AnimateCharacters=v);
+                panel.Children.Add(Ui.Label("Oddech i drobne ruchy postaci można wyłączyć niezależnie od wiatru i pogody. Nie przesuwają czasu kampanii.",12,Ui.Muted));
                 Choose("Pogoda",["Zgodna z porą roku","Bez opadów","Deszcz","Śnieg"],(int)p.Weather,v=>p.Weather=(VisualWeather)v);Choose("Światło",["Poranek","Południe"],p.NoonLight?1:0,v=>p.NoonLight=v==1);
                 panel.Children.Add(Ui.Label("Efekty wymagają Direct3D 11. Tryb zgodności WPF zachowuje prostsze materiały.",12,Ui.Muted));break;
             case "Dźwięk":

@@ -100,7 +100,7 @@ internal static partial class WorldScene3D
         }
         if (unit.Kind == UnitKind.Cavalry)
         {
-            Horse(batch, x, y, z,1,tack:true); Person(batch, x, y + .19, z, color, era,unit.Kind,true); Flag(batch, x + .15, y, z, color, .68); return;
+            Horse(batch, x, y, z,1,tack:true); Person(batch, x, y + .19, z, color, era,unit.Kind,true,unit.Id*17); Flag(batch, x + .15, y, z, color, .68); return;
         }
         if (unit.Kind == UnitKind.Catapult)
         {
@@ -108,17 +108,17 @@ internal static partial class WorldScene3D
             for (int i = -1; i <= 1; i += 2) batch.Mesh("wheels", "#484B42").Tube(new(x + i * .18, y + .08, z - .1), new(x + i * .18, y + .08, z + .10), .07);
             if (era < 6) { wood.Tube(new(x, y + .1, z + .1), new(x, y + .44, z - .15), .03); wood.Tube(new(x - .1, y + .1, z), new(x, y + .3, z), .025); }
             else batch.Mesh("gun-metal", "#657471").Tube(new(x, y + .20, z + .05), new(x, y + .29, z - .39), .052);
-            Person(batch, x + .28, y, z + .05, color, era,unit.Kind); return;
+            Person(batch, x + .28, y, z + .05, color, era,unit.Kind,identity:unit.Id*17); return;
         }
         if (unit.Kind == UnitKind.Settler)
         {
-            Person(batch, x, y, z, "#BEAA78", era,unit.Kind); Person(batch, x + .18, y, z + .08, color, era,unit.Kind);
+            Person(batch, x, y, z, "#BEAA78", era,unit.Kind,identity:unit.Id*17); Person(batch, x + .18, y, z + .08, color, era,unit.Kind,identity:unit.Id*17+1);
             return;
         }
         for (int i = 0; i < (unit.Kind == UnitKind.Scout ? 1 : 3); i++)
         {
             double xx = x + (unit.Kind==UnitKind.Scout?0:(i - 1) * .15), zz = z + (i % 2) * .13, yy = Terrain3D.Height(s, xx, zz);
-            Person(batch, xx, yy, zz, color, era,unit.Kind);
+            Person(batch, xx, yy, zz, color, era,unit.Kind,identity:unit.Id*17+i);
             if (era >= 6) batch.Mesh("weapons", "#4C5755").Tube(new(xx + .09, yy + .20, zz), new(xx + .09, yy + .31, zz - .22), .014);
             else if (unit.Kind == UnitKind.Archer)
             {

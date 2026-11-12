@@ -1,0 +1,26 @@
+PASS The requested backend renders character geometry: 
+PASS Character metadata aligns exactly with its immutable triangles
+PASS Every character has a finite transformed pivot and bounded world height
+PASS Bodies, tunics and hair share identical motion frames
+PASS Initial people have stable individual height variations
+PASS The scene contains multiple subdued clothing colors
+PASS Character motion never attaches to markers or terrain
+PASS Disabling both animation channels keeps every pixel fixed as visual time changes
+PASS Character animation has an exact neutral pose at visual time zero
+PASS Character motion changes actual GPU pixels while wind and weather remain frozen
+PASS The same visual time reproduces the exact character pose
+PASS Conservative motion bounds preserve all pixels when frustum culling is enabled
+PASS Character animation updates uniforms without reallocating or rebuilding geometry
+PASS The close preview contains distinct rendered poses across its sampled cycle
+PASS The real-render GIF contains all forty frames with explicit playback timing
+PASS Appearance, camera inspection and visual motion preserve exact campaign state and RNG
+PASS The actual video setting persists the separate character animation preference
+PASS Applying the video setting reaches the active renderer
+PASS Character-only animation runs even when environment animation is disabled
+PASS Pause suspends character-only animation
+PASS Reloading a save reconstructs the same visual identities without storing animation state
+PASS The identity check uses a real movement action on an isolated campaign
+PASS Moving to another tile preserves each member's appearance and motion identity
+PASS Existing settings files default to enabled character motion
+PASS Settings and pauses leave the original campaign unchanged
+25 character motion desktop integration checks passed.

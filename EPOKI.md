@@ -1,4 +1,4 @@
-# Epoki i możliwe przyszłości — podręcznik wydania 0.41
+# Epoki i możliwe przyszłości — podręcznik wydania 0.42
 
 Wydanie 0.39 dodaje samouczek krok po kroku dostępny w Poradniku oraz powitanie sterowane w Ustawieniach → Rozgrywka. Nową kampanię rozpoczyna wybór trudności, a mapa powstaje automatycznie. Format kampanii pozostaje v28.
 

@@ -14,6 +14,7 @@ internal static class SceneSurface
     internal static readonly DependencyProperty TintProperty=DependencyProperty.RegisterAttached("Tint",typeof(string),typeof(SceneSurface),new PropertyMetadata(null));
     internal static readonly DependencyProperty KeyProperty = DependencyProperty.RegisterAttached("Key", typeof(string), typeof(SceneSurface), new PropertyMetadata("solid"));
     internal static readonly DependencyProperty TileIdsProperty=DependencyProperty.RegisterAttached("TileIds",typeof(int[]),typeof(SceneSurface),new PropertyMetadata(null));
+    internal static readonly DependencyProperty CharactersProperty=DependencyProperty.RegisterAttached("Characters",typeof(CharacterFrame[]),typeof(SceneSurface),new PropertyMetadata(null));
     internal static string Key(GeometryModel3D model) => (string)model.GetValue(KeyProperty);
 }
 
@@ -54,6 +55,8 @@ internal sealed partial class PhotographicRenderer : IDisposable
     internal int ResourceMeshes => meshCache.Count;
     internal int ShadowSize => 2048;
     internal uint FeatureLevel => gpu.FeatureLevel;
+    internal bool AnimateCharacters {get;set;}=true;
+    internal bool EnvironmentAnimation {get;set;}=true;
     internal bool Shadows { get; set; } = true;
     internal bool MaterialDetail { get; set; } = true;
     internal bool PostProcessing { get; set; } = true;
@@ -67,7 +70,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
     [StructLayout(LayoutKind.Sequential)] private struct Frame
     {
         internal Matrix4x4 ViewProjection, LightProjection, InverseProjection;
-        internal Vector4 EyeTime, SunExposure, Screen, Settings, TerrainMap, VisualOptions,SeasonPalette,WeatherSettings;
+        internal Vector4 EyeTime, SunExposure, Screen, Settings, TerrainMap, VisualOptions,SeasonPalette,WeatherSettings,CharacterClock;
     }
     private sealed record DrawMesh(nint Buffer,int Vertices,Vector3 Center,float Kind,bool Transparent,Vector3 Minimum,Vector3 Maximum,Vector2 Cell,byte Detail);
     public PhotographicRenderer()
@@ -209,8 +212,9 @@ internal sealed partial class PhotographicRenderer : IDisposable
         int shadowTriangles=0,reflectionTriangles=0,shadowDraws=0,reflectionDraws=0;
         float extent = Math.Clamp(direction.Length() * 1.55f, 16, 100);
         var lp = Matrix4x4.CreateLookAt(target + Sun * 65, target, Vector3.UnitY) * Matrix4x4.CreateOrthographic(extent, extent, .1f, 150);
-        var frame = new Frame { ViewProjection = vp, LightProjection = lp, InverseProjection = inverse, EyeTime = new(eye, (float)time), SunExposure = new(Sun, Exposure), Screen = new(1f / w, 1f / h, 1f / ShadowSize, Shadows ? 1 : 0), Settings = new(PostProcessing ? 1 : 0, MaterialDetail ? 1 : 0, .006f, Reflections?2:0) };
-        frame.TerrainMap=new((float)field!.OriginX,(float)field.OriginZ,(float)field.SpanX,(float)field.SpanZ);frame.VisualOptions=new(ShoreEffects?1:0,EdgeSmoothing?1:0,ContactShadows?1:0,0);
+        var frame = new Frame { ViewProjection = vp, LightProjection = lp, InverseProjection = inverse, EyeTime = new(eye, (float)(EnvironmentAnimation?time:0)), SunExposure = new(Sun, Exposure), Screen = new(1f / w, 1f / h, 1f / ShadowSize, Shadows ? 1 : 0), Settings = new(PostProcessing ? 1 : 0, MaterialDetail ? 1 : 0, .006f, Reflections?2:0) };
+        frame.CharacterClock=new((float)time,0,0,0);
+        frame.TerrainMap=new((float)field!.OriginX,(float)field.OriginZ,(float)field.SpanX,(float)field.SpanZ);frame.VisualOptions=new(ShoreEffects?1:0,EdgeSmoothing?1:0,ContactShadows?1:0,AnimateCharacters?1:0);
         var environment=Environment;frame.SeasonPalette=new(environment.SnowCover,environment.Autumn,environment.Wetness,environment.Spring);frame.WeatherSettings=new(environment.Rain,environment.Snowfall,environment.Fog,environment.Light);frame.Settings.Z*=environment.Fog;frame.SunExposure.W*=environment.Light;
         gpu.Update(constants, frame); gpu.Constants(constants); gpu.Samplers(sampler, shadowSampler); gpu.Layout(layout); gpu.Blend(opaque); gpu.Depth(depthWrite);
         gpu.Resources(landView, surfacesView, leavesView, 0, 0, 0,pineView,0,elevationView,civilizationView,facadesView,organicView,wheatView);
@@ -247,7 +251,7 @@ internal sealed partial class PhotographicRenderer : IDisposable
         gpu.Blend(alpha); gpu.Depth(depthRead);
         foreach (var mesh in visibleWorld.Where(m => m.Transparent).OrderByDescending(m => Vector3.DistanceSquared(m.Center, eye))) DrawWithActors(mesh);
         foreach (var mesh in overlays) DrawWithActors(mesh);
-        RenderWeather(eye,target,time,environment);
+        RenderWeather(eye,target,EnvironmentAnimation?time:0,environment);
         gpu.Targets(finalTarget, 0); gpu.Resources(landView, surfacesView, leavesView, shadowView, hdrView, depthView,pineView,0,elevationView,civilizationView,facadesView,organicView,wheatView); gpu.Shaders(fullVs, postPs); gpu.Layout(0); gpu.Blend(opaque); gpu.Triangle();
         gpu.Targets(0, 0); gpu.Resources(0, 0, 0, 0, 0, 0,0,0,0,0,0); gpu.Copy(staging, finalTexture);
         var mapped = gpu.Map(staging);

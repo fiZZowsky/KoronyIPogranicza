@@ -1,0 +1,13 @@
+character-motion: 25 checks; exit 0; 13,9s
+settings: 44 checks; exit 0; 15,9s
+environment-detail: 23 checks; exit 0; 14,0s
+art: 15 checks; exit 0; 9,8s
+3d: 34 checks; exit 0; 37,4s
+photographic: 21 checks; exit 0; 18,6s
+river: 19 checks; exit 0; 8,9s
+landscape: 18 checks; exit 0; 11,2s
+environment: 22 checks; exit 0; 21,6s
+models: 36 checks; exit 0; 15,7s
+rendering: 27 checks; exit 0; 18,4s
+era-identity: 44 checks; exit 0; 17,0s
+onboarding: 46 checks; exit 0; 21,8s

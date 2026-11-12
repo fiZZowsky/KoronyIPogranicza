@@ -1,5 +1,15 @@
 # Korony i Pogranicza — kierunek projektu
 
+## Animacje spoczynku i wygląd postaci — 0.42
+
+Ludzie otrzymują drobne ruchy spoczynkowe: oddech, ruch głowy i przeniesienie ciężaru. To animacja proceduralna w D3D11, wyliczana z niezależnego czasu wizualnego. Ubranie i włosy korzystają z tego samego ruchu co ciało. Zatrzymanie gry w menu zatrzymuje zegar wizualny. Animacje nie kończą tury, nie zmieniają decyzji ani nie zużywają losowości świata.
+
+**Ustawienia → Obraz → Animacje spoczynku postaci** pozwalają wyłączyć ruch niezależnie od wiatru i pogody. Gdy wyłączone są oba kanały animacji, gra nie odświeża cyklicznie nieruchomej sceny. Nadal obowiązują limit klatek, oszczędzanie energii podczas bezczynności i zatrzymanie animacji po zminimalizowaniu okna. WPF zachowuje stałą pozę.
+
+W pierwszych epokach osoby mają kilka wzrostów, odcieni stroju i wariantów krótkich włosów. Tuniki mają nieregularne brzegi oraz delikatne fałdy. Tożsamość wizualna opiera się na numerze oddziału i miejscu osoby w formacji, więc przemieszczenie i wczytanie nie zmieniają wyglądu. Nie wymaga to dopisywania pól do kampanii; format pozostaje v28.
+
+Animacja korzysta ze współdzielonych danych przypisanych do postaci i aktualizowanych stałych GPU, bez przebudowy geometrii co klatkę. Zachowano dotychczasowy rozmiar strumienia wierzchołków. Cienie i odbicia otrzymują te same przekształcenia, a granice przycinania obejmują drobne ruchy. Nie jest to pełny system animacji szkieletowej: marsz, ataki, mimika i interakcje wymagają kolejnych etapów. Konie, pojazdy i roboty zachowują dotychczasowe zachowanie.
+
 ## Roślinność, woda i życie obozu — 0.41
 
 Nowy atlas zawiera cztery warianty roślin: niskie trawy łąkowe, paprocie, turzyce brzegowe i zioła. To tekstury z prawdziwym kanałem alfa na skrzyżowanych płaszczyznach 3D, używane również przez cienie. Podmuchy poruszają górnymi częściami kęp, a korzenie pozostają przy terenie. Rozmieszczenie korzysta z lokalnego ziarna i nie zużywa losowości kampanii. Rośliny nie przechwytują kliknięć i nie ujawniają nieodkrytych pól.

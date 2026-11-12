@@ -50,10 +50,10 @@ internal static class ActorAssets
         }
         models[name]=result;return result;
     }
-    internal static void Draw(SceneBatch batch,int id,double x,double y,double z,double height,bool rider=false)
+    internal static void Draw(SceneBatch batch,int id,double x,double y,double z,double height,bool rider=false,int identity=0)
     {
         var lods=Load(id,rider);string key=$"actor-{id}"+(rider?"-rider":"");
-        batch.Organic(()=>
+        void Build()=>batch.Organic(()=>
         {
             var mesh=batch.Mesh(key,"#FFFFFF");var model=lods[mesh.Simplified?1:0];
             Point3D P(int i){var p=model.Positions[i];return new(x+p.X*height,y+p.Y*height,z+p.Z*height);}
@@ -65,5 +65,6 @@ internal static class ActorAssets
                 mesh.Triangle(P(a),P(b),P(c),model.Normals[a],model.Normals[b],model.Normals[c],model.UV[a],model.UV[b],model.UV[c]);
             }
         });
+        if(id is >0 and <6 or 7)batch.Character(new(x,y,z),height,Build,identity);else Build();
     }
 }

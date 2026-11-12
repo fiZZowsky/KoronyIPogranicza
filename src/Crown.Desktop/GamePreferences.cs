@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
@@ -23,6 +23,7 @@ internal sealed record GamePreferences
     public bool AutomaticDetail {get;set;}=true;
     public bool VisibilityCulling {get;set;}=true;
     public bool AnimateEnvironment {get;set;}=true;
+    public bool AnimateCharacters {get;set;}=true;
     public VisualWeather Weather {get;set;}=VisualWeather.Seasonal;
     public bool NoonLight {get;set;}
     public double Brightness {get;set;}=1;

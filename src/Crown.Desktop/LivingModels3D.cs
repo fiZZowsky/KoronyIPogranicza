@@ -5,12 +5,12 @@ namespace Crown.Desktop;
 
 internal static partial class WorldScene3D
 {
-    private static void Person(SceneBatch batch,double x,double y,double z,string color,int era,UnitKind role,bool rider=false)
+    private static void Person(SceneBatch batch,double x,double y,double z,string color,int era,UnitKind role,bool rider=false,int identity=0)
     {
-        if(era<2&&!rider){Forager(batch,x,y,z);return;}
+        if(era<2&&!rider){Forager(batch,x,y,z,identity);return;}
         int id=rider?(era>=5?2:1):era>=14?6:era>=12?4:era>=8?3:era>=5&&role is UnitKind.Spearmen or UnitKind.Cavalry?2:1;
         if(role==UnitKind.Settler&&era>=8)id=5;
-        ActorAssets.Draw(batch,id,x,y,z,.43,rider);
+        ActorAssets.Draw(batch,id,x,y,z,.43,rider,identity);
     }
     private static void Horse(SceneBatch batch,double x,double y,double z,double scale=1,string coat="#80654B",bool tack=false)
     {

@@ -1,0 +1,17 @@
+PASS The requested backend renders character geometry: System.InvalidOperationException: Tryb zgodności wybrany parametrem --no-gpu.
+   at Crown.Desktop.MapView.RenderGpuFrame(Double visualTime) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\MapView3D.cs:line 289
+PASS Character metadata aligns exactly with its immutable triangles
+PASS Every character has a finite transformed pivot and bounded world height
+PASS Bodies, tunics and hair share identical motion frames
+PASS Initial people have stable individual height variations
+PASS The scene contains multiple subdued clothing colors
+PASS Character motion never attaches to markers or terrain
+PASS Appearance, camera inspection and visual motion preserve exact campaign state and RNG
+PASS The actual video setting persists the separate character animation preference
+PASS Applying the video setting reaches the active renderer
+PASS Reloading a save reconstructs the same visual identities without storing animation state
+PASS The identity check uses a real movement action on an isolated campaign
+PASS Moving to another tile preserves each member's appearance and motion identity
+PASS Existing settings files default to enabled character motion
+PASS Settings and pauses leave the original campaign unchanged
+15 character motion desktop integration checks passed.

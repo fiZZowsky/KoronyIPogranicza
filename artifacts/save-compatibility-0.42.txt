@@ -1,0 +1,8 @@
+PASS The actual v28 predecessor loads and round trips exactly
+PASS Writing and reading the isolated copy preserves the entire current-format campaign
+PASS The actual pending council remains resolvable
+PASS The actual campaign can advance through its real engine
+PASS The actual pending council remains resolvable
+PASS The actual campaign can advance through its real engine
+PASS Continuation retains identical state and RNG after reload
+PASS The original user save remains byte-for-byte unchanged

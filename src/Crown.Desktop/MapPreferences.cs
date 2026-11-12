@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using System.Windows.Input;
 
 namespace Crown.Desktop;
@@ -25,7 +25,7 @@ public sealed partial class MapView
         r.Budget.Reset();r.AdaptiveResolution=preferences.AdaptiveResolution;r.ContactShadows=preferences.ContactShadows;r.TargetFps=preferences.FrameLimit;
         r.MaximumWidth=preferences.Quality switch{1=>1100,2=>900,_=>1600};r.Shadows=preferences.Shadows;r.Reflections=preferences.Reflections;
         r.ShoreEffects=preferences.ShoreEffects;r.EdgeSmoothing=preferences.EdgeSmoothing;r.SeasonalColors=preferences.SeasonalColors;
-        r.AutomaticDetail=preferences.AutomaticDetail;r.VisibilityCulling=preferences.VisibilityCulling;r.Weather=preferences.Weather;r.Exposure=(float)(.87*preferences.Brightness);
+        r.AnimateCharacters=preferences.AnimateCharacters;r.AutomaticDetail=preferences.AutomaticDetail;r.VisibilityCulling=preferences.VisibilityCulling;r.Weather=preferences.Weather;r.Exposure=(float)(.87*preferences.Brightness);
         r.Sun=preferences.NoonLight?Vector3.Normalize(new(-.3f,1.5f,-.2f)):Vector3.Normalize(new(-.65f,.82f,-.35f));
     }
     private void PersistGraphicsMenu()

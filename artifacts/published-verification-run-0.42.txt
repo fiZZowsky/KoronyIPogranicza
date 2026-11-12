@@ -1,0 +1,6 @@
+motion-gpu: 25 checks; exit 0; 12,6s
+motion-wpf: 15 checks; exit 0; 7,6s
+settings-gpu: 44 checks; exit 0; 15,2s
+models-gpu: 36 checks; exit 0; 16,6s
+rendering-gpu: 27 checks; exit 0; 19,0s
+motion-forced: 0 checks; exit 3; 0,7s

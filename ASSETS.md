@@ -1,5 +1,11 @@
 # Oprawa i pochodzenie plików
 
+## 0.42 — ruch proceduralny i warianty wyglądu
+
+Nie pobrano nowych modeli ani tekstur. Wykorzystano dotychczasowe siatki i materiały, z opisanymi niżej źródłami. Wczesne tuniki otrzymują fałdy, nieregularne brzegi i warianty barwy; włosy pozostają geometrią dopasowaną do skóry głowy.
+
+`CharacterMotion.cs`, `ForagerModels3D.cs` i shader sceny definiują subtelne ruchy spoczynkowe. Jest to przekształcanie istniejących wierzchołków, nie nowy zestaw klipów animacji ani pełny szkielet. Podgląd `character-idle.gif` w katalogu diagnostyki zawiera 40 wyrenderowanych klatek z zatrzymanym otoczeniem, próbkowanych co 0,15 s. WIC koduje obrazy, a narzędzie projektu zapisuje czas i pętlę odtwarzania GIF. Częstotliwość tego podglądu nie jest pomiarem FPS gry. W tej wersji nie generowano obrazów AI.
+
 ## 0.41 — atlas roślinności
 
 `src/Crown.Desktop/Assets/understory-atlas-0.41.png` został wygenerowany narzędziem imagegen i skopiowany do projektu bez zmiany obrazu. To materiał 2×2 z rzeczywistym kanałem alfa: trawa, paproć, turzyca, zioła. Nie jest fotografią ani skanem botanicznym. Kanał alfa jest wycinany w scenie i w cieniach; tekstura GPU ma premultiplikowane kolory przy tworzeniu mipmap, a shader odzyskuje kolor przy próbkowaniu. WPF korzysta z zamrożonych wycinków tego samego pliku. Kod tworzy cztery trójkąty na kępę; gęstość jest ograniczona, a małe rośliny pomijane przy większej odległości.

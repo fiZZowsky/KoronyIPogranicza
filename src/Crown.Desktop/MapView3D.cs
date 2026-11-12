@@ -68,7 +68,7 @@ public sealed partial class MapView : Grid
         viewport.Camera = camera; viewport.Children.Add(worldVisual); viewport.Children.Add(overlaysVisual);
         Children.Add(viewport); Children.Add(photographicImage); Children.Add(annotations); Children.Add(rendererStatus);Children.Add(RenderStatisticsText);Children.Add(districtPlanningHint); AddCameraControls();
         requestTimer.Tick+=(_,_)=>{requestTimer.Stop();gpuPending=false;RenderGpuFrame();};
-        animationTimer.Tick+=(_,_)=>{if(!suspended&&animateEnvironment&&photographic!=null&&!gpuPending&&IsVisible&&Window.GetWindow(this)?.WindowState!=WindowState.Minimized){
+        animationTimer.Tick+=(_,_)=>{if(!suspended&&(animateEnvironment||preferences.AnimateCharacters)&&photographic!=null&&!gpuPending&&IsVisible&&Window.GetWindow(this)?.WindowState!=WindowState.Minimized){
             bool idle=preferences.EcoRendering&&Environment.TickCount64-lastVisualInteraction>2500;
             double interval=Math.Max(idle?250:1000d/preferences.FrameLimit,photographic.LastFrameMilliseconds*1.5);
             animationTimer.Interval=TimeSpan.FromMilliseconds(Math.Clamp(interval,16,1000));RenderGpuFrame(visualClock.Elapsed.TotalSeconds);}};
@@ -291,7 +291,7 @@ public sealed partial class MapView : Grid
             }
             if (photographic == null) return;
             photographic.Scene(scene, overlaysVisual.Content);
-            photographic.Render(camera, (int)ActualWidth, (int)ActualHeight,visualTime);
+            photographic.EnvironmentAnimation=animateEnvironment;photographic.Render(camera, (int)ActualWidth, (int)ActualHeight,visualTime);
             lastPresented=Environment.TickCount64;photographicImage.Source = photographic.Image; viewport.Visibility = Visibility.Hidden;
             rendererStatus.Text = "DIRECT3D 11 · CIENIE · MATERIAŁY · HDR";
             var stats=photographic.Statistics;RenderStatisticsText.Visibility=ShowRenderStatistics?Visibility.Visible:Visibility.Collapsed;

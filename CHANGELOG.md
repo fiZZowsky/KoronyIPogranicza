@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.42 — 2026-11-12 · Ruch spoczynkowy i tożsamość postaci
+
+- Proceduralny oddech, drobny ruch głowy i przenoszenie ciężaru w D3D11, wspólne dla ciała, ubrania i włosów. Brak przebudowy geometrii co klatkę.
+- Osobne sterowanie animacjami osób i otoczenia, zapis preferencji oraz zatrzymanie przy pauzie i minimalizacji.
+- Kilka wzrostów, odcieni tunik i wariantów włosów we wczesnych epokach. Fałdy i nieregularne brzegi stroju. Tożsamość oparta na numerze oddziału i osobie w formacji pozostaje stała po ruchu oraz wczytaniu.
+- Współdzielone metadane postaci, niezmieniony 64-bajtowy strumień wierzchołków, spójne przekształcenia cieni i odbić oraz rozszerzone granice przycinania.
+- Nowy tryb diagnostyki ruchu i podgląd GIF z 40 rzeczywistych renderów. Zakres obejmuje spoczynek; animacje marszu, walki i mimiki pozostają do rozwoju.
+- Format v28 i reguły symulacji niezmienione; osobny katalog 0.42.
+
 ## 0.41 — 2026-11-12 · Roślinność, woda i detale obozu
 
 - Atlas czterech roślin z kanałem alfa: trawy, paprocie, turzyce i zioła. Wspólne materiały, wycinanie także w cieniach, wiatr, sezonowe barwy i ograniczenie geometrii na odległość.

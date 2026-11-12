@@ -1,0 +1,2 @@
+System.InvalidOperationException: Intentional character motion diagnostic failure.
+   at Crown.Desktop.MainWindow.CharacterMotionSmoke(String folder) in C:\Users\Dell\Desktop\Projekciki\KoronyIPogranicza\src\Crown.Desktop\CharacterMotionSmoke.cs:line 24

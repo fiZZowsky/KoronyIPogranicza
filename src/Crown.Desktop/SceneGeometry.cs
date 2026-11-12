@@ -14,6 +14,8 @@ internal sealed partial class SceneMesh
     internal bool Simplified;
     internal int TileId=-1;
     internal readonly List<int> TileIds=[];
+    internal CharacterFrame Character=CharacterFrame.Empty;
+    internal List<CharacterFrame>? Characters;
     public SceneMesh(double uvX = .36, double uvZ = .36) { this.uvX = uvX; this.uvZ = uvZ; }
     public int Triangles => mesh.TriangleIndices.Count / 3;
     public void Triangle(Point3D a, Point3D b, Point3D c, Vector3D? na = null, Vector3D? nb = null, Vector3D? nc = null, Point? ta = null, Point? tb = null, Point? tc = null)
@@ -33,6 +35,8 @@ internal sealed partial class SceneMesh
         mesh.Normals.Add(na ?? normal); mesh.Normals.Add(nb ?? normal); mesh.Normals.Add(nc ?? normal);
         mesh.TriangleIndices.Add(start); mesh.TriangleIndices.Add(start + 1); mesh.TriangleIndices.Add(start + 2);
         TileIds.Add(TileId);
+        if(Character.Active&&Characters==null)Characters=Enumerable.Repeat(CharacterFrame.Empty,start/3).ToList();
+        if(Characters!=null)Characters.Add(Character);
     }
     public void Quad(Point3D a, Point3D b, Point3D c, Point3D d, Vector3D outward)
     {
@@ -156,6 +160,12 @@ internal sealed class SceneBatch
         string previous=modelPrefix;
         try{modelPrefix="organic-near-";build();modelPrefix="organic-far-";build();}finally{modelPrefix=previous;}
     }
+    private CharacterFrame character=CharacterFrame.Empty;
+    internal void Character(Point3D origin,double height,Action build,int identity=0)
+    {
+        var previous=character;character=new(origin,height,identity);
+        try{build();}finally{character=previous;}
+    }
     private double modelScale=1;
     private double modelYaw;
     internal int TileId=-1;
@@ -169,7 +179,19 @@ internal sealed class SceneBatch
         var previous=scaleOrigin;double previousYaw=modelYaw;scaleOrigin=origin;modelYaw=radians;
         try{build();}finally{scaleOrigin=previous;modelYaw=previousYaw;}
     }
-    private SceneMesh Configure(SceneMesh mesh){mesh.ScaleOrigin=scaleOrigin;mesh.ModelScale=modelScale;mesh.ModelYaw=modelYaw;mesh.TileId=TileId;mesh.Simplified=modelPrefix=="organic-far-";return mesh;}
+    private SceneMesh Configure(SceneMesh mesh)
+    {
+        mesh.ScaleOrigin=scaleOrigin;mesh.ModelScale=modelScale;mesh.ModelYaw=modelYaw;mesh.TileId=TileId;
+        if(character.Active)
+        {
+            var origin=scaleOrigin+(character.Origin-scaleOrigin)*modelScale;
+            if(modelYaw!=0){double co=Math.Cos(modelYaw),si=Math.Sin(modelYaw);var q=origin-scaleOrigin;origin=new(scaleOrigin.X+q.X*co-q.Z*si,origin.Y,scaleOrigin.Z+q.X*si+q.Z*co);}
+            var frame=new CharacterFrame(origin,character.Height*modelScale,character.Identity);
+            if(mesh.Character!=frame)mesh.Character=frame;
+        }
+        else mesh.Character=CharacterFrame.Empty;
+        mesh.Simplified=modelPrefix=="organic-far-";return mesh;
+    }
     private readonly Dictionary<string, SceneMesh> meshes = [];
     private readonly Dictionary<string, Material> materials = [];
     private readonly Dictionary<string,string> tintColors=[];
@@ -230,6 +252,7 @@ internal sealed class SceneBatch
             var model = new GeometryModel3D(pair.Value.Freeze(), materials[pair.Key]);
             if(tintColors.TryGetValue(pair.Key,out var tint))model.SetValue(SceneSurface.TintProperty,tint);
             model.SetValue(SceneSurface.KeyProperty, pair.Key);model.SetValue(SceneSurface.TileIdsProperty,pair.Value.TileIds.ToArray());
+            if(pair.Value.Characters is{} characters)model.SetValue(SceneSurface.CharactersProperty,characters.ToArray());
             if(UnderstoryMaterials.Index(pair.Key)>=0||ActorAssets.MaterialId(pair.Key)>=0||pair.Key.Contains("flag-fabric")||pair.Key.Contains("camp-hide")||pair.Key.Contains("wheat-tuft")||pair.Key.Contains("foliage")||pair.Key.Contains("sail-cloth")||pair.Key.Contains("loom-cloth"))model.BackMaterial=materials[pair.Key];group.Children.Add(model);
         }
         group.Freeze(); return group;
